@@ -1,0 +1,371 @@
+﻿using ArnoldVinkMessageBox;
+using ArnoldVinkCode;
+using NewsScroll.Classes;
+using System;
+using System.Diagnostics;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Graphics.Display;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using static NewsScroll.Api.Api;
+using static NewsScroll.Events.Events;
+
+namespace NewsScroll
+{
+    public partial class WebViewer : UserControl
+    {
+        //Webviewer Variables
+        private Items vCurrentWebSource = null;
+        public static bool PopupIsOpen = false;
+
+        public WebViewer() { this.InitializeComponent(); }
+
+        //Open the popup
+        public async Task OpenPopup(Uri TargetUri, Items WebSource)
+        {
+            try
+            {
+                if (PopupIsOpen)
+                {
+                    Debug.WriteLine("The popup is already open...");
+                    return;
+                }
+
+                //Check if internet is available
+                if (NetworkInterface.GetIsNetworkAvailable())
+                {
+                    vCurrentWebSource = WebSource;
+                    txt_AppInfo.Text = WebSource.feed_title;
+
+                    //Browse to the uri
+                    if (TargetUri != null) { webview_Browser.Navigate(TargetUri); }
+                    else { webview_Browser.Navigate(new Uri(WebSource.item_link)); }
+
+                    //Open the popup
+                    popup_Main.IsOpen = true;
+                    PopupIsOpen = true;
+
+                    //Focus on the popup
+                    iconMenu.Focus(FocusState.Programmatic);
+
+                    //Adjust the swiping direction
+                    SwipeBarAdjust();
+
+                    //Check if the header is hidden
+                    if (AppVariables.HeaderHidden) { await HideShowHeader(true); }
+
+                    //Update the star status
+                    if (vCurrentWebSource.item_star_status == Visibility.Collapsed)
+                    {
+                        ToolTipService.SetToolTip(iconStar, "Star item");
+                        iconImageStar.Source = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconStarAdd.png", false);
+                    }
+                    else
+                    {
+                        ToolTipService.SetToolTip(iconStar, "Unstar item");
+                        iconImageStar.Source = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconStarRemove.png", false);
+                    }
+                    iconStar.Visibility = Visibility.Visible;
+
+                    //Register page events
+                    RegisterPageEvents();
+                }
+                else
+                {
+                    Debug.WriteLine("There is no internet connection available...");
+                    ClosePopup();
+                    return;
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Failed loading web page.");
+                ClosePopup();
+            }
+        }
+
+        //Close the popup
+        public void ClosePopup()
+        {
+            try
+            {
+                Debug.WriteLine("Closing the web browser...");
+                webview_Browser.NavigateToString(String.Empty);
+                webview_Browser = null;
+
+                //Disable page events
+                DisablePageEvents();
+
+                //Close the popup
+                popup_Main.IsOpen = false;
+                PopupIsOpen = false;
+            }
+            catch { }
+        }
+
+        //Handle go back button
+        private async Task GoBack()
+        {
+            try
+            {
+                if (webview_Browser.CanGoBack)
+                {
+                    await HideShowMenu(true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Webviewer", "Do you want to go to the previous page or close the browser?", "Go to previous page", "Close webviewer", "", "", true);
+                    if (MsgBoxResult == 1) { webview_Browser.GoBack(); }
+                    else if (MsgBoxResult == 2) { ClosePopup(); }
+                }
+                else
+                {
+                    ClosePopup();
+                }
+            }
+            catch { }
+        }
+
+        private void NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            try
+            {
+                if (args.Uri != null && !String.IsNullOrWhiteSpace(args.Uri.ToString()))
+                {
+                    Debug.WriteLine("Loading: " + args.Uri);
+                    if (!AppVariables.BusyApplication) { ProgressDisableUI("Loading: " + args.Uri); }
+                }
+            }
+            catch { }
+        }
+
+        private void OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
+        {
+            try
+            {
+                Debug.WriteLine("Page content loaded.");
+                ProgressEnableUI();
+            }
+            catch { }
+        }
+
+        //Prevent new window opening
+        private void OnNewWindowRequested(object sender, WebViewNewWindowRequestedEventArgs e)
+        {
+            try
+            {
+                e.Handled = true;
+                Debug.WriteLine("Preventing new web window.");
+                webview_Browser.Navigate(e.Uri);
+            }
+            catch { }
+        }
+
+        //Switch to fullscreen mode
+        private async void ContainsFullScreenElementChanged(WebView sender, object args)
+        {
+            try
+            {
+                if (sender.ContainsFullScreenElement)
+                {
+                    Debug.WriteLine("Switching to fullscreen webview.");
+                    grid_PopupButton.Visibility = Visibility.Collapsed;
+                    await HideShowHeader(true);
+
+                    //Set Landscape Display
+                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
+                }
+                else
+                {
+                    Debug.WriteLine("Switching to windowed webview.");
+                    grid_PopupButton.Visibility = Visibility.Visible;
+
+                    //Set Landscape Display
+                    if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
+                    {
+                        DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        //Register page events
+        private void RegisterPageEvents()
+        {
+            try
+            {
+                //Monitor user touch swipe
+                if (!(bool)AppVariables.ApplicationSettings["DisableSwipeActions"])
+                {
+                    grid_SwipeBar.ManipulationMode = ManipulationModes.TranslateX;
+                    grid_SwipeBar.ManipulationStarted += Page_ManipulationStarted;
+                    grid_SwipeBar.ManipulationDelta += Page_ManipulationDelta;
+                    grid_SwipeBar.ManipulationCompleted += Page_ManipulationCompleted;
+                }
+
+                EventHideShowHeader += new DelegateHideShowHeader(HideShowHeader);
+
+                //Monitor mouse presses
+                grid_Main.PointerPressed += Page_PointerReleased;
+
+                //Monitor key presses
+                grid_Main.PreviewKeyUp += Page_PreviewKeyUp; //DesktopOnly
+            }
+            catch { }
+        }
+
+        //Disable page events
+        private void DisablePageEvents()
+        {
+            try
+            {
+                //Monitor user touch swipe
+                grid_Main.ManipulationStarted -= Page_ManipulationStarted;
+                grid_Main.ManipulationDelta -= Page_ManipulationDelta;
+                grid_Main.ManipulationCompleted -= Page_ManipulationCompleted;
+
+                EventHideShowHeader -= new DelegateHideShowHeader(HideShowHeader);
+
+                //Monitor mouse presses
+                grid_Main.PointerPressed -= Page_PointerReleased;
+
+                //Monitor key presses
+                grid_Main.PreviewKeyUp -= Page_PreviewKeyUp; //DesktopOnly
+            }
+            catch { }
+        }
+
+        //Monitor the application size
+        private Double PreviousLayoutWidth = 0;
+        private Double PreviousLayoutHeight = 0;
+        private void OnLayoutUpdated(object sender, object e)
+        {
+            try
+            {
+                Rect ScreenResolution = AVFunctions.AppWindowResolution();
+                Double NewLayoutWidth = ScreenResolution.Width;
+                Double NewLayoutHeight = ScreenResolution.Height;
+                if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
+                {
+                    PreviousLayoutWidth = NewLayoutWidth;
+                    PreviousLayoutHeight = NewLayoutHeight;
+
+                    grid_Main.Width = NewLayoutWidth;
+                    grid_Main.Height = NewLayoutHeight;
+                }
+            }
+            catch { }
+        }
+
+        //Progressbar/UI Status
+        void ProgressDisableUI(string ProgressMsg)
+        {
+            try
+            {
+                AppVariables.BusyApplication = true;
+
+                //Enable progressbar
+                textblock_StatusApplication.Text = ProgressMsg;
+                grid_StatusApplication.Visibility = Visibility.Visible;
+
+                //Disable buttons
+                iconStar.IsHitTestVisible = false;
+                iconStar.Opacity = 0.30;
+                iconShare.IsHitTestVisible = false;
+                iconShare.Opacity = 0.30;
+            }
+            catch { AppVariables.BusyApplication = true; }
+        }
+
+        void ProgressEnableUI()
+        {
+            try
+            {
+                //Disable progressbar
+                grid_StatusApplication.Visibility = Visibility.Collapsed;
+                textblock_StatusApplication.Text = String.Empty;
+
+                //Enable buttons
+                iconStar.IsHitTestVisible = true;
+                iconStar.Opacity = 1;
+                iconShare.IsHitTestVisible = true;
+                iconShare.Opacity = 1;
+
+                AppVariables.BusyApplication = false;
+            }
+            catch { AppVariables.BusyApplication = false; }
+        }
+
+        //User Interface - Buttons
+        async void iconBack_Tap(object sender, RoutedEventArgs e)
+        {
+            try { await GoBack(); } catch { }
+        }
+
+        async void iconShare_Tap(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await HideShowMenu(true);
+                ShareItem(vCurrentWebSource);
+            }
+            catch { }
+        }
+
+        async void iconStar_Tap(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await HideShowMenu(true);
+
+                //Update the status bar
+                if (vCurrentWebSource.item_star_status == Visibility.Collapsed) { ProgressDisableUI("Starring the item..."); }
+                else { ProgressDisableUI("Unstarring the item..."); }
+
+                //Get and set the current page name
+                string CurrentPageName = App.vApplicationFrame.SourcePageType.ToString();
+
+                if (CurrentPageName.EndsWith("StarredPage"))
+                {
+                    bool MarkedAsStar = await MarkItemAsStarPrompt(vCurrentWebSource, true, true, false, false, true);
+
+                    //Update the header and selection feeds
+                    if (MarkedAsStar) { await EventUpdateTotalItemsCount(null, null, false, true); }
+                }
+                else { await MarkItemAsStarPrompt(vCurrentWebSource, true, false, false, false, true); }
+
+                //Update the star status
+                if (vCurrentWebSource.item_star_status == Visibility.Collapsed)
+                {
+                    ToolTipService.SetToolTip(iconStar, "Star item");
+                    iconImageStar.Source = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconStarAdd.png", false);
+                }
+                else
+                {
+                    ToolTipService.SetToolTip(iconStar, "Unstar item");
+                    iconImageStar.Source = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconStarRemove.png", false);
+                }
+
+                ProgressEnableUI();
+            }
+            catch { }
+        }
+
+        async void iconBrowser_Tap(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await HideShowMenu(true);
+                Int32 MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in your web browser?", "Open in web browser", "", "", "", true);
+                if (MsgBoxResult == 1)
+                {
+                    ClosePopup();
+                    await Launcher.LaunchUriAsync(new Uri(vCurrentWebSource.item_link));
+                }
+            }
+            catch { }
+        }
+    }
+}

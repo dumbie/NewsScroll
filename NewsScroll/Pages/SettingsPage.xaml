@@ -1,0 +1,162 @@
+﻿<Page
+    x:Class="NewsScroll.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NewsScroll"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontSize="{StaticResource TextSizeInterface}"
+    RequestedTheme="{Binding ElementRequestedTheme, Source={StaticResource StyleUpdater}}">
+
+    <!--Main page-->
+    <Grid Name="grid_Main" Background="{Binding ApplicationBackgroundEnabled, Source={StaticResource StyleUpdater}}">
+        <!-- Main Grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <Grid Grid.Row="0" Height="65" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <TextBlock Name="txt_AppTitle" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Settings"/>
+                    <TextBlock Name="txt_AppInfo" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Scroll"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource ButtonImage}" Name="iconNews" Click="iconNews_Tap" ToolTipService.ToolTip="Show news items">
+                        <Image Source="/Assets/iconNews.png" Height="45"/>
+                    </Button>
+                    <Button Style="{StaticResource ButtonImage}" Name="iconHelp" Click="iconHelp_Tap" ToolTipService.ToolTip="Show help page">
+                        <Image Source="/Assets/iconHelp.png" Height="45"/>
+                    </Button>
+                    <Button Style="{StaticResource ButtonImage}" Name="iconMenu" Click="iconMenu_Tap" ToolTipService.ToolTip="Open the menu">
+                        <Image Source="/Assets/iconMenu.png" Height="45"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Page Content -->
+            <Grid Grid.Row="1" Name="page_Content">
+                <Image Margin="330,0,30,0" MaxHeight="640" Opacity="0.20" Source="/Assets/backgroundSettings.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ScrollViewer Style="{StaticResource ScrollViewerVertical}" HorizontalAlignment="Stretch">
+                    <StackPanel Margin="10,5,20,0">
+                        <TextBlock Text="Account Settings" FontSize="{StaticResource TextSizeLarge}"/>
+                        <TextBlock Text="The Old Reader Username/E-mail:"/>
+                        <TextBlock Text="* Username and e-mail are case sensitive." Style="{StaticResource TextBlockLightGray}"/>
+
+                        <!--CharacterCasing="Lower"-->
+                        <TextBox Name="setting_ApiAccount" Style="{StaticResource TextBox}" Width="280" Margin="0,3,0,0" HorizontalAlignment="Left" InputScope="EmailNameOrAddress" PlaceholderText="Account e-mail adres..."/>
+                        <TextBlock Text="The Old Reader Password:"/>
+                        <PasswordBox Name="setting_ApiPassword" Style="{StaticResource PasswordBox}" Width="280" HorizontalAlignment="Left" PlaceholderText="Account password..."/>
+
+                        <TextBlock Text="Itemlist Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
+                        <CheckBox Visibility="Collapsed" Name="setting_UpdateItemsStartup" Content="Update items on app startup" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_DisplayReadMarkedItems" Content="Load items that are marked read" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will load all news items including already read items." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <CheckBox Name="setting_HideReadMarkedItem" Content="Hide item after marking it as read" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will hide an item in the list when it is marked as read." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <CheckBox Name="setting_DisplayItemsAuthor" Content="Display the author from news items" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will display the author or writer of the news items behind the date." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <CheckBox Name="setting_DisplayImagesOffline" Content="Display images while in offline mode" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will try to display images that are cached while in offline mode." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="setting_ContentCutting" Content="Cut items text to" Style="{StaticResource CheckBox}"/>
+                            <TextBox Name="setting_ContentCuttingLength" Margin="5,0,5,0" Style="{StaticResource TextBox}" Width="65" InputScope="Number"/>
+                            <TextBlock Text="chars" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will cut off the news items content to a certain amount of characters." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <CheckBox Name="setting_LoadAllItems" Content="Load all available items at once" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will load all available news items at once instead of on demand loading when you reach the bottom." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Default list items opening method:" Margin="0,5,0,0"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the method you want to use to open a news item when you click on it:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+                        <ComboBox Name="setting_ItemOpenMethod" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
+                            <ComboBoxItem Content="Itemviewer (In-app)"/>
+                            <ComboBoxItem Content="Webviewer (In-app)"/>
+                            <ComboBoxItem Content="Web browser (Device)"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Itemview Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
+                        <CheckBox Name="setting_ItemTextSelection" Content="Enable news item text selection" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Update Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
+                        <TextBlock Text="Items update and storage range:"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the items update and storage range, items older than this range will not be stored and will be removed:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+                        <ComboBox Name="setting_RemoveItemsRange" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
+                            <ComboBoxItem Content="2 days old"/>
+                            <ComboBoxItem Content="4 days old"/>
+                            <ComboBoxItem Content="1 week old"/>
+                            <ComboBoxItem Content="2 weeks old"/>
+                            <ComboBoxItem Content="1 month old"/>
+                            <ComboBoxItem Content="2 months old"/>
+                            <ComboBoxItem Content="3 months old"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Swipe Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
+                        <CheckBox Name="setting_DisableSwipeActions" Content="Disable application swipe actions" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="This will disable all the application swipe actions like swiping to go back or hiding the menu." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Application swipe direction:" Margin="0,10,0,0"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the direction your touch swipe actions will be triggered by:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+                        <ComboBox Name="setting_SwipeDirection" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
+                            <ComboBoxItem Content="Left to right"/>
+                            <ComboBoxItem Content="Top to bottom"/>
+                            <ComboBoxItem Content="Right to left"/>
+                            <ComboBoxItem Content="Bottom to top"/>
+                        </ComboBox>
+
+                        <TextBlock Text="Other Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
+                        <CheckBox Name="setting_LowBandwidthMode" Content="Enable low bandwidth media mode" Style="{StaticResource CheckBox}"/>
+                        <TextBlock Width="300" HorizontalAlignment="Left" Text="This mode will prevent gifs, videos and web frames from loading in the items." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
+
+                        <TextBlock Name="txt_OfflineStoredSize" Text="Loading stored item information..." TextWrapping="Wrap" Margin="0,10,0,0"/>
+
+                        <Button Style="{StaticResource ButtonAccent}" Margin="0,15,0,0" Content="Go to the news items page" Click="iconNews_Tap"/>
+                        <Button Name="button_SwitchScreenMode" Visibility="Collapsed" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Switch between screen size modes" Click="button_SwitchScreenMode_Tap"/>
+                        <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Register Old Reader account" Click="btn_RegisterAccount_Click"/>
+                        <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Clear the stored offline items" Name="btn_ClearStoredItems" Click="ClearStoredItems_Click"/>
+                        <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Open device Wi-Fi settings" Click="btn_OpenWiFiSettings_Click"/>
+                        <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,5" Content="Visit project website" Name="btn_ProjectWebsite" Click="ProjectWebsite_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!-- Status Application -->
+        <Grid Name="grid_StatusApplication" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,65,0,0" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
+                <TextBlock Name="textblock_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Grid Popup Menu -->
+        <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource ButtonImage}" Name="iconStar" Click="iconStar_Tap" ToolTipService.ToolTip="Show starred items">
+                    <Image Source="/Assets/iconStar.png" Height="45"/>
+                </Button>
+                <Button Style="{StaticResource ButtonImage}" Name="iconSearch" Click="iconSearch_Tap" ToolTipService.ToolTip="Search for items">
+                    <Image Source="/Assets/iconSearch.png" Height="45"/>
+                </Button>
+                <Button Style="{StaticResource ButtonImage}" Name="iconApi" Click="iconApi_Tap" ToolTipService.ToolTip="Manage the feeds">
+                    <Image Source="/Assets/iconApi.png" Height="45"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

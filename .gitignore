@@ -1,0 +1,7 @@
+*.user
+*.pfx
+*.vs
+/NewsScroll/obj
+/NewsScroll/bin
+/SmartReader/bin
+/SmartReader/obj

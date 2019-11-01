@@ -1,0 +1,19 @@
+﻿<Grid
+    x:Class="NewsScroll.MainElements.grid_item_webview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid.Background>
+        <SolidColorBrush Color="#888" Opacity="0.20"/>
+    </Grid.Background>
+
+    <TextBlock x:FieldModifier="public" Name="item_status" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource TextBlockLightGray}" Opacity="0.60" TextAlignment="Center" Text="Frame loading,&#x0a;or is not available."/>
+
+    <WebView x:FieldModifier="public" Name="item_source" DefaultBackgroundColor="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+    <Grid x:FieldModifier="public" Name="grid_MobileScrollLeft" Background="Black" Opacity="0.20" Margin="0,25,0,25" Width="25" HorizontalAlignment="Left" Visibility="Collapsed"/>
+    <Grid x:FieldModifier="public" Name="grid_MobileScrollRight" Background="Black" Opacity="0.20" Margin="0,25,0,25" Width="25" HorizontalAlignment="Right" Visibility="Collapsed"/>
+</Grid>

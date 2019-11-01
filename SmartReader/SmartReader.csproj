@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A .NET Standard library to extract the main content of a web page based on a port of the Readability library by Mozilla</Description>
+    <Copyright>Strumenta</Copyright>
+    <AssemblyTitle>SmartReader</AssemblyTitle>
+    <VersionPrefix>0.1.1</VersionPrefix>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>SmartReader</AssemblyName>
+    <PackageId>SmartReader</PackageId>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <PackageLicenseUrl>https://github.com/strumenta/SmartReader/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Authors>Strumenta</Authors>
+    <PackageProjectUrl>https://github.com/strumenta/SmartReader</PackageProjectUrl>
+    <PackageIconUrl>https://raw.github.com/strumenta/SmartReader/master/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/strumenta/SmartReader</RepositoryUrl>
+    <PackageTags>Readability SmartReader reader article scraping reading web</PackageTags>
+    <Version>0.6.1</Version>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>2</WarningLevel>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants />
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.11" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>
