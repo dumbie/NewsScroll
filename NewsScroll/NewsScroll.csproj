@@ -109,19 +109,19 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\ArnoldVinkCode\Functions\UWP\AVAnimations.cs">
+    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVAnimations.cs">
       <Link>ArnoldVinkCode\Functions\AVAnimations.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\Functions\UWP\AVDownloader.cs">
+    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVDownloader.cs">
       <Link>ArnoldVinkCode\Functions\AVDownloader.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\Functions\UWP\AVFile.cs">
+    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVFile.cs">
       <Link>ArnoldVinkCode\Functions\AVFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\Functions\UWP\AVFunctions.cs">
+    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVFunctions.cs">
       <Link>ArnoldVinkCode\Functions\AVFunctions.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\Functions\UWP\AVImage.cs">
+    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVImage.cs">
       <Link>ArnoldVinkCode\Functions\AVImage.cs</Link>
     </Compile>
     <Compile Include="Api\OfflineSync.cs" />
