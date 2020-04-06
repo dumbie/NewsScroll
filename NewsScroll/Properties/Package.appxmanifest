@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="54655ArnoldVink.NewsScroll" Publisher="CN=E50820D8-A817-4517-9CD7-9B57976E3736" Version="2.3.185.0" />
-  <mp:PhoneIdentity PhoneProductId="c434c6ba-0f39-4938-8e41-3ca39982d011" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="54655ArnoldVink.NewsScroll" Publisher="CN=E50820D8-A817-4517-9CD7-9B57976E3736" Version="2.3.197.0" />
+  <mp:PhoneIdentity PhoneProductId="f5628d4b-e565-48f3-ad8c-b08bba9f9d46" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>News Scroll</DisplayName>
     <PublisherDisplayName>Arnold Vink</PublisherDisplayName>

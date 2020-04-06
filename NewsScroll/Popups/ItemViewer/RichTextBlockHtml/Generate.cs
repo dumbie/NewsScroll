@@ -40,7 +40,7 @@ namespace NewsScroll
 
                 //Split an image srcset link
                 Regex RegexSourceset = new Regex(@"(?:\s+\d+[wx])(?:,\s+)?");
-                IEnumerable<String> ImageSources = RegexSourceset.Split(sourceUri).Where(x => x != string.Empty);
+                IEnumerable<string> ImageSources = RegexSourceset.Split(sourceUri).Where(x => x != string.Empty);
                 if (ImageSources.Any()) { sourceUri = ImageSources.LastOrDefault(); }
 
                 //Split http(s):// tags from uri
@@ -48,14 +48,14 @@ namespace NewsScroll
                 if (sourceUri.Contains("http://") && sourceUri.LastIndexOf("http://") <= 20) { sourceUri = sourceUri.Substring(sourceUri.LastIndexOf("http://")); }
 
                 //Check if image needs to be blocked
-                if (String.IsNullOrWhiteSpace(sourceUri) || AppVariables.BlockedListUrl.Any(sourceUri.ToLower().Contains))
+                if (string.IsNullOrWhiteSpace(sourceUri) || AppVariables.BlockedListUrl.Any(sourceUri.ToLower().Contains))
                 {
                     Debug.WriteLine("Blocked image: " + sourceUri);
                     return;
                 }
 
                 //Check if device is low on memory
-                if (AVFunctions.DevMemoryAvailable() < 50)
+                if (AVFunctions.DevMemoryAvailableMB() < 100)
                 {
                     grid_item_image img = new grid_item_image();
                     img.item_status.Text = "Image not loaded,\ndevice is low on memory.";
@@ -120,7 +120,7 @@ namespace NewsScroll
                     if (vImageShowAlt && htmlNode.Attributes["alt"] != null)
                     {
                         string AltText = Process.ProcessItemTextSummary(htmlNode.Attributes["alt"].Value, false, false);
-                        if (!String.IsNullOrWhiteSpace(AltText))
+                        if (!string.IsNullOrWhiteSpace(AltText))
                         {
                             img.item_description.Text = AltText;
                             img.item_description.Visibility = Visibility.Visible;
@@ -179,7 +179,7 @@ namespace NewsScroll
                 }
 
                 //Check if device is low on memory
-                if (AVFunctions.DevMemoryAvailable() < 200)
+                if (AVFunctions.DevMemoryAvailableMB() < 200)
                 {
                     grid_item_video video = new grid_item_video();
                     video.item_status.Text = "Video not loaded,\ndevice is low on memory.";
@@ -209,7 +209,7 @@ namespace NewsScroll
 
                 //Create item video
                 string VideoString = htmlNode.Attributes["src"].Value;
-                if (!String.IsNullOrWhiteSpace(VideoString))
+                if (!string.IsNullOrWhiteSpace(VideoString))
                 {
                     Debug.WriteLine("Opening video: " + VideoString);
 
@@ -245,6 +245,20 @@ namespace NewsScroll
         {
             try
             {
+                //Check if webview limit reached
+                if (vWebViewAdded == vWebViewLimit)
+                {
+                    grid_item_webview webView = new grid_item_webview();
+                    webView.item_status.Text = "Webview not loaded,\nlimit has been reached.";
+
+                    InlineUIContainer iui = new InlineUIContainer();
+                    iui.Child = webView;
+
+                    addSpan.Inlines.Add(iui);
+                    //addSpan.Inlines.Add(new LineBreak());
+                    return;
+                }
+
                 //Check if media loading is allowed
                 if (!AppVariables.LoadMedia)
                 {
@@ -260,7 +274,7 @@ namespace NewsScroll
                 }
 
                 //Check if device is low on memory
-                if (AVFunctions.DevMemoryAvailable() < 200)
+                if (AVFunctions.DevMemoryAvailableMB() < 200)
                 {
                     grid_item_webview webView = new grid_item_webview();
                     webView.item_status.Text = "Webview not loaded,\ndevice is low on memory.";
@@ -290,7 +304,7 @@ namespace NewsScroll
 
                 //Create item webview
                 string WebLink = htmlNode.Attributes["src"].Value;
-                if (!String.IsNullOrWhiteSpace(WebLink))
+                if (!string.IsNullOrWhiteSpace(WebLink))
                 {
                     Debug.WriteLine("Opening webview: " + WebLink);
 
@@ -304,6 +318,9 @@ namespace NewsScroll
 
                     addSpan.Inlines.Add(iui);
                     //addSpan.Inlines.Add(new LineBreak());
+
+                    //Update the webview count
+                    vWebViewAdded++;
                 }
             }
             catch { }
@@ -391,7 +408,7 @@ namespace NewsScroll
             try
             {
                 string StringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true);
-                if (!String.IsNullOrWhiteSpace(StringText))
+                if (!string.IsNullOrWhiteSpace(StringText))
                 {
                     Binding FontSizeBinding = new Binding();
                     FontSizeBinding.Source = (StyleUpdater)Application.Current.Resources["StyleUpdater"];
@@ -408,7 +425,7 @@ namespace NewsScroll
             catch { }
         }
 
-        private void GenerateGridText(Span addSpan, HtmlNode htmlNode, String textHeader, bool textRaw, bool textHtml, TextAlignment textAlignment, HorizontalAlignment horizontalAlignment)
+        private void GenerateGridText(Span addSpan, HtmlNode htmlNode, string textHeader, bool textRaw, bool textHtml, TextAlignment textAlignment, HorizontalAlignment horizontalAlignment)
         {
             try
             {
@@ -416,7 +433,7 @@ namespace NewsScroll
                 StackPanel stackPanelGrid = new StackPanel();
 
                 //Grid Header
-                if (!String.IsNullOrWhiteSpace(textHeader))
+                if (!string.IsNullOrWhiteSpace(textHeader))
                 {
                     TextBlock TextBlockHeader = new TextBlock();
                     TextBlockHeader.Text = textHeader + ":";
@@ -441,7 +458,7 @@ namespace NewsScroll
                 //Grid Text
                 string StringText = string.Empty;
                 if (textHtml) { StringText = Process.ProcessItemTextFull(htmlNode.InnerHtml, false, false, true); } else { StringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true); }
-                if (!String.IsNullOrWhiteSpace(StringText))
+                if (!string.IsNullOrWhiteSpace(StringText))
                 {
                     TextBlock textBlock = new TextBlock();
                     textBlock.Text = StringText;
@@ -480,7 +497,7 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateGridContent(Span addSpan, HtmlNode htmlNode, String textHeader)
+        private async Task GenerateGridContent(Span addSpan, HtmlNode htmlNode, string textHeader)
         {
             try
             {
@@ -491,7 +508,7 @@ namespace NewsScroll
                 StackPanel stackPanelGrid = new StackPanel();
 
                 //Grid Header
-                if (!String.IsNullOrWhiteSpace(textHeader))
+                if (!string.IsNullOrWhiteSpace(textHeader))
                 {
                     TextBlock TextBlockHeader = new TextBlock();
                     TextBlockHeader.Text = textHeader + ":";
@@ -550,7 +567,7 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateTable(Span addSpan, HtmlNode htmlNode, String textHeader)
+        private async Task GenerateTable(Span addSpan, HtmlNode htmlNode, string textHeader)
         {
             try
             {
@@ -564,7 +581,7 @@ namespace NewsScroll
                 StackPanel stackPanelGrid = new StackPanel();
 
                 //Grid Header
-                if (!String.IsNullOrWhiteSpace(textHeader))
+                if (!string.IsNullOrWhiteSpace(textHeader))
                 {
                     TextBlock TextBlockHeader = new TextBlock();
                     TextBlockHeader.Text = textHeader + ":";
@@ -586,8 +603,8 @@ namespace NewsScroll
                     stackPanelGrid.Children.Add(TextBlockHeader);
                 }
 
-                Int32 RowCurrentCount = 0;
-                Int32 RowTotalCount = htmlNode.Descendants("tr").Count();
+                int RowCurrentCount = 0;
+                int RowTotalCount = htmlNode.Descendants("tr").Count();
                 if (RowTotalCount > 0)
                 {
                     //Add table child node elements
@@ -596,7 +613,7 @@ namespace NewsScroll
 
                     foreach (HtmlNode TableRow in htmlNode.Descendants("tr"))
                     {
-                        Int32 ColumnCurrentCount = 0;
+                        int ColumnCurrentCount = 0;
 
                         //Create and add row
                         RowDefinition gridRowDefinition = new RowDefinition();
@@ -767,7 +784,7 @@ namespace NewsScroll
             try
             {
                 string StringText = Process.ProcessItemTextFull(htmlNode.InnerText, true, false, true);
-                if (!String.IsNullOrWhiteSpace(StringText))
+                if (!string.IsNullOrWhiteSpace(StringText))
                 {
                     Debug.WriteLine("Adding text node: " + StringText);
                     addSpan.Inlines.Add(new Run() { Text = StringText });

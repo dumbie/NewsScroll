@@ -203,7 +203,7 @@ namespace NewsScroll
                 if (MsgBoxResult != 2)
                 {
                     string LowMemoryWarning = string.Empty;
-                    if (AVFunctions.DevMemoryAvailable() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
+                    if (AVFunctions.DevMemoryAvailableMB() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
                     MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", "", true);
                 }
 

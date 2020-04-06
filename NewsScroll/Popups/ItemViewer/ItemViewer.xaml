@@ -33,20 +33,20 @@
                 <ScrollViewer Grid.Row="1" Name="scrollviewer_NewsItem" HorizontalAlignment="Stretch" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel Name="stackpanel_NewsItem" MinWidth="280" MaxWidth="720" HorizontalAlignment="Center" Padding="10,5,10,0" Background="Transparent" ManipulationMode="TranslateX, System">
                         <StackPanel ToolTipService.ToolTip="{Binding vCurrentWebSource.feed_title}">
-                            <TextBlock Name="tb_ItemHeader" Text="{Binding vCurrentWebSource.item_title}" FontSize="{Binding TextSizeLarge, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
-                            <RichTextBlock Name="rtb_ItemSubHeader" Style="{StaticResource RichTextBlockLightGray}">
-                                <Paragraph>
-                                    <InlineUIContainer>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Name="feed_icon" Height="16" Source="{Binding vCurrentWebSource.feed_icon}" Margin="0,0,2,-2"/>
-                                            <Image Height="16" Visibility="{Binding vCurrentWebSource.item_star_status}" Source="/Assets/iconStar-Dark.png" Margin="0,0,2,-2"/>
-                                            <Image Height="16" Visibility="{Binding vCurrentWebSource.item_read_status}" Source="/Assets/iconRead-Dark.png" Margin="0,0,2,-2"/>
-                                        </StackPanel>
-                                    </InlineUIContainer>
-                                    <Run x:Name="item_datestring" FontSize="{Binding TextSizeMedium, Source={StaticResource StyleUpdater}}"/>
-                                </Paragraph>
-                            </RichTextBlock>
-                            <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Margin="0,5,0,5"/>
+                            <TextBlock Name="tb_ItemTitle" Text="{Binding vCurrentWebSource.item_title}" FontSize="{Binding TextSizeLarge, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
+                            <TextBlock Name="tb_ItemDateString" Text="{Binding vCurrentWebSource.item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
+                            <Grid Margin="0,5,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" VerticalAlignment="Center" Height="18" Source="{Binding vCurrentWebSource.feed_icon}" Margin="0,0,5,0"/>
+                                <Image Grid.Column="1" VerticalAlignment="Center" Height="18" Visibility="{Binding vCurrentWebSource.item_star_status}" Source="/Assets/iconStar-Dark.png" Margin="0,0,5,0"/>
+                                <Image Grid.Column="2" VerticalAlignment="Center" Height="18" Visibility="{Binding vCurrentWebSource.item_read_status}" Source="/Assets/iconRead-Dark.png" Margin="0,0,5,0"/>
+                                <Grid Grid.Column="3" VerticalAlignment="Center" Background="{StaticResource SystemControlBackgroundAccentBrush}" Height="2"/>
+                            </Grid>
                         </StackPanel>
 
                         <MainElements:grid_item_image x:Name="item_image" Visibility="Collapsed"/>

@@ -94,11 +94,21 @@ namespace NewsScroll.Api
                                 if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
                                 {
                                     await AVFile.SaveBuffer(FeedId + ".png", HttpFeedIcon);
-                                    Debug.WriteLine("Downloaded logo: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
+                                    Debug.WriteLine("Downloaded transparent logo: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("No logo found: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
+                                    IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?domain=" + FullUrl.Host);
+                                    HttpFeedIcon = await AVDownloader.DownloadBufferAsync(7500, "News Scroll", IconUrl);
+                                    if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
+                                    {
+                                        await AVFile.SaveBuffer(FeedId + ".png", HttpFeedIcon);
+                                        Debug.WriteLine("Downloaded full color logo: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
+                                    }
+                                    else
+                                    {
+                                        Debug.WriteLine("No logo found: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
+                                    }
                                 }
                             }
                             catch { }

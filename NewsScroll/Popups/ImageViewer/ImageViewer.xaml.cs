@@ -25,7 +25,7 @@ namespace NewsScroll
     {
         //Popup Variables
         private static BitmapImage vBitmapImage = null;
-        public static bool PopupIsOpen = false;
+        private bool PopupIsOpen = false;
 
         //Initialize popup
         public ImageViewer() { this.InitializeComponent(); }

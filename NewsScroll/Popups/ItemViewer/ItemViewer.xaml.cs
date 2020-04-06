@@ -26,7 +26,7 @@ namespace NewsScroll
     public partial class ItemViewer : UserControl
     {
         //Webviewer Variables
-        public static bool PopupIsOpen = false;
+        private bool PopupIsOpen = false;
 
         public ItemViewer()
         {
@@ -95,7 +95,7 @@ namespace NewsScroll
                 iconStar.Visibility = Visibility.Visible;
 
                 //Load item into the viewer
-                await LoadItem(String.Empty);
+                await LoadItem(string.Empty);
 
                 //Register page events
                 RegisterPageEvents();
@@ -131,33 +131,33 @@ namespace NewsScroll
                     string DateAuthorString = convertedDate.ToString(AppVariables.CultureInfoFormat.LongDatePattern, AppVariables.CultureInfoFormat) + ", " + convertedDate.ToString(AppVariables.CultureInfoFormat.ShortTimePattern, AppVariables.CultureInfoFormat);
 
                     //Add the author to date time
-                    if (!String.IsNullOrWhiteSpace(LoadTable.item_author)) { DateAuthorString += " by " + LoadTable.item_author; }
-                    item_datestring.Text = DateAuthorString;
+                    if (!string.IsNullOrWhiteSpace(LoadTable.item_author)) { DateAuthorString += " by " + LoadTable.item_author; }
+                    tb_ItemDateString.Text = DateAuthorString;
 
                     //Enable or disable text selection
                     if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
                     {
-                        tb_ItemHeader.IsTextSelectionEnabled = true;
-                        rtb_ItemSubHeader.IsTextSelectionEnabled = true;
+                        tb_ItemTitle.IsTextSelectionEnabled = true;
+                        tb_ItemDateString.IsTextSelectionEnabled = true;
                         rtb_ItemContent.IsTextSelectionEnabled = true;
                     }
                     else
                     {
-                        tb_ItemHeader.IsTextSelectionEnabled = false;
-                        rtb_ItemSubHeader.IsTextSelectionEnabled = false;
+                        tb_ItemTitle.IsTextSelectionEnabled = false;
+                        tb_ItemDateString.IsTextSelectionEnabled = false;
                         rtb_ItemContent.IsTextSelectionEnabled = false;
                     }
 
                     //Load the item content
                     bool SetHtmlToRichTextBlock = false;
-                    if (!String.IsNullOrWhiteSpace(CustomItemContent))
+                    if (!string.IsNullOrWhiteSpace(CustomItemContent))
                     {
-                        await HtmlToRichTextBlock(rtb_ItemContent, CustomItemContent, String.Empty);
+                        await HtmlToRichTextBlock(rtb_ItemContent, CustomItemContent, string.Empty);
                         SetHtmlToRichTextBlock = true;
                     }
-                    else if (!String.IsNullOrWhiteSpace(LoadTable.item_content_full))
+                    else if (!string.IsNullOrWhiteSpace(LoadTable.item_content_full))
                     {
-                        SetHtmlToRichTextBlock = await HtmlToRichTextBlock(rtb_ItemContent, LoadTable.item_content_full, String.Empty);
+                        SetHtmlToRichTextBlock = await HtmlToRichTextBlock(rtb_ItemContent, LoadTable.item_content_full, string.Empty);
                     }
 
                     //Check if html to xaml has failed
@@ -291,7 +291,6 @@ namespace NewsScroll
                 Debug.WriteLine("Closing the item popup...");
 
                 //Cleanup xaml resources
-                feed_icon.Source = null;
                 item_image.item_source.Source = null;
                 rtb_ItemContent.Blocks.Clear();
 
@@ -352,15 +351,15 @@ namespace NewsScroll
         }
 
         //Monitor the application size
-        private Double PreviousLayoutWidth = 0;
-        private Double PreviousLayoutHeight = 0;
+        private double PreviousLayoutWidth = 0;
+        private double PreviousLayoutHeight = 0;
         private async void OnLayoutUpdated(object sender, object e)
         {
             try
             {
                 Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                Double NewLayoutWidth = ScreenResolution.Width;
-                Double NewLayoutHeight = ScreenResolution.Height;
+                double NewLayoutWidth = ScreenResolution.Width;
+                double NewLayoutHeight = ScreenResolution.Height;
                 if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
                 {
                     PreviousLayoutWidth = NewLayoutWidth;
@@ -426,10 +425,10 @@ namespace NewsScroll
         {
             try
             {
-                string ReturnToPrevious = String.Empty;
+                string ReturnToPrevious = string.Empty;
                 if (PreviousScrollOffset != -1) { ReturnToPrevious = "Scroll to previous"; }
 
-                Int32 MsgBoxResult = await AVMessageBox.Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
+                int MsgBoxResult = await AVMessageBox.Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
                 if (MsgBoxResult == 1)
                 {
                     await Task.Delay(10);
@@ -505,7 +504,7 @@ namespace NewsScroll
             {
                 //Disable progressbar
                 grid_StatusApplication.Visibility = Visibility.Collapsed;
-                textblock_StatusApplication.Text = String.Empty;
+                textblock_StatusApplication.Text = string.Empty;
 
                 //Enable content
                 button_StatusCurrentItem.IsHitTestVisible = true;
@@ -631,7 +630,7 @@ namespace NewsScroll
         {
             try
             {
-                Int32 MsgBoxResult = 0;
+                int MsgBoxResult = 0;
 
                 //Check webbrowser only links
                 if (TargetUri != null)
@@ -642,8 +641,8 @@ namespace NewsScroll
 
                 if (MsgBoxResult != 2)
                 {
-                    string LowMemoryWarning = String.Empty;
-                    if (AVFunctions.DevMemoryAvailable() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
+                    string LowMemoryWarning = string.Empty;
+                    if (AVFunctions.DevMemoryAvailableMB() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
                     MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", "", true);
                 }
 
@@ -723,7 +722,7 @@ namespace NewsScroll
                     {
                         ProgressDisableUI("Loading the full item...");
 
-                        Int32 RetryCount = 0;
+                        int RetryCount = 0;
                         await DownloadFullItemContent(RetryCount);
                     }
                     else
@@ -738,13 +737,13 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task DownloadFullItemContent(Int32 RetryCount)
+        private async Task DownloadFullItemContent(int RetryCount)
         {
             try
             {
                 //Download the full item content
                 string FullContent = await WebParser(vCurrentWebSource.item_link, false, true);
-                if (!String.IsNullOrWhiteSpace(FullContent))
+                if (!string.IsNullOrWhiteSpace(FullContent))
                 {
                     //Load item into the viewer
                     await LoadItem(FullContent);
@@ -767,7 +766,7 @@ namespace NewsScroll
                         if (NetworkInterface.GetIsNetworkAvailable())
                         {
                             Debug.WriteLine("There is currently no full item content available.");
-                            Int32 MsgBoxResult = await AVMessageBox.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
+                            int MsgBoxResult = await AVMessageBox.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
                             if (MsgBoxResult == 1)
                             {
                                 await OpenBrowser(null, true);
@@ -805,7 +804,8 @@ namespace NewsScroll
 
                     //Reset the fullscreen webviewer to stop playing
                     sendview.Visibility = Visibility.Collapsed;
-                    sendview.NavigateToString(String.Empty);
+                    sendview.Stop();
+                    sendview.NavigateToString(string.Empty);
 
                     //Set Landscape Display
                     if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
@@ -845,7 +845,8 @@ namespace NewsScroll
                     webview_Fullscreen.Visibility = Visibility.Visible;
 
                     //Reset the windowed webviewer to stop playing
-                    sendview.NavigateToString(String.Empty);
+                    sendview.Stop();
+                    sendview.NavigateToString(string.Empty);
 
                     //Set Landscape Display
                     DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;

@@ -20,7 +20,7 @@ namespace NewsScroll
     {
         //Webviewer Variables
         private Items vCurrentWebSource = null;
-        public static bool PopupIsOpen = false;
+        private bool PopupIsOpen = false;
 
         public WebViewer() { this.InitializeComponent(); }
 
@@ -94,7 +94,8 @@ namespace NewsScroll
             try
             {
                 Debug.WriteLine("Closing the web browser...");
-                webview_Browser.NavigateToString(String.Empty);
+                webview_Browser.Stop();
+                webview_Browser.NavigateToString(string.Empty);
                 webview_Browser = null;
 
                 //Disable page events

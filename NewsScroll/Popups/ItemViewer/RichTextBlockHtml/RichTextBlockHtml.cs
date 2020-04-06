@@ -14,6 +14,8 @@ namespace NewsScroll
         private bool vImageShowAlt = true;
         private bool vIgnoreText = false;
         private WebView vWindowWebview = null;
+        private int vWebViewLimit = 4;
+        private int vWebViewAdded = 0;
 
         private async Task<bool> HtmlToRichTextBlock(RichTextBlock TargetRichTextBlock, String FullHtml, String BaseLink)
         {
@@ -120,7 +122,10 @@ namespace NewsScroll
                     }
                 }
             }
-            catch { Debug.WriteLine("Failed to validate html link: " + BaseLink); }
+            catch
+            {
+                Debug.WriteLine("Failed to validate html link: " + BaseLink);
+            }
         }
     }
 }
