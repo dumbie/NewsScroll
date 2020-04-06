@@ -20,7 +20,7 @@ namespace NewsScroll.Api
                 Debug.WriteLine("Downloading starred status...");
 
                 string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
-                string DownloadString = await AVDownloader.DownloadStringAsync(12000, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "stream/items/ids?output=json&s=user/-/state/com.google/starred&n=" + AppVariables.StarredMaximumLoad));
+                string DownloadString = await AVDownloader.DownloadStringAsync(15000, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "stream/items/ids?output=json&s=user/-/state/com.google/starred&n=" + AppVariables.StarredMaximumLoad));
 
                 if (!String.IsNullOrWhiteSpace(DownloadString))
                 {

@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using ArnoldVinkCode;
+using HtmlAgilityPack;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace NewsScroll
         private bool vImageShowAlt = true;
         private bool vIgnoreText = false;
         private WebView vWindowWebview = null;
-        private int vWebViewLimit = 4;
+        private int vWebViewLimit = 3;
         private int vWebViewAdded = 0;
 
         private async Task<bool> HtmlToRichTextBlock(RichTextBlock TargetRichTextBlock, String FullHtml, String BaseLink)
@@ -22,6 +23,16 @@ namespace NewsScroll
             try
             {
                 Debug.WriteLine("Converting: " + FullHtml);
+
+                //Set the webview limit based on device
+                if (AVFunctions.DevMobile())
+                {
+                    vWebViewLimit = 3;
+                }
+                else
+                {
+                    vWebViewLimit = 6;
+                }
 
                 //Load and parse the html document
                 HtmlDocument htmlDocument = new HtmlDocument();

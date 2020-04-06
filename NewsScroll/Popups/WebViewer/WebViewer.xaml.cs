@@ -94,6 +94,8 @@ namespace NewsScroll
             try
             {
                 Debug.WriteLine("Closing the web browser...");
+
+                //Unload the webviewer
                 webview_Browser.Stop();
                 webview_Browser.NavigateToString(string.Empty);
                 webview_Browser = null;

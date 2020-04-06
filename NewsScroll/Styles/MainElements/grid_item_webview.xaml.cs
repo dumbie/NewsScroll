@@ -28,6 +28,12 @@ namespace NewsScroll.MainElements
                 vDispatcherTimer_MemoryCheck.Tick += DispatcherTimer_MemoryCheck_Tick;
                 vDispatcherTimer_MemoryCheck.Start();
             };
+
+            this.Unloaded += delegate
+            {
+                //Stop timer that monitors the available memory
+                vDispatcherTimer_MemoryCheck.Stop();
+            };
         }
 
         //Monitor memory usage
@@ -60,6 +66,7 @@ namespace NewsScroll.MainElements
                 //Unload the webviewer
                 item_source.Stop();
                 item_source.NavigateToString(string.Empty);
+                item_source = null;
             }
             catch { }
         }

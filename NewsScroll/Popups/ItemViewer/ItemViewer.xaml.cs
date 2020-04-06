@@ -794,18 +794,19 @@ namespace NewsScroll
             try
             {
                 //Get the fullscreen webview uri
-                WebView sendview = sender as WebView;
-                if (sendview.Visibility == Visibility.Visible)
+                WebView sendview_Browser = sender as WebView;
+                if (sendview_Browser.Visibility == Visibility.Visible)
                 {
                     Debug.WriteLine("Switching to windowed webview.");
 
                     //Load the url in windowed webviewer
-                    vWindowWebview.Source = sendview.Source;
+                    vWindowWebview.Source = sendview_Browser.Source;
+                    sendview_Browser.Visibility = Visibility.Collapsed;
 
-                    //Reset the fullscreen webviewer to stop playing
-                    sendview.Visibility = Visibility.Collapsed;
-                    sendview.Stop();
-                    sendview.NavigateToString(string.Empty);
+                    //Unload the webviewer
+                    sendview_Browser.Stop();
+                    sendview_Browser.NavigateToString(string.Empty);
+                    sendview_Browser = null;
 
                     //Set Landscape Display
                     if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
@@ -837,16 +838,17 @@ namespace NewsScroll
                     Debug.WriteLine("Switching to fullscreen webview.");
 
                     //Get the windowed current webview uri
-                    WebView sendview = sender as WebView;
-                    vWindowWebview = sendview;
+                    WebView sendview_Browser = sender as WebView;
+                    vWindowWebview = sendview_Browser;
 
                     //Load the url in fullscreen webviewer
-                    webview_Fullscreen.Source = sendview.Source;
+                    webview_Fullscreen.Source = sendview_Browser.Source;
                     webview_Fullscreen.Visibility = Visibility.Visible;
 
-                    //Reset the windowed webviewer to stop playing
-                    sendview.Stop();
-                    sendview.NavigateToString(string.Empty);
+                    //Unload the webviewer
+                    sendview_Browser.Stop();
+                    sendview_Browser.NavigateToString(string.Empty);
+                    sendview_Browser = null;
 
                     //Set Landscape Display
                     DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
