@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Windows.Graphics.Display;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;

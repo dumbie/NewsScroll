@@ -1,5 +1,5 @@
-﻿using ArnoldVinkMessageBox;
-using ArnoldVinkCode;
+﻿using ArnoldVinkCode;
+using ArnoldVinkMessageBox;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -83,7 +83,6 @@ namespace NewsScroll
 
                 //Register ListView events
                 ListView_Items.Tapped += EventsListView.ListView_Items_Tapped;
-                ListView_Items.DoubleTapped += EventsListView.ListView_Items_DoubleTapped;
                 ListView_Items.RightTapped += EventsListView.ListView_Items_RightTapped;
 
                 //Register ListView scroll viewer
@@ -123,7 +122,6 @@ namespace NewsScroll
 
                 //Register ListView events
                 ListView_Items.Tapped -= EventsListView.ListView_Items_Tapped;
-                ListView_Items.DoubleTapped -= EventsListView.ListView_Items_DoubleTapped;
                 ListView_Items.RightTapped -= EventsListView.ListView_Items_RightTapped;
 
                 //Register ListView scroll viewer

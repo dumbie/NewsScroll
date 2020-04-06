@@ -39,7 +39,7 @@ namespace NewsScroll
                 await SQLConnection.ExecuteAsync("DELETE FROM TableSearchHistory WHERE lower(search_term) = ('" + SearchTerm.ToLower() + "')");
 
                 //Add search term to database
-                await SQLConnection.ExecuteAsync("INSERT INTO TableSearchHistory(search_term) VALUES ('" + SearchTerm + "')");                
+                await SQLConnection.ExecuteAsync("INSERT INTO TableSearchHistory(search_term) VALUES ('" + SearchTerm + "')");
 
                 //Count the current search terms
                 Int32 CountItems = await SQLConnection.ExecuteScalarAsync<Int32>("SELECT count(search_term) FROM TableSearchHistory");

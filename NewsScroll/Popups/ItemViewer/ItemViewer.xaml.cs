@@ -1,5 +1,5 @@
-﻿using ArnoldVinkMessageBox;
-using ArnoldVinkCode;
+﻿using ArnoldVinkCode;
+using ArnoldVinkMessageBox;
 using NewsScroll.Classes;
 using NewsScroll.MainElements;
 using System;

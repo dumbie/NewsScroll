@@ -20,73 +20,34 @@ namespace NewsScroll
         {
             try
             {
-                AppVariables.SingleTappedEvent = true;
-                await Task.Delay(300);
-                if (AppVariables.SingleTappedEvent)
-                {
-                    ListView SendListView = sender as ListView;
-                    Items SelectedItem = ((e.OriginalSource as FrameworkElement).DataContext) as Items;
-                    ObservableCollection<Items> SelectedList = (ObservableCollection<Items>)SendListView.ItemsSource;
-                    if (SelectedItem != null)
-                    {
-                        bool IsNetworkAvailable = NetworkInterface.GetIsNetworkAvailable();
-                        if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "1" && IsNetworkAvailable)
-                        {
-                            WebViewer webViewer = new WebViewer();
-                            await webViewer.OpenPopup(null, SelectedItem);
-
-                            bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
-                            if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
-                        }
-                        else if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "2" && IsNetworkAvailable)
-                        {
-                            await Launcher.LaunchUriAsync(new Uri(SelectedItem.item_link));
-
-                            bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
-                            if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
-                        }
-                        else
-                        {
-                            ItemViewer itemViewer = new ItemViewer();
-                            await itemViewer.OpenPopup(SelectedItem);
-
-                            bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
-                            if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
-                        }
-
-                        //Reset the item selection
-                        SendListView.SelectedIndex = -1;
-                    }
-                }
-            }
-            catch { }
-        }
-
-        public static async void ListView_Items_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            try
-            {
-                AppVariables.SingleTappedEvent = false;
-
                 ListView SendListView = sender as ListView;
                 Items SelectedItem = ((e.OriginalSource as FrameworkElement).DataContext) as Items;
                 ObservableCollection<Items> SelectedList = (ObservableCollection<Items>)SendListView.ItemsSource;
                 if (SelectedItem != null)
                 {
-                    //Get and set the current page name
-                    string CurrentPageName = App.vApplicationFrame.SourcePageType.ToString();
-
-                    bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, true, false, false, true);
-                    if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"] && CurrentPageName.EndsWith("NewsPage"))
+                    bool IsNetworkAvailable = NetworkInterface.GetIsNetworkAvailable();
+                    if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "1" && IsNetworkAvailable)
                     {
-                        if (SendListView.Items.Any())
-                        {
-                            await EventUpdateTotalItemsCount(null, null, false, true);
-                        }
-                        else
-                        {
-                            await EventRefreshPageItems(true);
-                        }
+                        WebViewer webViewer = new WebViewer();
+                        await webViewer.OpenPopup(null, SelectedItem);
+
+                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
+                        if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
+                    }
+                    else if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "2" && IsNetworkAvailable)
+                    {
+                        await Launcher.LaunchUriAsync(new Uri(SelectedItem.item_link));
+
+                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
+                        if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
+                    }
+                    else
+                    {
+                        ItemViewer itemViewer = new ItemViewer();
+                        await itemViewer.OpenPopup(SelectedItem);
+
+                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
+                        if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
                     }
 
                     //Reset the item selection

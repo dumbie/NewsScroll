@@ -8,8 +8,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using static NewsScroll.Events.Events;
 using static NewsScroll.Database.Database;
+using static NewsScroll.Events.Events;
 
 namespace NewsScroll.Api
 {
