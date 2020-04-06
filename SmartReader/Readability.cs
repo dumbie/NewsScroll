@@ -4,14 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 
 [assembly: InternalsVisibleTo("SmartReaderTests")]
 namespace SmartReader
 {
     /// <summary>
-    /// This class contains the heuristics and utility functions used to make an article readable
-    /// Put in a separate class to allow easier testing
+    /// <para>This class contains the heuristics and utility functions used to make an article readable.</para>
+    /// <para>Put in a separate class to allow easier testing</para>
     /// </summary>
     internal static class Readability
     {
@@ -20,11 +21,12 @@ namespace SmartReader
         };
 
         /// <summary>
-        /// Removes the class="" attribute from every element in the given
+        /// Removes the class attribute from every element in the given
         /// subtree, except those that match the classesToPreserve array
         /// </summary>
         /// <param name="node">The root node from which all classes must be removed.</param>
-        public static void CleanClasses(IElement node, string[] classesToPreserve)
+        /// <param name="classesToPreserve">The classes to preserve.</param>
+        internal static void CleanClasses(IElement node, string[] classesToPreserve)
         {
             var className = "";
 
@@ -48,11 +50,13 @@ namespace SmartReader
         }
 
         /// <summary>
-        /// Converts each<a> and<img> uri in the given element, and its descendants, to an absolute URI,
+        /// Converts each &lt;a&gt; and &lt;img&gt; uri in the given element, and its descendants, to an absolute URI,
         /// ignoring #ref URIs.
         /// </summary>
-        /// <param name="articleContent">The node in which to fix all relative uri</param>                
-        public static void FixRelativeUris(IElement articleContent, Uri uri, IHtmlDocument doc)
+        /// <param name="articleContent">The node in which to fix all relative uri</param>   
+        /// <param name="uri">The base uri</param>  
+        /// <param name="doc">The document to operate on</param>  
+        internal static void FixRelativeUris(IElement articleContent, Uri uri, IHtmlDocument doc)
         {
             var scheme = uri.Scheme;
             var prePath = uri.GetBase();
@@ -65,12 +69,26 @@ namespace SmartReader
                 var href = (link as IElement).GetAttribute("href");
                 if (!String.IsNullOrWhiteSpace(href))
                 {
-                    // Replace links with javascript: URIs with text content, since
+                    // Remove links with javascript: URIs, since
                     // they won't work after scripts have been removed from the page.
                     if (href.IndexOf("javascript:") == 0)
                     {
-                        var text = doc.CreateTextNode(link.TextContent);
-                        link.Parent.ReplaceChild(text, link);
+                        // if the link only contains simple text content, it can be converted to a text node
+                        if (link.ChildNodes.Length == 1 && link.ChildNodes[0].NodeType == NodeType.Text)
+                        {
+                            var text = doc.CreateTextNode(link.TextContent);
+                            link.Parent.ReplaceChild(text, link);
+                        }
+                        else
+                        {
+                            // if the link has multiple children, they should all be preserved
+                            var container = doc.CreateElement("span");
+                            while (link.ChildNodes.Length > 0)
+                            {
+                                container.AppendChild(link.ChildNodes[0]);
+                            }
+                            link.Parent.ReplaceChild(container, link);
+                        }
                     }
                     else
                     {
@@ -95,11 +113,10 @@ namespace SmartReader
         /// </summary>
         /// <param name="title">Starting title</param>        
         /// <param name="siteName">Name of the site</param>        
-        /// <param name="title">The regular expressions used to normalize the title</param>        
         /// <returns>
         /// The clean title
         /// </returns>
-        public static string CleanTitle(string title, string siteName)
+        internal static string CleanTitle(string title, string siteName)
         {
             // eliminate any text after a separator
             if (!String.IsNullOrEmpty(siteName) && title.IndexOfAny(new char[] { '|', '-', '»', '/', '>' }) != -1)
@@ -121,7 +138,7 @@ namespace SmartReader
         /// <returns>
         /// The clean title
         /// </returns>
-        public static string GetArticleTitle(IHtmlDocument doc)
+        internal static string GetArticleTitle(IHtmlDocument doc)
         {
             var curTitle = "";
             var origTitle = "";
@@ -202,15 +219,14 @@ namespace SmartReader
             return curTitle;
         }
 
-        /**
-		 * Check whether the input string could be a byline.
-		 * This verifies that the input is a string, and that the length
-		 * is less than 100 chars.
-		 *
-		 * @param possibleByline {string} - a string to check whether its a byline.
-		 * @return Boolean - whether the input string is a byline.
-		 */
-        public static bool IsValidByline(string byline)
+        /// <summary>
+        /// <para>Check whether the input string could be a byline.</para>
+        /// <para>This verifies that the input is a string, and that the length
+		/// is less than 100 chars.</para> 
+        /// </summary>
+        /// <param name="byline">a string to check whether its a byline</param>
+        /// <returns>Whether the input string is a byline</returns>
+        internal static bool IsValidByline(string byline)
         {
             if (!String.IsNullOrEmpty(byline))
             {
@@ -220,12 +236,14 @@ namespace SmartReader
             return false;
         }
 
-        /**
-		 * Attempts to get metadata for the article.
-		 *
-		 * @return void
-		 */
-        public static Metadata GetArticleMetadata(IHtmlDocument doc, Uri uri, string language)
+        /// <summary>
+        /// Attempts to get metadata for the article.
+        /// </summary>
+        /// <param name="doc">The document</param>
+        /// <param name="uri">The uri, possibly used to check for a date</param>
+        /// <param name="language">The language that was possibly found in the headers of the response</param>
+        /// <returns>The metadata object with all the info found</returns>
+        internal static Metadata GetArticleMetadata(IHtmlDocument doc, Uri uri, string language)
         {
             Metadata metadata = new Metadata();
             Dictionary<string, string> values = new Dictionary<string, string>();
@@ -370,7 +388,6 @@ namespace SmartReader
             }
 
             metadata.Language = LanguageHeuristics().FirstOrDefault(l => !String.IsNullOrEmpty(l)) ?? "";
-
 
             // Find the featured image of the article
             IEnumerable<string> FeaturedImageKeys()

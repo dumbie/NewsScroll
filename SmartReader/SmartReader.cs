@@ -12,31 +12,59 @@ using System.Threading.Tasks;
 
 namespace SmartReader
 {
+    /// <summary>Flags that sets how aggressively remove potentially useless content</summary>
     [Flags]
     public enum Flags
     {
+        /// <summary>Do not perform any cleaning</summary>
         None = 0,
+        /// <summary>Remove unlikely content</summary>
         StripUnlikelys = 1,
+        /// <summary>Remove content according that does not pass a certain threshold</summary>
         WeightClasses = 2,
+        /// <summary>Clean content that does not look promising</summary>
         CleanConditionally = 4
     }
 
+    /// <summary>The level of debug information to record</summary>
     public enum ReportLevel
     {
+        /// <summary>Only issues</summary>
         Issue,
+        /// <summary>Every useful information</summary>
         Info
     }
 
-    public class Reader
+    /// <summary>The different kinds regular expressions used to filter elements</summary>
+    public enum RegularExpressions
     {
-        /*
-		* This code is, for the most part, a port of the readability library of Firefox Reader View
-		* available at: https://github.com/mozilla/readability
-		* which is in turn heavily based on Arc90's readability.js (1.7f.1) script
-		* available at: http://code.google.com/p/arc90labs-readability
-		*         
-		*/
+        /// <summary>To remove elements unlikely to contain useful content</summary>
+        UnlikelyCandidates,
+        /// <summary>To find elements likely to contain useful content</summary>
+        PossibleCandidates,
+        /// <summary>Classes and tags that increases chances to keep the element</summary>
+        Positive,
+        /// <summary>Classes and tags that decreases chances to keep the element</summary>
+        Negative,
+        /// <summary>Extraneous elements</summary>
+        /// <remarks>Nota that this regular expression is not used anywhere at the moment</remarks>
+        Extraneous,
+        /// <summary>To detect byline</summary>
+        Byline,
+        /// <summary>To keep only useful videos</summary>
+        Videos,
+        /// <summary>To find sharing elements</summary>
+        ShareElements
+    }
 
+    /// <summary>The main Reader class</summary>
+    /// <remarks>
+	/// <para>This code is based on a port of the readability library of Firefox Reader View
+    /// available at: https://github.com/mozilla/readability. Which is heavily based on Arc90's readability.js (1.7f.1) script available at: http://code.google.com/p/arc90labs-readability </para>
+    /// </remarks>
+    public partial class Reader
+    {
+        private static HttpClient httpClient = new HttpClient();
         private Uri uri;
         private IHtmlDocument doc = null;
         private string articleTitle;
@@ -45,7 +73,7 @@ namespace SmartReader
         private string language;
         private string author;
         private string charset;
-        private struct Attempt { public IElement content; public long length; }
+        private class Attempt { public IElement content; public long length; }
         private List<Attempt> attempts = new List<Attempt>();
 
         // Start with all flags set        
@@ -106,26 +134,15 @@ namespace SmartReader
         /// <value>Default: true</value>
         public bool ContinueIfNotReadable { get; set; } = true;
 
-        // Element tags to score by default.
+        /// <summary>Element tags to score by default.</summary>
+        /// <value>Default: false</value>
         public String[] TagsToScore = "section,h2,h3,h4,h5,h6,p,td,pre".ToUpper().Split(',');
-
-        public enum RegularExpressions
-        {
-            UnlikelyCandidates,
-            PossibleCandidates,
-            Positive,
-            Negative,
-            Extraneous,
-            Byline,
-            Videos,
-            ShareElements
-        }
 
         // All of the regular expressions in use within readability.
         // Defined up here so we don't instantiate them repeatedly in loops.
         Dictionary<string, Regex> regExps = new Dictionary<string, Regex>() {
         { "unlikelyCandidates", new Regex(@"-ad-|ai2html|banner|breadcrumbs|combx|comment|community|cover-wrap|disqus|extra|footer|gdpr|header|legends|menu|related|remark|replies|rss|shoutbox|sidebar|skyscraper|social|sponsor|supplemental|ad-break|agegate|pagination|pager|popup|yom-remote", RegexOptions.IgnoreCase) },
-        { "okMaybeItsACandidate", new Regex(@"and|article|body|column|main|shadow", RegexOptions.IgnoreCase) },
+        { "okMaybeItsACandidate", new Regex(@"and|article|body|column|content|main|shadow", RegexOptions.IgnoreCase) },
         { "positive", new Regex(@"article|body|content|entry|hentry|h-entry|main|page|pagination|post|text|blog|story", RegexOptions.IgnoreCase) },
         { "negative", new Regex(@"hidden|^hid$|hid$|hid|^hid|banner|combx|comment|com-|contact|foot|footer|footnote|gdpr|masthead|media|meta|outbrain|promo|related|scroll|share|shoutbox|sidebar|skyscraper|sponsor|shopping|tags|tool|widget", RegexOptions.IgnoreCase) },
         { "extraneous", new Regex(@"print|archive|comment|discuss|e[\-]?mail|share|reply|all|login|sign|single|utility", RegexOptions.IgnoreCase) },
@@ -145,6 +162,13 @@ namespace SmartReader
 
         private List<Action<IElement>> CustomOperationsEnd = new List<Action<IElement>>();
 
+        private Reader()
+        {
+            // setting the default user agent
+            if (httpClient.DefaultRequestHeaders.UserAgent.Count == 0)
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("SmartReader Library");
+        }
+
         /// <summary>
         /// Reads content from the given URI.
         /// </summary>
@@ -152,7 +176,7 @@ namespace SmartReader
         /// <returns>
         /// An initialized SmartReader object
         /// </returns>        
-        public Reader(string uri)
+        public Reader(string uri) : this()
         {
             this.uri = new Uri(uri);
 
@@ -169,7 +193,7 @@ namespace SmartReader
         /// <returns>
         /// An initialized SmartReader object
         /// </returns>        
-        public Reader(string uri, string text)
+        public Reader(string uri, string text) : this()
         {
             this.uri = new Uri(uri);
 
@@ -189,7 +213,7 @@ namespace SmartReader
         /// <returns>
         /// An initialized SmartReader object
         /// </returns>        
-        public Reader(string uri, Stream source)
+        public Reader(string uri, Stream source) : this()
         {
             this.uri = new Uri(uri);
 
@@ -203,7 +227,8 @@ namespace SmartReader
 
         /// <summary>
         /// Add a custom operation to be performed before the article is parsed
-        /// </summary>    
+        /// </summary>
+        /// <param name="operation">The operation that will receive the HTML content before any operation</param>
         public void AddCustomOperationStart(Action<IElement> operation)
         {
             CustomOperationsStart.Add(operation);
@@ -211,7 +236,8 @@ namespace SmartReader
 
         /// <summary>
         /// Remove a custom operation to be performed before the article is parsed
-        /// </summary>    
+        /// </summary>
+        /// <param name="operation">The operation to remove</param>
         public void RemoveCustomOperationStart(Action<IElement> operation)
         {
             CustomOperationsStart.Remove(operation);
@@ -219,7 +245,7 @@ namespace SmartReader
 
         /// <summary>
         /// Remove all custom operation to be performed before the article is parsed
-        /// </summary>    
+        /// </summary>
         public void RemoveAllCustomOperationsStart()
         {
             CustomOperationsStart.Clear();
@@ -227,7 +253,8 @@ namespace SmartReader
 
         /// <summary>
         /// Add a custom operation to be performed after the article is parsed
-        /// </summary>    
+        /// </summary>
+        /// <param name="operation">The operation that will receive the final article</param>
         public void AddCustomOperationEnd(Action<IElement> operation)
         {
             CustomOperationsEnd.Add(operation);
@@ -236,6 +263,7 @@ namespace SmartReader
         /// <summary>
         /// Remove a custom operation to be performed after the article is parsed
         /// </summary>    
+        /// <param name="operation">The operation to remove</param>
         public void RemoveCustomOperationEnd(Action<IElement> operation)
         {
             CustomOperationsEnd.Remove(operation);
@@ -250,7 +278,7 @@ namespace SmartReader
         }
 
         /// <summary>
-        /// Remove all custom operation
+        /// Remove all custom operations
         /// </summary>    
         public void RemoveAllCustomOperations()
         {
@@ -366,19 +394,22 @@ namespace SmartReader
             return smartReader.Parse();
         }
 
-        /**
-		* Run any post-process modifications to article content as necessary.
-		*
-		* @param Element
-		* @return void
-		**/
+
+        /// <summary>
+        /// Run any post-process modifications to article content as necessary.
+        /// </summary>
+        /// <param name="articleContent">A string representing the original URI of the article.</param>
+        /// <returns>
+        /// void
+        /// </returns>  
         private void PostProcessContent(IElement articleContent)
         {
             // Readability cannot open relative uris so we convert them to absolute uris.
             Readability.FixRelativeUris(articleContent, this.uri, this.doc);
 
             // Remove classes
-            Readability.CleanClasses(articleContent, this.ClassesToPreserve);
+            if (!KeepClasses)
+                Readability.CleanClasses(articleContent, this.ClassesToPreserve);
 
             // Remove attributes we set
             if (!Debug)
@@ -388,12 +419,13 @@ namespace SmartReader
             }
         }
 
-        /**
-		 * Prepare the HTML document for readability to scrape it.
-		 * This includes things like stripping javascript, CSS, and handling terrible markup.
-		 *
-		 * @return void
-		 **/
+        /// <summary>
+        /// <para>Prepare the HTML document for readability to scrape it.</para>
+        /// <para>This includes things like stripping javascript, CSS, and handling terrible markup.</para>
+        /// </summary>     
+        /// <returns>
+        /// void
+        /// </returns> 
         private void PrepDocument()
         {
             // Remove all style tags in head
@@ -407,30 +439,13 @@ namespace SmartReader
             NodeUtility.ReplaceNodeTags(doc.GetElementsByTagName("font"), "SPAN");
         }
 
-        /**
-		 * Finds the next element, starting from the given node, and ignoring
-		 * whitespace in between. If the given node is an element, the same node is
-		 * returned.
-		 */
-        private IElement NextElement(INode node)
-        {
-            var next = node;
-            while (next != null
-                && (next.NodeType != NodeType.Element)
-                && regExps["whitespace"].IsMatch(next.TextContent))
-            {
-                next = next.NextSibling;
-            }
-            return next as IElement;
-        }
-
-        /**
-		 * Replaces 2 or more successive <br> elements with a single <p>.
-		 * Whitespace between <br> elements are ignored. For example:
-		 *   <div>foo<br>bar<br> <br><br>abc</div>
-		 * will become:
-		 *   <div>foo<br>bar<p>abc</p></div>
-		 */
+        /// <summary>
+        /// <para>Replaces 2 or more successive &lt;br&gt; elements with a single &lt;p&gt;.</para>                
+        /// <para>Whitespace between &lt;br&gt; elements are ignored. For example:</para>
+        /// <para>&lt;div&gt;foo&lt;br&gt;bar&lt;br&gt; &lt;br&gt;&lt;br&gt;abc&lt;/div></para>
+        /// <para>will become:</para>
+        /// <para>&lt;div&gt;foo&lt;br&gt;bar&lt;p&gt;abc&lt;/p&gt;&lt;/div&gt;</para>
+        /// </summary>
         private void ReplaceBrs(IElement elem)
         {
             NodeUtility.ForEachNode(NodeUtility.GetAllNodesWithTag(elem, new string[] { "br" }), (br) =>
@@ -444,7 +459,7 @@ namespace SmartReader
                 // If we find a <br> chain, remove the <br>s until we hit another element
                 // or non-whitespace. This leaves behind the first <br> in the chain
                 // (which will be replaced with a <p> later).
-                while ((next = NextElement(next)) != null && ((next as IElement).TagName == "BR"))
+                while ((next = NodeUtility.NextElement(next, regExps["whitespace"])) != null && ((next as IElement).TagName == "BR"))
                 {
                     replaced = true;
                     var brSibling = next.NextSibling;
@@ -466,7 +481,7 @@ namespace SmartReader
                         // If we've hit another <br><br>, we're done adding children to this <p>.
                         if ((next as IElement)?.TagName == "BR")
                         {
-                            var nextElem = NextElement(next.NextSibling);
+                            var nextElem = NodeUtility.NextElement(next.NextSibling, regExps["whitespace"]);
                             if (nextElem != null && (nextElem as IElement).TagName == "BR")
                                 break;
                         }
@@ -490,12 +505,9 @@ namespace SmartReader
             });
         }
 
-        /**
-        * Remove attributes Reader added to store values.
-        *
-        * @param Element
-        * @return void
-        **/
+        /// <summary>
+        /// Remove attributes Reader added to store values.
+        /// </summary>
         private void CleanReaderAttributes(IElement node, string attribute)
         {
             if (!String.IsNullOrEmpty(node.GetAttribute(attribute)))
@@ -509,13 +521,10 @@ namespace SmartReader
             }
         }
 
-        /**
-		 * Prepare the article node for display. Clean out any inline styles,
-		 * iframes, forms, strip extraneous <p> tags, etc.
-		 *
-		 * @param Element
-		 * @return void
-		 **/
+        /// <summary>
+        /// Prepare the article node for display. Clean out any inline styles,
+        /// iframes, forms, strip extraneous &lt;p&gt; tags, etc.
+        /// </summary>
         private void PrepArticle(IElement articleContent)
         {
             NodeUtility.CleanStyles(articleContent);
@@ -570,7 +579,6 @@ namespace SmartReader
                     }
                     if (titlesMatch)
                     {
-                        //clean(articleContent.DocumentElement, "h2");
                         Clean(articleContent, "h2");
                     }
                 }
@@ -604,7 +612,7 @@ namespace SmartReader
 
             NodeUtility.ForEachNode(NodeUtility.GetAllNodesWithTag(articleContent, new string[] { "br" }), (br) =>
             {
-                var next = NextElement(br.NextSibling);
+                var next = NodeUtility.NextElement(br.NextSibling, regExps["whitespace"]);
                 if (next != null && (next as IElement).TagName == "P")
                     br.Parent.RemoveChild(br);
             });
@@ -626,13 +634,10 @@ namespace SmartReader
             });
         }
 
-        /**
-		 * Initialize a node with the readability object. Also checks the
-		 * className/id for special names to add to its score.
-		 *
-		 * @param Element
-		 * @return void
-		**/
+        /// <summary>
+        /// Initialize a node with the readability object. Also checks the
+        /// className/id for special names to add to its score.
+        /// </summary>
         private void InitializeNode(IElement node)
         {
             SetReadabilityScore(node, 0);
@@ -734,13 +739,11 @@ namespace SmartReader
             return false;
         }
 
-        /***
-		 * grabArticle - Using a variety of metrics (content score, classname, element types), find the content that    is
-		 *         most likely to be the stuff a user wants to read. Then return it wrapped up in a div.
-		 *
-		 * @param page a document to run upon. Needs to be a full document, complete with body.
-		 * @return Element
-		**/
+        /// <summary>
+        /// grabArticle - Using a variety of metrics (content score, classname, element types), find the content that is
+        /// most likely to be the stuff a user wants to read.Then return it wrapped up in a div.
+        /// </summary>
+        /// <param name="page">a document to run upon. Needs to be a full document, complete with body</param>
         private IElement GrabArticle(IElement page = null)
         {
             if (Debug || Logging == ReportLevel.Info)
@@ -755,6 +758,11 @@ namespace SmartReader
             {
                 LoggerDelegate("No body found in document. Abort.");
                 return null;
+            }
+            else
+            {
+                LoggerDelegate($"Original Body:");
+                LoggerDelegate(page.OuterHtml);
             }
 
             var pageCacheHtml = page.InnerHtml;
@@ -873,12 +881,12 @@ namespace SmartReader
                     node = NodeUtility.GetNextNode(node);
                 }
 
-                /**
+                /*
 				 * Loop through all paragraphs, and assign a score to them based on how content-y they look.
 				 * Then add their score to their parent node.
 				 *
 				 * A score is determined by things like number of commas, class names, etc. Maybe eventually link density.
-				**/
+				*/
                 List<IElement> candidates = new List<IElement>();
                 NodeUtility.ForEachNode(elementsToScore, (elementToScore) =>
                 {
@@ -1135,7 +1143,6 @@ namespace SmartReader
                         {
                             // We have a node that isn't a common block level element, like a form or td tag.
                             // Turn it into a div so it doesn't get filtered out later by accident.
-                            //this.log("Altering sibling:", sibling, 'to div.');
 
                             sibling = NodeUtility.SetNodeTag(sibling, "DIV");
                         }
@@ -1251,13 +1258,10 @@ namespace SmartReader
             }
         }
 
-        /**
-		 * Get an elements class/id weight. Uses regular expressions to tell if this
-		 * element looks good or bad.
-		 *
-		 * @param Element
-		 * @return number (Integer)
-		**/
+        /// <summary>
+        /// Get an elements class/id weight. Uses regular expressions to tell if this
+        /// element looks good or bad.
+        /// </summary>
         private int GetClassWeight(IElement e)
         {
             if (!FlagIsActive(Flags.WeightClasses))
@@ -1288,14 +1292,12 @@ namespace SmartReader
             return weight;
         }
 
-        /**
-		 * Clean a node of all elements of type "tag".
-		 * (Unless it's a youtube/vimeo video. People love movies.)
-		 *
-		 * @param Element
-		 * @param string tag to clean
-		 * @return void
-		 **/
+        /// <summary>
+        /// Clean a node of all elements of type "tag".
+		/// (Unless it's a youtube/vimeo video. People love movies.)
+        /// </summary>
+        /// <param name="e">Node to be cleaned</param>
+        /// <param name="tag">Tag to remove</param>
         private void Clean(IElement e, string tag)
         {
             var isEmbed = new List<string>() { "object", "embed", "iframe" }.IndexOf(tag) != -1;
@@ -1325,14 +1327,14 @@ namespace SmartReader
             });
         }
 
-        /**
-		 * Check if a given node has one of its ancestor tag name matching the
-		 * provided one.
-		 * @param  HTMLElement node
-		 * @param  String      tagName
-		 * @param  Number      maxDepth
-		 * @return Boolean
-		 */
+        /// <summary>
+        /// Check if a given node has one of its ancestor tag name matching the
+        /// provided one.
+        /// </summary>
+        /// <param name="node">Node to operate one</param>
+        /// <param name="tagName">Tag to check</param>
+        /// <param name="maxDepth">Maximum depth of parent to search</param>
+        /// <param name="filterFn">Filter to ignore some matching tags</param>
         private bool HasAncestorTag(IElement node, string tagName, int maxDepth = 3, Func<IElement, bool> filterFn = null)
         {
             tagName = tagName.ToUpper();
@@ -1356,9 +1358,9 @@ namespace SmartReader
             return !String.IsNullOrEmpty(node.GetAttribute("datatable")) ? node.GetAttribute("datatable").Contains("true") : false;
         }
 
-        /**
-		* Return an object indicating how many rows and columns this table has.
-		*/
+        /// <summary>
+        /// Return an object indicating how many rows and columns this table has.
+        /// </summary>
         private Tuple<int, int> GetRowAndColumnCount(IElement table)
         {
             var rows = 0;
@@ -1391,11 +1393,11 @@ namespace SmartReader
             return Tuple.Create(rows, columns);
         }
 
-        /**
-		 * Look for 'data' (as opposed to 'layout') tables, for which we use
-		 * similar checks as
-		 * https://dxr.mozilla.org/mozilla-central/rev/71224049c0b52ab190564d3ea0eab089a159a4cf/accessible/html/    HTMLTableAccessible.cpp#920
-		 */
+        /// <summary>
+        /// Look for 'data' (as opposed to 'layout') tables, for which we use
+        /// similar checks as
+        /// https://dxr.mozilla.org/mozilla-central/rev/71224049c0b52ab190564d3ea0eab089a159a4cf/accessible/html/    HTMLTableAccessible.cpp#920
+        /// </summary>
         private void MarkDataTables(IElement root)
         {
             var tables = root.GetElementsByTagName("table");
@@ -1461,7 +1463,9 @@ namespace SmartReader
             }
         }
 
-        /* convert images and figures that have properties like data-src into images that can be loaded without JS */
+        /// <summary>
+        /// convert images and figures that have properties like data-src into images that can be loaded without JS
+        /// </summary>
         private void FixLazyImages(IElement root)
         {
             NodeUtility.ForEachNode(NodeUtility.GetAllNodesWithTag(root, new string[] { "img", "picture", "figure" }), (node) =>
@@ -1514,12 +1518,10 @@ namespace SmartReader
         }
 
 
-        /**
-		 * Clean an element of all tags of type "tag" if they look fishy.
-		 * "Fishy" is an algorithm based on content length, classnames, link density, number of images & embeds, etc.
-		 *
-		 * @return void
-		 **/
+        /// <summary>
+        /// <para>Clean an element of all tags of type "tag" if they look fishy.</para>
+        /// <para>Fishy" is an algorithm based on content length, classnames, link density, number of images and embeds, etc.</para>
+        /// </summary>
         private void CleanConditionally(IElement e, string tag)
         {
             if (!FlagIsActive(Flags.CleanConditionally))
@@ -1608,12 +1610,9 @@ namespace SmartReader
             });
         }
 
-        /**
-		 * Clean out spurious headers from an Element. Checks things like classnames and link density.
-		 *
-		 * @param Element
-		 * @return void
-		**/
+        /// <summary>
+        /// Clean out spurious headers from an Element. Checks things like classnames and link density.
+        /// </summary>
         private void CleanHeaders(IElement e)
         {
             for (var headerIndex = 1; headerIndex < 3; headerIndex += 1)
@@ -1635,11 +1634,10 @@ namespace SmartReader
             flags = flags & ~flag;
         }
 
-        /**
-		 * Decides whether or not the document is reader-able without parsing the whole thing.
-		 *
-		 * @return boolean Whether or not we suspect parse() will suceeed at returning an article object.
-		 */
+        /// <summary>
+        /// Decides whether or not the document is reader-able without parsing the whole thing.
+        /// </summary>
+        /// <returns>Whether or not we suspect parse method will suceeed at returning an article object.</returns>
         private bool IsProbablyReaderable(Func<IElement, bool> helperIsVisible = null)
         {
             var nodes = NodeUtility.GetAllNodesWithTag(doc.DocumentElement, new string[] { "p", "pre" });
@@ -1787,75 +1785,60 @@ namespace SmartReader
             return article;
         }
 
-        //Arnold Encoding Fix
-        private async Task<string> GetStringAsync(Uri resource)
+        private async Task<Stream> GetStreamAsync(Uri resource)
         {
-            using (HttpClient httpClient = new HttpClient())
+            var response = await httpClient.GetAsync(resource).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
             {
-                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("News Scroll (Robot; Bot)");
-                var response = await httpClient.GetAsync(resource).ConfigureAwait(false);
-                string dati = string.Empty;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var headLan = response.Content.Headers.FirstOrDefault(x => x.Key.ToLower() == "content-language");
-                    if (headLan.Value != null && headLan.Value.Any())
-                        language = headLan.Value.ElementAt(0);
-
-                    var headCont = response.Content.Headers.FirstOrDefault(x => x.Key.ToLower() == "content-type");
-                    if (headCont.Value != null && headCont.Value.Any())
-                    {
-                        int index = headCont.Value.ElementAt(0).IndexOf("charset=");
-                        if (index != -1)
-                            charset = headCont.Value.ElementAt(0).Substring(index + 8);
-                    }
-
-                    //Check the site used encoding
-                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                    if (charset != null && charset.ToLower() == "iso-8859-1")
-                    {
-                        if (Debug) { LoggerDelegate("Used charset: ISO-8859-1"); }
-                        Encoding SiteEncoding = Encoding.GetEncoding("ISO-8859-1");
-                        byte[] StringBytesOriginal = await response.Content.ReadAsByteArrayAsync();
-                        dati = SiteEncoding.GetString(StringBytesOriginal);
-                    }
-                    else if (charset != null && charset.ToLower() == "iso-8859-15")
-                    {
-                        if (Debug) { LoggerDelegate("Used charset: ISO-8859-15"); }
-                        Encoding SiteEncoding = Encoding.GetEncoding("ISO-8859-15");
-                        byte[] StringBytesOriginal = await response.Content.ReadAsByteArrayAsync();
-                        dati = SiteEncoding.GetString(StringBytesOriginal);
-                    }
-                    else
-                    {
-                        if (Debug) { LoggerDelegate("Used charset: UTF8"); }
-                        Encoding SiteEncoding = Encoding.UTF8;
-                        byte[] StringBytesOriginal = await response.Content.ReadAsByteArrayAsync();
-                        dati = SiteEncoding.GetString(StringBytesOriginal);
-                    }
-                }
-
-                return dati;
+                throw new HttpRequestException($"Cannot GET resource {resource}. StatusCode: {response.StatusCode}");
             }
+
+            var headLan = response.Headers.FirstOrDefault(x => x.Key.ToLower() == "content-language");
+            if (headLan.Value != null && headLan.Value.Any())
+                language = headLan.Value.ElementAt(0);
+
+            var headCont = response.Headers.FirstOrDefault(x => x.Key.ToLower() == "content-type");
+            if (headCont.Value != null && headCont.Value.Any())
+            {
+                int index = headCont.Value.ElementAt(0).IndexOf("charset=");
+                if (index != -1)
+                    charset = headCont.Value.ElementAt(0).Substring(index + 8);
+            }
+
+            return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        }
+
+        private static async Task<HttpResponseMessage> RequestPageAsync(Uri resource)
+        {
+            return await httpClient.GetAsync(resource).ConfigureAwait(false);
         }
 
         internal static async Task<long> GetImageSizeAsync(Uri imageSrc)
         {
-            using (HttpClient httpClient = new HttpClient())
+            HttpRequestMessage headRequest = new HttpRequestMessage(HttpMethod.Head, imageSrc);
+            var response = await httpClient.SendAsync(headRequest).ConfigureAwait(false);
+            long size = 0;
+
+            if (response.IsSuccessStatusCode)
             {
-                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("News Scroll (Robot; Bot)");
-                HttpRequestMessage headRequest = new HttpRequestMessage(HttpMethod.Head, imageSrc);
-                var response = await httpClient.SendAsync(headRequest).ConfigureAwait(false);
-                long size = 0;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (response.Content.Headers.ContentLength != null)
-                        size = response.Content.Headers.ContentLength.Value;
-                }
-
-                return size;
+                if (response.Content.Headers.ContentLength != null)
+                    size = response.Content.Headers.ContentLength.Value;
             }
+
+            return size;
+        }
+
+        internal static async Task<Byte[]> GetImageBytesAsync(Uri resource)
+        {
+            var response = await httpClient.GetAsync(resource).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Cannot GET resource {resource}. StatusCode: {response.StatusCode}");
+            }
+
+            return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
         }
 
         /// <summary>Allow to replace the default regular expressions</summary>
@@ -1896,7 +1879,7 @@ namespace SmartReader
 
         /// <summary>Allow to add an option to the default regular expressions</summary>
         /// <param name="expression">A RegularExpression indicating the expression to change</param>
-        /// <param name="option">A string representing the new option</param>
+        /// <param name="option">A string representing the new option</param>  
         public void AddOptionToRegularExpression(RegularExpressions expression, string option)
         {
             switch (expression)
@@ -1929,6 +1912,20 @@ namespace SmartReader
                 default:
                     break;
             }
+        }
+        /// <summary>Allow to set an user agent</summary>
+        /// <param name="userAgent">A string indicating the User Agent used for web requests made by this library</param>
+        public static void SetCustomUserAgent(string userAgent)
+        {
+            httpClient.DefaultRequestHeaders.UserAgent.Clear();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+        }
+
+        /// <summary>Allow to set a custom HttpClient</summary>
+        /// <param name="client">The new HttpClient for all web requests made by this library</param>
+        public static void SetCustomHttpClient(HttpClient client)
+        {
+            httpClient = client;
         }
     }
 }
