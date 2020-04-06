@@ -22,6 +22,7 @@
                 <Button Name="grid_MessageBox_Btn2" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn2_Click"/>
                 <Button Name="grid_MessageBox_Btn3" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn3_Click"/>
                 <Button Name="grid_MessageBox_Btn4" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn4_Click"/>
+                <Button Name="grid_MessageBox_Btn5" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn5_Click"/>
                 <Button Name="grid_MessageBox_BtnCancel" Content="Cancel" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_BtnCancel_Click"/>
             </StackPanel>
         </Grid>

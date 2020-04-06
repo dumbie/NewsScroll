@@ -27,7 +27,7 @@ namespace NewsScroll.Api
 
                 if (Confirm)
                 {
-                    Int32 MsgBoxResult = await AVMessageBox.Popup(ActionType + " item", "Do you want to " + ActionType.ToLower() + " this item?", ActionType + " item", "", "", "", true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup(ActionType + " item", "Do you want to " + ActionType.ToLower() + " this item?", ActionType + " item", "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -38,7 +38,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -102,7 +102,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                    await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 

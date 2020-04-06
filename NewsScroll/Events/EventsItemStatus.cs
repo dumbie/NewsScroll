@@ -18,7 +18,7 @@ namespace NewsScroll
                     string ReturnToPrevious = String.Empty;
                     if (PreviousItemId != 0 && TargetListViewItems > PreviousItemId) { ReturnToPrevious = "Scroll back to " + PreviousItemId; }
 
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("Item scroller", "Would you like to scroll in the items?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Item scroller", "Would you like to scroll in the items?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
                     if (MsgBoxResult == 1)
                     {
                         await Task.Delay(10);

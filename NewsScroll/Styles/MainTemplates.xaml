@@ -50,7 +50,7 @@
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
                 <TextBlock Text="{Binding item_title}" FontSize="{Binding TextSizeLarge, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
-                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False">
+                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False" TextWrapping="NoWrap">
                     <Paragraph>
                         <InlineUIContainer>
                             <StackPanel Orientation="Horizontal">
@@ -76,7 +76,7 @@
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
                 <TextBlock Text="{Binding item_title}" FontSize="{Binding TextSizeLarge, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
-                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False">
+                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False" TextWrapping="NoWrap">
                     <Paragraph>
                         <InlineUIContainer>
                             <StackPanel Orientation="Horizontal">
@@ -100,7 +100,7 @@
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
                 <TextBlock Text="{Binding item_title}" FontSize="{Binding TextSizeLarge, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
-                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False">
+                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False" TextWrapping="NoWrap">
                     <Paragraph>
                         <InlineUIContainer>
                             <StackPanel Orientation="Horizontal">
@@ -124,7 +124,7 @@
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
                 <TextBlock Text="{Binding item_title}" FontSize="{Binding TextSizeLarge, Source={StaticResource StyleUpdater}}" TextWrapping="Wrap"/>
-                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False">
+                <RichTextBlock Style="{StaticResource RichTextBlockLightGray}" IsTextSelectionEnabled="False" TextWrapping="NoWrap">
                     <Paragraph>
                         <InlineUIContainer>
                             <StackPanel Orientation="Horizontal">

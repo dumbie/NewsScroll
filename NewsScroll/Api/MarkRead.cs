@@ -28,7 +28,7 @@ namespace NewsScroll.Api
 
                 if (Confirm)
                 {
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("Mark item " + ActionType.ToLower(), "Do you want to mark this item as " + ActionType.ToLower() + "?", "Mark item " + ActionType.ToLower(), "", "", "", true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Mark item " + ActionType.ToLower(), "Do you want to mark this item as " + ActionType.ToLower() + "?", "Mark item " + ActionType.ToLower(), "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -39,7 +39,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -110,7 +110,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                    await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 
@@ -130,7 +130,7 @@ namespace NewsScroll.Api
             {
                 if (Confirm)
                 {
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("Mark items read till item", "Do you want to mark all items for the selected feed till this item as read?", "Mark read till item", "", "", "", true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Mark items read till item", "Do you want to mark all items for the selected feed till this item as read?", "Mark read till item", "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -241,7 +241,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                    await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 
@@ -249,7 +249,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -263,13 +263,13 @@ namespace NewsScroll.Api
                 //Check if user is logged in
                 if (!CheckLogin())
                 {
-                    await AVMessageBox.Popup("Not logged in", "Marking all items read can only be done when you are logged in.", "Ok", "", "", "", false);
+                    await AVMessageBox.Popup("Not logged in", "Marking all items read can only be done when you are logged in.", "Ok", "", "", "", "", false);
                     return false;
                 }
 
                 if (Confirm)
                 {
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("Mark all items read", "Do you want to mark all items for every feed as read?", "Mark all items read", "", "", "", true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Mark all items read", "Do you want to mark all items for every feed as read?", "Mark all items read", "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -336,7 +336,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                    await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 
@@ -344,7 +344,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", false);
+                await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }

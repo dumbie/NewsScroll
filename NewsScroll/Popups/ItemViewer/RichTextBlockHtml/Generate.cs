@@ -55,7 +55,7 @@ namespace NewsScroll
                 }
 
                 //Check if device is low on memory
-                if (AVFunctions.DevAvailableMemory() < 50)
+                if (AVFunctions.DevMemoryAvailable() < 50)
                 {
                     grid_item_image img = new grid_item_image();
                     img.item_status.Text = "Image not loaded,\ndevice is low on memory.";
@@ -179,7 +179,7 @@ namespace NewsScroll
                 }
 
                 //Check if device is low on memory
-                if (AVFunctions.DevAvailableMemory() < 200)
+                if (AVFunctions.DevMemoryAvailable() < 200)
                 {
                     grid_item_video video = new grid_item_video();
                     video.item_status.Text = "Video not loaded,\ndevice is low on memory.";
@@ -260,7 +260,7 @@ namespace NewsScroll
                 }
 
                 //Check if device is low on memory
-                if (AVFunctions.DevAvailableMemory() < 200)
+                if (AVFunctions.DevMemoryAvailable() < 200)
                 {
                     grid_item_webview webView = new grid_item_webview();
                     webView.item_status.Text = "Webview not loaded,\ndevice is low on memory.";

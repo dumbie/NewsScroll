@@ -39,7 +39,7 @@ namespace NewsScroll
                             }
                             else
                             {
-                                Int32 MessageResult = await AVMessageBox.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry to login", "Go to account settings", "Switch to offline mode", "", false);
+                                Int32 MessageResult = await AVMessageBox.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry to login", "Go to account settings", "Switch to offline mode", "", "", false);
                                 if (MessageResult == 1) { return await PageApiUpdate(); }
                                 else if (MessageResult == 2)
                                 {
@@ -64,7 +64,7 @@ namespace NewsScroll
                             }
                             else
                             {
-                                Int32 MessageResult = await AVMessageBox.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading feeds", "Go to account settings", "Switch to offline mode", "", false);
+                                Int32 MessageResult = await AVMessageBox.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading feeds", "Go to account settings", "Switch to offline mode", "", "", false);
                                 if (MessageResult == 1) { return await PageApiUpdate(); }
                                 else if (MessageResult == 2)
                                 {
@@ -94,7 +94,7 @@ namespace NewsScroll
                                 if (UpdateStatus) { UpdateStatus = await AllNewsItems(true, false, false, false); }
                                 if (!UpdateStatus)
                                 {
-                                    Int32 MessageResult = await AVMessageBox.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading items", "Switch to offline mode", "", "", false);
+                                    Int32 MessageResult = await AVMessageBox.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading items", "Switch to offline mode", "", "", "", false);
                                     if (MessageResult == 1) { return await PageApiUpdate(); }
                                     else
                                     {
@@ -110,7 +110,7 @@ namespace NewsScroll
                                 if (UpdateStatus) { UpdateStatus = await ItemsRead(List_NewsItems, false, false); }
                                 if (!UpdateStatus)
                                 {
-                                    Int32 MessageResult = await AVMessageBox.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading read items", "Switch to offline mode", "", "", false);
+                                    Int32 MessageResult = await AVMessageBox.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading read items", "Switch to offline mode", "", "", "", false);
                                     if (MessageResult == 1) { return await PageApiUpdate(); }
                                     else
                                     {
@@ -139,7 +139,7 @@ namespace NewsScroll
                             }
                             else
                             {
-                                Int32 MessageResult = await AVMessageBox.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading starred items", "Switch to offline mode", "", "", false);
+                                Int32 MessageResult = await AVMessageBox.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading starred items", "Switch to offline mode", "", "", "", false);
                                 if (MessageResult == 1) { return await PageApiUpdate(); }
                                 else
                                 {

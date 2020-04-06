@@ -429,7 +429,7 @@ namespace NewsScroll
                 string ReturnToPrevious = String.Empty;
                 if (PreviousScrollOffset != -1) { ReturnToPrevious = "Scroll to previous"; }
 
-                Int32 MsgBoxResult = await AVMessageBox.Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, true);
+                Int32 MsgBoxResult = await AVMessageBox.Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
                 if (MsgBoxResult == 1)
                 {
                     await Task.Delay(10);
@@ -574,7 +574,10 @@ namespace NewsScroll
                     //Update the header and selection feeds
                     if (MarkedAsStar) { await EventUpdateTotalItemsCount(null, null, false, true); }
                 }
-                else { await MarkItemAsStarPrompt(vCurrentWebSource, true, false, false, false, true); }
+                else
+                {
+                    await MarkItemAsStarPrompt(vCurrentWebSource, true, false, false, false, true);
+                }
 
                 //Update the star status
                 if (vCurrentWebSource.item_star_status == Visibility.Collapsed)
@@ -623,6 +626,7 @@ namespace NewsScroll
             catch { }
         }
 
+        //Open item in browser
         private async Task OpenBrowser(Uri TargetUri, bool closePopup)
         {
             try
@@ -639,8 +643,8 @@ namespace NewsScroll
                 if (MsgBoxResult != 2)
                 {
                     string LowMemoryWarning = String.Empty;
-                    if (AVFunctions.DevAvailableMemory() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
-                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", true);
+                    if (AVFunctions.DevMemoryAvailable() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
+                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", "", true);
                 }
 
                 if (MsgBoxResult == 1)
@@ -653,7 +657,7 @@ namespace NewsScroll
                     }
                     else
                     {
-                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer.", "Ok", "", "", "", false);
+                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer.", "Ok", "", "", "", "", false);
                     }
                 }
                 else if (MsgBoxResult == 2)
@@ -725,7 +729,7 @@ namespace NewsScroll
                     else
                     {
                         Debug.WriteLine("No network available to fully load this item.");
-                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", "Ok", "", "", "", false);
+                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", "Ok", "", "", "", "", false);
                     }
                 }
 
@@ -763,7 +767,7 @@ namespace NewsScroll
                         if (NetworkInterface.GetIsNetworkAvailable())
                         {
                             Debug.WriteLine("There is currently no full item content available.");
-                            Int32 MsgBoxResult = await AVMessageBox.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", true);
+                            Int32 MsgBoxResult = await AVMessageBox.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
                             if (MsgBoxResult == 1)
                             {
                                 await OpenBrowser(null, true);
@@ -772,7 +776,7 @@ namespace NewsScroll
                         else
                         {
                             Debug.WriteLine("There is currently no full item content available. (No Internet)");
-                            await AVMessageBox.Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", "Ok", "", "", "", false);
+                            await AVMessageBox.Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                         }
                     }
                     else

@@ -422,7 +422,7 @@ namespace NewsScroll
         {
             try
             {
-                Int32 MsgBoxResult = await AVMessageBox.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", "Refresh starred items", "", "", "", true);
+                Int32 MsgBoxResult = await AVMessageBox.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", "Refresh starred items", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     //Reset the online status

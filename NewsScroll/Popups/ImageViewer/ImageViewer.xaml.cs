@@ -204,7 +204,7 @@ namespace NewsScroll
                     }
                     else
                     {
-                        Int32 MessageResult = await AVMessageBox.Popup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", true);
+                        Int32 MessageResult = await AVMessageBox.Popup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", "", true);
                         if (MessageResult == 0) { return; }
                     }
 
@@ -225,7 +225,7 @@ namespace NewsScroll
                             if (ImageBuffer != null) { await FileIO.WriteBufferAsync(NewFile, ImageBuffer); }
                             else
                             {
-                                await AVMessageBox.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", false);
+                                await AVMessageBox.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                                 Debug.WriteLine("Failed to download the image.");
                             }
                         }
@@ -267,7 +267,7 @@ namespace NewsScroll
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", false);
+                await AVMessageBox.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 Debug.WriteLine("Failed to save the image.");
             }
         }

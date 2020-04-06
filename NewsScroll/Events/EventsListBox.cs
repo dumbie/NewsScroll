@@ -1,7 +1,9 @@
-﻿using ArnoldVinkMessageBox;
+﻿using ArnoldVinkCode;
+using ArnoldVinkMessageBox;
 using NewsScroll.Classes;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -78,50 +80,40 @@ namespace NewsScroll
                     string CurrentPageName = App.vApplicationFrame.SourcePageType.ToString();
 
                     //Check if mark read till is enabled
-                    string ActionMarkReadTill = String.Empty;
+                    string ActionMarkReadTill = string.Empty;
                     if (CurrentPageName.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1") { ActionMarkReadTill = "Mark read till item"; }
 
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("News item actions", "What would you like to do with this item?", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
+                    int MsgBoxResult = await AVMessageBox.Popup("News item actions", "What would you like to do with this item?", "Open in browser", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
                     if (MsgBoxResult == 1)
+                    {
+                        bool browserOpened = await ListItemOpenBrowser(SelectedItem);
+                        if (browserOpened)
+                        {
+                            Debug.WriteLine("Marking opened browser item as read.");
+                            await ListItemMarkRead(true, SendListView, SelectedItem, SelectedList, CurrentPageName);
+                        }
+                    }
+                    else if (MsgBoxResult == 2)
                     {
                         ShareItem(SelectedItem);
                     }
-                    else if (MsgBoxResult == 2)
+                    else if (MsgBoxResult == 3)
                     {
                         if (CurrentPageName.EndsWith("StarredPage"))
                         {
                             bool MarkedAsStar = await MarkItemAsStarPrompt(SelectedItem, false, true, false, false, true);
                             if (MarkedAsStar) { await EventUpdateTotalItemsCount(null, null, false, true); }
                         }
-                        else { await MarkItemAsStarPrompt(SelectedItem, false, false, false, false, true); }
-                    }
-                    else if (MsgBoxResult == 3)
-                    {
-                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, false, false, true);
-                        if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
+                        else
                         {
-                            if ((bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                            {
-                                if (SendListView.Items.Any())
-                                {
-                                    //Update the header and selection feeds
-                                    await EventUpdateTotalItemsCount(null, null, false, true);
-                                }
-                                else
-                                {
-                                    await EventRefreshPageItems(true);
-                                }
-                            }
-                            else
-                            {
-                                if (!SelectedList.Any(x => x.item_read_status == Visibility.Collapsed))
-                                {
-                                    await EventRefreshPageItems(true);
-                                }
-                            }
+                            await MarkItemAsStarPrompt(SelectedItem, false, false, false, false, true);
                         }
                     }
                     else if (MsgBoxResult == 4)
+                    {
+                        await ListItemMarkRead(false, SendListView, SelectedItem, SelectedList, CurrentPageName);
+                    }
+                    else if (MsgBoxResult == 5)
                     {
                         bool MarkedRead = await MarkReadTill(SelectedList, SelectedItem, true, false, true);
                         if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
@@ -157,6 +149,90 @@ namespace NewsScroll
                 }
             }
             catch { }
+        }
+
+        //Mark item as read or unread
+        private static async Task ListItemMarkRead(bool ForceRead, ListView SendListView, Items SelectedItem, ObservableCollection<Items> SelectedList, string CurrentPageName)
+        {
+            try
+            {
+                bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, ForceRead, false, true);
+                if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
+                {
+                    if ((bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
+                    {
+                        if (SendListView.Items.Any())
+                        {
+                            //Update the header and selection feeds
+                            await EventUpdateTotalItemsCount(null, null, false, true);
+                        }
+                        else
+                        {
+                            await EventRefreshPageItems(true);
+                        }
+                    }
+                    else
+                    {
+                        if (!SelectedList.Any(x => x.item_read_status == Visibility.Collapsed))
+                        {
+                            await EventRefreshPageItems(true);
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+
+        //Open item in browser
+        private static async Task<bool> ListItemOpenBrowser(Items selectedItem)
+        {
+            try
+            {
+                int MsgBoxResult = 0;
+
+                //Get the target uri
+                Uri targetUri = new Uri(selectedItem.item_link, UriKind.RelativeOrAbsolute);
+
+                //Check webbrowser only links
+                if (targetUri != null)
+                {
+                    string TargetString = targetUri.ToString();
+                    if (!TargetString.StartsWith("http")) { MsgBoxResult = 2; }
+                }
+
+                if (MsgBoxResult != 2)
+                {
+                    string LowMemoryWarning = string.Empty;
+                    if (AVFunctions.DevMemoryAvailable() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
+                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", "", true);
+                }
+
+                if (MsgBoxResult == 1)
+                {
+                    if (NetworkInterface.GetIsNetworkAvailable())
+                    {
+                        WebViewer webViewer = new WebViewer();
+                        await webViewer.OpenPopup(targetUri, selectedItem);
+                        return true;
+                    }
+                    else
+                    {
+                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer.", "Ok", "", "", "", "", false);
+                        return false;
+                    }
+                }
+                else if (MsgBoxResult == 2)
+                {
+                    await Launcher.LaunchUriAsync(targetUri);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch { }
+            return false;
         }
     }
 }

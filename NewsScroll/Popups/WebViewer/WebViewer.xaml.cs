@@ -25,7 +25,7 @@ namespace NewsScroll
         public WebViewer() { this.InitializeComponent(); }
 
         //Open the popup
-        public async Task OpenPopup(Uri TargetUri, Items WebSource)
+        public async Task OpenPopup(Uri targetUri, Items webSource)
         {
             try
             {
@@ -38,12 +38,12 @@ namespace NewsScroll
                 //Check if internet is available
                 if (NetworkInterface.GetIsNetworkAvailable())
                 {
-                    vCurrentWebSource = WebSource;
-                    txt_AppInfo.Text = WebSource.feed_title;
+                    vCurrentWebSource = webSource;
+                    txt_AppInfo.Text = webSource.feed_title;
 
                     //Browse to the uri
-                    if (TargetUri != null) { webview_Browser.Navigate(TargetUri); }
-                    else { webview_Browser.Navigate(new Uri(WebSource.item_link)); }
+                    if (targetUri != null) { webview_Browser.Navigate(targetUri); }
+                    else { webview_Browser.Navigate(new Uri(webSource.item_link)); }
 
                     //Open the popup
                     popup_Main.IsOpen = true;
@@ -115,7 +115,7 @@ namespace NewsScroll
                 if (webview_Browser.CanGoBack)
                 {
                     await HideShowMenu(true);
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("Webviewer", "Do you want to go to the previous page or close the browser?", "Go to previous page", "Close webviewer", "", "", true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Webviewer", "Do you want to go to the previous page or close the browser?", "Go to previous page", "Close webviewer", "", "", "", true);
                     if (MsgBoxResult == 1) { webview_Browser.GoBack(); }
                     else if (MsgBoxResult == 2) { ClosePopup(); }
                 }
@@ -334,7 +334,10 @@ namespace NewsScroll
                     //Update the header and selection feeds
                     if (MarkedAsStar) { await EventUpdateTotalItemsCount(null, null, false, true); }
                 }
-                else { await MarkItemAsStarPrompt(vCurrentWebSource, true, false, false, false, true); }
+                else
+                {
+                    await MarkItemAsStarPrompt(vCurrentWebSource, true, false, false, false, true);
+                }
 
                 //Update the star status
                 if (vCurrentWebSource.item_star_status == Visibility.Collapsed)
@@ -358,7 +361,7 @@ namespace NewsScroll
             try
             {
                 await HideShowMenu(true);
-                Int32 MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in your web browser?", "Open in web browser", "", "", "", true);
+                Int32 MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in your web browser?", "Open in web browser", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     ClosePopup();

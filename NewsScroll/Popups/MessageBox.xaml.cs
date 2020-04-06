@@ -14,15 +14,15 @@ namespace ArnoldVinkMessageBox
         //Popup Variables
         public static AVMessageBox vAVMessageBox = null;
         private static bool vMessageBoxPopupCancelled = false;
-        private static Int32 vMessageBoxPopupResult = 0;
+        private static int vMessageBoxPopupResult = 0;
 
         //Initialize popup
         public AVMessageBox() { this.InitializeComponent(); }
 
         //Open and close the popup
-        public static async Task<Int32> Popup(string Question, string Description, string Answer1, string Answer2, string Answer3, string Answer4, bool ShowCancel)
+        public static async Task<int> Popup(string Question, string Description, string Answer1, string Answer2, string Answer3, string Answer4, string Answer5, bool ShowCancel)
         {
-            TaskCompletionSource<Int32> TaskResult = new TaskCompletionSource<Int32>();
+            TaskCompletionSource<int> TaskResult = new TaskCompletionSource<int>();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 try
@@ -33,7 +33,7 @@ namespace ArnoldVinkMessageBox
 
                         //Set messagebox question content
                         vAVMessageBox.grid_MessageBox_Text.Text = Question;
-                        if (!String.IsNullOrWhiteSpace(Description))
+                        if (!string.IsNullOrWhiteSpace(Description))
                         {
                             vAVMessageBox.grid_MessageBox_Description.Text = Description;
                             vAVMessageBox.grid_MessageBox_Description.Visibility = Visibility.Visible;
@@ -43,7 +43,7 @@ namespace ArnoldVinkMessageBox
                             vAVMessageBox.grid_MessageBox_Description.Text = "";
                             vAVMessageBox.grid_MessageBox_Description.Visibility = Visibility.Collapsed;
                         }
-                        if (!String.IsNullOrWhiteSpace(Answer1))
+                        if (!string.IsNullOrWhiteSpace(Answer1))
                         {
                             vAVMessageBox.grid_MessageBox_Btn1.Content = Answer1;
                             vAVMessageBox.grid_MessageBox_Btn1.Visibility = Visibility.Visible;
@@ -53,7 +53,7 @@ namespace ArnoldVinkMessageBox
                             vAVMessageBox.grid_MessageBox_Btn1.Content = "";
                             vAVMessageBox.grid_MessageBox_Btn1.Visibility = Visibility.Collapsed;
                         }
-                        if (!String.IsNullOrWhiteSpace(Answer2))
+                        if (!string.IsNullOrWhiteSpace(Answer2))
                         {
                             vAVMessageBox.grid_MessageBox_Btn2.Content = Answer2;
                             vAVMessageBox.grid_MessageBox_Btn2.Visibility = Visibility.Visible;
@@ -63,7 +63,7 @@ namespace ArnoldVinkMessageBox
                             vAVMessageBox.grid_MessageBox_Btn2.Content = "";
                             vAVMessageBox.grid_MessageBox_Btn2.Visibility = Visibility.Collapsed;
                         }
-                        if (!String.IsNullOrWhiteSpace(Answer3))
+                        if (!string.IsNullOrWhiteSpace(Answer3))
                         {
                             vAVMessageBox.grid_MessageBox_Btn3.Content = Answer3;
                             vAVMessageBox.grid_MessageBox_Btn3.Visibility = Visibility.Visible;
@@ -73,7 +73,7 @@ namespace ArnoldVinkMessageBox
                             vAVMessageBox.grid_MessageBox_Btn3.Content = "";
                             vAVMessageBox.grid_MessageBox_Btn3.Visibility = Visibility.Collapsed;
                         }
-                        if (!String.IsNullOrWhiteSpace(Answer4))
+                        if (!string.IsNullOrWhiteSpace(Answer4))
                         {
                             vAVMessageBox.grid_MessageBox_Btn4.Content = Answer4;
                             vAVMessageBox.grid_MessageBox_Btn4.Visibility = Visibility.Visible;
@@ -82,6 +82,16 @@ namespace ArnoldVinkMessageBox
                         {
                             vAVMessageBox.grid_MessageBox_Btn4.Content = "";
                             vAVMessageBox.grid_MessageBox_Btn4.Visibility = Visibility.Collapsed;
+                        }
+                        if (!string.IsNullOrWhiteSpace(Answer5))
+                        {
+                            vAVMessageBox.grid_MessageBox_Btn5.Content = Answer5;
+                            vAVMessageBox.grid_MessageBox_Btn5.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            vAVMessageBox.grid_MessageBox_Btn5.Content = "";
+                            vAVMessageBox.grid_MessageBox_Btn5.Visibility = Visibility.Collapsed;
                         }
                         if (ShowCancel)
                         {
@@ -122,18 +132,19 @@ namespace ArnoldVinkMessageBox
         void grid_MessageBox_Btn2_Click(object sender, RoutedEventArgs e) { vMessageBoxPopupResult = 2; }
         void grid_MessageBox_Btn3_Click(object sender, RoutedEventArgs e) { vMessageBoxPopupResult = 3; }
         void grid_MessageBox_Btn4_Click(object sender, RoutedEventArgs e) { vMessageBoxPopupResult = 4; }
+        void grid_MessageBox_Btn5_Click(object sender, RoutedEventArgs e) { vMessageBoxPopupResult = 5; }
         void grid_MessageBox_BtnCancel_Click(object sender, RoutedEventArgs e) { vMessageBoxPopupCancelled = true; }
 
         //Monitor the application size
-        private Double PreviousLayoutWidth = 0;
-        private Double PreviousLayoutHeight = 0;
+        private double PreviousLayoutWidth = 0;
+        private double PreviousLayoutHeight = 0;
         private void OnLayoutUpdated(object sender, object e)
         {
             try
             {
                 Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                Double NewLayoutWidth = ScreenResolution.Width;
-                Double NewLayoutHeight = ScreenResolution.Height;
+                double NewLayoutWidth = ScreenResolution.Width;
+                double NewLayoutHeight = ScreenResolution.Height;
                 if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
                 {
                     PreviousLayoutWidth = NewLayoutWidth;

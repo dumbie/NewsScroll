@@ -85,7 +85,7 @@ namespace NewsScroll
         {
             try
             {
-                Int32 MessageBoxResult = await AVMessageBox.Popup("No account is set", "Please set your account email and password to start using News Scroll.", "Enter account", "Register account", "Exit application", "", false);
+                Int32 MessageBoxResult = await AVMessageBox.Popup("No account is set", "Please set your account email and password to start using News Scroll.", "Enter account", "Register account", "Exit application", "", "", false);
                 if (MessageBoxResult == 1)
                 {
                     //Focus on the text box to open keyboard
@@ -261,7 +261,7 @@ namespace NewsScroll
                 }
                 else
                 {
-                    await AVMessageBox.Popup("No internet connection", "You can't register an account when there is no internet connection available.", "Ok", "", "", "", false);
+                    await AVMessageBox.Popup("No internet connection", "You can't register an account when there is no internet connection available.", "Ok", "", "", "", "", false);
                 }
             }
             catch { }
@@ -278,7 +278,7 @@ namespace NewsScroll
         {
             try
             {
-                Int32 MessageBoxResult = await AVMessageBox.Popup("Clear database", "Do you want to clear all your stored offline feeds and items? All the feeds and items will need to be downloaded again.", "Clear database", "", "", "", true);
+                Int32 MessageBoxResult = await AVMessageBox.Popup("Clear database", "Do you want to clear all your stored offline feeds and items? All the feeds and items will need to be downloaded again.", "Clear database", "", "", "", "", true);
                 if (MessageBoxResult == 1)
                 {
                     await ClearDatabase();
