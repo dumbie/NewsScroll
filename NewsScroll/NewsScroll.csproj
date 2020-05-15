@@ -21,9 +21,8 @@
     <AppxPackageDir>D:\Desktop\NewsScroll\</AppxPackageDir>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Never</AppxBundle>
-    <PackageCertificateThumbprint>AD5166483F522C383FA7A081BE4A4E798BAB1AD0</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>F3510D4C7955545E95466C9F622263C4E905DC30</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>NewsScroll_StoreKey.pfx</PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
@@ -131,6 +130,7 @@
     </Compile>
     <Compile Include="Api\OfflineSync.cs" />
     <Compile Include="Api\WebParser.cs" />
+    <Compile Include="AppInterop.cs" />
     <Compile Include="AppAdjust.cs" />
     <Compile Include="Classes\ComboBoxImageList.cs" />
     <Compile Include="Pages\ApiPage\ApiPage.xaml.cs">
@@ -366,6 +366,7 @@
     <Content Include="Assets\StoreLogo.scale-200.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="NewsScroll_StoreKey.pfx" />
     <None Include="Package.xml" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\ListStyles\0.png">

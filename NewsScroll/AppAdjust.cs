@@ -2,11 +2,13 @@
 using NewsScroll.Styles;
 using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using static NewsScroll.AppInterop;
 
 namespace NewsScroll
 {
@@ -180,6 +182,26 @@ namespace NewsScroll
                 return Task.WhenAll(new[] { Task.Delay(10), TaskResult.Task });
             }
             catch { return null; }
+        }
+
+        //Adjust application user agent
+        public static void AdjustUserAgent()
+        {
+            try
+            {
+                //Get the current user agent
+                int stringLength = 0;
+                StringBuilder stringBuilder = new StringBuilder(512);
+                UrlMkGetSessionOption(UrlMonSessionOptions.URLMON_OPTION_USERAGENT, stringBuilder, stringBuilder.Capacity, ref stringLength, 0);
+                string currentUserAgent = stringBuilder.ToString();
+
+                //Set the adjusted user agent
+                string adjustedUserAgent = currentUserAgent + " (Robot; Bot)";
+                UrlMkSetSessionOption(UrlMonSessionOptions.URLMON_OPTION_USERAGENT, adjustedUserAgent, adjustedUserAgent.Length, 0);
+
+                Debug.WriteLine("Adjusted the application user agent.");
+            }
+            catch { }
         }
     }
 }

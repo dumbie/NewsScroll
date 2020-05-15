@@ -28,6 +28,9 @@ namespace NewsScroll.Startup
                 //Adjust the font sizes
                 AppAdjust.AdjustFontSizes();
 
+                //Adjust application user agent
+                AppAdjust.AdjustUserAgent();
+
                 //Set Landscape Display
                 if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
                 {
