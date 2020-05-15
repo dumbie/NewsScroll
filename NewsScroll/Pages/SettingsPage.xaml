@@ -80,7 +80,7 @@
                         <ComboBox Name="setting_ItemOpenMethod" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Itemviewer (In-app)"/>
                             <ComboBoxItem Content="Webviewer (In-app)"/>
-                            <ComboBoxItem Content="Web browser (Device)"/>
+                            <ComboBoxItem Content="Webbrowser (Device)"/>
                         </ComboBox>
 
                         <TextBlock Text="Itemview Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>

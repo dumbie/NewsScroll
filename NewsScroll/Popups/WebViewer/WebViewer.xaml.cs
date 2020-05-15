@@ -93,7 +93,7 @@ namespace NewsScroll
         {
             try
             {
-                Debug.WriteLine("Closing the web browser...");
+                Debug.WriteLine("Closing the webbrowser...");
 
                 //Unload the webviewer
                 webview_Browser.Stop();
@@ -364,11 +364,12 @@ namespace NewsScroll
             try
             {
                 await HideShowMenu(true);
-                Int32 MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in your web browser?", "Open in web browser", "", "", "", "", true);
+                Int32 MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in your webbrowser?", "Open in webbrowser", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     ClosePopup();
-                    await Launcher.LaunchUriAsync(new Uri(vCurrentWebSource.item_link));
+                    //Open item in webbrowser
+                    await Launcher.LaunchUriAsync(new Uri(vCurrentWebSource.item_link, UriKind.RelativeOrAbsolute));
                 }
             }
             catch { }

@@ -18,7 +18,7 @@ namespace NewsScroll.Api
     partial class Api
     {
         //Mark item as read
-        static public async Task<bool> MarkItemAsReadPrompt(ObservableCollection<Items> UpdateList, Items ListItem, bool Confirm, bool ForceRead, bool Silent, bool EnableUI)
+        static public async Task<bool> MarkItemAsReadPrompt(ObservableCollection<Items> UpdateList, Items ListItem, bool Confirm, bool ForceRead, bool Silent)
         {
             string ActionType = "Un/read";
             try
@@ -34,7 +34,7 @@ namespace NewsScroll.Api
 
                 await MarkReadSingle(UpdateList, ListItem, ActionType, Silent);
 
-                if (EnableUI) { await EventProgressEnableUI(); }
+                if (!Silent) { await EventProgressEnableUI(); }
                 return true;
             }
             catch

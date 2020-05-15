@@ -25,7 +25,7 @@ namespace NewsScroll
 {
     public partial class ItemViewer : UserControl
     {
-        //Webviewer Variables
+        //Itemviewer Variables
         private bool PopupIsOpen = false;
 
         public ItemViewer()
@@ -632,6 +632,13 @@ namespace NewsScroll
             {
                 int MsgBoxResult = 0;
 
+                //Check internet connection
+                if (!NetworkInterface.GetIsNetworkAvailable())
+                {
+                    await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer or your webbrowser.", "Ok", "", "", "", "", false);
+                    return;
+                }
+
                 //Check webbrowser only links
                 if (TargetUri != null)
                 {
@@ -643,32 +650,27 @@ namespace NewsScroll
                 {
                     string LowMemoryWarning = string.Empty;
                     if (AVFunctions.DevMemoryAvailableMB() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
-                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", "", true);
+                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your webbrowser?" + LowMemoryWarning, "Webviewer (In-app)", "Webbrowser (Device)", "", "", "", true);
                 }
 
                 if (MsgBoxResult == 1)
                 {
-                    if (NetworkInterface.GetIsNetworkAvailable())
-                    {
-                        if (closePopup) { ClosePopup(); }
-                        WebViewer webViewer = new WebViewer();
-                        await webViewer.OpenPopup(TargetUri, vCurrentWebSource);
-                    }
-                    else
-                    {
-                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer.", "Ok", "", "", "", "", false);
-                    }
+                    if (closePopup) { ClosePopup(); }
+                    //Open item in webviewer
+                    WebViewer webViewer = new WebViewer();
+                    await webViewer.OpenPopup(TargetUri, vCurrentWebSource);
                 }
                 else if (MsgBoxResult == 2)
                 {
                     if (closePopup) { ClosePopup(); }
+                    //Open item in webbrowser
                     if (TargetUri != null)
                     {
                         await Launcher.LaunchUriAsync(TargetUri);
                     }
                     else
                     {
-                        await Launcher.LaunchUriAsync(new Uri(vCurrentWebSource.item_link));
+                        await Launcher.LaunchUriAsync(new Uri(vCurrentWebSource.item_link, UriKind.RelativeOrAbsolute));
                     }
                 }
             }

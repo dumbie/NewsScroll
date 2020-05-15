@@ -3,7 +3,6 @@ using ArnoldVinkMessageBox;
 using NewsScroll.Classes;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -30,25 +29,31 @@ namespace NewsScroll
                     bool IsNetworkAvailable = NetworkInterface.GetIsNetworkAvailable();
                     if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "1" && IsNetworkAvailable)
                     {
+                        //Open item in webviewer
                         WebViewer webViewer = new WebViewer();
                         await webViewer.OpenPopup(null, SelectedItem);
 
-                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
+                        //Mark the item as read
+                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true);
                         if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
                     }
                     else if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "2" && IsNetworkAvailable)
                     {
-                        await Launcher.LaunchUriAsync(new Uri(SelectedItem.item_link));
-
-                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
+                        //Mark the item as read
+                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, false);
                         if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
+
+                        //Open item in webbrowser
+                        await Launcher.LaunchUriAsync(new Uri(SelectedItem.item_link, UriKind.RelativeOrAbsolute));
                     }
                     else
                     {
+                        //Open item in itemviewer
                         ItemViewer itemViewer = new ItemViewer();
                         await itemViewer.OpenPopup(SelectedItem);
 
-                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true, false);
+                        //Mark the item as read
+                        bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true);
                         if (MarkedRead && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
                     }
 
@@ -86,12 +91,7 @@ namespace NewsScroll
                     int MsgBoxResult = await AVMessageBox.Popup("News item actions", "What would you like to do with this item?", "Open in browser", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
                     if (MsgBoxResult == 1)
                     {
-                        bool browserOpened = await ListItemOpenBrowser(SelectedItem);
-                        if (browserOpened)
-                        {
-                            Debug.WriteLine("Marking opened browser item as read.");
-                            await ListItemMarkRead(true, SendListView, SelectedItem, SelectedList, CurrentPageName);
-                        }
+                        await ListItemOpenBrowser(SendListView, SelectedItem, SelectedList, CurrentPageName);
                     }
                     else if (MsgBoxResult == 2)
                     {
@@ -156,7 +156,7 @@ namespace NewsScroll
         {
             try
             {
-                bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, ForceRead, false, true);
+                bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, ForceRead, false);
                 if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
                 {
                     if ((bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
@@ -184,14 +184,21 @@ namespace NewsScroll
         }
 
         //Open item in browser
-        private static async Task<bool> ListItemOpenBrowser(Items selectedItem)
+        private static async Task ListItemOpenBrowser(ListView SendListView, Items SelectedItem, ObservableCollection<Items> SelectedList, string CurrentPageName)
         {
             try
             {
                 int MsgBoxResult = 0;
 
+                //Check internet connection
+                if (!NetworkInterface.GetIsNetworkAvailable())
+                {
+                    await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer or your webbrowser.", "Ok", "", "", "", "", false);
+                    return;
+                }
+
                 //Get the target uri
-                Uri targetUri = new Uri(selectedItem.item_link, UriKind.RelativeOrAbsolute);
+                Uri targetUri = new Uri(SelectedItem.item_link, UriKind.RelativeOrAbsolute);
 
                 //Check webbrowser only links
                 if (targetUri != null)
@@ -204,35 +211,28 @@ namespace NewsScroll
                 {
                     string LowMemoryWarning = string.Empty;
                     if (AVFunctions.DevMemoryAvailableMB() < 200) { LowMemoryWarning = "\n\n* Your device is currently low on available memory and may cause issues when you open this link or item in the webviewer."; }
-                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your web browser?" + LowMemoryWarning, "Webviewer (In-app)", "Web browser (Device)", "", "", "", true);
+                    MsgBoxResult = await AVMessageBox.Popup("Open this item or link", "Do you want to open this item or link in the webviewer or your webbrowser?" + LowMemoryWarning, "Webviewer (In-app)", "Webbrowser (Device)", "", "", "", true);
                 }
 
                 if (MsgBoxResult == 1)
                 {
-                    if (NetworkInterface.GetIsNetworkAvailable())
-                    {
-                        WebViewer webViewer = new WebViewer();
-                        await webViewer.OpenPopup(targetUri, selectedItem);
-                        return true;
-                    }
-                    else
-                    {
-                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in the webviewer.", "Ok", "", "", "", "", false);
-                        return false;
-                    }
+                    //Open item in webviewer
+                    WebViewer webViewer = new WebViewer();
+                    await webViewer.OpenPopup(targetUri, SelectedItem);
+
+                    //Mark the item as read
+                    await ListItemMarkRead(true, SendListView, SelectedItem, SelectedList, CurrentPageName);
                 }
                 else if (MsgBoxResult == 2)
                 {
+                    //Mark the item as read
+                    await ListItemMarkRead(true, SendListView, SelectedItem, SelectedList, CurrentPageName);
+
+                    //Open item in webbrowser
                     await Launcher.LaunchUriAsync(targetUri);
-                    return true;
-                }
-                else
-                {
-                    return false;
                 }
             }
             catch { }
-            return false;
         }
     }
 }
