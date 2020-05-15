@@ -89,8 +89,8 @@ namespace NewsScroll.Api
                         {
                             try
                             {
-                                Uri IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?alt=transparent&domain=" + FullUrl.Host);
-                                IBuffer HttpFeedIcon = await AVDownloader.DownloadBufferAsync(7500, "News Scroll", IconUrl);
+                                Uri IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?domain=" + FullUrl.Host);
+                                IBuffer HttpFeedIcon = await AVDownloader.DownloadBufferAsync(3000, "News Scroll", IconUrl);
                                 if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
                                 {
                                     await AVFile.SaveBuffer(FeedId + ".png", HttpFeedIcon);
@@ -98,17 +98,7 @@ namespace NewsScroll.Api
                                 }
                                 else
                                 {
-                                    IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?domain=" + FullUrl.Host);
-                                    HttpFeedIcon = await AVDownloader.DownloadBufferAsync(7500, "News Scroll", IconUrl);
-                                    if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
-                                    {
-                                        await AVFile.SaveBuffer(FeedId + ".png", HttpFeedIcon);
-                                        Debug.WriteLine("Downloaded full color logo: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
-                                    }
-                                    else
-                                    {
-                                        Debug.WriteLine("No logo found: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
-                                    }
+                                    Debug.WriteLine("No logo found: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
                                 }
                             }
                             catch { }

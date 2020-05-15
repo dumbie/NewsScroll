@@ -241,7 +241,7 @@ namespace NewsScroll
                 Feeds SelectedItem = ((e.OriginalSource as FrameworkElement).DataContext) as Feeds;
                 if (SelectedItem != null)
                 {
-                    Int32 MsgBoxResult = await AVMessageBox.Popup("Change the feed icon", "Would you like to set a custom feed icon for " + SelectedItem.feed_title + "?", "Change icon", "Reset icon", "", "", "", true);
+                    Int32 MsgBoxResult = await AVMessageBox.Popup("Change the feed icon", "Would you like to set a custom feed icon for " + SelectedItem.feed_title + "?", "Set custom icon", "Reset the icon", "", "", "", true);
                     if (MsgBoxResult == 1)
                     {
                         Debug.WriteLine("Changing icon for feed: " + SelectedItem.feed_id + " / " + SelectedItem.feed_title);
@@ -278,7 +278,7 @@ namespace NewsScroll
                         OnlineUpdateFeeds = true;
                         ApiMessageError = String.Empty;
 
-                        await AVMessageBox.Popup("Feed icon reset", "The feed icon has been reset and will be refreshed on the next online feed update.", "Ok", "", "", "", "", false);
+                        await AVMessageBox.Popup("Feed icon reset", "The feed icon has been reset and will be refreshed on the next online feed update, you can refresh the feeds by clicking on the refresh icon above.", "Ok", "", "", "", "", false);
                     }
                 }
             }

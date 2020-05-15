@@ -449,8 +449,6 @@ namespace SmartReader
             {
                 var times = doc.GetElementsByTagName("time");
 
-                Console.WriteLine($"times: {times.Length}");
-
                 foreach (var time in times)
                 {
                     if (!String.IsNullOrEmpty(time.GetAttribute("pubDate"))
