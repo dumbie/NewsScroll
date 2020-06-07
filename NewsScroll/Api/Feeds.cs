@@ -89,6 +89,8 @@ namespace NewsScroll.Api
                         {
                             try
                             {
+                                if (!Silent) { await EventProgressDisableUI("Downloading " + FeedTitle + " icon...", true); }
+
                                 Uri IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?domain=" + FullUrl.Host);
                                 IBuffer HttpFeedIcon = await AVDownloader.DownloadBufferAsync(3000, "News Scroll", IconUrl);
                                 if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
@@ -98,7 +100,7 @@ namespace NewsScroll.Api
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("No logo found: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
+                                    Debug.WriteLine("No logo found for: " + IconUrl);
                                 }
                             }
                             catch { }
