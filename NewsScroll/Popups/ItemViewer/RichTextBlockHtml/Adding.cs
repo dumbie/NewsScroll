@@ -81,6 +81,7 @@ namespace NewsScroll
                     //Containers
                     case "p": { await GenerateParagraph(addSpan, htmlNode); return; }
                     case "a": { await GenerateHyperLink(addSpan, htmlNode); return; }
+                    case "span": { await GenerateSpan(addSpan, htmlNode); return; }
 
                     //Containers Grid
                     case "blockquote": { await GenerateGridContent(addSpan, htmlNode, "Quote"); return; }

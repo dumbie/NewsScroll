@@ -792,5 +792,31 @@ namespace NewsScroll
             }
             catch { }
         }
+
+        private async Task GenerateSpan(Span addSpan, HtmlNode htmlNode)
+        {
+            try
+            {
+                //Check if span contains iframe
+                HtmlAttribute iframeNode = htmlNode.Attributes.Where(x => x.Name.Contains("iframe")).FirstOrDefault();
+                if (iframeNode != null)
+                {
+                    Debug.WriteLine("Adding span node with iframe.");
+                    grid_item_webview webView = new grid_item_webview();
+                    webView.item_status.Text = "Webview not loaded,\nopen in browser.";
+
+                    InlineUIContainer iui = new InlineUIContainer();
+                    iui.Child = webView;
+
+                    addSpan.Inlines.Add(iui);
+                    //addSpan.Inlines.Add(new LineBreak());
+                }
+                else
+                {
+                    await AddNodes(addSpan, htmlNode, false);
+                }
+            }
+            catch { }
+        }
     }
 }

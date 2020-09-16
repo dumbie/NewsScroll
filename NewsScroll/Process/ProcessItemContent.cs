@@ -13,7 +13,7 @@ namespace NewsScroll
         //Get first item image
         public static string GetItemHtmlFirstImage(String FullHtml, String BaseLink)
         {
-            string ReturnImageSource = String.Empty;
+            string ReturnImageSource = string.Empty;
             try
             {
                 //Load and parse the html document
@@ -23,22 +23,29 @@ namespace NewsScroll
                 //Check for invalid image links
                 foreach (HtmlNode Image in htmlDocument.DocumentNode.Descendants("img"))
                 {
-                    string CurrentImageSource = Image.Attributes["src"].Value;
-                    if (!AppVariables.BlockedListUrl.Any(CurrentImageSource.Contains))
+                    try
                     {
-                        if (!CurrentImageSource.StartsWith("http"))
+                        string CurrentImageSource = Image.Attributes["src"].Value;
+                        if (!AppVariables.BlockedListUrl.Any(CurrentImageSource.Contains))
                         {
-                            if (CurrentImageSource.StartsWith("//")) { ReturnImageSource = "http:" + CurrentImageSource; }
-                            else { ReturnImageSource = BaseLink + "/" + CurrentImageSource; }
-                            break;
+                            if (!CurrentImageSource.StartsWith("http"))
+                            {
+                                if (CurrentImageSource.StartsWith("//")) { ReturnImageSource = "http:" + CurrentImageSource; }
+                                else { ReturnImageSource = BaseLink + "/" + CurrentImageSource; }
+                                break;
+                            }
+                            else
+                            {
+                                ReturnImageSource = CurrentImageSource;
+                                break;
+                            }
                         }
                         else
                         {
-                            ReturnImageSource = CurrentImageSource;
-                            break;
+                            Debug.WriteLine("Blocked image: " + CurrentImageSource);
                         }
                     }
-                    else { Debug.WriteLine("Blocked image: " + CurrentImageSource); }
+                    catch { }
                 }
             }
             catch { }

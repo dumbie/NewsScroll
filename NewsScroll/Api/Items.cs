@@ -274,8 +274,14 @@ namespace NewsScroll.Api
                     try
                     {
                         //Get the image source link
-                        if (JTokenRoot["enclosure"] != null && JTokenRoot["enclosure"][0]["href"] != null && JTokenRoot["enclosure"][0]["type"].ToString().StartsWith("image")) { ItemImageLink = JTokenRoot["enclosure"][0]["href"].ToString(); }
-                        else { ItemImageLink = Process.GetItemHtmlFirstImage(AddItem.item_content_full, String.Empty); }
+                        if (JTokenRoot["enclosure"] != null && JTokenRoot["enclosure"][0]["href"] != null && (JTokenRoot["enclosure"][0]["type"].ToString().StartsWith("image") || JTokenRoot["enclosure"][0]["type"].ToString().StartsWith("unknown")))
+                        {
+                            ItemImageLink = JTokenRoot["enclosure"][0]["href"].ToString();
+                        }
+                        else
+                        {
+                            ItemImageLink = Process.GetItemHtmlFirstImage(AddItem.item_content_full, string.Empty);
+                        }
 
                         //Decode the image source link
                         ItemImageLink = WebUtility.HtmlDecode(ItemImageLink);
