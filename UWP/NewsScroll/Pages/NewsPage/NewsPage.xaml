@@ -7,11 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     FontSize="{StaticResource TextSizeInterface}"
-    RequestedTheme="{Binding ElementRequestedTheme, Source={StaticResource StyleUpdater}}" 
     LayoutUpdated="OnLayoutUpdated">
 
     <!--Main page-->
-    <Grid Name="grid_Main" Background="{Binding ApplicationBackgroundEnabled, Source={StaticResource StyleUpdater}}">
+    <Grid Name="grid_Main" Background="Black">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>

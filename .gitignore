@@ -1,7 +1,8 @@
 *.user
+*.aps
 *.pfx
+*.suo
 *.vs
-/NewsScroll/obj
-/NewsScroll/bin
-/SmartReader/bin
-/SmartReader/obj
+packages
+bin
+obj

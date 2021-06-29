@@ -17,7 +17,9 @@ News Scroll is a The Old Reader RSS feed reader, it will read your favorite feed
 ## Requirements
 - The Old Reader account to load your feeds.
 - Internet connection to download your items.
-- Windows operating system 10 or newer.
+- Windows 10 operating system or newer.
+- Android 11 operating system or newer.
+- iOS 14 operating system or newer.
 
 ## Support and bug reporting
 When you are walking into any problems or a bug you can go to my help page at https://help.arnoldvink.com so I can try to help you out and get everything working.
@@ -26,5 +28,8 @@ When you are walking into any problems or a bug you can go to my help page at ht
 If you appreciate my project and want to support me with my projects you can make a donation through https://donation.arnoldvink.com
 
 ## Changelog
+v3.0.0.0 (2021)
+- Rebuild application in Xamarin for Android and iOS support.
+
 v2.0.0.0 (1-April-2018)
 - First official test release.
