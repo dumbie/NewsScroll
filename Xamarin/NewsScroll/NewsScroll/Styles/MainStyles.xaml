@@ -1,0 +1,122 @@
+﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <!-- Text Sizes -->
+    <x:Double x:Key="TextSizeInterface">16</x:Double>
+    <x:Double x:Key="TextSizeSmall">18</x:Double>
+    <x:Double x:Key="TextSizeMedium">20</x:Double>
+    <x:Double x:Key="TextSizeLarge">24</x:Double>
+    <x:Double x:Key="TextSizeHuge">28</x:Double>
+
+    <!-- Color Brushes -->
+    <Color x:Key="SystemAccentColor">#FF0078D7</Color>
+    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="Teal"/>
+
+    <!-- Label Styles -->
+    <Style x:Key="LabelWhite" TargetType="Label">
+        <Setter Property="TextColor" Value="#F1F1F1"/>
+    </Style>
+    <Style x:Key="LabelWhiteLight" TargetType="Label">
+        <Setter Property="TextColor" Value="#F1F1F1"/>
+    </Style>
+
+    <Style x:Key="LabelBlack" TargetType="Label">
+        <Setter Property="TextColor" Value="#1D1D1D"/>
+    </Style>
+    <Style x:Key="LabelBlackLight" TargetType="Label">
+        <Setter Property="TextColor" Value="#1D1D1D"/>
+    </Style>
+
+    <Style x:Key="LabelLightGray" TargetType="Label">
+        <Setter Property="TextColor" Value="#888"/>
+    </Style>
+    <Style x:Key="LabelLightGrayLight" TargetType="Label">
+        <Setter Property="TextColor" Value="#888"/>
+    </Style>
+
+    <Style x:Key="LabelAccent" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+    </Style>
+    <Style x:Key="LabelAccentLight" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+    </Style>
+
+    <Style x:Key="LabelRed" TargetType="Label">
+        <Setter Property="TextColor" Value="#CD1928"/>
+    </Style>
+    <Style x:Key="LabelGreen" TargetType="Label">
+        <Setter Property="TextColor" Value="#1EB955"/>
+    </Style>
+
+    <!--Picker Styles-->
+    <Style x:Key="Picker" TargetType="Picker">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!--CheckBox Styles-->
+    <Style x:Key="CheckBox" TargetType="CheckBox">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!--Entry Styles-->
+    <Style x:Key="Entry" TargetType="Entry">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!--Rectangle Styles-->
+    <Style x:Key="RectangleAccent" TargetType="Rectangle">
+        <Setter Property="Height" Value="2"/>
+        <Setter Property="Fill" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+    </Style>
+
+    <!--ProgressBar Styles-->
+    <Style x:Key="ProgressBarAccent" TargetType="ProgressBar">
+        <Setter Property="Height" Value="3"/>
+        <Setter Property="Margin" Value="0,3,0,3"/>
+        <Setter Property="Background" Value="#CDCDCD"/>
+    </Style>
+
+    <!--Button Styles-->
+    <Style x:Key="ButtonAccent" TargetType="Button">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="#F1F1F1"/>
+        <Setter Property="Background" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+    </Style>
+    <Style x:Key="ButtonImage" TargetType="Button">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!--Slider Styles-->
+    <Style x:Key="SliderAccent" TargetType="Slider">
+        <Setter Property="Background" Value="#888"/>
+    </Style>
+
+    <!--ListView Styles-->
+    <Style x:Key="ListViewVertical" TargetType="ListView">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="ListViewHorizontal" TargetType="ListView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Never"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!--ScrollView Styles-->
+    <Style x:Key="ScrollView" TargetType="ScrollView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Default"/>
+    </Style>
+
+    <Style x:Key="ScrollViewHorizontal" TargetType="ScrollView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Never"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Default"/>
+    </Style>
+
+    <Style x:Key="ScrollViewVertical" TargetType="ScrollView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Never"/>
+    </Style>
+</ResourceDictionary>
