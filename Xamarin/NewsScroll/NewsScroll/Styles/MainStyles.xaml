@@ -6,10 +6,6 @@
     <x:Double x:Key="TextSizeLarge">24</x:Double>
     <x:Double x:Key="TextSizeHuge">28</x:Double>
 
-    <!-- Color Brushes -->
-    <Color x:Key="SystemAccentColor">#FF0078D7</Color>
-    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="Teal"/>
-
     <!-- Label Styles -->
     <Style x:Key="LabelWhite" TargetType="Label">
         <Setter Property="TextColor" Value="#F1F1F1"/>
@@ -33,10 +29,10 @@
     </Style>
 
     <Style x:Key="LabelAccent" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="TextColor" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
     <Style x:Key="LabelAccentLight" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="TextColor" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
 
     <Style x:Key="LabelRed" TargetType="Label">
@@ -54,24 +50,24 @@
 
     <!--CheckBox Styles-->
     <Style x:Key="CheckBox" TargetType="CheckBox">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <!--Entry Styles-->
     <Style x:Key="Entry" TargetType="Entry">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <!--Rectangle Styles-->
     <Style x:Key="RectangleAccent" TargetType="Rectangle">
-        <Setter Property="Height" Value="2"/>
-        <Setter Property="Fill" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="HeightRequest" Value="2"/>
+        <Setter Property="Fill" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
 
     <!--ProgressBar Styles-->
     <Style x:Key="ProgressBarAccent" TargetType="ProgressBar">
-        <Setter Property="Height" Value="3"/>
+        <Setter Property="HeightRequest" Value="3"/>
         <Setter Property="Margin" Value="0,3,0,3"/>
         <Setter Property="Background" Value="#CDCDCD"/>
     </Style>
@@ -80,12 +76,10 @@
     <Style x:Key="ButtonAccent" TargetType="Button">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="#F1F1F1"/>
-        <Setter Property="Background" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
-    <Style x:Key="ButtonImage" TargetType="Button">
-        <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
-        <Setter Property="TextColor" Value="Transparent"/>
-        <Setter Property="Background" Value="Transparent"/>
+    <Style x:Key="ButtonImage" TargetType="ImageButton">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <!--Slider Styles-->

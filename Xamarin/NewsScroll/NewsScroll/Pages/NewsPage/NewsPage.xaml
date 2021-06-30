@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsScroll.NewsPage"
+             xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
+
+    <!--Main page-->
+    <Grid x:Name="grid_Main" Background="#F1F1F1">
+        <!-- Main Grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <StackLayout Grid.Row="0" x:Name="StackLayout_Header">
+                <!-- Page Menu -->
+                <Grid HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" Background="{StaticResource ApplicationAccentDimBrush}">
+                    <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
+                        <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Items"/>
+                        <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Loading items"/>
+                    </StackLayout>
+                    <StackLayout Margin="0,0,55,0" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
+                        <ImageButton x:Name="iconReadAll" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconReadAll.png}" HeightRequest="45" Clicked="iconReadAll_Clicked"/>
+                        <ImageButton x:Name="iconRefresh" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Clicked="iconRefresh_Clicked"/>
+                    </StackLayout>
+                </Grid>
+
+                <!-- Feed Selection -->
+                <Picker x:Name="combobox_FeedSelection" IsEnabled="False" Opacity="0.30" VerticalOptions="Fill" HorizontalOptions="Fill"/>
+            </StackLayout>
+
+            <!-- Page Information -->
+            <Label Grid.Row="1" x:Name="txt_NewsScrollInfo" Style="{StaticResource LabelLightGray}" FontSize="{StaticResource TextSizeLarge}" HorizontalTextAlignment="Center" Text="Your news items will be shown here shortly..." VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <!-- Page ListView -->
+            <ListView Grid.Row="1" x:Name="ListView_Items" SelectionMode="Single" ItemTemplate="{StaticResource ListViewItemsVertical0}"/>
+        </Grid>
+
+        <!-- Status Current Item -->
+        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Margin="6,0,0,6" Padding="0,25,25,0">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="button_StatusCurrentItem_Clicked"/>
+            </Frame.GestureRecognizers>
+            <Frame.Background>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
+            </Frame.Background>
+            <Label x:Name="label_StatusCurrentItem" Margin="4,1,4,1" Style="{StaticResource LabelWhite}" Text="1"/>
+        </Frame>
+
+        <!-- Status Application -->
+        <Grid x:Name="grid_StatusApplication" HeightRequest="30" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="false">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
+            </Grid.Background>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                <ProgressBar  ProgressColor="White" Margin="10,0,0,0"/>
+                <Label x:Name="label_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+            </StackLayout>
+        </Grid>
+
+        <!-- Swipe Bar -->
+        <Grid x:Name="grid_SwipeBar" Background="Transparent" IsVisible="false"/>
+
+        <!-- Swipe Action -->
+        <Grid x:Name="grid_SwipeAction" BackgroundColor="{StaticResource ApplicationAccentLightColor}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,100,0,0" IsVisible="false">
+            <Label x:Name="label_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
+        </Grid>
+
+        <!-- Grid Popup Button -->
+        <Grid VerticalOptions="Start" HorizontalOptions="End" Margin="0,10,0,0">
+            <ImageButton x:Name="iconMenu" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Clicked="iconMenu_Clicked"/>
+        </Grid>
+
+        <!-- Grid Popup Menu -->
+        <Grid x:Name="grid_PopupMenu" IsVisible="false" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
+            </Grid.Background>
+            <StackLayout Orientation="Horizontal">
+                <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Clicked="iconStar_Clicked"/>
+                <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45" Clicked="iconSearch_Clicked"/>
+                <ImageButton x:Name="iconApi" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconApi.png}" HeightRequest="45" Clicked="iconApi_Clicked"/>
+                <ImageButton x:Name="iconPersonalize" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconPersonalize.png}" HeightRequest="45" Clicked="iconPersonalize_Clicked"/>
+                <ImageButton x:Name="iconSettings" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Clicked="iconSettings_Clicked"/>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

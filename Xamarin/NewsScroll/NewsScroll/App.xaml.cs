@@ -7,8 +7,7 @@ namespace NewsScroll
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new NewsPage();
         }
 
         protected override void OnStart()

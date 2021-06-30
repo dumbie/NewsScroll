@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <!-- Accent Color -->
+    <Color x:Key="ApplicationAccentLightColor">#00C7FF</Color>
+    <SolidColorBrush x:Key="ApplicationAccentLightBrush">#00C7FF</SolidColorBrush>
+    <Color x:Key="ApplicationAccentDimColor">#009FCC</Color>
+    <SolidColorBrush x:Key="ApplicationAccentDimBrush">#009FCC</SolidColorBrush>
+    <Color x:Key="ApplicationAccentDarkColor">#00637F</Color>
+    <SolidColorBrush x:Key="ApplicationAccentDarkBrush">#00637F</SolidColorBrush>
+
+    <!-- Basic Color -->
+    <Color x:Key="ApplicationWhiteColor">#F1F1F1</Color>
+    <SolidColorBrush x:Key="ApplicationWhiteBrush">#F1F1F1</SolidColorBrush>
+    <Color x:Key="ApplicationBlackColor">#1D1D1D</Color>
+    <SolidColorBrush x:Key="ApplicationBlackBrush">#1D1D1D</SolidColorBrush>
+    <Color x:Key="ApplicationGrayColor">#787878</Color>
+    <SolidColorBrush x:Key="ApplicationGrayBrush">#787878</SolidColorBrush>
+    <Color x:Key="ApplicationDarkGrayColor">#555555</Color>
+    <SolidColorBrush x:Key="ApplicationDarkGrayBrush">#555555</SolidColorBrush>
+
+    <!-- Other Color -->
+    <Color x:Key="ValidColor">#1EB955</Color>
+    <SolidColorBrush x:Key="ValidBrush">#1EB955</SolidColorBrush>
+    <Color x:Key="InvalidColor">#CD1928</Color>
+    <SolidColorBrush x:Key="InvalidBrush">#CD1928</SolidColorBrush>
+</ResourceDictionary>

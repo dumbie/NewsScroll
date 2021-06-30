@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Extensions\AVImageResource.cs" Link="Extensions\AVImageResource.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVDownloader.cs" Link="ArnoldVinkCode\Functions\AVDownloader.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Settings\AVSettings-PCL.cs" Link="ArnoldVinkCode\Functions\AVSettings-PCL.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -126,6 +128,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
@@ -166,12 +171,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Pages\SettingsPage\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\MainColors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\MainTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Styles\MainStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ArnoldVinkCode\Functions\" />
     <Folder Include="Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\NewsPage\NewsPage.xaml.cs">
+      <DependentUpon>NewsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
