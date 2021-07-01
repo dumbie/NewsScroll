@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,56 +24,56 @@ namespace NewsScroll.Api
                 List<TableOffline> OfflineSyncItemList = await vSQLConnection.Table<TableOffline>().ToListAsync();
 
                 //Sync read items
-                List<String> ReadStringList = OfflineSyncItemList.Where(x => !String.IsNullOrWhiteSpace(x.item_read_status)).Select(x => x.item_read_status).ToList();
+                List<string> ReadStringList = OfflineSyncItemList.Where(x => !string.IsNullOrWhiteSpace(x.item_read_status)).Select(x => x.item_read_status).ToList();
                 if (ReadStringList.Any())
                 {
                     bool Result = await MarkItemReadStringList(ReadStringList, true);
                     //Remove from list when succeeded
                     if (Result)
                     {
-                        Int32 DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_read_status");
+                        int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_read_status");
                         Debug.WriteLine("Removed " + DeletedItems + " Read offline synced items...");
                     }
                     else { Debug.WriteLine("Failed to sync offline read items."); }
                 }
 
                 //Sync unread items
-                List<String> UnreadStringList = OfflineSyncItemList.Where(x => !String.IsNullOrWhiteSpace(x.item_unread_status)).Select(x => x.item_unread_status).ToList();
+                List<string> UnreadStringList = OfflineSyncItemList.Where(x => !string.IsNullOrWhiteSpace(x.item_unread_status)).Select(x => x.item_unread_status).ToList();
                 if (UnreadStringList.Any())
                 {
                     bool Result = await MarkItemReadStringList(UnreadStringList, false);
                     //Remove from list when succeeded
                     if (Result)
                     {
-                        Int32 DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_unread_status");
+                        int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_unread_status");
                         Debug.WriteLine("Removed " + DeletedItems + " Unread offline synced items...");
                     }
                     else { Debug.WriteLine("Failed to sync offline unread items."); }
                 }
 
                 //Sync starred items
-                List<String> StarStringList = OfflineSyncItemList.Where(x => !String.IsNullOrWhiteSpace(x.item_star_status)).Select(x => x.item_star_status).ToList();
+                List<string> StarStringList = OfflineSyncItemList.Where(x => !string.IsNullOrWhiteSpace(x.item_star_status)).Select(x => x.item_star_status).ToList();
                 if (StarStringList.Any())
                 {
                     bool Result = await MarkItemStarStringList(StarStringList, true);
                     //Remove from list when succeeded
                     if (Result)
                     {
-                        Int32 DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_star_status");
+                        int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_star_status");
                         Debug.WriteLine("Removed " + DeletedItems + " Star offline synced items...");
                     }
                     else { Debug.WriteLine("Failed to sync offline star items."); }
                 }
 
                 //Sync Unstarred items
-                List<String> UnstarStringList = OfflineSyncItemList.Where(x => !String.IsNullOrWhiteSpace(x.item_unstar_status)).Select(x => x.item_unstar_status).ToList();
+                List<string> UnstarStringList = OfflineSyncItemList.Where(x => !string.IsNullOrWhiteSpace(x.item_unstar_status)).Select(x => x.item_unstar_status).ToList();
                 if (UnstarStringList.Any())
                 {
                     bool Result = await MarkItemStarStringList(UnstarStringList, false);
                     //Remove from list when succeeded
                     if (Result)
                     {
-                        Int32 DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_unstar_status");
+                        int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_unstar_status");
                         Debug.WriteLine("Removed " + DeletedItems + " unstar offline synced items...");
                     }
                     else { Debug.WriteLine("Failed to sync offline unstar items."); }
@@ -87,7 +86,7 @@ namespace NewsScroll.Api
 
         //Add offline sync items
         //Types: Read, Unread, Star, Unstar
-        public static async Task AddOfflineSync(List<String> AddIds, String AddType)
+        public static async Task AddOfflineSync(List<string> AddIds, string AddType)
         {
             try
             {
@@ -96,7 +95,7 @@ namespace NewsScroll.Api
 
                 //Sync variables
                 List<TableOffline> AddSyncItems = new List<TableOffline>();
-                foreach (String AddId in AddIds)
+                foreach (string AddId in AddIds)
                 {
                     //Add sync item
                     TableOffline SyncItem = new TableOffline();
@@ -117,7 +116,7 @@ namespace NewsScroll.Api
 
         //Add offline sync item
         //Types: Read, Unread, Star, Unstar
-        public static async Task AddOfflineSync(String AddId, String AddType)
+        public static async Task AddOfflineSync(string AddId, string AddType)
         {
             try
             {
@@ -140,7 +139,7 @@ namespace NewsScroll.Api
 
         //Delete offline sync item
         //Types: Read, Unread, Star, Unstar
-        public static async Task DeleteOppositeOfflineSync(String DeleteId, String DeleteType)
+        public static async Task DeleteOppositeOfflineSync(string DeleteId, string DeleteType)
         {
             try
             {

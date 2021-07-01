@@ -85,7 +85,7 @@ namespace NewsScroll.Database
                 OnlineUpdateFeeds = true;
                 OnlineUpdateNews = true;
                 OnlineUpdateStarred = true;
-                ApiMessageError = String.Empty;
+                ApiMessageError = string.Empty;
 
                 //Reset the last update setting
                 //AppVariables.ApplicationSettings["LastItemsUpdate"] = "Never";

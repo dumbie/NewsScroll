@@ -105,13 +105,13 @@ namespace NewsScroll.Api
                 JObject WebJObject = JObject.Parse(DownloadString);
                 if (WebJObject["items"] != null && WebJObject["items"].HasValues)
                 {
-                    Int32 TotalItemsCount = WebJObject["items"].Count();
+                    int TotalItemsCount = WebJObject["items"].Count();
                     if (!Silent) { await EventProgressDisableUI("Processing " + TotalItemsCount + " items...", true); }
                     Debug.WriteLine("Processing " + TotalItemsCount + " items...");
 
                     //Check the received item ids
-                    Int32 ProcessedItems = 0;
-                    Int32 PreloadedItems = AppVariables.ItemsToPreloadBatch;
+                    int ProcessedItems = 0;
+                    int PreloadedItems = AppVariables.ItemsToPreloadBatch;
 
                     //Wait for busy database
                     await ApiUpdate.WaitForBusyDatabase();
@@ -120,11 +120,11 @@ namespace NewsScroll.Api
                     List<TableItems> TableCurrentItems = await vSQLConnection.Table<TableItems>().ToListAsync();
 
                     //Filter un/ignored feeds
-                    List<String> IgnoredFeedList = (await vSQLConnection.Table<TableFeeds>().Where(x => x.feed_ignore_status == true).ToListAsync()).Select(x => x.feed_id).ToList();
+                    List<string> IgnoredFeedList = (await vSQLConnection.Table<TableFeeds>().Where(x => x.feed_ignore_status == true).ToListAsync()).Select(x => x.feed_id).ToList();
 
                     foreach (JToken JTokenRoot in WebJObject["items"]) //.OrderByDescending(obj => (string)obj["crawlTimeMsec"])
                     {
-                        string FoundItemId = JTokenRoot["id"].ToString().Replace(" ", String.Empty).Replace("tag:google.com,2005:reader/item/", String.Empty);
+                        string FoundItemId = JTokenRoot["id"].ToString().Replace(" ", string.Empty).Replace("tag:google.com,2005:reader/item/", string.Empty);
                         TableItems TableResult = TableCurrentItems.Where(x => x.item_id == FoundItemId).FirstOrDefault();
                         if (TableResult == null)
                         {
@@ -142,7 +142,7 @@ namespace NewsScroll.Api
                             //Debug.WriteLine("Updating item: " + FoundItemId);
 
                             //Check item status
-                            string Categories = String.Empty;
+                            string Categories = string.Empty;
                             try { Categories = JTokenRoot["categories"].ToString(); } catch { }
 
                             //Read the item

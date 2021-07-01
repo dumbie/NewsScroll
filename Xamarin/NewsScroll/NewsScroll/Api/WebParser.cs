@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using static NewsScroll.Events.Events;
@@ -30,12 +29,12 @@ namespace NewsScroll.Api
 
                 //if (EnableUI) { await EventProgressEnableUI(); }
                 //return DownloadString;
-                return String.Empty;
+                return string.Empty;
             }
             catch
             {
                 await EventProgressEnableUI();
-                return String.Empty;
+                return string.Empty;
             }
         }
     }

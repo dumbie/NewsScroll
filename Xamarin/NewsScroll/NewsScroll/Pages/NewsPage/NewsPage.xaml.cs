@@ -16,7 +16,7 @@ namespace NewsScroll
         //1 = All read items
         //2 = All unread items
         public static Feeds vCurrentLoadingFeedFolder = null;
-        private static Int32 vPreviousScrollItem = 0;
+        private static int vPreviousScrollItem = 0;
 
         public NewsPage()
         {
@@ -163,19 +163,27 @@ namespace NewsScroll
             });
         }
 
-        private void iconReadAll_Clicked(object sender, EventArgs e)
+        private async void iconReadAll_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconReadAll_Clicked");
+            try
+            {
+                //await HideShowMenu(true);
+                bool MarkedAllRead = await MarkReadAll(List_NewsItems, true);
+
+                //Ask if user wants to refresh the items
+                //if (MarkedAllRead) { await RefreshItems(true); }
+            }
+            catch { }
         }
 
-        private void iconRefresh_Clicked(object sender, EventArgs e)
+        private void iconRefresh_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconRefresh_Clicked");
+            Debug.WriteLine("iconRefresh_Tap");
         }
 
-        private void button_StatusCurrentItem_Clicked(object sender, EventArgs e)
+        private void button_StatusCurrentItem_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("button_StatusCurrentItem_Clicked");
+            Debug.WriteLine("button_StatusCurrentItem_Tap");
         }
 
 
@@ -203,14 +211,14 @@ namespace NewsScroll
             return 0;
         }
 
-        private async void iconMenu_Clicked(object sender, EventArgs e)
+        private async void iconMenu_Tap(object sender, EventArgs e)
         {
             try
             {
                 int doubleClick = await DoubleClickCheck();
                 if (doubleClick == 1)
                 {
-                    Debug.WriteLine("iconMenu_Clicked Single");
+                    Debug.WriteLine("iconMenu_Tap Single");
                     StackLayout_Header.IsVisible = true;
                     if (grid_PopupMenu.IsVisible)
                     {
@@ -223,7 +231,7 @@ namespace NewsScroll
                 }
                 else if (doubleClick == 2)
                 {
-                    Debug.WriteLine("iconMenu_Clicked Double");
+                    Debug.WriteLine("iconMenu_Tap Double");
                     if (StackLayout_Header.IsVisible)
                     {
                         grid_PopupMenu.IsVisible = false;
@@ -238,27 +246,27 @@ namespace NewsScroll
             catch { }
         }
 
-        private void iconStar_Clicked(object sender, EventArgs e)
+        private void iconStar_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconStar_Clicked");
+            Debug.WriteLine("iconStar_Tap");
         }
 
-        private void iconSearch_Clicked(object sender, EventArgs e)
+        private void iconSearch_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconSearch_Clicked");
+            Debug.WriteLine("iconSearch_Tap");
         }
 
-        private void iconApi_Clicked(object sender, EventArgs e)
+        private void iconApi_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconApi_Clicked");
+            Debug.WriteLine("iconApi_Tap");
         }
 
-        private void iconPersonalize_Clicked(object sender, EventArgs e)
+        private void iconPersonalize_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconPersonalize_Clicked");
+            Debug.WriteLine("iconPersonalize_Tap");
         }
 
-        private async void iconSettings_Clicked(object sender, EventArgs e)
+        private async void iconSettings_Tap(object sender, EventArgs e)
         {
             await Navigation.PushModalAsync(new SettingsPage());
         }

@@ -10,7 +10,7 @@ namespace NewsScroll
     public partial class SettingsPage : ContentPage
     {
         //Page variables
-        private string vPreviousAccount = String.Empty;
+        private string vPreviousAccount = string.Empty;
 
         public SettingsPage()
         {

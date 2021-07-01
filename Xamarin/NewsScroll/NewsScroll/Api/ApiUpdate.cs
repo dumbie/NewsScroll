@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using static NewsScroll.Api.Api;
@@ -9,7 +10,7 @@ namespace NewsScroll
 {
     class ApiUpdate
     {
-        public static async Task<Int32> PageApiUpdate()
+        public static async Task<int> PageApiUpdate()
         {
             return await Task.Run(async () =>
             {
@@ -34,21 +35,29 @@ namespace NewsScroll
                             UpdateStatus = await Login(false, false);
                             if (UpdateStatus)
                             {
-                                ApiMessageError = String.Empty;
+                                ApiMessageError = string.Empty;
                             }
                             else
                             {
-                                //Int32 MessageResult = await AVMessageBox.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry to login", "Go to account settings", "Switch to offline mode", "", "", false);
-                                //if (MessageResult == 1) { return await PageApiUpdate(); }
-                                //else if (MessageResult == 2)
-                                //{
-                                //    AppVariables.BusyApplication = false;
-                                //    return 2;
-                                //}
-                                //else
-                                //{
-                                //    ApiMessageError = "(Off) ";
-                                //}
+                                List<string> messageAnswers = new List<string>();
+                                messageAnswers.Add("Retry to login");
+                                messageAnswers.Add("Go to account settings");
+                                messageAnswers.Add("Switch to offline mode");
+
+                                string messageResult = await AVMessageBox.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                if (messageResult == "Retry to login")
+                                {
+                                    return await PageApiUpdate();
+                                }
+                                else if (messageResult == "Go to account settings")
+                                {
+                                    AppVariables.BusyApplication = false;
+                                    return 2;
+                                }
+                                else
+                                {
+                                    ApiMessageError = "(Off) ";
+                                }
                             }
                         }
 
@@ -58,23 +67,31 @@ namespace NewsScroll
                             UpdateStatus = await Feeds(false, false);
                             if (UpdateStatus)
                             {
-                                ApiMessageError = String.Empty;
+                                ApiMessageError = string.Empty;
                                 OnlineUpdateFeeds = false;
                             }
                             else
                             {
-                                //Int32 MessageResult = await AVMessageBox.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading feeds", "Go to account settings", "Switch to offline mode", "", "", false);
-                                //if (MessageResult == 1) { return await PageApiUpdate(); }
-                                //else if (MessageResult == 2)
-                                //{
-                                //    AppVariables.BusyApplication = false;
-                                //    return 2;
-                                //}
-                                //else
-                                //{
-                                //    ApiMessageError = "(Off) ";
-                                //    OnlineUpdateFeeds = true;
-                                //}
+                                List<string> messageAnswers = new List<string>();
+                                messageAnswers.Add("Retry downloading feeds");
+                                messageAnswers.Add("Go to account settings");
+                                messageAnswers.Add("Switch to offline mode");
+
+                                string messageResult = await AVMessageBox.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                if (messageResult == "Retry downloading feeds")
+                                {
+                                    return await PageApiUpdate();
+                                }
+                                else if (messageResult == "Go to account settings")
+                                {
+                                    AppVariables.BusyApplication = false;
+                                    return 2;
+                                }
+                                else
+                                {
+                                    ApiMessageError = "(Off) ";
+                                    OnlineUpdateFeeds = true;
+                                }
                             }
                         }
 
@@ -93,13 +110,20 @@ namespace NewsScroll
                                 if (UpdateStatus) { UpdateStatus = await AllNewsItems(true, false, false, false); }
                                 if (!UpdateStatus)
                                 {
-                                    //Int32 MessageResult = await AVMessageBox.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading items", "Switch to offline mode", "", "", "", false);
-                                    //if (MessageResult == 1) { return await PageApiUpdate(); }
-                                    //else
-                                    //{
-                                    //    ApiMessageError = "(Off) ";
-                                    //    OnlineUpdateNews = true;
-                                    //}
+                                    List<string> messageAnswers = new List<string>();
+                                    messageAnswers.Add("Retry downloading items");
+                                    messageAnswers.Add("Switch to offline mode");
+
+                                    string messageResult = await AVMessageBox.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                    if (messageResult == "Retry downloading items")
+                                    {
+                                        return await PageApiUpdate();
+                                    }
+                                    else
+                                    {
+                                        ApiMessageError = "(Off) ";
+                                        OnlineUpdateNews = true;
+                                    }
                                 }
                             }
 
@@ -109,20 +133,27 @@ namespace NewsScroll
                                 if (UpdateStatus) { UpdateStatus = await ItemsRead(List_NewsItems, false, false); }
                                 if (!UpdateStatus)
                                 {
-                                    //Int32 MessageResult = await AVMessageBox.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading read items", "Switch to offline mode", "", "", "", false);
-                                    //if (MessageResult == 1) { return await PageApiUpdate(); }
-                                    //else
-                                    //{
-                                    //    ApiMessageError = "(Off) ";
-                                    //    OnlineUpdateNews = true;
-                                    //}
+                                    List<string> messageAnswers = new List<string>();
+                                    messageAnswers.Add("Retry downloading read items");
+                                    messageAnswers.Add("Switch to offline mode");
+
+                                    string messageResult = await AVMessageBox.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                    if (messageResult == "Retry downloading read items")
+                                    {
+                                        return await PageApiUpdate();
+                                    }
+                                    else
+                                    {
+                                        ApiMessageError = "(Off) ";
+                                        OnlineUpdateNews = true;
+                                    }
                                 }
                             }
 
                             //Check if news items updated
                             if (UpdateStatus && !ApiMessageError.Contains("Off"))
                             {
-                                ApiMessageError = String.Empty;
+                                ApiMessageError = string.Empty;
                                 OnlineUpdateNews = false;
                             }
                         }
@@ -133,18 +164,25 @@ namespace NewsScroll
                             UpdateStatus = await ItemsStarred(true, false, false);
                             if (UpdateStatus)
                             {
-                                ApiMessageError = String.Empty;
+                                ApiMessageError = string.Empty;
                                 OnlineUpdateStarred = false;
                             }
                             else
                             {
-                                //Int32 MessageResult = await AVMessageBox.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading starred items", "Switch to offline mode", "", "", "", false);
-                                //if (MessageResult == 1) { return await PageApiUpdate(); }
-                                //else
-                                //{
-                                //    ApiMessageError = "(Off) ";
-                                //    OnlineUpdateStarred = true;
-                                //}
+                                List<string> messageAnswers = new List<string>();
+                                messageAnswers.Add("Retry downloading starred items");
+                                messageAnswers.Add("Switch to offline mode");
+
+                                string messageResult = await AVMessageBox.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                if (messageResult == "Retry downloading starred items")
+                                {
+                                    return await PageApiUpdate();
+                                }
+                                else
+                                {
+                                    ApiMessageError = "(Off) ";
+                                    OnlineUpdateStarred = true;
+                                }
                             }
                         }
                     }
@@ -167,7 +205,7 @@ namespace NewsScroll
         {
             try
             {
-                //while (vSQLConnection.)
+                //while (SQLConnectionLock.IsInTransaction)
                 //{
                 //    Debug.WriteLine("Database is currently busy, waiting...");
                 //    await Task.Delay(10);
@@ -185,7 +223,7 @@ namespace NewsScroll
                 while (AppVariables.BusyApplication)
                 {
                     Debug.WriteLine("Application is currently busy, waiting...");
-                    await Task.Delay(10);
+                    await Task.Delay(100);
                 }
             }
             catch { }

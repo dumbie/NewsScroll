@@ -1,6 +1,4 @@
-﻿
-using NewsScroll.Classes;
-using System;
+﻿using NewsScroll.Classes;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
@@ -24,8 +22,15 @@ namespace NewsScroll.Api
 
                 if (Confirm)
                 {
-                    //Int32 MsgBoxResult = await AVMessageBox.Popup(ActionType + " item", "Do you want to " + ActionType.ToLower() + " this item?", ActionType + " item", "", "", "", "", true);
-                    //if (MsgBoxResult == 0) { return false; }
+                    List<string> messageAnswers = new List<string>();
+                    messageAnswers.Add(ActionType + " item");
+                    messageAnswers.Add("Cancel");
+
+                    string messageResult = await AVMessageBox.Popup(ActionType + " item", "Do you want to " + ActionType.ToLower() + " this item?", messageAnswers);
+                    if (messageResult == "Cancel")
+                    {
+                        return false;
+                    }
                 }
 
                 await MarkStarSingle(ListItem, RemoveFromList, ActionType, Silent);
@@ -35,7 +40,10 @@ namespace NewsScroll.Api
             }
             catch
             {
-                //await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                List<string> messageAnswers = new List<string>();
+                messageAnswers.Add("Ok");
+
+                await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", messageAnswers);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -99,7 +107,10 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    //await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                    List<string> messageAnswers = new List<string>();
+                    messageAnswers.Add("Ok");
+
+                    await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", messageAnswers);
                     await EventProgressEnableUI();
                 }
 
@@ -113,13 +124,13 @@ namespace NewsScroll.Api
         }
 
         //Mark item as un/star from string list
-        static public async Task<bool> MarkItemStarStringList(List<String> MarkIds, bool MarkType)
+        static public async Task<bool> MarkItemStarStringList(List<string> MarkIds, bool MarkType)
         {
             try
             {
                 //Add items to post string
-                string PostStringItemIds = String.Empty;
-                foreach (String ItemId in MarkIds) { PostStringItemIds += "&i=" + ItemId; }
+                string PostStringItemIds = string.Empty;
+                foreach (string ItemId in MarkIds) { PostStringItemIds += "&i=" + ItemId; }
 
                 //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
 

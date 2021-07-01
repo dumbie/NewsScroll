@@ -33,7 +33,7 @@ namespace NewsScroll.Api
                         //Date time calculations
                         DateTime RemoveItemsRange = LastStoredItem.item_datetime.AddHours(-1);
                         //Debug.WriteLine("Downloading read items till: " + LastStoredItem.item_title + "/" + RemoveItemsRange);
-                        Int64 UnixTimeTicks = (RemoveItemsRange.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10000000; //Second
+                        long UnixTimeTicks = (RemoveItemsRange.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10000000; //Second
 
                         //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
                         //Uri DownloadUri = new Uri(ApiConnectionUrl + "stream/items/ids?output=json&s=user/-/state/com.google/read&n=" + AppVariables.ItemsMaximumLoad + "&ot=" + UnixTimeTicks);

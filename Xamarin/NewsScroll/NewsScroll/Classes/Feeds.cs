@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
@@ -64,8 +63,8 @@ namespace NewsScroll.Classes
             }
         }
 
-        private Int32 priv_feed_item_count;
-        public Int32 feed_item_count
+        private int priv_feed_item_count;
+        public int feed_item_count
         {
             get { return priv_feed_item_count; }
             set
@@ -76,8 +75,8 @@ namespace NewsScroll.Classes
         }
 
         //Collection
-        private Boolean priv_feed_collection_status = false;
-        public Boolean feed_collection_status
+        private bool priv_feed_collection_status = false;
+        public bool feed_collection_status
         {
             get { return priv_feed_collection_status; }
             set
@@ -99,8 +98,8 @@ namespace NewsScroll.Classes
             }
         }
 
-        private Boolean priv_feed_folder_status = false;
-        public Boolean feed_folder_status
+        private bool priv_feed_folder_status = false;
+        public bool feed_folder_status
         {
             get { return priv_feed_folder_status; }
             set
@@ -110,8 +109,8 @@ namespace NewsScroll.Classes
             }
         }
 
-        private List<String> priv_feed_folder_ids = new List<String>();
-        public List<String> feed_folder_ids
+        private List<string> priv_feed_folder_ids = new List<string>();
+        public List<string> feed_folder_ids
         {
             get { return priv_feed_folder_ids; }
             set
@@ -122,7 +121,7 @@ namespace NewsScroll.Classes
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = null)
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

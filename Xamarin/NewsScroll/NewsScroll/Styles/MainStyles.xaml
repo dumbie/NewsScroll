@@ -91,11 +91,13 @@
     <Style x:Key="ListViewVertical" TargetType="ListView">
         <Setter Property="HorizontalScrollBarVisibility" Value="Never"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="SeparatorVisibility" Value="None"/>
     </Style>
 
     <Style x:Key="ListViewHorizontal" TargetType="ListView">
         <Setter Property="VerticalScrollBarVisibility" Value="Never"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="SeparatorVisibility" Value="None"/>
     </Style>
 
     <!--ScrollView Styles-->

@@ -27,11 +27,11 @@ namespace NewsScroll.Api
         {
             try
             {
-                //if (String.IsNullOrWhiteSpace(AppVariables.ApplicationSettings["ConnectApiAuth"].ToString()))
-                //{
-                //    Debug.WriteLine("Client is currently not logged in.");
-                //    return false;
-                //}
+                if (string.IsNullOrWhiteSpace(AppSettingLoad("ConnectApiAuth").ToString()))
+                {
+                    Debug.WriteLine("Client is currently not logged in.");
+                    return false;
+                }
             }
             catch { }
             return true;

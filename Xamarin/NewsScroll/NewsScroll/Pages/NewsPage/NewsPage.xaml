@@ -22,8 +22,8 @@
                         <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Loading items"/>
                     </StackLayout>
                     <StackLayout Margin="0,0,55,0" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
-                        <ImageButton x:Name="iconReadAll" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconReadAll.png}" HeightRequest="45" Clicked="iconReadAll_Clicked"/>
-                        <ImageButton x:Name="iconRefresh" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Clicked="iconRefresh_Clicked"/>
+                        <ImageButton x:Name="iconReadAll" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconReadAll.png}" HeightRequest="45" Clicked="iconReadAll_Tap"/>
+                        <ImageButton x:Name="iconRefresh" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Clicked="iconRefresh_Tap"/>
                     </StackLayout>
                 </Grid>
 
@@ -35,13 +35,13 @@
             <Label Grid.Row="1" x:Name="txt_NewsScrollInfo" Style="{StaticResource LabelLightGray}" FontSize="{StaticResource TextSizeLarge}" HorizontalTextAlignment="Center" Text="Your news items will be shown here shortly..." VerticalOptions="Center" HorizontalOptions="Center"/>
 
             <!-- Page ListView -->
-            <ListView Grid.Row="1" x:Name="ListView_Items" SelectionMode="Single" ItemTemplate="{StaticResource ListViewItemsVertical0}"/>
+            <ListView Grid.Row="1" x:Name="ListView_Items" SelectionMode="Single" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewItemsVertical0}"/>
         </Grid>
 
         <!-- Status Current Item -->
         <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Margin="6,0,0,6" Padding="0,25,25,0">
             <Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="button_StatusCurrentItem_Clicked"/>
+                <TapGestureRecognizer Tapped="button_StatusCurrentItem_Tap"/>
             </Frame.GestureRecognizers>
             <Frame.Background>
                 <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
@@ -70,7 +70,7 @@
 
         <!-- Grid Popup Button -->
         <Grid VerticalOptions="Start" HorizontalOptions="End" Margin="0,10,0,0">
-            <ImageButton x:Name="iconMenu" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Clicked="iconMenu_Clicked"/>
+            <ImageButton x:Name="iconMenu" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Clicked="iconMenu_Tap"/>
         </Grid>
 
         <!-- Grid Popup Menu -->
@@ -79,11 +79,11 @@
                 <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
             </Grid.Background>
             <StackLayout Orientation="Horizontal">
-                <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Clicked="iconStar_Clicked"/>
-                <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45" Clicked="iconSearch_Clicked"/>
-                <ImageButton x:Name="iconApi" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconApi.png}" HeightRequest="45" Clicked="iconApi_Clicked"/>
-                <ImageButton x:Name="iconPersonalize" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconPersonalize.png}" HeightRequest="45" Clicked="iconPersonalize_Clicked"/>
-                <ImageButton x:Name="iconSettings" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Clicked="iconSettings_Clicked"/>
+                <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Clicked="iconStar_Tap"/>
+                <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45" Clicked="iconSearch_Tap"/>
+                <ImageButton x:Name="iconApi" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconApi.png}" HeightRequest="45" Clicked="iconApi_Tap"/>
+                <ImageButton x:Name="iconPersonalize" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconPersonalize.png}" HeightRequest="45" Clicked="iconPersonalize_Tap"/>
+                <ImageButton x:Name="iconSettings" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Clicked="iconSettings_Tap"/>
             </StackLayout>
         </Grid>
     </Grid>
