@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using static ArnoldVinkCode.ArnoldVinkSettings;
+using static NewsScroll.Database.Database;
 
 namespace NewsScroll
 {
@@ -29,6 +31,9 @@ namespace NewsScroll
 
                 //Store the previous username
                 vPreviousAccount = AppSettingLoad("ApiAccount").ToString();
+
+                //Load and set database size
+                await UpdateSizeInformation();
             }
             catch { }
         }
@@ -85,6 +90,23 @@ namespace NewsScroll
         private void iconApi_Tap(object sender, EventArgs e)
         {
 
+        }
+
+        //Load and set database size
+        async Task UpdateSizeInformation()
+        {
+            try
+            {
+                //Wait for busy database
+                await ApiUpdate.WaitForBusyDatabase();
+
+                string DatabaseSize = GetDatabaseSize();
+                int TotalItems = await vSQLConnection.Table<TableItems>().CountAsync();
+                int TotalFeeds = await vSQLConnection.Table<TableFeeds>().CountAsync();
+
+                txt_OfflineStoredSize.Text = "Offline stored database is " + DatabaseSize + "\nin size and contains a total of " + TotalItems + "\nstored items and has " + TotalFeeds + " feeds in it.";
+            }
+            catch { }
         }
     }
 }

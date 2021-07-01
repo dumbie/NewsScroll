@@ -19,8 +19,8 @@ namespace NewsScroll.Classes
             }
         }
 
-        private Image priv_feed_icon;
-        public Image feed_icon
+        private ImageSource priv_feed_icon;
+        public ImageSource feed_icon
         {
             get { return priv_feed_icon; }
             set

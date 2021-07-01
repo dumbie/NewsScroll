@@ -81,9 +81,19 @@ namespace NewsScroll
         {
             try
             {
-                AVMessageBox newMessageBox = new AVMessageBox();
-                await Application.Current.MainPage.Navigation.PushModalAsync(newMessageBox);
-                return await newMessageBox.WaitResult(Question, Description, Answers);
+                string messageResult = "defaultpopupstring";
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    AVMessageBox newMessageBox = new AVMessageBox();
+                    await Application.Current.MainPage.Navigation.PushModalAsync(newMessageBox);
+                    messageResult = await newMessageBox.WaitResult(Question, Description, Answers);
+                });
+
+                while (messageResult == "defaultpopupstring")
+                {
+                    await Task.Delay(100);
+                }
+                return messageResult;
             }
             catch (Exception ex)
             {

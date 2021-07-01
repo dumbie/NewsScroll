@@ -1,8 +1,13 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading.Tasks;
+using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
 using static NewsScroll.Lists.Lists;
@@ -35,7 +40,7 @@ namespace NewsScroll.Api
 
                 await MarkStarSingle(ListItem, RemoveFromList, ActionType, Silent);
 
-                if (EnableUI) { await EventProgressEnableUI(); }
+                if (EnableUI) { EventProgressEnableUI(); }
                 return true;
             }
             catch
@@ -44,7 +49,7 @@ namespace NewsScroll.Api
                 messageAnswers.Add("Ok");
 
                 await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", messageAnswers);
-                await EventProgressEnableUI();
+                EventProgressEnableUI();
                 return false;
             }
         }
@@ -59,7 +64,7 @@ namespace NewsScroll.Api
                 //Check if internet is available
                 if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
                 {
-                    if (!Silent) { await EventProgressDisableUI("Off " + ActionType.ToLower() + "ring the item...", true); }
+                    if (!Silent) { EventProgressDisableUI("Off " + ActionType.ToLower() + "ring the item...", true); }
                     Debug.WriteLine("Off " + ActionType.ToLower() + "ring the item...");
 
                     await AddOfflineSync(ItemId, ActionType);
@@ -67,17 +72,27 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    if (!Silent) { await EventProgressDisableUI(ActionType + "ring the item...", true); }
+                    if (!Silent) { EventProgressDisableUI(ActionType + "ring the item...", true); }
                     Debug.WriteLine(ActionType + "ring the item...");
 
-                    //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
+                    string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
 
-                    //HttpStringContent PostContent;
-                    //if (ActionType == "Star") { PostContent = new HttpStringContent("i=" + ItemId + "&a=user/-/state/com.google/starred", Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
-                    //else { PostContent = new HttpStringContent("i=" + ItemId + "&r=user/-/state/com.google/starred", Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
+                    StringContent PostContent;
+                    if (ActionType == "Star")
+                    {
+                        PostContent = new StringContent("i=" + ItemId + "&a=user/-/state/com.google/starred", Encoding.UTF8, "application/x-www-form-urlencoded");
+                    }
+                    else
+                    {
+                        PostContent = new StringContent("i=" + ItemId + "&r=user/-/state/com.google/starred", Encoding.UTF8, "application/x-www-form-urlencoded");
+                    }
+                    Uri PostUri = new Uri(ApiConnectionUrl + "edit-tag");
 
-                    //HttpResponseMessage PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "edit-tag"), PostContent);
-                    //if (PostHttp != null && (PostHttp.Content.ToString() == "OK" || PostHttp.Content.ToString().Contains("<error>Not found</error>"))) { MarkStatus = true; }
+                    string PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, PostUri, PostContent);
+                    if (PostHttp != null && (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>")))
+                    {
+                        MarkStatus = true;
+                    }
                 }
 
                 if (MarkStatus)
@@ -111,7 +126,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Ok");
 
                     await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", messageAnswers);
-                    await EventProgressEnableUI();
+                    EventProgressEnableUI();
                 }
 
                 return MarkStatus;
@@ -132,17 +147,33 @@ namespace NewsScroll.Api
                 string PostStringItemIds = string.Empty;
                 foreach (string ItemId in MarkIds) { PostStringItemIds += "&i=" + ItemId; }
 
-                //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
+                string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
 
-                //HttpStringContent PostContent;
-                //if (MarkType) { PostContent = new HttpStringContent("a=user/-/state/com.google/starred" + PostStringItemIds, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
-                //else { PostContent = new HttpStringContent("r=user/-/state/com.google/starred" + PostStringItemIds, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
+                StringContent PostContent;
+                if (MarkType)
+                {
+                    PostContent = new StringContent("a=user/-/state/com.google/starred" + PostStringItemIds, Encoding.UTF8, "application/x-www-form-urlencoded");
+                }
+                else
+                {
+                    PostContent = new StringContent("r=user/-/state/com.google/starred" + PostStringItemIds, Encoding.UTF8, "application/x-www-form-urlencoded");
+                }
+                Uri PostUri = new Uri(ApiConnectionUrl + "edit-tag");
 
-                //HttpResponseMessage PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "edit-tag"), PostContent);
-                //if (PostHttp != null && (PostHttp.Content.ToString() == "OK" || PostHttp.Content.ToString().Contains("<error>Not found</error>"))) { return true; } else { return false; }
+                string PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, PostUri, PostContent);
+                if (PostHttp != null && (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>")))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
                 return false;
             }
-            catch { return false; }
         }
     }
 }

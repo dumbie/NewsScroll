@@ -1,8 +1,10 @@
-﻿using SQLite;
+﻿using ArnoldVinkCode;
+using SQLite;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Events.Events;
 
@@ -11,15 +13,13 @@ namespace NewsScroll.Database
     public class Database
     {
         //Load the News Scroll database size
-        public static async Task<string> GetDatabaseSize()
+        public static string GetDatabaseSize()
         {
             string DatabaseSize = "empty";
             try
             {
-                //StorageFile StorageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/Database.sqlite"));
-                //BasicProperties BasicProperties = await StorageFile.GetBasicPropertiesAsync();
-
-                //DatabaseSize = string.Format("{0:0.00}", +decimal.Divide(BasicProperties.Size, 1048576)) + "MB";
+                long fileSize = AVFiles.File_Size("Database.sqlite");
+                DatabaseSize = string.Format("{0:0.00}", +decimal.Divide(fileSize, 1048576)) + "MB";
             }
             catch { }
             return DatabaseSize;
@@ -31,9 +31,11 @@ namespace NewsScroll.Database
         {
             try
             {
-                string DatabasePath = Path.Combine("Database", "Database.sqlite");
+                string databaseFilename = "Database.sqlite";
+                string databaseFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string databasePath = Path.Combine(databaseFolder, databaseFilename);
 
-                SQLiteConnectionString connectionString = new SQLiteConnectionString(DatabasePath, true);
+                SQLiteConnectionString connectionString = new SQLiteConnectionString(databasePath, true);
                 vSQLConnection = new SQLiteAsyncConnection(connectionString);
 
                 Debug.WriteLine("Successfully connected to the database.");
@@ -61,9 +63,9 @@ namespace NewsScroll.Database
 
                 Debug.WriteLine("Created the database tables.");
             }
-            catch
+            catch (Exception ex)
             {
-                Debug.WriteLine("Failed creating the database tables.");
+                Debug.WriteLine("Failed creating the database tables: " + ex.Message);
             }
         }
 
@@ -72,7 +74,7 @@ namespace NewsScroll.Database
         {
             try
             {
-                await EventProgressDisableUI("Resetting the database.", true);
+                EventProgressDisableUI("Resetting the database.", true);
                 Debug.WriteLine("Resetting the database.");
 
                 //Delete all files from local storage
@@ -88,7 +90,7 @@ namespace NewsScroll.Database
                 ApiMessageError = string.Empty;
 
                 //Reset the last update setting
-                //AppVariables.ApplicationSettings["LastItemsUpdate"] = "Never";
+                await AppSettingSave("LastItemsUpdate", "Never");
 
                 Debug.WriteLine("Resetted the database.");
             }

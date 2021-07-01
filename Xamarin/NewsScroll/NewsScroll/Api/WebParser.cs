@@ -11,7 +11,7 @@ namespace NewsScroll.Api
         {
             try
             {
-                if (!Silent) { await EventProgressDisableUI("Downloading the full item...", true); }
+                if (!Silent) { EventProgressDisableUI("Downloading the full item...", true); }
                 Debug.WriteLine("Downloading the full item: " + ItemLink);
 
                 ItemLink = WebUtility.HtmlDecode(ItemLink);
@@ -20,20 +20,20 @@ namespace NewsScroll.Api
                 //Reader smartReader = new Reader(ItemLink);
                 //Article smartArticle = await smartReader.GetArticleAsync();
 
-                if (!Silent) { await EventProgressDisableUI("Processing the full item...", true); }
+                if (!Silent) { EventProgressDisableUI("Processing the full item...", true); }
                 Debug.WriteLine("Processing the full item.");
 
                 //string DownloadString = smartArticle.Content;
                 //DownloadString = WebUtility.HtmlDecode(DownloadString);
                 //DownloadString = WebUtility.UrlDecode(DownloadString);
 
-                //if (EnableUI) { await EventProgressEnableUI(); }
+                //if (EnableUI) { EventProgressEnableUI(); }
                 //return DownloadString;
-                return string.Empty;
+                return "No full story";
             }
             catch
             {
-                await EventProgressEnableUI();
+                EventProgressEnableUI();
                 return string.Empty;
             }
         }

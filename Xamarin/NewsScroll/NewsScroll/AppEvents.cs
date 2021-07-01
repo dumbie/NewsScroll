@@ -9,16 +9,16 @@ namespace NewsScroll.Events
 {
     public class Events
     {
-        public delegate Task DelegateProgressDisableUI(string ProgressMsg, bool DisableInterface);
+        public delegate void DelegateProgressDisableUI(string ProgressMsg, bool DisableInterface);
         public static DelegateProgressDisableUI EventProgressDisableUI = null;
 
-        public delegate Task DelegateProgressEnableUI();
+        public delegate void DelegateProgressEnableUI();
         public static DelegateProgressEnableUI EventProgressEnableUI = null;
 
-        public delegate Task DelegateHideShowHeader(bool ForceClose);
+        public delegate void DelegateHideShowHeader(bool ForceClose);
         public static DelegateHideShowHeader EventHideShowHeader = null;
 
-        public delegate Task DelegateHideProgressionStatus();
+        public delegate void DelegateHideProgressionStatus();
         public static DelegateHideProgressionStatus EventHideProgressionStatus = null;
 
         public delegate Task DelegateRefreshPageItems(bool Confirm);

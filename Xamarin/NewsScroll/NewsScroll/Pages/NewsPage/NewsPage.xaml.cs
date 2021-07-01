@@ -1,10 +1,14 @@
 ﻿using NewsScroll.Classes;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
-using static NewsScroll.AppVariables;
+using static NewsScroll.Database.Database;
+using static NewsScroll.Events.Events;
 using static NewsScroll.Lists.Lists;
 
 namespace NewsScroll
@@ -28,59 +32,287 @@ namespace NewsScroll
         {
             try
             {
-                //Check settings
-                await SettingsPage.SettingsCheck();
-
                 //Check the set account
                 if (!CheckAccount())
                 {
-                    await Navigation.PushModalAsync(new SettingsPage());
+                    await CleanupPageResources();
                     return;
                 }
+
+                //Register page events
+                RegisterPageEvents();
 
                 //Show page status
                 ProgressDisableUI("Preparing news page...", true);
 
-                //Bind lists
+                //Bind list to ListView
                 ListView_Items.ItemsSource = List_NewsItems;
                 combobox_FeedSelection.ItemsSource = List_FeedSelect;
 
-                //Load all the feeds
-                await LoadFeeds();
-
                 //Load all the items
-                await LoadItems();
+                await LoadItems(true, false);
             }
             catch { }
         }
 
-        //Load all the feeds
-        private async Task LoadFeeds()
+        //Register page events
+        private void RegisterPageEvents()
         {
-            //Clear all select feeds
-            await ClearObservableCollection(List_FeedSelect);
+            try
+            {
+                //Register popup and load events
+                EventProgressDisableUI += new DelegateProgressDisableUI(ProgressDisableUI);
+                EventProgressEnableUI += new DelegateProgressEnableUI(ProgressEnableUI);
+                EventHideShowHeader += new DelegateHideShowHeader(HideShowHeader);
+                EventHideProgressionStatus += new DelegateHideProgressionStatus(HideProgressionStatus);
+                EventUpdateTotalItemsCount += new DelegateUpdateTotalItemsCount(UpdateSelectionFeeds);
+                //EventAdjustItemsScrollingDirection += new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
+                //EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventRefreshPageItems += new DelegateRefreshPageItems(RefreshItems);
 
-            List_FeedSelect.Add("Feed title");
-            List_FeedSelect.Add("Feed title");
-            List_FeedSelect.Add("Feed title");
-            List_FeedSelect.Add("Feed title");
+                ////Register ListView events
+                //ListView_Items.Tapped += EventsListView.ListView_Items_Tapped;
+                //ListView_Items.RightTapped += EventsListView.ListView_Items_RightTapped;
+
+                ////Register ListView scroll viewer
+                //ScrollViewer ListViewScrollViewer = AVFunctions.FindVisualChild<ScrollViewer>(ListView_Items);
+                //ListViewScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+                //ListViewScrollViewer.VerticalSnapPointsType = SnapPointsType.None;
+                //ListViewScrollViewer.HorizontalSnapPointsType = SnapPointsType.None;
+
+                //Register combo box events
+                combobox_FeedSelection.SelectedIndexChanged += combobox_FeedSelection_SelectionChanged;
+
+                ////Monitor user touch swipe
+                //if (!(bool)AppSettingLoad["DisableSwipeActions"])
+                //{
+                //    grid_SwipeBar.ManipulationMode = ManipulationModes.TranslateX;
+                //    grid_SwipeBar.ManipulationStarted += Page_ManipulationStarted;
+                //    grid_SwipeBar.ManipulationDelta += Page_ManipulationDelta;
+                //    grid_SwipeBar.ManipulationCompleted += Page_ManipulationCompleted;
+                //}
+
+                ////Monitor key presses
+                //grid_Main.PreviewKeyUp += Page_PreviewKeyUp; //DesktopOnly
+            }
+            catch { }
         }
 
-        //Load all the items
-        private async Task LoadItems()
+        //Disable page events
+        private void DisablePageEvents()
         {
-            //Clear all items and reset load count
-            await ClearObservableCollection(List_NewsItems);
+            try
+            {
+                //Register popup and load events
+                EventProgressDisableUI -= new DelegateProgressDisableUI(ProgressDisableUI);
+                EventProgressEnableUI -= new DelegateProgressEnableUI(ProgressEnableUI);
+                EventHideShowHeader -= new DelegateHideShowHeader(HideShowHeader);
+                EventHideProgressionStatus -= new DelegateHideProgressionStatus(HideProgressionStatus);
+                EventUpdateTotalItemsCount -= new DelegateUpdateTotalItemsCount(UpdateSelectionFeeds);
+                //EventAdjustItemsScrollingDirection -= new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
+                //EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventRefreshPageItems -= new DelegateRefreshPageItems(RefreshItems);
 
-            Image image = new Image { Source = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" };
-            Items testitem = new Items();
-            testitem.item_title = "News title";
-            testitem.item_image = image.Source;
-            testitem.item_image_visibility = true;
-            List_NewsItems.Add(testitem);
+                ////Register ListView events
+                //ListView_Items.Tapped -= EventsListView.ListView_Items_Tapped;
+                //ListView_Items.RightTapped -= EventsListView.ListView_Items_RightTapped;
 
-            ProgressEnableUI();
-            txt_NewsScrollInfo.IsVisible = false;
+                //////Register ListView scroll viewer
+                ////ScrollViewer ListViewScrollViewer = AVFunctions.FindVisualChild<ScrollViewer>(ListView_Items);
+                ////ListViewScrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+
+                //Register combo box events
+                combobox_FeedSelection.SelectedIndexChanged -= combobox_FeedSelection_SelectionChanged;
+
+                ////Monitor user touch swipe
+                //grid_Main.ManipulationStarted -= Page_ManipulationStarted;
+                //grid_Main.ManipulationDelta -= Page_ManipulationDelta;
+                //grid_Main.ManipulationCompleted -= Page_ManipulationCompleted;
+
+                ////Monitor key presses
+                //grid_Main.PreviewKeyUp -= Page_PreviewKeyUp; //DesktopOnly
+            }
+            catch { }
+        }
+
+        //Cleanup page resources
+        async Task CleanupPageResources()
+        {
+            try
+            {
+                Debug.WriteLine("Clearing page resources...");
+
+                DisablePageEvents();
+                vCurrentLoadingFeedFolder = null;
+
+                ListView_Items.ItemTemplate = null;
+                ListView_Items.ItemsSource = null;
+                ListView_Items.ItemTemplate = null;
+                ListView_Items.ItemsSource = null;
+
+                //combobox_FeedSelection.ItemTemplate = null;
+                combobox_FeedSelection.ItemsSource = null;
+                //combobox_FeedSelection.ItemTemplate = null;
+                combobox_FeedSelection.ItemsSource = null;
+
+                await ClearObservableCollection(List_Feeds);
+                await ClearObservableCollection(List_FeedSelect);
+                await ClearObservableCollection(List_NewsItems);
+                await ClearObservableCollection(List_SearchItems);
+                await ClearObservableCollection(List_StarredItems);
+            }
+            catch { }
+        }
+
+        private async void combobox_FeedSelection_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                //Load selected feed items
+                Picker ComboBoxSender = sender as Picker;
+                Feeds SelectedItem = ComboBoxSender.SelectedItem as Feeds;
+                if (SelectedItem != null)
+                {
+                    string CheckKind = "feed";
+                    if (SelectedItem.feed_folder_status) { CheckKind = "folder"; }
+                    else if (SelectedItem.feed_collection_status) { CheckKind = "collection"; }
+
+                    ProgressDisableUI("Checking " + CheckKind + " items...", true);
+                    Debug.WriteLine("Checking " + CheckKind + " items...");
+
+                    //Set the loading feed or folder
+                    vCurrentLoadingFeedFolder = SelectedItem;
+
+                    //Reset the previous scroll item
+                    vPreviousScrollItem = 0;
+
+                    //Load all the items
+                    await LoadItems(false, false);
+
+                    ProgressEnableUI();
+                }
+            }
+            catch { }
+        }
+
+        //Update Api Start
+        async Task LoadItems(bool LoadSelectFeeds, bool UpdateSelectFeeds)
+        {
+            try
+            {
+                //Clear all items and reset load count
+                await ClearObservableCollection(List_NewsItems);
+
+                //Get the currently selected feed
+                string SelectedFeedTitle = "All feed items";
+                if (!(bool)AppSettingLoad("DisplayReadMarkedItems")) { SelectedFeedTitle = "All unread items"; }
+                if (vCurrentLoadingFeedFolder != null)
+                {
+                    if (vCurrentLoadingFeedFolder.feed_title != null) { SelectedFeedTitle = vCurrentLoadingFeedFolder.feed_title; }
+                    if (vCurrentLoadingFeedFolder.feed_folder_title != null) { SelectedFeedTitle = vCurrentLoadingFeedFolder.feed_folder_title; }
+                }
+
+                //Update the loading information
+                txt_AppInfo.Text = "Loading items";
+                //Fix
+                //txt_NewsScrollInfo.Inlines.Clear();
+                //txt_NewsScrollInfo.Inlines.Add(new Run() { Text = "Your news items from " });
+                //txt_NewsScrollInfo.Inlines.Add(new Run() { Text = SelectedFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
+                //txt_NewsScrollInfo.Inlines.Add(new Run() { Text = " will be shown here shortly..." });
+                txt_NewsScrollInfo.Text = "Your news items from " + SelectedFeedTitle + " will be shown here shortly...";
+                txt_NewsScrollInfo.IsVisible = true;
+
+                //Check the loading feed
+                if (LoadSelectFeeds)
+                {
+                    if ((bool)AppSettingLoad("DisplayReadMarkedItems"))
+                    {
+                        Feeds TempFeed = new Feeds();
+                        TempFeed.feed_id = "0";
+                        vCurrentLoadingFeedFolder = TempFeed;
+                        vPreviousScrollItem = 0;
+                    }
+                    else
+                    {
+                        Feeds TempFeed = new Feeds();
+                        TempFeed.feed_id = "2";
+                        vCurrentLoadingFeedFolder = TempFeed;
+                        vPreviousScrollItem = 0;
+                    }
+                }
+
+                //Load items from api/database
+                AppVariables.LoadNews = true;
+                AppVariables.LoadStarred = false;
+                AppVariables.LoadSearch = false;
+                AppVariables.LoadFeeds = true;
+                int Result = await ApiUpdate.PageApiUpdate();
+
+                //Check the api update result
+                if (Result == 2)
+                {
+                    await CleanupPageResources();
+                    await Navigation.PushModalAsync(new SettingsPage());
+                    Navigation.NavigationStack.ToList().Clear();
+                    return;
+                }
+
+                //Wait for busy database
+                await ApiUpdate.WaitForBusyDatabase();
+
+                //Set all items to list
+                List<TableFeeds> LoadTableFeeds = await vSQLConnection.Table<TableFeeds>().OrderBy(x => x.feed_folder).ToListAsync();
+                List<TableItems> LoadTableItems = await vSQLConnection.Table<TableItems>().ToListAsync();
+
+                //Load items into the list
+                await ProcessItemLoad.DatabaseToList(LoadTableFeeds, LoadTableItems, AppVariables.CurrentItemsLoaded, AppVariables.ItemsToScrollLoad, false, false);
+
+                //Load feeds into selector
+                if (LoadSelectFeeds)
+                {
+                    await LoadSelectionFeeds(LoadTableFeeds, LoadTableItems, false, true);
+                }
+
+                //Update feeds in selector
+                if (UpdateSelectFeeds)
+                {
+                    await UpdateSelectionFeeds(LoadTableFeeds, LoadTableItems, false, true);
+                }
+
+                //Change the selection feed
+                ChangeSelectionFeed(vCurrentLoadingFeedFolder, false);
+
+                //Update the total item count
+                UpdateTotalItemsCount();
+
+                //Enable the interface manually
+                if (!LoadSelectFeeds && !UpdateSelectFeeds) { ProgressEnableUI(); }
+            }
+            catch { }
+        }
+
+        //Hide the progression status
+        private void HideProgressionStatus()
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                try
+                {
+                    txt_NewsScrollInfo.IsVisible = false;
+                }
+                catch { }
+            });
+        }
+
+        //Item status scroll events
+        private async void button_StatusCurrentItem_Tapped(object sender, EventArgs e)
+        {
+            try
+            {
+                //bool Scrolled = await EventsItemStatus.ListViewScroller(ListView_Items, Convert.ToInt32(textblock_StatusCurrentItem.Tag), vPreviousScrollItem);
+                //if (Scrolled) { vPreviousScrollItem = Convert.ToInt32(textblock_StatusCurrentItem.Tag); }
+            }
+            catch { }
         }
 
         //Progressbar/UI Status
@@ -163,112 +395,142 @@ namespace NewsScroll
             });
         }
 
-        private async void iconReadAll_Tap(object sender, EventArgs e)
+        //User Interface - Buttons
+        async void iconSearch_Tap(object sender, EventArgs e)
         {
             try
             {
-                //await HideShowMenu(true);
-                bool MarkedAllRead = await MarkReadAll(List_NewsItems, true);
+                HideShowMenu(true);
 
-                //Ask if user wants to refresh the items
-                //if (MarkedAllRead) { await RefreshItems(true); }
+                //Wait for busy application
+                await ApiUpdate.WaitForBusyApplication();
+
+                await CleanupPageResources();
+                //App.vApplicationFrame.Navigate(typeof(SearchPage));
+                //App.vApplicationFrame.BackStack.Clear();
             }
             catch { }
         }
 
-        private void iconRefresh_Tap(object sender, EventArgs e)
-        {
-            Debug.WriteLine("iconRefresh_Tap");
-        }
-
-        private void button_StatusCurrentItem_Tap(object sender, EventArgs e)
-        {
-            Debug.WriteLine("button_StatusCurrentItem_Tap");
-        }
-
-
-        private async Task<int> DoubleClickCheck()
+        async void iconApi_Tap(object sender, EventArgs e)
         {
             try
             {
-                vSingleTappedClickCount++;
-                if (vSingleTappedClickCount == 1)
-                {
-                    await Task.Delay(300);
-                    if (vSingleTappedClickCount == 1)
-                    {
-                        vSingleTappedClickCount = 0;
-                        return 1;
-                    }
-                    else
-                    {
-                        vSingleTappedClickCount = 0;
-                        return 2;
-                    }
-                }
-            }
-            catch { }
-            return 0;
-        }
+                HideShowMenu(true);
 
-        private async void iconMenu_Tap(object sender, EventArgs e)
-        {
-            try
-            {
-                int doubleClick = await DoubleClickCheck();
-                if (doubleClick == 1)
-                {
-                    Debug.WriteLine("iconMenu_Tap Single");
-                    StackLayout_Header.IsVisible = true;
-                    if (grid_PopupMenu.IsVisible)
-                    {
-                        grid_PopupMenu.IsVisible = false;
-                    }
-                    else
-                    {
-                        grid_PopupMenu.IsVisible = true;
-                    }
-                }
-                else if (doubleClick == 2)
-                {
-                    Debug.WriteLine("iconMenu_Tap Double");
-                    if (StackLayout_Header.IsVisible)
-                    {
-                        grid_PopupMenu.IsVisible = false;
-                        StackLayout_Header.IsVisible = false;
-                    }
-                    else
-                    {
-                        StackLayout_Header.IsVisible = true;
-                    }
-                }
+                //Wait for busy application
+                await ApiUpdate.WaitForBusyApplication();
+
+                await CleanupPageResources();
+                //App.vApplicationFrame.Navigate(typeof(ApiPage));
+                //App.vApplicationFrame.BackStack.Clear();
             }
             catch { }
         }
 
-        private void iconStar_Tap(object sender, EventArgs e)
+        async void iconStar_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconStar_Tap");
+            try
+            {
+                HideShowMenu(true);
+
+                //Wait for busy application
+                await ApiUpdate.WaitForBusyApplication();
+
+                await CleanupPageResources();
+                //App.vApplicationFrame.Navigate(typeof(StarredPage));
+                //App.vApplicationFrame.BackStack.Clear();
+            }
+            catch { }
         }
 
-        private void iconSearch_Tap(object sender, EventArgs e)
+        private async void iconPersonalize_Tap(object sender, EventArgs e)
         {
-            Debug.WriteLine("iconSearch_Tap");
-        }
-
-        private void iconApi_Tap(object sender, EventArgs e)
-        {
-            Debug.WriteLine("iconApi_Tap");
-        }
-
-        private void iconPersonalize_Tap(object sender, EventArgs e)
-        {
-            Debug.WriteLine("iconPersonalize_Tap");
+            try
+            {
+                HideShowMenu(true);
+                //PersonalizePopup personalizePopup = new PersonalizePopup();
+                //await personalizePopup.OpenPopup();
+            }
+            catch { }
         }
 
         private async void iconSettings_Tap(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new SettingsPage());
+            try
+            {
+                HideShowMenu(true);
+
+                //Wait for busy application
+                await ApiUpdate.WaitForBusyApplication();
+
+                await CleanupPageResources();
+                await Navigation.PushModalAsync(new SettingsPage());
+                Navigation.NavigationStack.ToList().Clear();
+            }
+            catch { }
+        }
+
+        async void iconRefresh_Tap(object sender, EventArgs e)
+        {
+            try
+            {
+                HideShowMenu(true);
+                await RefreshItems(true);
+            }
+            catch { }
+        }
+
+        private async Task RefreshItems(bool Confirm)
+        {
+            try
+            {
+                string messageResult = string.Empty;
+                if (Confirm)
+                {
+                    List<string> messageAnswers = new List<string>();
+                    messageAnswers.Add("Refresh news items");
+                    messageAnswers.Add("Cancel");
+
+                    messageResult = await AVMessageBox.Popup("Refresh news items", "Do you want to refresh all the news items and scroll to the top?", messageAnswers);
+                }
+
+                if (messageResult == "Refresh news items")
+                {
+                    //Reset the online status
+                    OnlineUpdateFeeds = true;
+                    OnlineUpdateNews = true;
+                    ApiMessageError = string.Empty;
+
+                    //Load all the items
+                    await LoadItems(true, false);
+                }
+                else if (!List_NewsItems.Any() && !(bool)AppSettingLoad("DisplayReadMarkedItems"))
+                {
+                    Feeds TempFeed = new Feeds();
+                    TempFeed.feed_id = "1";
+
+                    //Change the selection feed
+                    ChangeSelectionFeed(TempFeed, false);
+
+                    //Load all the items
+                    await LoadItems(false, true);
+                }
+            }
+            catch { }
+        }
+
+        async void iconReadAll_Tap(object sender, EventArgs e)
+        {
+            try
+            {
+                HideShowMenu(true);
+                bool MarkedAllRead = await MarkReadAll(List_NewsItems, true);
+
+                //Ask if user wants to refresh the items
+                if (MarkedAllRead) { await RefreshItems(true); }
+            }
+            catch { }
         }
     }
 }

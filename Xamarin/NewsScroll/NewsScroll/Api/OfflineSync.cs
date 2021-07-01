@@ -14,7 +14,7 @@ namespace NewsScroll.Api
         {
             try
             {
-                if (!Silent) { await EventProgressDisableUI("Syncing offline changes...", true); }
+                if (!Silent) { EventProgressDisableUI("Syncing offline changes...", true); }
                 Debug.WriteLine("Syncing offline changes...");
 
                 //Wait for busy database
@@ -34,7 +34,10 @@ namespace NewsScroll.Api
                         int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_read_status");
                         Debug.WriteLine("Removed " + DeletedItems + " Read offline synced items...");
                     }
-                    else { Debug.WriteLine("Failed to sync offline read items."); }
+                    else
+                    {
+                        Debug.WriteLine("Failed to sync offline read items.");
+                    }
                 }
 
                 //Sync unread items
@@ -48,7 +51,10 @@ namespace NewsScroll.Api
                         int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_unread_status");
                         Debug.WriteLine("Removed " + DeletedItems + " Unread offline synced items...");
                     }
-                    else { Debug.WriteLine("Failed to sync offline unread items."); }
+                    else
+                    {
+                        Debug.WriteLine("Failed to sync offline unread items.");
+                    }
                 }
 
                 //Sync starred items
@@ -62,7 +68,10 @@ namespace NewsScroll.Api
                         int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_star_status");
                         Debug.WriteLine("Removed " + DeletedItems + " Star offline synced items...");
                     }
-                    else { Debug.WriteLine("Failed to sync offline star items."); }
+                    else
+                    {
+                        Debug.WriteLine("Failed to sync offline star items.");
+                    }
                 }
 
                 //Sync Unstarred items
@@ -76,12 +85,18 @@ namespace NewsScroll.Api
                         int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableOffline WHERE item_unstar_status");
                         Debug.WriteLine("Removed " + DeletedItems + " unstar offline synced items...");
                     }
-                    else { Debug.WriteLine("Failed to sync offline unstar items."); }
+                    else
+                    {
+                        Debug.WriteLine("Failed to sync offline unstar items.");
+                    }
                 }
 
-                if (EnableUI) { await EventProgressEnableUI(); }
+                if (EnableUI) { EventProgressEnableUI(); }
             }
-            catch { await EventProgressEnableUI(); }
+            catch
+            {
+                EventProgressEnableUI();
+            }
         }
 
         //Add offline sync items

@@ -1,10 +1,15 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading.Tasks;
+using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
 
@@ -36,7 +41,7 @@ namespace NewsScroll.Api
 
                 await MarkReadSingle(UpdateList, ListItem, ActionType, Silent);
 
-                if (!Silent) { await EventProgressEnableUI(); }
+                if (!Silent) { EventProgressEnableUI(); }
                 return true;
             }
             catch
@@ -45,7 +50,7 @@ namespace NewsScroll.Api
                 messageAnswers.Add("Ok");
 
                 await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", messageAnswers);
-                await EventProgressEnableUI();
+                EventProgressEnableUI();
                 return false;
             }
         }
@@ -60,7 +65,7 @@ namespace NewsScroll.Api
                 //Check if internet is available
                 if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
                 {
-                    if (!Silent) { await EventProgressDisableUI("Off marking item as " + ActionType.ToLower() + "...", true); }
+                    if (!Silent) { EventProgressDisableUI("Off marking item as " + ActionType.ToLower() + "...", true); }
                     Debug.WriteLine("Off marking item as " + ActionType.ToLower() + "...");
 
                     await AddOfflineSync(ItemId, ActionType);
@@ -68,17 +73,27 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    if (!Silent) { await EventProgressDisableUI("Marking item as " + ActionType.ToLower() + "...", true); }
+                    if (!Silent) { EventProgressDisableUI("Marking item as " + ActionType.ToLower() + "...", true); }
                     Debug.WriteLine("Marking item as " + ActionType.ToLower() + "...");
 
-                    //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
+                    string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
 
-                    //HttpStringContent PostContent;
-                    //if (ActionType == "Read") { PostContent = new HttpStringContent("i=" + ItemId + "&a=user/-/state/com.google/read", Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
-                    //else { PostContent = new HttpStringContent("i=" + ItemId + "&r=user/-/state/com.google/read", Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
+                    StringContent PostContent;
+                    if (ActionType == "Read")
+                    {
+                        PostContent = new StringContent("i=" + ItemId + "&a=user/-/state/com.google/read", Encoding.UTF8, "application/x-www-form-urlencoded");
+                    }
+                    else
+                    {
+                        PostContent = new StringContent("i=" + ItemId + "&r=user/-/state/com.google/read", Encoding.UTF8, "application/x-www-form-urlencoded");
+                    }
+                    Uri PostUri = new Uri(ApiConnectionUrl + "edit-tag");
 
-                    //HttpResponseMessage PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "edit-tag"), PostContent);
-                    //if (PostHttp != null && (PostHttp.Content.ToString() == "OK" || PostHttp.Content.ToString().Contains("<error>Not found</error>"))) { MarkStatus = true; }
+                    string PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, PostUri, PostContent);
+                    if (PostHttp != null && (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>")))
+                    {
+                        MarkStatus = true;
+                    }
                 }
 
                 if (MarkStatus)
@@ -86,29 +101,32 @@ namespace NewsScroll.Api
                     //Wait for busy database
                     await ApiUpdate.WaitForBusyDatabase();
 
+                    //Get the current page name
+                    string currentPage = App.Current.MainPage.ToString();
+
                     //Mark item in database and list
                     TableItems TableEditItems = await vSQLConnection.Table<TableItems>().Where(x => x.item_id == ItemId).FirstOrDefaultAsync();
-                    //if (TableEditItems != null)
-                    //{
-                    //    if (ActionType == "Read")
-                    //    {
-                    //        TableEditItems.item_read_status = true;
-                    //        ListItem.item_read_status = true; //Updates itemviewer
-                    //        if (App.vApplicationFrame.SourcePageType.ToString().EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1" && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                    //        {
-                    //            UpdateList.Remove(ListItem);
-                    //        }
-                    //    }
-                    //    else
-                    //    {
-                    //        TableEditItems.item_read_status = false;
-                    //        ListItem.item_read_status = false; //Updates itemviewer
-                    //        if (App.vApplicationFrame.SourcePageType.ToString().EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id == "1" && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                    //        {
-                    //            UpdateList.Remove(ListItem);
-                    //        }
-                    //    }
-                    //}
+                    if (TableEditItems != null)
+                    {
+                        if (ActionType == "Read")
+                        {
+                            TableEditItems.item_read_status = true;
+                            ListItem.item_read_status = true; //Updates itemviewer
+                            if (currentPage.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
+                            {
+                                UpdateList.Remove(ListItem);
+                            }
+                        }
+                        else
+                        {
+                            TableEditItems.item_read_status = false;
+                            ListItem.item_read_status = false; //Updates itemviewer
+                            if (currentPage.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id == "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
+                            {
+                                UpdateList.Remove(ListItem);
+                            }
+                        }
+                    }
 
                     //Update the items in database
                     await vSQLConnection.UpdateAsync(TableEditItems);
@@ -119,7 +137,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Ok");
 
                     await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", messageAnswers);
-                    await EventProgressEnableUI();
+                    EventProgressEnableUI();
                 }
 
                 return MarkStatus;
@@ -158,7 +176,7 @@ namespace NewsScroll.Api
                 //Check if internet is available
                 if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
                 {
-                    if (!Silent) { await EventProgressDisableUI("Off marking read till item...", true); }
+                    if (!Silent) { EventProgressDisableUI("Off marking read till item...", true); }
                     Debug.WriteLine("Off marking read till item...");
 
                     //Add items to string list
@@ -181,7 +199,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    if (!Silent) { await EventProgressDisableUI("Marking read till item...", true); }
+                    if (!Silent) { EventProgressDisableUI("Marking read till item...", true); }
                     Debug.WriteLine("Marking read till item...");
 
                     //Add items to post string
@@ -199,11 +217,15 @@ namespace NewsScroll.Api
                         }
                     }
 
-                    //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
-                    //HttpStringContent PostContent = new HttpStringContent("a=user/-/state/com.google/read" + PostStringItemIds, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded");
+                    string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
+                    StringContent PostContent = new StringContent("a=user/-/state/com.google/read" + PostStringItemIds, Encoding.UTF8, "application/x-www-form-urlencoded");
+                    Uri PostUri = new Uri(ApiConnectionUrl + "edit-tag");
 
-                    //HttpResponseMessage PostHttp = await AVDownloader.SendPostRequestAsync(10000, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "edit-tag"), PostContent);
-                    //if (PostHttp != null && (PostHttp.Content.ToString() == "OK" || PostHttp.Content.ToString().Contains("<error>Not found</error>"))) { MarkStatus = true; }
+                    string PostHttp = await AVDownloader.SendPostRequestAsync(10000, "News Scroll", RequestHeader, PostUri, PostContent);
+                    if (PostHttp != null && (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>")))
+                    {
+                        MarkStatus = true;
+                    }
                 }
 
                 if (MarkStatus)
@@ -234,15 +256,15 @@ namespace NewsScroll.Api
                     //Update current items list
                     foreach (Items NewsItem in UpdateList.ToList())
                     {
-                        ////Mark the item as read or remove it from list
-                        //if ((bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                        //{
-                        //    UpdateList.Remove(NewsItem);
-                        //}
-                        //else
-                        //{
-                        //    NewsItem.item_read_status = true;
-                        //}
+                        //Mark the item as read or remove it from list
+                        if ((bool)AppSettingLoad("HideReadMarkedItem"))
+                        {
+                            UpdateList.Remove(NewsItem);
+                        }
+                        else
+                        {
+                            NewsItem.item_read_status = true;
+                        }
 
                         //Check if the end item has been reached
                         if (EndItemId == NewsItem.item_id)
@@ -252,7 +274,7 @@ namespace NewsScroll.Api
                         }
                     }
 
-                    if (EnableUI) { await EventProgressEnableUI(); }
+                    if (EnableUI) { EventProgressEnableUI(); }
                 }
                 else
                 {
@@ -260,7 +282,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Ok");
 
                     await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", messageAnswers);
-                    await EventProgressEnableUI();
+                    EventProgressEnableUI();
                 }
 
                 return MarkStatus;
@@ -271,7 +293,7 @@ namespace NewsScroll.Api
                 messageAnswers.Add("Ok");
 
                 await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", messageAnswers);
-                await EventProgressEnableUI();
+                EventProgressEnableUI();
                 return false;
             }
         }
@@ -309,7 +331,7 @@ namespace NewsScroll.Api
                 //Check if internet is available
                 if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
                 {
-                    await EventProgressDisableUI("Off marking all items as read...", true);
+                    EventProgressDisableUI("Off marking all items as read...", true);
                     Debug.WriteLine("Off marking all items as read...");
 
                     //Wait for busy database
@@ -321,22 +343,26 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await EventProgressDisableUI("Marking all items as read...", true);
+                    EventProgressDisableUI("Marking all items as read...", true);
                     Debug.WriteLine("Marking all items as read...");
 
-                    ////Date time variables
-                    //Int64 UnixTimeTicks = 0;
-                    //if (AppVariables.ApplicationSettings["LastItemsUpdate"].ToString() != "Never")
-                    //{
-                    //    UnixTimeTicks = (Convert.ToDateTime(AppVariables.ApplicationSettings["LastItemsUpdate"], AppVariables.CultureInfoEnglish).Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10; //Nanoseconds
-                    //}
+                    //Date time variables
+                    Int64 UnixTimeTicks = 0;
+                    if (AppSettingLoad("LastItemsUpdate").ToString() != "Never")
+                    {
+                        UnixTimeTicks = (Convert.ToDateTime(AppSettingLoad("LastItemsUpdate"), AppVariables.CultureInfoEnglish).Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10; //Nanoseconds
+                    }
 
-                    ////Mark all items as read on api server
-                    //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
-                    //HttpStringContent PostContent = new HttpStringContent("s=user/-/state/com.google/reading-list&ts=" + UnixTimeTicks, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded");
+                    //Mark all items as read on api server
+                    string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
+                    StringContent PostContent = new StringContent("s=user/-/state/com.google/reading-list&ts=" + UnixTimeTicks, Encoding.UTF8, "application/x-www-form-urlencoded");
+                    Uri PostUri = new Uri(ApiConnectionUrl + "mark-all-as-read");
 
-                    //HttpResponseMessage PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "mark-all-as-read"), PostContent);
-                    //if (PostHttp != null && (PostHttp.Content.ToString() == "OK" || PostHttp.Content.ToString().Contains("<error>Not found</error>"))) { MarkStatus = true; }
+                    string PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, PostUri, PostContent);
+                    if (PostHttp != null && (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>")))
+                    {
+                        MarkStatus = true;
+                    }
                 }
 
                 if (MarkStatus)
@@ -353,17 +379,17 @@ namespace NewsScroll.Api
                     List<Items> ListItems = UpdateList.Where(x => x.item_read_status == false).ToList();
                     foreach (Items NewsItem in ListItems)
                     {
-                        //if ((bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                        //{
-                        //    UpdateList.Remove(NewsItem);
-                        //}
-                        //else
-                        //{
-                        //    NewsItem.item_read_status = true;
-                        //}
+                        if ((bool)AppSettingLoad("HideReadMarkedItem"))
+                        {
+                            UpdateList.Remove(NewsItem);
+                        }
+                        else
+                        {
+                            NewsItem.item_read_status = true;
+                        }
                     }
 
-                    await EventProgressEnableUI();
+                    EventProgressEnableUI();
                 }
                 else
                 {
@@ -371,7 +397,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Ok");
 
                     await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", messageAnswers);
-                    await EventProgressEnableUI();
+                    EventProgressEnableUI();
                 }
 
                 return MarkStatus;
@@ -382,7 +408,7 @@ namespace NewsScroll.Api
                 messageAnswers.Add("Ok");
 
                 await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", messageAnswers);
-                await EventProgressEnableUI();
+                EventProgressEnableUI();
                 return false;
             }
         }
@@ -392,21 +418,37 @@ namespace NewsScroll.Api
         {
             try
             {
-                ////Add items to post string
-                //string PostStringItemIds = String.Empty;
-                //foreach (String ItemId in MarkIds) { PostStringItemIds += "&i=" + ItemId; }
+                //Add items to post string
+                string PostStringItemIds = String.Empty;
+                foreach (string ItemId in MarkIds) { PostStringItemIds += "&i=" + ItemId; }
 
-                //string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
+                string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
 
-                //HttpStringContent PostContent;
-                //if (MarkType) { PostContent = new HttpStringContent("a=user/-/state/com.google/read" + PostStringItemIds, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
-                //else { PostContent = new HttpStringContent("r=user/-/state/com.google/read" + PostStringItemIds, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/x-www-form-urlencoded"); }
+                StringContent PostContent;
+                if (MarkType)
+                {
+                    PostContent = new StringContent("a=user/-/state/com.google/read" + PostStringItemIds, Encoding.UTF8, "application/x-www-form-urlencoded");
+                }
+                else
+                {
+                    PostContent = new StringContent("r=user/-/state/com.google/read" + PostStringItemIds, Encoding.UTF8, "application/x-www-form-urlencoded");
+                }
+                Uri PostUri = new Uri(ApiConnectionUrl + "edit-tag");
 
-                //HttpResponseMessage PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "edit-tag"), PostContent);
-                //if (PostHttp != null && (PostHttp.Content.ToString() == "OK" || PostHttp.Content.ToString().Contains("<error>Not found</error>"))) { return true; } else { return false; }
-                return true;
+                string PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, PostUri, PostContent);
+                if (PostHttp != null && (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>")))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            catch { return false; }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

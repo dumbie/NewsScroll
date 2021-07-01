@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using NewsScroll.Classes;
+using System.Globalization;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace NewsScroll
 {
@@ -23,8 +25,7 @@ namespace NewsScroll
 
         //Culture Variables
         public static CultureInfo CultureInfoEnglish = new CultureInfo("en-US");
-        //public static CultureInfo CultureInfoLocal = new CultureInfo(Windows.Globalization.Language.CurrentInputMethodLanguageTag);
-        //public static DateTimeFormatInfo CultureInfoFormat = new CultureInfo(Windows.System.UserProfile.GlobalizationPreferences.HomeGeographicRegion).DateTimeFormat;
+        public static CultureInfo CultureInfoLocal = new CultureInfo(CultureInfo.CurrentUICulture.ToString());
 
         //Blocked url list
         public static string[] BlockedListUrl = new string[] { "feedproxy.google.com", "feedburner.com", "placehold.it", "mbn2_twig" };
@@ -43,5 +44,35 @@ namespace NewsScroll
         public static int StarredMaximumLoad = 500;
         public static int MaximumItemTextLength = 8000;
         public static int MaximumItemImageHeight = 320;
+
+        //Search Variables
+        public static Feeds vSearchFeed = null;
+        public static string vSearchTerm = string.Empty;
+        public static string vSearchFeedTitle = string.Empty;
+
+        //Check double click count
+        public static async Task<int> DoubleClickCheck()
+        {
+            try
+            {
+                vSingleTappedClickCount++;
+                if (vSingleTappedClickCount == 1)
+                {
+                    await Task.Delay(300);
+                    if (vSingleTappedClickCount == 1)
+                    {
+                        vSingleTappedClickCount = 0;
+                        return 1;
+                    }
+                    else
+                    {
+                        vSingleTappedClickCount = 0;
+                        return 2;
+                    }
+                }
+            }
+            catch { }
+            return 0;
+        }
     }
 }

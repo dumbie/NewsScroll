@@ -11,8 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Extensions\AVImageResource.cs" Link="Extensions\AVImageResource.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Extensions\AVImageResource.cs" Link="ArnoldVinkCode\Extensions\AVImageResource.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVDownloader.cs" Link="ArnoldVinkCode\Functions\AVDownloader.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVFunctions.cs" Link="ArnoldVinkCode\Functions\AVFunctions.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Files\AVFiles-PCL.cs" Link="ArnoldVinkCode\Functions\AVFiles-PCL.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Settings\AVSettings-PCL.cs" Link="ArnoldVinkCode\Functions\AVSettings-PCL.cs" />
   </ItemGroup>
 
@@ -190,7 +192,7 @@
 
   <ItemGroup>
     <Folder Include="ArnoldVinkCode\Functions\" />
-    <Folder Include="Extensions\" />
+    <Folder Include="ArnoldVinkCode\Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
