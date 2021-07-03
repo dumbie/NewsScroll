@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Api
 {
@@ -31,8 +31,7 @@ namespace NewsScroll.Api
                     Debug.WriteLine("Processing " + WebJObject["subscriptions"].Count() + " feeds...");
 
                     List<string> ApiFeedIdList = new List<string>();
-                    //fix
-                    //IReadOnlyList<IStorageItem> LocalFileList = await ApplicationData.Current.LocalFolder.GetItemsAsync();
+                    string[] LocalFileList = AVFiles.Directory_ListFiles(string.Empty, true);
 
                     //Wait for busy database
                     await ApiUpdate.WaitForBusyDatabase();
@@ -84,28 +83,27 @@ namespace NewsScroll.Api
                             TableUpdatedFeeds.Add(TableResult);
                         }
 
-                        //fix
-                        //    //Check and download feed logo
-                        //    if (!LocalFileList.Any(x => x.Name == FeedId + ".png"))
-                        //    {
-                        //        try
-                        //        {
-                        //            if (!Silent) { EventProgressDisableUI("Downloading " + FeedTitle + " icon...", true); }
+                        //Check and download feed logo
+                        if (!LocalFileList.Any(x => x.EndsWith(FeedId + ".png")))
+                        {
+                            try
+                            {
+                                if (!Silent) { EventProgressDisableUI("Downloading " + FeedTitle + " icon...", true); }
 
-                        //            Uri IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?domain=" + FullUrl.Host);
-                        //            IBuffer HttpFeedIcon = await AVDownloader.DownloadBufferAsync(3000, "News Scroll", IconUrl);
-                        //            if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
-                        //            {
-                        //                await AVFile.SaveBuffer(FeedId + ".png", HttpFeedIcon);
-                        //                Debug.WriteLine("Downloaded transparent logo: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
-                        //            }
-                        //            else
-                        //            {
-                        //                Debug.WriteLine("No logo found for: " + IconUrl);
-                        //            }
-                        //        }
-                        //        catch { }
-                        //    }
+                                Uri IconUrl = new Uri("https://s2.googleusercontent.com/s2/favicons?domain=" + FullUrl.Host);
+                                byte[] HttpFeedIcon = await AVDownloader.DownloadByteAsync(3000, "News Scroll", null, IconUrl);
+                                if (HttpFeedIcon != null && HttpFeedIcon.Length > 75)
+                                {
+                                    AVFiles.File_SaveBytes(FeedId + ".png", HttpFeedIcon, true, true);
+                                    Debug.WriteLine("Downloaded transparent logo: " + HttpFeedIcon.Length + "bytes/" + IconUrl);
+                                }
+                                else
+                                {
+                                    Debug.WriteLine("No logo found for: " + IconUrl);
+                                }
+                            }
+                            catch { }
+                        }
                     }
 
                     //Update the feeds in database

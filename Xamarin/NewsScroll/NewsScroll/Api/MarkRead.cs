@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Api
 {
@@ -347,7 +347,7 @@ namespace NewsScroll.Api
                     Debug.WriteLine("Marking all items as read...");
 
                     //Date time variables
-                    Int64 UnixTimeTicks = 0;
+                    long UnixTimeTicks = 0;
                     if (AppSettingLoad("LastItemsUpdate").ToString() != "Never")
                     {
                         UnixTimeTicks = (Convert.ToDateTime(AppSettingLoad("LastItemsUpdate"), AppVariables.CultureInfoEnglish).Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10; //Nanoseconds
@@ -419,7 +419,7 @@ namespace NewsScroll.Api
             try
             {
                 //Add items to post string
-                string PostStringItemIds = String.Empty;
+                string PostStringItemIds = string.Empty;
                 foreach (string ItemId in MarkIds) { PostStringItemIds += "&i=" + ItemId; }
 
                 string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };

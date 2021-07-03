@@ -4,8 +4,39 @@
              x:Class="NewsScroll.NewsPage"
              xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
 
+    <ContentPage.Resources>
+        <!--ListView Item Vertical Title, Image and Text -->
+        <DataTemplate x:Key="ListViewItemsVertical0">
+            <ViewCell>
+                <ViewCell.View>
+                    <StackLayout Margin="0,5,0,0">
+                        <StackLayout>
+                            <Label Text="{Binding item_title}"/>
+                            <Label Text="{Binding item_datestring}" Style="{StaticResource LabelLightGray}"/>
+                            <Grid Margin="0,5,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="20" WidthRequest="20" Source="{Binding feed_icon}" Margin="0,0,5,0"/>
+                                <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="20" WidthRequest="20" IsVisible="{Binding item_star_status}" Source="{AVExtensions:ImageResource Assets.iconStar-Dark.png}" Margin="0,0,5,0"/>
+                                <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="20" WidthRequest="20" IsVisible="{Binding item_read_status}" Source="{AVExtensions:ImageResource Assets.iconRead-Dark.png}" Margin="0,0,5,0"/>
+                                <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentDimColor}"/>
+                            </Grid>
+                        </StackLayout>
+
+                        <Image HeightRequest="240" Source="{Binding item_image}" IsVisible="{Binding item_image_visibility}"/>
+                        <Label Text="{Binding item_content}" Style="{StaticResource LabelLightGray}"/>
+                    </StackLayout>
+                </ViewCell.View>
+            </ViewCell>
+        </DataTemplate>
+    </ContentPage.Resources>
+
     <!--Main page-->
-    <Grid x:Name="grid_Main" Background="#F1F1F1">
+    <Grid x:Name="grid_Main" BackgroundColor="{DynamicResource ApplicationWhiteColor}">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
@@ -16,7 +47,7 @@
             <!-- Page Header -->
             <StackLayout Grid.Row="0" x:Name="stacklayout_Header">
                 <!-- Page Menu -->
-                <Grid HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" Background="{StaticResource ApplicationAccentDimBrush}">
+                <Grid HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
                     <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
                         <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Items"/>
                         <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Loading items"/>
@@ -39,26 +70,20 @@
         </Grid>
 
         <!-- Status Current Item -->
-        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Margin="6,0,0,6" Padding="0,25,25,0">
+        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Margin="6,0,0,6" Padding="0,25,25,0" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Tapped="button_StatusCurrentItem_Tapped"/>
             </Frame.GestureRecognizers>
-            <Frame.Background>
-                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
-            </Frame.Background>
             <Label x:Name="label_StatusCurrentItem" Margin="4,1,4,1" Style="{StaticResource LabelWhite}" Text="1"/>
         </Frame>
 
         <!-- Status Application -->
-        <Grid x:Name="grid_StatusApplication" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="false">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
-            </Grid.Background>
-            <Label x:Name="label_StatusApplication" Margin="10,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+        <Grid x:Name="grid_StatusApplication" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="false" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
+            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
         </Grid>
 
         <!-- Swipe Bar -->
-        <Grid x:Name="grid_SwipeBar" Background="Transparent" IsVisible="false"/>
+        <Grid x:Name="grid_SwipeBar" HorizontalOptions="Start" VerticalOptions="Fill" WidthRequest="15" BackgroundColor="Transparent" IsVisible="true"/>
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" BackgroundColor="{StaticResource ApplicationAccentLightColor}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,100,0,0" IsVisible="false">
@@ -71,10 +96,7 @@
         </Grid>
 
         <!-- Grid Popup Menu -->
-        <Grid x:Name="grid_PopupMenu" IsVisible="false" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
-            </Grid.Background>
+        <Grid x:Name="grid_PopupMenu" IsVisible="false" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal">
                 <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45" Clicked="iconStar_Tap"/>
                 <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45" Clicked="iconSearch_Tap"/>

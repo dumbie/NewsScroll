@@ -210,7 +210,7 @@ namespace NewsScroll
                 //    Debug.WriteLine("Database is currently busy, waiting...");
                 //    await Task.Delay(10);
                 //}
-                await Task.Delay(100);
+                await Task.Delay(0);
             }
             catch { }
         }

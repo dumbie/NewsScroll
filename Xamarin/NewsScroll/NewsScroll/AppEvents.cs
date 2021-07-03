@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 
-namespace NewsScroll.Events
+namespace NewsScroll.AppEvents
 {
-    public class Events
+    public class AppEvents
     {
         public delegate void DelegateProgressDisableUI(string ProgressMsg, bool DisableInterface);
         public static DelegateProgressDisableUI EventProgressDisableUI = null;
@@ -41,19 +41,20 @@ namespace NewsScroll.Events
                 Debug.WriteLine("Registering application events...");
 
                 //Create event to check internet connection
-                //NetworkInformation.NetworkStatusChanged += CheckInternetConnection;
+                Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
             }
             catch { }
         }
 
-        private static async void CheckInternetConnection(object sender)
+        private static async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             try
             {
-                bool CurrentOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
+                bool currentOnlineStatus = Connectivity.NetworkAccess == NetworkAccess.Internet;
+                Debug.WriteLine("Connectivity changed, internet available: " + currentOnlineStatus);
 
                 //Check if internet connection has changed
-                if (CurrentOnlineStatus && !AppVariables.PreviousOnlineStatus)
+                if (currentOnlineStatus && !AppVariables.PreviousOnlineStatus)
                 {
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
@@ -62,7 +63,7 @@ namespace NewsScroll.Events
                     await SyncOfflineChanges(false, true);
                 }
 
-                AppVariables.PreviousOnlineStatus = CurrentOnlineStatus;
+                AppVariables.PreviousOnlineStatus = currentOnlineStatus;
             }
             catch { }
         }
@@ -75,7 +76,7 @@ namespace NewsScroll.Events
                 Debug.WriteLine("Disabling application events...");
 
                 //Disable event to check internet connection
-                //NetworkInformation.NetworkStatusChanged -= CheckInternetConnection;
+                Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             }
             catch { }
         }

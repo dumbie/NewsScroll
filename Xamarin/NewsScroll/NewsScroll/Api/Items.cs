@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Api
 {
@@ -25,7 +25,7 @@ namespace NewsScroll.Api
                 Debug.WriteLine("Downloading latest items...");
 
                 //Date time calculations
-                Int64 UnixTimeTicks = 0;
+                long UnixTimeTicks = 0;
                 DateTime RemoveItemsRange = DateTime.UtcNow.AddDays(-Convert.ToDouble(AppSettingLoad("RemoveItemsRange")));
                 if (AppSettingLoad("LastItemsUpdate").ToString() == "Never")
                 {
@@ -210,7 +210,7 @@ namespace NewsScroll.Api
                     string StreamId = "0";
                     try
                     {
-                        StreamId = JTokenRoot["origin"]["streamId"].ToString().Replace(" ", String.Empty).Replace("feed/", String.Empty).Replace("/state/com.google/broadcast", String.Empty);
+                        StreamId = JTokenRoot["origin"]["streamId"].ToString().Replace(" ", string.Empty).Replace("feed/", string.Empty).Replace("/state/com.google/broadcast", string.Empty);
                     }
                     catch { Debug.WriteLine("Failed to get feed id for item: " + ItemId); }
                     AddItem.item_feed_id = StreamId;
@@ -238,8 +238,8 @@ namespace NewsScroll.Api
                     {
                         TitleString = WebUtility.HtmlDecode(JTokenRoot["title"].ToString());
                         //TitleString = WebUtility.UrlDecode(TitleString);
-                        TitleString = TitleString.Replace("\n", String.Empty).Replace("\r", String.Empty);
-                        TitleString = Regex.Replace(TitleString, "<.*?>", String.Empty, RegexOptions.Singleline);
+                        TitleString = TitleString.Replace("\n", string.Empty).Replace("\r", string.Empty);
+                        TitleString = Regex.Replace(TitleString, "<.*?>", string.Empty, RegexOptions.Singleline);
                     }
                     catch { Debug.WriteLine("Failed to get item title for item: " + ItemId); }
                     AddItem.item_title = TitleString;
@@ -250,13 +250,13 @@ namespace NewsScroll.Api
                     {
                         AuthorString = WebUtility.HtmlDecode(JTokenRoot["author"].ToString());
                         //AuthorString = WebUtility.UrlDecode(AuthorString);
-                        AuthorString = AuthorString.Replace("\n", String.Empty).Replace("\r", String.Empty);
+                        AuthorString = AuthorString.Replace("\n", string.Empty).Replace("\r", string.Empty);
                     }
                     catch { Debug.WriteLine("Failed to get item author for item: " + ItemId); }
                     AddItem.item_author = AuthorString;
 
                     //Set the item link
-                    string ItemLinkString = String.Empty;
+                    string ItemLinkString = string.Empty;
                     try
                     {
                         ItemLinkString = WebUtility.HtmlDecode(JTokenRoot["canonical"][0]["href"].ToString());
@@ -266,7 +266,7 @@ namespace NewsScroll.Api
                     AddItem.item_link = ItemLinkString;
 
                     //Set the item content
-                    string ItemContentString = String.Empty;
+                    string ItemContentString = string.Empty;
                     try
                     {
                         ItemContentString = JTokenRoot["summary"]["content"].ToString();
@@ -278,7 +278,7 @@ namespace NewsScroll.Api
                     AddItem.item_content_full = ItemContentString;
 
                     //Check the item image
-                    string ItemImageLink = String.Empty;
+                    string ItemImageLink = string.Empty;
                     try
                     {
                         //Get the image source link
@@ -318,7 +318,7 @@ namespace NewsScroll.Api
                     AddItem.item_image = ItemImageLink;
 
                     //Check item status
-                    string Categories = String.Empty;
+                    string Categories = string.Empty;
                     try { Categories = JTokenRoot["categories"].ToString(); } catch { Debug.WriteLine("Failed to check categories for item: " + ItemId); }
 
                     //Read the item

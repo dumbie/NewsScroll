@@ -1,4 +1,5 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
+using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
 using static NewsScroll.Lists.Lists;
 
 namespace NewsScroll
@@ -36,6 +37,7 @@ namespace NewsScroll
                 if (!CheckAccount())
                 {
                     await CleanupPageResources();
+                    App.NavigateToPage(new SettingsPage(), true);
                     return;
                 }
 
@@ -70,12 +72,11 @@ namespace NewsScroll
                 //EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
                 EventRefreshPageItems += new DelegateRefreshPageItems(RefreshItems);
 
-                ////Register ListView events
-                //ListView_Items.Tapped += EventsListView.ListView_Items_Tapped;
-                //ListView_Items.RightTapped += EventsListView.ListView_Items_RightTapped;
+                //Register ListView events
+                ListView_Items.ItemTapped += EventsListView.ListView_Items_Tapped;
 
                 ////Register ListView scroll viewer
-                //ScrollViewer ListViewScrollViewer = AVFunctions.FindVisualChild<ScrollViewer>(ListView_Items);
+                //ScrollView ListViewScrollViewer = AVFunctions.FindVisualChild<ScrollView>(ListView_Items);
                 //ListViewScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
                 //ListViewScrollViewer.VerticalSnapPointsType = SnapPointsType.None;
                 //ListViewScrollViewer.HorizontalSnapPointsType = SnapPointsType.None;
@@ -92,8 +93,11 @@ namespace NewsScroll
                 //    grid_SwipeBar.ManipulationCompleted += Page_ManipulationCompleted;
                 //}
 
-                ////Monitor key presses
-                //grid_Main.PreviewKeyUp += Page_PreviewKeyUp; //DesktopOnly
+                SwipeGestureRecognizer swipeGestureRecognizer = new SwipeGestureRecognizer();
+                swipeGestureRecognizer.Direction = SwipeDirection.Left | SwipeDirection.Right;
+                swipeGestureRecognizer.Swiped += Page_ManipulationCompleted;
+                grid_SwipeBar.GestureRecognizers.Add(swipeGestureRecognizer);
+                //grid_SwipeBar.GestureRecognizers.Clear();
             }
             catch { }
         }
@@ -252,8 +256,7 @@ namespace NewsScroll
                 if (Result == 2)
                 {
                     await CleanupPageResources();
-                    await Navigation.PushModalAsync(new SettingsPage());
-                    Navigation.NavigationStack.ToList().Clear();
+                    App.NavigateToPage(new SettingsPage(), true);
                     return;
                 }
 
@@ -465,8 +468,7 @@ namespace NewsScroll
                 await ApiUpdate.WaitForBusyApplication();
 
                 await CleanupPageResources();
-                await Navigation.PushModalAsync(new SettingsPage());
-                Navigation.NavigationStack.ToList().Clear();
+                App.NavigateToPage(new SettingsPage(), true);
             }
             catch { }
         }

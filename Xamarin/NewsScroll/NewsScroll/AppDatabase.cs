@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Database
 {
@@ -18,7 +18,7 @@ namespace NewsScroll.Database
             string DatabaseSize = "empty";
             try
             {
-                long fileSize = AVFiles.File_Size("Database.sqlite");
+                long fileSize = AVFiles.File_Size("Database.sqlite", true);
                 DatabaseSize = string.Format("{0:0.00}", +decimal.Divide(fileSize, 1048576)) + "MB";
             }
             catch { }
@@ -74,14 +74,18 @@ namespace NewsScroll.Database
         {
             try
             {
-                EventProgressDisableUI("Resetting the database.", true);
+                if (EventProgressDisableUI != null)
+                {
+                    EventProgressDisableUI("Resetting the database.", true);
+                }
                 Debug.WriteLine("Resetting the database.");
 
                 //Delete all files from local storage
-                //foreach (IStorageItem LocalFile in await ApplicationData.Current.LocalFolder.GetItemsAsync())
-                //{
-                //    try { await LocalFile.DeleteAsync(StorageDeleteOption.PermanentDelete); } catch { }
-                //}
+                string[] localFiles = AVFiles.Directory_ListFiles(string.Empty, true);
+                foreach (string localFile in localFiles)
+                {
+                    AVFiles.File_Delete(localFile, false);
+                }
 
                 //Reset the online status
                 OnlineUpdateFeeds = true;

@@ -5,7 +5,7 @@
              xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
 
     <!--Main page-->
-    <Grid x:Name="grid_Main" Background="#F1F1F1">
+    <Grid x:Name="grid_Main" BackgroundColor="{DynamicResource ApplicationWhiteColor}">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
@@ -14,7 +14,7 @@
             </Grid.RowDefinitions>
 
             <!-- Page Header -->
-            <Grid Grid.Row="0" HeightRequest="65" Background="{StaticResource ApplicationAccentDimBrush}">
+            <Grid Grid.Row="0" HeightRequest="65" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
                 <StackLayout Margin="10,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
                     <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Settings"/>
                     <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Scroll"/>
@@ -43,7 +43,7 @@
                         <StackLayout Orientation="Horizontal">
                             <CheckBox x:Name="setting_DisplayReadMarkedItems" Style="{StaticResource CheckBox}"/>
                             <Label Text="Load items that are marked read" VerticalOptions="Center"/>
-                        </StackLayout>        
+                        </StackLayout>
                         <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will load all news items including already read items." Style="{StaticResource LabelLightGray}"/>
 
                         <StackLayout Orientation="Horizontal">
@@ -92,7 +92,7 @@
                         <StackLayout Orientation="Horizontal">
                             <CheckBox x:Name="setting_ItemTextSelection" Style="{StaticResource CheckBox}"/>
                             <Label Text="Enable news item text selection" VerticalOptions="Center"/>
-                        </StackLayout>     
+                        </StackLayout>
                         <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource LabelLightGray}"/>
 
                         <Label Text="Update Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
@@ -148,10 +148,7 @@
         </Grid>
 
         <!-- Status Application -->
-        <Grid x:Name="grid_StatusApplication" HeightRequest="30" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
-            </Grid.Background>
+        <Grid x:Name="grid_StatusApplication" HeightRequest="30" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                 <ProgressBar  ProgressColor="White" Margin="10,0,0,0"/>
                 <Label x:Name="label_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
@@ -159,10 +156,7 @@
         </Grid>
 
         <!-- Grid Popup Menu -->
-        <Grid x:Name="grid_PopupMenu" HeightRequest="0" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0">
-            <Grid.Background>
-                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}"/>
-            </Grid.Background>
+        <Grid x:Name="grid_PopupMenu" HeightRequest="0" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal">
                 <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Clicked="iconStar_Tap" Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45"/>
                 <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Clicked="iconSearch_Tap" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45"/>

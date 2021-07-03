@@ -45,7 +45,7 @@
     <!--Picker Styles-->
     <Style x:Key="Picker" TargetType="Picker">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <!--CheckBox Styles-->
@@ -69,14 +69,14 @@
     <Style x:Key="ProgressBarAccent" TargetType="ProgressBar">
         <Setter Property="HeightRequest" Value="3"/>
         <Setter Property="Margin" Value="0,3,0,3"/>
-        <Setter Property="Background" Value="#CDCDCD"/>
+        <Setter Property="BackgroundColor" Value="#CDCDCD"/>
     </Style>
 
     <!--Button Styles-->
     <Style x:Key="ButtonAccent" TargetType="Button">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="#F1F1F1"/>
-        <Setter Property="Background" Value="{StaticResource ApplicationAccentLightBrush}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource ApplicationAccentLightColor}"/>
     </Style>
     <Style x:Key="ButtonImage" TargetType="ImageButton">
         <Setter Property="BackgroundColor" Value="Transparent"/>
@@ -84,19 +84,21 @@
 
     <!--Slider Styles-->
     <Style x:Key="SliderAccent" TargetType="Slider">
-        <Setter Property="Background" Value="#888"/>
+        <Setter Property="BackgroundColor" Value="#888"/>
     </Style>
 
     <!--ListView Styles-->
     <Style x:Key="ListViewVertical" TargetType="ListView">
         <Setter Property="HorizontalScrollBarVisibility" Value="Never"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HasUnevenRows" Value="True"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="SeparatorVisibility" Value="None"/>
     </Style>
 
     <Style x:Key="ListViewHorizontal" TargetType="ListView">
         <Setter Property="VerticalScrollBarVisibility" Value="Never"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HasUnevenRows" Value="True"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="SeparatorVisibility" Value="None"/>
     </Style>
 

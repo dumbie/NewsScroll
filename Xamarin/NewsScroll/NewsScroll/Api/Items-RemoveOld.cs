@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Api
 {
@@ -24,19 +24,19 @@ namespace NewsScroll.Api
 
                 //Date time calculations
                 DateTime RemoveItemsRange = DateTime.UtcNow.AddDays(-Convert.ToDouble(AppSettingLoad("RemoveItemsRange")));
-                List<String> DeleteItems = (await vSQLConnection.Table<TableItems>().Where(x => x.item_star_status == false && x.item_datetime < RemoveItemsRange).ToListAsync()).Select(x => x.item_id).ToList();
+                List<string> DeleteItems = (await vSQLConnection.Table<TableItems>().Where(x => x.item_star_status == false && x.item_datetime < RemoveItemsRange).ToListAsync()).Select(x => x.item_id).ToList();
 
-                Int32 DeleteCount = DeleteItems.Count();
+                int DeleteCount = DeleteItems.Count();
                 if (DeleteCount > 0)
                 {
                     if (!Silent) { EventProgressDisableUI("Removing " + DeleteCount + " older items...", true); }
                     Debug.WriteLine("Removing " + DeleteCount + " older items...");
 
-                    string DeleteString = String.Empty;
-                    foreach (String DeleteItem in DeleteItems) { DeleteString += "'" + DeleteItem + "',"; }
+                    string DeleteString = string.Empty;
+                    foreach (string DeleteItem in DeleteItems) { DeleteString += "'" + DeleteItem + "',"; }
                     DeleteString = AVFunctions.StringRemoveEnd(DeleteString, ",");
 
-                    Int32 DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableItems WHERE item_id IN (" + DeleteString + ")");
+                    int DeletedItems = await vSQLConnection.ExecuteAsync("DELETE FROM TableItems WHERE item_id IN (" + DeleteString + ")");
                     Debug.WriteLine("Removed " + DeletedItems + " older items...");
                 }
 

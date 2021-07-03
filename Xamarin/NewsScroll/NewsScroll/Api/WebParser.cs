@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Api
 {

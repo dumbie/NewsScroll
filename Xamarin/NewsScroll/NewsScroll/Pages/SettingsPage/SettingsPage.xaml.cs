@@ -25,7 +25,6 @@ namespace NewsScroll
             try
             {
                 //Load and set the settings
-                await SettingsCheck();
                 SettingsLoad();
                 SettingsSave();
 
@@ -40,7 +39,11 @@ namespace NewsScroll
 
         private async void iconNews_Tap(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NewsPage());
+            try
+            {
+                App.NavigateToPage(new NewsPage(), true);
+            }
+            catch { }
         }
 
         private void iconHelp_Tap(object sender, EventArgs e)

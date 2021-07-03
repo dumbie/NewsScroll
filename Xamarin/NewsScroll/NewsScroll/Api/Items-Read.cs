@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll.Api
 {
@@ -43,7 +43,7 @@ namespace NewsScroll.Api
                         Uri DownloadUri = new Uri(ApiConnectionUrl + "stream/items/ids?output=json&s=user/-/state/com.google/read&n=" + AppVariables.ItemsMaximumLoad + "&ot=" + UnixTimeTicks);
                         string DownloadString = await AVDownloader.DownloadStringAsync(10000, "News Scroll", RequestHeader, DownloadUri);
 
-                        if (!String.IsNullOrWhiteSpace(DownloadString))
+                        if (!string.IsNullOrWhiteSpace(DownloadString))
                         {
                             JObject WebJObject = JObject.Parse(DownloadString);
                             if (WebJObject["itemRefs"] != null && WebJObject["itemRefs"].HasValues)
@@ -52,11 +52,11 @@ namespace NewsScroll.Api
                                 Debug.WriteLine("Updating " + WebJObject["itemRefs"].Count() + " read status...");
 
                                 //Check and set the received read item ids
-                                string ReadUpdateString = String.Empty;
-                                List<String> ReadItemsList = new List<String>();
+                                string ReadUpdateString = string.Empty;
+                                List<string> ReadItemsList = new List<string>();
                                 foreach (JToken JTokenRoot in WebJObject["itemRefs"])
                                 {
-                                    string FoundItemId = JTokenRoot["id"].ToString().Replace(" ", String.Empty).Replace("tag:google.com,2005:reader/item/", String.Empty);
+                                    string FoundItemId = JTokenRoot["id"].ToString().Replace(" ", string.Empty).Replace("tag:google.com,2005:reader/item/", string.Empty);
                                     ReadUpdateString += "'" + FoundItemId + "',";
                                     ReadItemsList.Add(FoundItemId);
                                 }
@@ -65,7 +65,7 @@ namespace NewsScroll.Api
                                 if (ReadItemsList.Any())
                                 {
                                     ReadUpdateString = AVFunctions.StringRemoveEnd(ReadUpdateString, ",");
-                                    Int32 UpdatedItems = await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_id IN (" + ReadUpdateString + ") AND item_read_status = ('0')");
+                                    int UpdatedItems = await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_id IN (" + ReadUpdateString + ") AND item_read_status = ('0')");
                                     Debug.WriteLine("Updated read items: " + UpdatedItems);
                                 }
 
@@ -84,13 +84,13 @@ namespace NewsScroll.Api
                                 });
 
                                 //Update the unread status in database
-                                string UnreadUpdateString = String.Empty;
-                                List<String> UnreadItemsList = (await vSQLConnection.Table<TableItems>().ToListAsync()).Where(x => x.item_read_status == true && x.item_datetime > RemoveItemsRange).Select(x => x.item_id).Except(ReadItemsList).ToList();
-                                foreach (String UnreadItem in UnreadItemsList) { UnreadUpdateString += "'" + UnreadItem + "',"; }
+                                string UnreadUpdateString = string.Empty;
+                                List<string> UnreadItemsList = (await vSQLConnection.Table<TableItems>().ToListAsync()).Where(x => x.item_read_status == true && x.item_datetime > RemoveItemsRange).Select(x => x.item_id).Except(ReadItemsList).ToList();
+                                foreach (string UnreadItem in UnreadItemsList) { UnreadUpdateString += "'" + UnreadItem + "',"; }
                                 if (UnreadItemsList.Any())
                                 {
                                     UnreadUpdateString = AVFunctions.StringRemoveEnd(UnreadUpdateString, ",");
-                                    Int32 UpdatedItems = await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('0') WHERE item_id IN (" + UnreadUpdateString + ") AND item_read_status = ('1')");
+                                    int UpdatedItems = await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('0') WHERE item_id IN (" + UnreadUpdateString + ") AND item_read_status = ('1')");
                                     Debug.WriteLine("Updated unread items: " + UpdatedItems);
                                 }
 

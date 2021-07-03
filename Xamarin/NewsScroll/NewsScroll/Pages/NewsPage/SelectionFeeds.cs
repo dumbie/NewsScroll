@@ -1,4 +1,5 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -117,8 +118,7 @@ namespace NewsScroll
 
                     int TotalItemsAll = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
                     Feeds FeedItemAll = new Feeds();
-                    //fix
-                    //FeedItemAll.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                    FeedItemAll.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
                     FeedItemAll.feed_title = "All feed items";
                     FeedItemAll.feed_item_count = TotalItemsAll;
                     FeedItemAll.feed_collection_status = true;
@@ -142,9 +142,7 @@ namespace NewsScroll
                         if (FolderUpdate == null)
                         {
                             //Load folder icon
-                            //fix
-                            //Image FolderIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconFolder-Dark.png", false);
-                            ImageSource FolderIcon = null;
+                            ImageSource FolderIcon = ImageSource.FromResource("NewsScroll.Assets.iconFolder-Dark.png");
 
                             //Add folder
                             Feeds FolderItem = new Feeds();
@@ -158,9 +156,18 @@ namespace NewsScroll
                         //Add feed
                         //Load feed icon
                         ImageSource FeedIcon = null;
-                        //fix
-                        //if (Feed.feed_id.StartsWith("user/")) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + Feed.feed_id + ".png", false); }
-                        //if (FeedIcon == null) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
+                        if (Feed.feed_id.StartsWith("user/"))
+                        {
+                            FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
+                        }
+                        else
+                        {
+                            FeedIcon = AVFiles.File_LoadImage(Feed.feed_id + ".png", true);
+                        }
+                        if (FeedIcon == null)
+                        {
+                            FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
+                        }
 
                         //Get the current feed item count
                         Feeds FeedItem = new Feeds();

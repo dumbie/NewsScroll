@@ -8,10 +8,7 @@ namespace NewsScroll
     class AppVariables
     {
         //Application Variables
-        //public static IDictionary<string, object> ApplicationSettings = ApplicationData.Current.LocalSettings.Values;
         public static bool PreviousOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
-        //public static ApplicationView ApplicationView = ApplicationView.GetForCurrentView();
-        //public static DisplayRequest DisplayRequest = new DisplayRequest();
         public static int vSingleTappedClickCount = 0;
         public static bool BusyApplication = false;
         public static bool HeaderHidden = false;

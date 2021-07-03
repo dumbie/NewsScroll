@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Database.Database;
-using static NewsScroll.Events.Events;
+using static NewsScroll.AppEvents.AppEvents;
 
 namespace NewsScroll
 {
@@ -68,8 +68,7 @@ namespace NewsScroll
                             ItemImageVisibility = true;
                             if (AppVariables.CurrentItemsLoaded < AppVariables.ContentToScrollLoad)
                             {
-                                //fix
-                                //ItemImage = await AVImage.LoadBitmapImage(ItemImageLink, false);
+                                ItemImage = ImageSource.FromUri(new Uri(ItemImageLink));
                             }
                         }
 
@@ -77,18 +76,18 @@ namespace NewsScroll
                         ImageSource FeedIcon = null;
                         if (AppVariables.CurrentItemsLoaded < AppVariables.ContentToScrollLoad)
                         {
-                            //fix
-                            //if (FeedId.StartsWith("user/"))
-                            //{
-                            //FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false);
-                            //} else
-                            //{
-                            //FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + FeedId + ".png", false);
-                            //}
-                            //if (FeedIcon == null)
-                            //{
-                            //FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
-                            //}
+                            if (FeedId.StartsWith("user/"))
+                            {
+                                FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
+                            }
+                            else
+                            {
+                                FeedIcon = AVFiles.File_LoadImage(FeedId + ".png", true);
+                            }
+                            if (FeedIcon == null)
+                            {
+                                FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
+                            }
                         }
 
                         //Set the date time string
