@@ -21,7 +21,8 @@
     <AppxPackageDir>D:\Desktop\NewsScroll\</AppxPackageDir>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <AppxBundle>Never</AppxBundle>
-    <PackageCertificateThumbprint></PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>
+    </PackageCertificateThumbprint>
     <PackageCertificateKeyFile>NewsScroll_StoreKey.pfx</PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
@@ -113,19 +114,19 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVAnimations.cs">
+    <Compile Include="..\..\..\ArnoldVinkCode\UWP\Functions\AVAnimations.cs">
       <Link>ArnoldVinkCode\Functions\AVAnimations.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVDownloader.cs">
+    <Compile Include="..\..\..\ArnoldVinkCode\UWP\Functions\AVDownloader.cs">
       <Link>ArnoldVinkCode\Functions\AVDownloader.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVFile.cs">
+    <Compile Include="..\..\..\ArnoldVinkCode\UWP\Functions\AVFile.cs">
       <Link>ArnoldVinkCode\Functions\AVFile.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVFunctions.cs">
+    <Compile Include="..\..\..\ArnoldVinkCode\UWP\Functions\AVFunctions.cs">
       <Link>ArnoldVinkCode\Functions\AVFunctions.cs</Link>
     </Compile>
-    <Compile Include="..\..\ArnoldVinkCode\UWP\Functions\AVImage.cs">
+    <Compile Include="..\..\..\ArnoldVinkCode\UWP\Functions\AVImage.cs">
       <Link>ArnoldVinkCode\Functions\AVImage.cs</Link>
     </Compile>
     <Compile Include="Api\OfflineSync.cs" />
@@ -161,7 +162,7 @@
     <Compile Include="Events\EventsItemStatus.cs" />
     <Compile Include="Events\EventsScrollViewer.cs" />
     <Compile Include="Pages\ApiPage\Shortcuts.cs" />
-    <Compile Include="Pages\HelpPage.xaml.cs">
+    <Compile Include="Pages\HelpPage\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppLists.cs" />
@@ -224,7 +225,7 @@
     <Compile Include="Pages\SearchPage\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SettingsPage.xaml.cs">
+    <Compile Include="Pages\SettingsPage\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\Settings-Load.cs" />
@@ -395,7 +396,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\HelpPage.xaml">
+    <Page Include="Pages\HelpPage\HelpPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -439,7 +440,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\SettingsPage.xaml">
+    <Page Include="Pages\SettingsPage\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
