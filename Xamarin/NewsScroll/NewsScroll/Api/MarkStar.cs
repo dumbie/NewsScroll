@@ -8,8 +8,8 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
-using static NewsScroll.Database.Database;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.Database.Database;
 using static NewsScroll.Lists.Lists;
 
 namespace NewsScroll.Api

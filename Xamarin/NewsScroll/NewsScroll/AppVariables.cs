@@ -28,6 +28,7 @@ namespace NewsScroll
         public static string[] BlockedListUrl = new string[] { "feedproxy.google.com", "feedburner.com", "placehold.it", "mbn2_twig" };
 
         //Items Current Variables
+        public static int CurrentViewItemsCount = 0;
         public static int CurrentTotalItemsCount = 0;
         public static int CurrentFeedsLoaded = 0;
         public static int CurrentItemsLoaded = 0;
@@ -35,8 +36,7 @@ namespace NewsScroll
         //Items Loading Settings
         public static int ItemsToPreloadBatch = 5;
         public static int ItemsToPreloadMax = 50;
-        public static int ItemsToScrollLoad = 100;
-        public static int ContentToScrollLoad = 6;
+        public static int ItemsToScrollLoad = 100000;
         public static int ItemsMaximumLoad = 100000;
         public static int StarredMaximumLoad = 500;
         public static int MaximumItemTextLength = 8000;

@@ -7,8 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
-using static NewsScroll.Database.Database;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.Database.Database;
 
 namespace NewsScroll.Api
 {

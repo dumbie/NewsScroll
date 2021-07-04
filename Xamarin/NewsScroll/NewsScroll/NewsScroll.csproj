@@ -173,7 +173,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ArnoldVinkCode\Styles\AVMessageBox\AVMessageBox.xaml">
+    <EmbeddedResource Update="Pages\MessageBox\AVMessageBox.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\SettingsPage\SettingsPage.xaml">
@@ -193,6 +193,7 @@
   <ItemGroup>
     <Folder Include="ArnoldVinkCode\Functions\" />
     <Folder Include="ArnoldVinkCode\Extensions\" />
+    <Folder Include="ArnoldVinkCode\Styles\" />
   </ItemGroup>
 
   <ItemGroup>

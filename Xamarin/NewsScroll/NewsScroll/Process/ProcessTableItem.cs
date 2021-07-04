@@ -9,8 +9,8 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
-using static NewsScroll.Database.Database;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.Database.Database;
 
 namespace NewsScroll
 {
@@ -60,34 +60,11 @@ namespace NewsScroll
                         }
 
                         //Load item image
-                        ImageSource ItemImage = null;
                         bool ItemImageVisibility = false;
                         string ItemImageLink = LoadTable.item_image;
                         if (!string.IsNullOrWhiteSpace(ItemImageLink) && AppVariables.LoadMedia)
                         {
                             ItemImageVisibility = true;
-                            if (AppVariables.CurrentItemsLoaded < AppVariables.ContentToScrollLoad)
-                            {
-                                ItemImage = ImageSource.FromUri(new Uri(ItemImageLink));
-                            }
-                        }
-
-                        //Load feed icon
-                        ImageSource FeedIcon = null;
-                        if (AppVariables.CurrentItemsLoaded < AppVariables.ContentToScrollLoad)
-                        {
-                            if (FeedId.StartsWith("user/"))
-                            {
-                                FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
-                            }
-                            else
-                            {
-                                FeedIcon = AVFiles.File_LoadImage(FeedId + ".png", true);
-                            }
-                            if (FeedIcon == null)
-                            {
-                                FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
-                            }
                         }
 
                         //Set the date time string
@@ -118,7 +95,7 @@ namespace NewsScroll
                         }
 
                         //Add item to the ListView
-                        Items NewItem = new Items() { feed_id = FeedId, feed_title = FeedTitle, feed_icon = FeedIcon, item_id = ItemId, item_read_status = ReadVisibility, item_star_status = StarredVisibility, item_title = LoadTable.item_title, item_image = ItemImage, item_image_visibility = ItemImageVisibility, item_image_link = ItemImageLink, item_content = item_content, item_link = LoadTable.item_link, item_datestring = DateAuthorString, item_datetime = LoadTable.item_datetime };
+                        Items NewItem = new Items() { feed_id = FeedId, feed_title = FeedTitle, item_id = ItemId, item_read_status = ReadVisibility, item_star_status = StarredVisibility, item_title = LoadTable.item_title, item_image_visibility = ItemImageVisibility, item_image_link = ItemImageLink, item_content = item_content, item_link = LoadTable.item_link, item_datestring = DateAuthorString, item_datetime = LoadTable.item_datetime };
                         Device.BeginInvokeOnMainThread(() =>
                         {
                             try
@@ -150,6 +127,54 @@ namespace NewsScroll
                 Debug.WriteLine("Failed processing multiple items from database: " + ex.Message);
                 return false;
             }
+        }
+
+        //Update the item image content
+        public static void ItemUpdateImages(object itemObject, bool resetContent)
+        {
+            try
+            {
+                Items updateItem = (Items)itemObject;
+                if (resetContent)
+                {
+                    //Debug.WriteLine("Disappearing item: " + updateItem.item_title);
+                    if (updateItem.item_image != null)
+                    {
+                        updateItem.item_image = null;
+                    }
+                    if (updateItem.feed_icon != null)
+                    {
+                        updateItem.feed_icon = null;
+                    }
+                }
+                else
+                {
+                    //Debug.WriteLine("Appearing item: " + updateItem.item_title);
+                    string ItemImageLink = updateItem.item_image_link;
+                    //fix AppVariables.LoadMedia
+                    if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == true)
+                    {
+                        updateItem.item_image = ImageSource.FromUri(new Uri(ItemImageLink));
+                    }
+                    if (updateItem.feed_icon == null)
+                    {
+                        //Load feed icon
+                        if (updateItem.feed_id.StartsWith("user/"))
+                        {
+                            updateItem.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
+                        }
+                        else
+                        {
+                            updateItem.feed_icon = AVFiles.File_LoadImage(updateItem.feed_id + ".png", true);
+                        }
+                        if (updateItem.feed_icon == null)
+                        {
+                            updateItem.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
+                        }
+                    }
+                }
+            }
+            catch { }
         }
     }
 }

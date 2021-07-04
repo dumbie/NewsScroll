@@ -10,8 +10,8 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
-using static NewsScroll.Database.Database;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.Database.Database;
 
 namespace NewsScroll.Api
 {
@@ -250,7 +250,7 @@ namespace NewsScroll.Api
                     //Wait for busy database
                     await ApiUpdate.WaitForBusyDatabase();
 
-                    //SqlStringItemIds = AVFunctions.StringRemoveEnd(SqlStringItemIds, ",");
+                    SqlStringItemIds = AVFunctions.StringRemoveEnd(SqlStringItemIds, ",");
                     await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_id IN (" + SqlStringItemIds + ") AND item_read_status = ('0')");
 
                     //Update current items list

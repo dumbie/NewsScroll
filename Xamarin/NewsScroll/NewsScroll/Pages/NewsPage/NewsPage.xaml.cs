@@ -1,5 +1,4 @@
-﻿using ArnoldVinkCode;
-using NewsScroll.Classes;
+﻿using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +10,7 @@ using static NewsScroll.Api.Api;
 using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Lists.Lists;
+using static NewsScroll.Process;
 
 namespace NewsScroll
 {
@@ -75,29 +75,23 @@ namespace NewsScroll
                 //Register ListView events
                 ListView_Items.ItemTapped += EventsListView.ListView_Items_Tapped;
 
-                ////Register ListView scroll viewer
-                //ScrollView ListViewScrollViewer = AVFunctions.FindVisualChild<ScrollView>(ListView_Items);
-                //ListViewScrollViewer.ViewChanged += ScrollViewer_ViewChanged;
-                //ListViewScrollViewer.VerticalSnapPointsType = SnapPointsType.None;
-                //ListViewScrollViewer.HorizontalSnapPointsType = SnapPointsType.None;
+                //Register ListView scroll viewer
+                ListView_Items.ItemAppearing += ScrollViewer_ItemAppearing;
+                ListView_Items.ItemDisappearing += ScrollViewer_ItemDisappearing;
 
                 //Register combo box events
                 combobox_FeedSelection.SelectedIndexChanged += combobox_FeedSelection_SelectionChanged;
 
-                ////Monitor user touch swipe
-                //if (!(bool)AppSettingLoad["DisableSwipeActions"])
-                //{
-                //    grid_SwipeBar.ManipulationMode = ManipulationModes.TranslateX;
-                //    grid_SwipeBar.ManipulationStarted += Page_ManipulationStarted;
-                //    grid_SwipeBar.ManipulationDelta += Page_ManipulationDelta;
-                //    grid_SwipeBar.ManipulationCompleted += Page_ManipulationCompleted;
-                //}
+                //Register item status count events
+                TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+                tapGestureRecognizer.Tapped += button_StatusCurrentItem_Tapped;
+                button_StatusCurrentItem.GestureRecognizers.Add(tapGestureRecognizer);
 
-                SwipeGestureRecognizer swipeGestureRecognizer = new SwipeGestureRecognizer();
-                swipeGestureRecognizer.Direction = SwipeDirection.Left | SwipeDirection.Right;
-                swipeGestureRecognizer.Swiped += Page_ManipulationCompleted;
-                grid_SwipeBar.GestureRecognizers.Add(swipeGestureRecognizer);
-                //grid_SwipeBar.GestureRecognizers.Clear();
+                //Monitor user touch swipe
+                if (!(bool)AppSettingLoad("DisableSwipeActions"))
+                {
+                    SwipeBarAdjust();
+                }
             }
             catch { }
         }
@@ -117,24 +111,18 @@ namespace NewsScroll
                 //EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
                 EventRefreshPageItems -= new DelegateRefreshPageItems(RefreshItems);
 
-                ////Register ListView events
-                //ListView_Items.Tapped -= EventsListView.ListView_Items_Tapped;
-                //ListView_Items.RightTapped -= EventsListView.ListView_Items_RightTapped;
+                //Register ListView events
+                ListView_Items.ItemTapped -= EventsListView.ListView_Items_Tapped;
 
-                //////Register ListView scroll viewer
-                ////ScrollViewer ListViewScrollViewer = AVFunctions.FindVisualChild<ScrollViewer>(ListView_Items);
-                ////ListViewScrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+                //Register ListView scroll viewer
+                ListView_Items.ItemAppearing -= ScrollViewer_ItemAppearing;
+                ListView_Items.ItemDisappearing -= ScrollViewer_ItemDisappearing;
 
                 //Register combo box events
                 combobox_FeedSelection.SelectedIndexChanged -= combobox_FeedSelection_SelectionChanged;
 
-                ////Monitor user touch swipe
-                //grid_Main.ManipulationStarted -= Page_ManipulationStarted;
-                //grid_Main.ManipulationDelta -= Page_ManipulationDelta;
-                //grid_Main.ManipulationCompleted -= Page_ManipulationCompleted;
-
-                ////Monitor key presses
-                //grid_Main.PreviewKeyUp -= Page_PreviewKeyUp; //DesktopOnly
+                //Monitor user touch swipe
+                grid_SwipeBar.GestureRecognizers.Clear();
             }
             catch { }
         }
@@ -218,12 +206,12 @@ namespace NewsScroll
 
                 //Update the loading information
                 txt_AppInfo.Text = "Loading items";
-                //Fix
-                //txt_NewsScrollInfo.Inlines.Clear();
-                //txt_NewsScrollInfo.Inlines.Add(new Run() { Text = "Your news items from " });
-                //txt_NewsScrollInfo.Inlines.Add(new Run() { Text = SelectedFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
-                //txt_NewsScrollInfo.Inlines.Add(new Run() { Text = " will be shown here shortly..." });
-                txt_NewsScrollInfo.Text = "Your news items from " + SelectedFeedTitle + " will be shown here shortly...";
+                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ColorAccent);
+                FormattedString fs = new FormattedString();
+                fs.Spans.Add(new Span { Text = "Your news items from " });
+                fs.Spans.Add(new Span { Text = SelectedFeedTitle, TextColor = (Color)ColorAccent });
+                fs.Spans.Add(new Span { Text = " will be shown here shortly..." });
+                txt_NewsScrollInfo.FormattedText = fs;
                 txt_NewsScrollInfo.IsVisible = true;
 
                 //Check the loading feed
@@ -307,13 +295,64 @@ namespace NewsScroll
             });
         }
 
+        //Listview item appearing
+        private void ScrollViewer_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
+            try
+            {
+                //Update the current item count
+                int CurrentOffSetId = e.ItemIndex;
+                AppVariables.CurrentViewItemsCount = CurrentOffSetId;
+
+                if (stackpanel_Header.IsVisible || AppVariables.CurrentTotalItemsCount == 0)
+                {
+                    label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount.ToString();
+                }
+                else
+                {
+                    label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount + "/" + AppVariables.CurrentTotalItemsCount;
+                }
+
+                //Update the shown item content
+                ItemUpdateImages(e.Item, false);
+            }
+            catch { }
+        }
+
+        //Listview item disappearing
+        private void ScrollViewer_ItemDisappearing(object sender, ItemVisibilityEventArgs e)
+        {
+            try
+            {
+                //Update the current item count
+                int CurrentOffSetId = e.ItemIndex;
+                AppVariables.CurrentViewItemsCount = CurrentOffSetId;
+
+                if (stackpanel_Header.IsVisible || AppVariables.CurrentTotalItemsCount == 0)
+                {
+                    label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount.ToString();
+                }
+                else
+                {
+                    label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount + "/" + AppVariables.CurrentTotalItemsCount;
+                }
+
+                //Update the shown item content
+                ItemUpdateImages(e.Item, true);
+            }
+            catch { }
+        }
+
         //Item status scroll events
         private async void button_StatusCurrentItem_Tapped(object sender, EventArgs e)
         {
             try
             {
-                //bool Scrolled = await EventsItemStatus.ListViewScroller(ListView_Items, Convert.ToInt32(textblock_StatusCurrentItem.Tag), vPreviousScrollItem);
-                //if (Scrolled) { vPreviousScrollItem = Convert.ToInt32(textblock_StatusCurrentItem.Tag); }
+                bool Scrolled = await EventsItemStatus.ListViewScroller(ListView_Items, AppVariables.CurrentViewItemsCount, vPreviousScrollItem);
+                if (Scrolled)
+                {
+                    vPreviousScrollItem = AppVariables.CurrentViewItemsCount;
+                }
             }
             catch { }
         }

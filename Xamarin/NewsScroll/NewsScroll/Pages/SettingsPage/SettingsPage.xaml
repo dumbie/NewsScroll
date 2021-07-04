@@ -5,7 +5,7 @@
              xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
 
     <!--Main page-->
-    <Grid x:Name="grid_Main" BackgroundColor="{DynamicResource ApplicationWhiteColor}">
+    <Grid x:Name="grid_Main" BackgroundColor="{DynamicResource ApplicationLightColor}">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
@@ -33,7 +33,7 @@
                     <StackLayout Margin="10,5,20,0">
                         <Label Text="Account Settings" FontSize="{StaticResource TextSizeLarge}" Style="{StaticResource LabelBlack}"/>
                         <Label Text="The Old Reader Username or E-mail:" Style="{StaticResource LabelBlack}"/>
-                        <Label Text="* Username and e-mail are case sensitive." Style="{StaticResource LabelLightGray}"/>
+                        <Label Text="* Username and e-mail are case sensitive." Style="{StaticResource LabelGray}"/>
 
                         <Entry x:Name="setting_ApiAccount" Style="{StaticResource Entry}" WidthRequest="280" Margin="0,3,0,0" HorizontalOptions="Start" Keyboard="Email" Placeholder="Account e-mail adres..."/>
                         <Label Text="The Old Reader Password:"/>
@@ -44,25 +44,25 @@
                             <CheckBox x:Name="setting_DisplayReadMarkedItems" Style="{StaticResource CheckBox}"/>
                             <Label Text="Load items that are marked read" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will load all news items including already read items." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will load all news items including already read items." Style="{StaticResource LabelGray}"/>
 
                         <StackLayout Orientation="Horizontal">
                             <CheckBox x:Name="setting_HideReadMarkedItem" Style="{StaticResource CheckBox}"/>
                             <Label Text="Hide item after marking it as read" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will hide an item in the list when it is marked as read." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will hide an item in the list when it is marked as read." Style="{StaticResource LabelGray}"/>
 
                         <StackLayout Orientation="Horizontal">
                             <CheckBox x:Name="setting_DisplayItemsAuthor" Style="{StaticResource CheckBox}"/>
                             <Label Text="Display the author from news items" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will display the author or writer of the news items behind the date." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will display the author or writer of the news items behind the date." Style="{StaticResource LabelGray}"/>
 
                         <StackLayout Orientation="Horizontal">
                             <CheckBox x:Name="setting_DisplayImagesOffline" Style="{StaticResource CheckBox}"/>
                             <Label Text="Display images while in offline mode" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will try to display images that are cached while in offline mode." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will try to display images that are cached while in offline mode." Style="{StaticResource LabelGray}"/>
 
                         <StackLayout Orientation="Horizontal">
                             <CheckBox x:Name="setting_ContentCutting" Style="{StaticResource CheckBox}"/>
@@ -70,16 +70,10 @@
                             <Entry x:Name="setting_ContentCuttingLength" Margin="5,0,5,0" Style="{StaticResource Entry}" WidthRequest="75" Keyboard="Numeric"/>
                             <Label Text="chars" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will cut off the news items content to a certain amount of characters." Style="{StaticResource LabelLightGray}"/>
-
-                        <StackLayout Orientation="Horizontal">
-                            <CheckBox x:Name="setting_LoadAllItems" Style="{StaticResource CheckBox}"/>
-                            <Label Text="Load all available items at once" VerticalOptions="Center"/>
-                        </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will load all available news items at once instead of on demand loading when you reach the bottom." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will cut off the news items content to a certain amount of characters." Style="{StaticResource LabelGray}"/>
 
                         <Label Text="Default list items opening method:" Margin="0,5,0,0"/>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Please select the method you want to use to open a news item when you click on it:" Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Please select the method you want to use to open a news item when you click on it:" Style="{StaticResource LabelGray}"/>
                         <Picker x:Name="setting_ItemOpenMethod" Margin="0,5,0,0" WidthRequest="250" HorizontalOptions="Start" Style="{StaticResource Picker}">
                             <Picker.Items>
                                 <x:String>Itemviewer (In-app)</x:String>
@@ -93,11 +87,11 @@
                             <CheckBox x:Name="setting_ItemTextSelection" Style="{StaticResource CheckBox}"/>
                             <Label Text="Enable news item text selection" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource LabelGray}"/>
 
                         <Label Text="Update Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
                         <Label Text="Items update and storage range:"/>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Please select the items update and storage range, items older than this range will not be stored and will be removed:" Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Please select the items update and storage range, items older than this range will not be stored and will be removed:" Style="{StaticResource LabelGray}"/>
                         <Picker x:Name="setting_RemoveItemsRange" Margin="0,5,0,0" WidthRequest="250" HorizontalOptions="Start" Style="{StaticResource Picker}">
                             <Picker.Items>
                                 <x:String>2 days old</x:String>
@@ -115,10 +109,10 @@
                             <CheckBox x:Name="setting_DisableSwipeActions" Style="{StaticResource CheckBox}"/>
                             <Label Text="Disable application swipe actions" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="This will disable all the application swipe actions like swiping to go back or hiding the menu." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="This will disable all the application swipe actions like swiping to go back or hiding the menu." Style="{StaticResource LabelGray}"/>
 
                         <Label Text="Application swipe direction:" Margin="0,10,0,0"/>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Please select the direction your touch swipe actions will be triggered by:" Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Please select the direction your touch swipe actions will be triggered by:" Style="{StaticResource LabelGray}"/>
                         <Picker x:Name="setting_SwipeDirection" Margin="0,5,0,0" WidthRequest="250" HorizontalOptions="Start" Style="{StaticResource Picker}">
                             <Picker.Items>
                                 <x:String>Left to right</x:String>
@@ -133,7 +127,7 @@
                             <CheckBox x:Name="setting_LowBandwidthMode" Style="{StaticResource CheckBox}"/>
                             <Label Text="Enable low bandwidth media mode" VerticalOptions="Center"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="This mode will prevent gifs, videos and web frames from loading in the items." Style="{StaticResource LabelLightGray}"/>
+                        <Label WidthRequest="300" HorizontalOptions="Start" Text="This mode will prevent gifs, videos and web frames from loading in the items." Style="{StaticResource LabelGray}"/>
 
                         <Label x:Name="txt_OfflineStoredSize" Text="Loading stored item information..." Margin="0,10,0,0"/>
 
@@ -148,7 +142,7 @@
         </Grid>
 
         <!-- Status Application -->
-        <Grid x:Name="grid_StatusApplication" HeightRequest="30" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
+        <Grid x:Name="grid_StatusApplication" HeightRequest="30" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                 <ProgressBar  ProgressColor="White" Margin="10,0,0,0"/>
                 <Label x:Name="label_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
@@ -156,7 +150,7 @@
         </Grid>
 
         <!-- Grid Popup Menu -->
-        <Grid x:Name="grid_PopupMenu" HeightRequest="0" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
+        <Grid x:Name="grid_PopupMenu" HeightRequest="0" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal">
                 <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Clicked="iconStar_Tap" Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45"/>
                 <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Clicked="iconSearch_Tap" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45"/>

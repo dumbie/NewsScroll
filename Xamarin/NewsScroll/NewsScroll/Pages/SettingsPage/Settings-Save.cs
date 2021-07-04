@@ -79,8 +79,8 @@ namespace NewsScroll
                 setting_ContentCuttingLength.TextChanged += async (sender, e) =>
                 {
                     //Get color from resource
-                    Application.Current.Resources.TryGetValue("InvalidColor", out var ColorInvalid);
-                    Application.Current.Resources.TryGetValue("ValidColor", out var ColorValid);
+                    Application.Current.Resources.TryGetValue("InvalidColor", out object ColorInvalid);
+                    Application.Current.Resources.TryGetValue("ValidColor", out object ColorValid);
 
                     //Check for numbers
                     if (!Regex.IsMatch(setting_ContentCuttingLength.Text, "^[0-9]+$"))
@@ -104,21 +104,6 @@ namespace NewsScroll
 
                     await AppSettingSave("ContentCuttingLength", NewSetting);
                     setting_ContentCuttingLength.TextColor = (Color)ColorValid;
-                };
-
-                //Load all available items
-                setting_LoadAllItems.CheckedChanged += async (sender, e) =>
-                {
-                    CheckBox CheckBox = (CheckBox)sender;
-                    await AppSettingSave("ContentCutting", CheckBox.IsChecked);
-                    if (CheckBox.IsChecked)
-                    {
-                        AppVariables.ItemsToScrollLoad = 100000;
-                    }
-                    else
-                    {
-                        AppVariables.ItemsToScrollLoad = 100;
-                    }
                 };
 
                 //Enable item text selection

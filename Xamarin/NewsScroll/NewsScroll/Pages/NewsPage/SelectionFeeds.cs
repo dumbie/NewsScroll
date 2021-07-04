@@ -1,6 +1,5 @@
 ﻿using ArnoldVinkCode;
 using NewsScroll.Classes;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -91,7 +90,7 @@ namespace NewsScroll
 
                     int TotalItemsUnread = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
                     Feeds FeedItemUnread = new Feeds();
-                    //FeedItemUnread.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                    FeedItemUnread.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
                     FeedItemUnread.feed_title = "All unread items";
                     FeedItemUnread.feed_item_count = TotalItemsUnread;
                     FeedItemUnread.feed_collection_status = true;
@@ -103,7 +102,7 @@ namespace NewsScroll
 
                     int TotalItemsRead = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
                     Feeds FeedItemRead = new Feeds();
-                    //FeedItemRead.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                    FeedItemRead.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
                     FeedItemRead.feed_title = "Already read items";
                     FeedItemRead.feed_item_count = TotalItemsRead;
                     FeedItemRead.feed_collection_status = true;
@@ -305,16 +304,13 @@ namespace NewsScroll
                 }
 
                 //Update the current item count
-                //fix
-                int HeaderTargetSize = 300;
-                int HeaderCurrentSize = Convert.ToInt32(stacklayout_Header.Height);
-                if (HeaderCurrentSize == HeaderTargetSize || AppVariables.CurrentTotalItemsCount == 0)
+                if (stackpanel_Header.IsVisible || AppVariables.CurrentTotalItemsCount == 0)
                 {
-                    //label_StatusCurrentItem.Text = label_StatusCurrentItem.Tag.ToString();
+                    label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount.ToString();
                 }
                 else
                 {
-                    //label_StatusCurrentItem.Text = label_StatusCurrentItem.Tag.ToString() + "/" + AppVariables.CurrentTotalItemsCount;
+                    label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount + "/" + AppVariables.CurrentTotalItemsCount;
                 }
             }
             catch { }

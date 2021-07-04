@@ -5,9 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
+using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.AppVariables;
 using static NewsScroll.Database.Database;
-using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.Lists.Lists;
 
 namespace NewsScroll

@@ -1,4 +1,5 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,8 +7,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using static NewsScroll.Database.Database;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.Database.Database;
 
 namespace NewsScroll
 {
@@ -34,9 +35,18 @@ namespace NewsScroll
 
                         //Load feed icon
                         ImageSource FeedIcon = null;
-                        //fix
-                        //if (FeedId.StartsWith("user/")) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + FeedId + ".png", false); }
-                        //if (FeedIcon == null) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
+                        if (FeedId.StartsWith("user/"))
+                        {
+                            FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
+                        }
+                        else
+                        {
+                            FeedIcon = AVFiles.File_LoadImage(FeedId + ".png", true);
+                        }
+                        if (FeedIcon == null)
+                        {
+                            FeedIcon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
+                        }
 
                         //Add feed to list
                         Device.BeginInvokeOnMainThread(() =>

@@ -8,38 +8,43 @@
 
     <!-- Label Styles -->
     <Style x:Key="LabelWhite" TargetType="Label">
-        <Setter Property="TextColor" Value="#F1F1F1"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationLightColor}"/>
     </Style>
     <Style x:Key="LabelWhiteLight" TargetType="Label">
-        <Setter Property="TextColor" Value="#F1F1F1"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationLightColor}"/>
     </Style>
 
     <Style x:Key="LabelBlack" TargetType="Label">
-        <Setter Property="TextColor" Value="#1D1D1D"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
     </Style>
     <Style x:Key="LabelBlackLight" TargetType="Label">
-        <Setter Property="TextColor" Value="#1D1D1D"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
     </Style>
 
-    <Style x:Key="LabelLightGray" TargetType="Label">
-        <Setter Property="TextColor" Value="#888"/>
+    <Style x:Key="LabelGray" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationGrayColor}"/>
     </Style>
-    <Style x:Key="LabelLightGrayLight" TargetType="Label">
-        <Setter Property="TextColor" Value="#888"/>
+    <Style x:Key="LabelGrayLight" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationGrayColor}"/>
     </Style>
 
+    <Style x:Key="LabelLightDarkGray" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkGrayColor}"/>
+    </Style>
+    <Style x:Key="LabelLightDarkGrayLight" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkGrayColor}"/>
+    </Style>
+    
     <Style x:Key="LabelAccent" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource ApplicationAccentLightBrush}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationAccentLightBrush}"/>
     </Style>
     <Style x:Key="LabelAccentLight" TargetType="Label">
-        <Setter Property="TextColor" Value="{StaticResource ApplicationAccentLightBrush}"/>
-    </Style>
-
-    <Style x:Key="LabelRed" TargetType="Label">
-        <Setter Property="TextColor" Value="#CD1928"/>
-    </Style>
-    <Style x:Key="LabelGreen" TargetType="Label">
-        <Setter Property="TextColor" Value="#1EB955"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationAccentLightBrush}"/>
     </Style>
 
     <!--Picker Styles-->
@@ -62,7 +67,7 @@
     <!--Rectangle Styles-->
     <Style x:Key="RectangleAccent" TargetType="Rectangle">
         <Setter Property="HeightRequest" Value="2"/>
-        <Setter Property="Fill" Value="{StaticResource ApplicationAccentLightBrush}"/>
+        <Setter Property="Fill" Value="{DynamicResource ApplicationAccentLightBrush}"/>
     </Style>
 
     <!--ProgressBar Styles-->
@@ -76,7 +81,7 @@
     <Style x:Key="ButtonAccent" TargetType="Button">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="#F1F1F1"/>
-        <Setter Property="BackgroundColor" Value="{StaticResource ApplicationAccentLightColor}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource ApplicationAccentLightColor}"/>
     </Style>
     <Style x:Key="ButtonImage" TargetType="ImageButton">
         <Setter Property="BackgroundColor" Value="Transparent"/>

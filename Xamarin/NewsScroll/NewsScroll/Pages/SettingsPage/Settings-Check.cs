@@ -60,23 +60,10 @@ namespace NewsScroll
                     await AppSettingSave("ContentCuttingLength", 200);
                 }
 
-                //Load all available items
-                if (!AppSettingCheck("LoadAllItems"))
-                {
-                    await AppSettingSave("LoadAllItems", true);
-                }
-
                 //Enable item text selection
                 if (!AppSettingCheck("ItemTextSelection"))
                 {
                     await AppSettingSave("ItemTextSelection", false);
-                }
-
-                //Disable Landscape Display
-                if (!AppSettingCheck("DisableLandscapeDisplay"))
-                {
-                    await AppSettingSave("DisableLandscapeDisplay", false);
-                    //DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
                 }
 
                 //Low bandwidth mode
@@ -130,7 +117,7 @@ namespace NewsScroll
                 //Adjust font size
                 if (!AppSettingCheck("AdjustFontSize"))
                 {
-                    await AppSettingSave("AdjustFontSize", -1);
+                    await AppSettingSave("AdjustFontSize", 0);
                 }
 
                 //Last Api Login Auth

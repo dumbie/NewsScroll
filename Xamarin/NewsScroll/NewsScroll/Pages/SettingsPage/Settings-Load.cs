@@ -34,9 +34,6 @@ namespace NewsScroll
                 //News item content cutting length
                 setting_ContentCuttingLength.Text = AppSettingLoad("ContentCuttingLength").ToString();
 
-                //Load all available items
-                setting_LoadAllItems.IsChecked = (bool)AppSettingLoad("LoadAllItems");
-
                 //Enable item text selection
                 setting_ItemTextSelection.IsChecked = (bool)AppSettingLoad("ItemTextSelection");
 

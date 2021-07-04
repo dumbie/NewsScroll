@@ -16,7 +16,7 @@
         </DataTemplate>
     </ContentPage.Resources>
 
-    <Frame Padding="4" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
+    <Frame Padding="4" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
         <Grid Padding="10,10,10,10" BackgroundColor="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -25,8 +25,8 @@
 
             <StackLayout Grid.Row="0">
                 <Label x:Name="grid_MessageBox_Question" Style="{StaticResource LabelBlackLight}" FontSize="{DynamicResource TextSizeHuge}" Text="Question"/>
-                <Line x:Name="grid_MessageBox_Border" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}" HorizontalOptions="Fill" Margin="0,5,0,5"/>
-                <Label x:Name="grid_MessageBox_Description" Style="{StaticResource LabelLightGray}" Text="Description"/>
+                <Line x:Name="grid_MessageBox_Border" HeightRequest="2" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" HorizontalOptions="Fill" Margin="0,5,0,5"/>
+                <Label x:Name="grid_MessageBox_Description" Style="{StaticResource LabelGray}" Text="Description"/>
             </StackLayout>
 
             <ListView Grid.Row="1" x:Name="listbox_MessageBox" Margin="0,5,0,0" SelectionMode="Single" ItemTapped="listbox_MessageBox_ItemTapped" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewItemString}"/>

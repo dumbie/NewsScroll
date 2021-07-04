@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Xamarin.Forms;
-using static NewsScroll.AppEvents.AppEvents;
-using static NewsScroll.Database.Database;
+﻿using Xamarin.Forms;
+using static NewsScroll.AppStartup.AppStartup;
 
 namespace NewsScroll
 {
@@ -10,8 +7,12 @@ namespace NewsScroll
     {
         public App()
         {
-            InitializeComponent();
-            MainPage = new NewsPage();
+            try
+            {
+                InitializeComponent();
+                MainPage = new NewsPage();
+            }
+            catch { }
         }
 
         public static void NavigateToPage(ContentPage targetPage, bool wipeStack)
@@ -31,29 +32,7 @@ namespace NewsScroll
         {
             try
             {
-                Debug.WriteLine("NewsScroll startup checks.");
-
-                //Check settings
-                await SettingsPage.SettingsCheck();
-
-                //Register Application Events
-                EventsRegister();
-
-                //Connect to the database
-                if (!DatabaseConnect())
-                {
-                    List<string> messageAnswers = new List<string>();
-                    messageAnswers.Add("Ok");
-
-                    string messageResult = await AVMessageBox.Popup("Failed to connect to the database", "Your database will be cleared, please restart the application to continue.", messageAnswers);
-
-                    await DatabaseReset();
-                    System.Diagnostics.Process.GetCurrentProcess().Kill();
-                    return;
-                }
-
-                //Create the database tables
-                await DatabaseCreate();
+                await ApplicationStart();
             }
             catch { }
         }
