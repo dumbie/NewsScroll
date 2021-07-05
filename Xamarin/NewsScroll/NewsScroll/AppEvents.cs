@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using static NewsScroll.Api.Api;
@@ -50,7 +51,7 @@ namespace NewsScroll.AppEvents
         {
             try
             {
-                bool currentOnlineStatus = Connectivity.NetworkAccess == NetworkAccess.Internet;
+                bool currentOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
                 Debug.WriteLine("Connectivity changed, internet available: " + currentOnlineStatus);
 
                 //Check if internet connection has changed

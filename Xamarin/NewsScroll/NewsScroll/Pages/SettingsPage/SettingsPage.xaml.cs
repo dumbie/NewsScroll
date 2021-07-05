@@ -37,11 +37,11 @@ namespace NewsScroll
             catch { }
         }
 
-        private async void iconNews_Tap(object sender, EventArgs e)
+        private void iconNews_Tap(object sender, EventArgs e)
         {
             try
             {
-                App.NavigateToPage(new NewsPage(), true);
+                App.NavigateToPage(new NewsPage(), true, false);
             }
             catch { }
         }

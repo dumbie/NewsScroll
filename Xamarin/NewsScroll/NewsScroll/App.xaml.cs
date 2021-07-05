@@ -15,14 +15,20 @@ namespace NewsScroll
             catch { }
         }
 
-        public static void NavigateToPage(ContentPage targetPage, bool wipeStack)
+        public static void NavigateToPage(ContentPage targetPage, bool wipeStack, bool popUp)
         {
             try
             {
-                Device.BeginInvokeOnMainThread(() =>
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    Application.Current.MainPage = targetPage;
-                    //await Application.Current.MainPage.Navigation.PushModalAsync(targetPage);
+                    if (popUp)
+                    {
+                        await Application.Current.MainPage.Navigation.PushModalAsync(targetPage);
+                    }
+                    else
+                    {
+                        Application.Current.MainPage = targetPage;
+                    }
                 });
             }
             catch { }

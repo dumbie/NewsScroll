@@ -37,7 +37,7 @@ namespace NewsScroll
                 if (!CheckAccount())
                 {
                     await CleanupPageResources();
-                    App.NavigateToPage(new SettingsPage(), true);
+                    App.NavigateToPage(new SettingsPage(), true, false);
                     return;
                 }
 
@@ -206,12 +206,12 @@ namespace NewsScroll
 
                 //Update the loading information
                 txt_AppInfo.Text = "Loading items";
-                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ColorAccent);
-                FormattedString fs = new FormattedString();
-                fs.Spans.Add(new Span { Text = "Your news items from " });
-                fs.Spans.Add(new Span { Text = SelectedFeedTitle, TextColor = (Color)ColorAccent });
-                fs.Spans.Add(new Span { Text = " will be shown here shortly..." });
-                txt_NewsScrollInfo.FormattedText = fs;
+                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
+                FormattedString formattedString = new FormattedString();
+                formattedString.Spans.Add(new Span { Text = "Your news items from " });
+                formattedString.Spans.Add(new Span { Text = SelectedFeedTitle, TextColor = (Color)ApplicationAccentLightColor });
+                formattedString.Spans.Add(new Span { Text = " will be shown here shortly..." });
+                txt_NewsScrollInfo.FormattedText = formattedString;
                 txt_NewsScrollInfo.IsVisible = true;
 
                 //Check the loading feed
@@ -244,7 +244,7 @@ namespace NewsScroll
                 if (Result == 2)
                 {
                     await CleanupPageResources();
-                    App.NavigateToPage(new SettingsPage(), true);
+                    App.NavigateToPage(new SettingsPage(), true, false);
                     return;
                 }
 
@@ -507,7 +507,7 @@ namespace NewsScroll
                 await ApiUpdate.WaitForBusyApplication();
 
                 await CleanupPageResources();
-                App.NavigateToPage(new SettingsPage(), true);
+                App.NavigateToPage(new SettingsPage(), true, false);
             }
             catch { }
         }

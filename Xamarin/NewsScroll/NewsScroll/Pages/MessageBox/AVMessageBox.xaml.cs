@@ -85,7 +85,7 @@ namespace NewsScroll
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     AVMessageBox newMessageBox = new AVMessageBox();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(newMessageBox);
+                    await Application.Current.MainPage.Navigation.PushModalAsync(newMessageBox, false);
                     messageResult = await newMessageBox.WaitResult(Question, Description, Answers);
                 });
 

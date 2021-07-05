@@ -286,7 +286,9 @@ namespace NewsScroll.Api
                         {
                             ItemImageLink = JTokenRoot["enclosure"][0]["href"].ToString();
                         }
-                        else
+
+                        //Check the image source link
+                        if (string.IsNullOrWhiteSpace(ItemImageLink))
                         {
                             ItemImageLink = Process.GetItemHtmlFirstImage(AddItem.item_content_full, string.Empty);
                         }
@@ -314,7 +316,10 @@ namespace NewsScroll.Api
                             }
                         }
                     }
-                    catch { Debug.WriteLine("Failed to get item image for item: " + ItemId); }
+                    catch
+                    {
+                        Debug.WriteLine("Failed to get item image for item: " + ItemId);
+                    }
                     AddItem.item_image = ItemImageLink;
 
                     //Check item status

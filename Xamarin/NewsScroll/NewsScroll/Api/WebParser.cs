@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using SmartReader;
+using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using static NewsScroll.AppEvents.AppEvents;
@@ -17,19 +18,18 @@ namespace NewsScroll.Api
                 ItemLink = WebUtility.HtmlDecode(ItemLink);
                 ItemLink = WebUtility.UrlDecode(ItemLink);
 
-                //Reader smartReader = new Reader(ItemLink);
-                //Article smartArticle = await smartReader.GetArticleAsync();
+                Reader smartReader = new Reader(ItemLink);
+                Article smartArticle = await smartReader.GetArticleAsync();
 
                 if (!Silent) { EventProgressDisableUI("Processing the full item...", true); }
                 Debug.WriteLine("Processing the full item.");
 
-                //string DownloadString = smartArticle.Content;
-                //DownloadString = WebUtility.HtmlDecode(DownloadString);
-                //DownloadString = WebUtility.UrlDecode(DownloadString);
+                string DownloadString = smartArticle.Content;
+                DownloadString = WebUtility.HtmlDecode(DownloadString);
+                DownloadString = WebUtility.UrlDecode(DownloadString);
 
-                //if (EnableUI) { EventProgressEnableUI(); }
-                //return DownloadString;
-                return "No full story";
+                if (EnableUI) { EventProgressEnableUI(); }
+                return DownloadString;
             }
             catch
             {

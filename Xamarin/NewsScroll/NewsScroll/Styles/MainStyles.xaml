@@ -23,10 +23,10 @@
         <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
     </Style>
 
-    <Style x:Key="LabelGray" TargetType="Label">
+    <Style x:Key="LabelLightGray" TargetType="Label">
         <Setter Property="TextColor" Value="{DynamicResource ApplicationGrayColor}"/>
     </Style>
-    <Style x:Key="LabelGrayLight" TargetType="Label">
+    <Style x:Key="LabelLightGrayLight" TargetType="Label">
         <Setter Property="FontAttributes" Value="Italic"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationGrayColor}"/>
     </Style>

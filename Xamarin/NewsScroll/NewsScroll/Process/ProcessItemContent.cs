@@ -1,5 +1,7 @@
 ﻿using ArnoldVinkCode;
+using HtmlAgilityPack;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -13,38 +15,37 @@ namespace NewsScroll
             string ReturnImageSource = string.Empty;
             try
             {
-                //fix
-                ////Load and parse the html document
-                //HtmlDocument htmlDocument = new HtmlDocument();
-                //htmlDocument.LoadHtml(FullHtml);
+                //Load and parse the html document
+                HtmlDocument htmlDocument = new HtmlDocument();
+                htmlDocument.LoadHtml(FullHtml);
 
-                ////Check for invalid image links
-                //foreach (HtmlNode Image in htmlDocument.DocumentNode.Descendants("img"))
-                //{
-                //    try
-                //    {
-                //        string CurrentImageSource = Image.Attributes["src"].Value;
-                //        if (!AppVariables.BlockedListUrl.Any(CurrentImageSource.Contains))
-                //        {
-                //            if (!CurrentImageSource.StartsWith("http"))
-                //            {
-                //                if (CurrentImageSource.StartsWith("//")) { ReturnImageSource = "http:" + CurrentImageSource; }
-                //                else { ReturnImageSource = BaseLink + "/" + CurrentImageSource; }
-                //                break;
-                //            }
-                //            else
-                //            {
-                //                ReturnImageSource = CurrentImageSource;
-                //                break;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            Debug.WriteLine("Blocked image: " + CurrentImageSource);
-                //        }
-                //    }
-                //    catch { }
-                //}
+                //Check for invalid image links
+                foreach (HtmlNode Image in htmlDocument.DocumentNode.Descendants("img"))
+                {
+                    try
+                    {
+                        string CurrentImageSource = Image.Attributes["src"].Value;
+                        if (!AppVariables.BlockedListUrl.Any(CurrentImageSource.Contains))
+                        {
+                            if (!CurrentImageSource.StartsWith("http"))
+                            {
+                                if (CurrentImageSource.StartsWith("//")) { ReturnImageSource = "http:" + CurrentImageSource; }
+                                else { ReturnImageSource = BaseLink + "/" + CurrentImageSource; }
+                                break;
+                            }
+                            else
+                            {
+                                ReturnImageSource = CurrentImageSource;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Blocked image: " + CurrentImageSource);
+                        }
+                    }
+                    catch { }
+                }
             }
             catch { }
             return ReturnImageSource;
