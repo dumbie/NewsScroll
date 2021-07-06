@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsScroll.ApiPage"
+             xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
+
+    <!--Main page-->
+    <Grid x:Name="grid_Main" BackgroundColor="{DynamicResource ApplicationLightColor}">
+        <!-- Main Grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <Grid x:Name="stackpanel_Header" Grid.Row="0" HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+                <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
+                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="The Old Reader"/>
+                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Loading feeds"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
+                    <ImageButton Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconRefresh" Clicked="iconRefresh_Tap"/>
+                    <ImageButton Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconMenu" Clicked="iconMenu_Tapped"/>
+                </StackLayout>
+            </Grid>
+
+            <!-- Page Manage -->
+            <StackLayout x:Name="stackpanel_Manage" Grid.Row="1">
+                <SearchBar x:Name="txtbox_AddFeed" HorizontalOptions="Fill" Style="{StaticResource SearchBar}" Placeholder="RSS feed link..." SearchButtonPressed="txtbox_AddFeed_SearchButtonPressed"/>
+                <Grid Margin="0,2,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="btn_IgnoreFeeds" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Un/ignore" Clicked="btn_IgnoreFeeds_Click"/>
+                    <Button Grid.Column="1" x:Name="btn_DeleteFeeds" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Margin="2,0,0,0" Text="Delete" Clicked="btn_DeleteFeeds_Click"/>
+                </Grid>
+            </StackLayout>
+
+            <!-- Page Information -->
+            <Label Grid.Row="2" x:Name="txt_NewsScrollInfo" Style="{StaticResource LabelLightGray}" FontSize="{DynamicResource TextSizeLarge}" HorizontalTextAlignment="Center" Text="Your news items will be shown here shortly..." VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <!-- Page ListView -->
+            <ListView Grid.Row="2" x:Name="listview_Items" SelectionMode="Single" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewItemsVertical0}"/>
+        </Grid>
+
+        <!-- Status Application -->
+        <Grid x:Name="grid_StatusApplication" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
+            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Status bar..."/>
+        </Grid>
+
+        <!-- Grid Popup Menu -->
+        <Grid x:Name="grid_PopupMenu" IsVisible="false" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
+            <StackLayout Orientation="Horizontal">
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconNews.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconNews" Clicked="iconNews_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconStar" Clicked="iconStar_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconSearch" Clicked="iconSearch_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconSettings" Clicked="iconSettings_Tap"/>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

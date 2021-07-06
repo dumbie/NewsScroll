@@ -14,7 +14,7 @@ namespace NewsScroll
 {
     class EventsListView
     {
-        public static async void ListView_Items_Tapped(object sender, EventArgs e)
+        public static async void listview_Items_Tapped(object sender, EventArgs e)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace NewsScroll
 
                 //Check if mark read till is enabled
                 string ActionMarkReadTill = string.Empty;
-                if (CurrentPageName.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1") { ActionMarkReadTill = "Mark read till item"; }
+                if (CurrentPageName.EndsWith("NewsPage") && vNewsFeed.feed_id != "1") { ActionMarkReadTill = "Mark read till item"; }
 
                 List<string> messageAnswers = new List<string>();
                 messageAnswers.Add("Open in browser");

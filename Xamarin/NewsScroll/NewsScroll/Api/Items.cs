@@ -40,7 +40,7 @@ namespace NewsScroll.Api
                 string LastUpdate = DateTime.UtcNow.ToString(AppVariables.CultureInfoEnglish);
 
                 string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
-                string DownloadString = await AVDownloader.DownloadStringAsync(20000, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "stream/contents?output=json&n=" + AppVariables.ItemsMaximumLoad + "&ot=" + UnixTimeTicks));
+                string DownloadString = await AVDownloader.DownloadStringAsync(20000, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "stream/contents?output=json&n=" + AppVariables.ItemsToSyncMax + "&ot=" + UnixTimeTicks));
 
                 bool UpdatedItems = await DownloadToTableItemList(Preload, IgnoreDate, DownloadString, Silent, EnableUI);
                 if (UpdatedItems)

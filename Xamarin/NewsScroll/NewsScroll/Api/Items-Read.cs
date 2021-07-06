@@ -40,7 +40,7 @@ namespace NewsScroll.Api
                         long UnixTimeTicks = (RemoveItemsRange.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10000000; //Second
 
                         string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppSettingLoad("ConnectApiAuth").ToString() } };
-                        Uri DownloadUri = new Uri(ApiConnectionUrl + "stream/items/ids?output=json&s=user/-/state/com.google/read&n=" + AppVariables.ItemsMaximumLoad + "&ot=" + UnixTimeTicks);
+                        Uri DownloadUri = new Uri(ApiConnectionUrl + "stream/items/ids?output=json&s=user/-/state/com.google/read&n=" + AppVariables.ItemsToSyncMax + "&ot=" + UnixTimeTicks);
                         string DownloadString = await AVDownloader.DownloadStringAsync(10000, "News Scroll", RequestHeader, DownloadUri);
 
                         if (!string.IsNullOrWhiteSpace(DownloadString))

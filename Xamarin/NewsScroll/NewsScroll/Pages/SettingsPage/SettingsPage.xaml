@@ -22,7 +22,7 @@
                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                     <ImageButton x:Name="iconNews" Style="{StaticResource ButtonImage}" Clicked="iconNews_Tap" Source="{AVExtensions:ImageResource Assets.iconNews.png}" HeightRequest="45"/>
                     <ImageButton x:Name="iconHelp" Style="{StaticResource ButtonImage}" Clicked="iconHelp_Tap" Source="{AVExtensions:ImageResource Assets.iconHelp.png}" HeightRequest="45"/>
-                    <ImageButton x:Name="iconMenu" Style="{StaticResource ButtonImage}" Clicked="iconMenu_Tap" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45"/>
+                    <ImageButton x:Name="iconMenu" Style="{StaticResource ButtonImage}" Clicked="iconMenu_Tapped" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45"/>
                 </StackLayout>
             </Grid>
 
@@ -81,12 +81,14 @@
                             </Picker.Items>
                         </Picker>
 
-                        <Label Text="Itemview Settings" Margin="0,10,0,0" FontSize="{DynamicResource TextSizeLarge}"/>
-                        <StackLayout Orientation="Horizontal">
-                            <CheckBox x:Name="setting_ItemTextSelection" Style="{StaticResource CheckBox}"/>
-                            <Label Text="Enable news item text selection" VerticalOptions="Center"/>
+                        <StackLayout IsVisible="False">
+                            <Label Text="Itemview Settings" Margin="0,10,0,0" FontSize="{DynamicResource TextSizeLarge}"/>
+                            <StackLayout Orientation="Horizontal">
+                                <CheckBox x:Name="setting_ItemTextSelection" Style="{StaticResource CheckBox}"/>
+                                <Label Text="Enable news item text selection" VerticalOptions="Center"/>
+                            </StackLayout>
+                            <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource LabelLightGray}"/>
                         </StackLayout>
-                        <Label WidthRequest="300" HorizontalOptions="Start" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource LabelLightGray}"/>
 
                         <Label Text="Update Settings" Margin="0,10,0,0" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="Items update and storage range:"/>
@@ -133,7 +135,6 @@
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,15,0,0" Text="Go to the news items page" Clicked="iconNews_Tap"/>
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Text="Register Old Reader account" Clicked="btn_RegisterAccount_Click"/>
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Text="Clear the stored offline items" x:Name="btn_ClearStoredItems" Clicked="ClearStoredItems_Click"/>
-                        <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Text="Open device Wi-Fi settings" Clicked="btn_OpenWiFiSettings_Click"/>
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,5" Text="Visit project website" x:Name="btn_ProjectWebsite" Clicked="ProjectWebsite_Click"/>
                     </StackLayout>
                 </ScrollView>
@@ -149,7 +150,7 @@
         </Grid>
 
         <!-- Grid Popup Menu -->
-        <Grid x:Name="grid_PopupMenu" HeightRequest="0" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+        <Grid x:Name="grid_PopupMenu" IsVisible="false" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal">
                 <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Clicked="iconStar_Tap" Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45"/>
                 <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Clicked="iconSearch_Tap" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45"/>

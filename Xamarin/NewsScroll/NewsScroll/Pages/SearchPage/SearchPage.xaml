@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NewsScroll.NewsPage"
+             x:Class="NewsScroll.SearchPage"
              xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
 
     <!--Main page-->
@@ -18,21 +18,23 @@
                 <!-- Page Menu -->
                 <Grid HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
                     <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
-                        <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="News Items"/>
-                        <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Loading items"/>
+                        <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Search"/>
+                        <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="No results"/>
                     </StackLayout>
                     <StackLayout Margin="0,0,55,0" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
-                        <ImageButton x:Name="iconReadAll" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconReadAll.png}" HeightRequest="45" Clicked="iconReadAll_Tap"/>
-                        <ImageButton x:Name="iconRefresh" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Clicked="iconRefresh_Tap"/>
+                        <ImageButton x:Name="iconNews" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconNews.png}" HeightRequest="45" Clicked="iconNews_Tap"/>
                     </StackLayout>
                 </Grid>
 
                 <!-- Feed Selection -->
                 <Picker x:Name="combobox_FeedSelection" ItemDisplayBinding="{Binding feed_title}" IsEnabled="False" Opacity="0.30" VerticalOptions="Fill" HorizontalOptions="Fill"/>
+
+                <!-- Search Box -->
+                <SearchBar x:Name="txtbox_Search" HorizontalOptions="Fill" Style="{StaticResource SearchBar}" Placeholder="Search term..." SearchButtonPressed="txtbox_Search_SearchButtonPressed"/>
             </StackLayout>
 
             <!-- Page Information -->
-            <Label Grid.Row="1" x:Name="txt_NewsScrollInfo" Style="{StaticResource LabelLightGray}" FontSize="{DynamicResource TextSizeLarge}" HorizontalTextAlignment="Center" Text="Your news items will be shown here shortly..." VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Label Grid.Row="1" x:Name="txt_NewsScrollInfo" Style="{StaticResource LabelLightGray}" FontSize="{DynamicResource TextSizeLarge}" HorizontalTextAlignment="Center" Text="Please select a feed to search in and enter a search term to look for..." VerticalOptions="Center" HorizontalOptions="Center"/>
 
             <!-- Page ListView -->
             <ListView Grid.Row="1" x:Name="listview_Items" SelectionMode="Single" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewItemsVertical0}"/>
@@ -64,11 +66,10 @@
         <!-- Grid Popup Menu -->
         <Grid x:Name="grid_PopupMenu" IsVisible="false" VerticalOptions="Start" HorizontalOptions="End" Margin="0,65,0,0" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
             <StackLayout Orientation="Horizontal">
-                <ImageButton x:Name="iconStar" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45" Clicked="iconStar_Tap"/>
-                <ImageButton x:Name="iconSearch" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSearch.png}" HeightRequest="45" Clicked="iconSearch_Tap"/>
-                <ImageButton x:Name="iconApi" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconApi.png}" HeightRequest="45" Clicked="iconApi_Tap"/>
-                <ImageButton x:Name="iconPersonalize" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconPersonalize.png}" HeightRequest="45" Clicked="iconPersonalize_Tap"/>
-                <ImageButton x:Name="iconSettings" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Clicked="iconSettings_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconStar.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconStar" Clicked="iconStar_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconApi.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconApi" Clicked="iconApi_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconPersonalize.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconPersonalize" Clicked="iconPersonalize_Tap"/>
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconSettings" Clicked="iconSettings_Tap"/>
             </StackLayout>
         </Grid>
     </Grid>

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.AppVariables;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll.Api
@@ -112,7 +113,7 @@ namespace NewsScroll.Api
                         {
                             TableEditItems.item_read_status = true;
                             ListItem.item_read_status = true; //Updates itemviewer
-                            if (currentPage.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
+                            if (currentPage.EndsWith("NewsPage") && vNewsFeed.feed_id != "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
                             {
                                 UpdateList.Remove(ListItem);
                             }
@@ -121,7 +122,7 @@ namespace NewsScroll.Api
                         {
                             TableEditItems.item_read_status = false;
                             ListItem.item_read_status = false; //Updates itemviewer
-                            if (currentPage.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id == "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
+                            if (currentPage.EndsWith("NewsPage") && vNewsFeed.feed_id == "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
                             {
                                 UpdateList.Remove(ListItem);
                             }

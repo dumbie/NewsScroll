@@ -2,7 +2,7 @@
 
 namespace NewsScroll
 {
-    public partial class NewsPage
+    public partial class SearchPage
     {
         public void ChangeListViewStyle(int Style)
         {

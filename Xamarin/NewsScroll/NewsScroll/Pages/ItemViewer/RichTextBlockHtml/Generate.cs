@@ -53,7 +53,7 @@ namespace NewsScroll
                 //{
                 //    grid_item_image img = new grid_item_image();
                 //    img.item_status.Text = "Image not loaded,\ndevice is low on memory.";
-                //    img.IsHitTestVisible = false;
+                //    img.IsEnabled = false;
 
                 //    InlineUIContainer iui = new InlineUIContainer();
                 //    iui.Child = img;

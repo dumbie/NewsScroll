@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsScroll.HelpPage"
+             xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
+
+    <!--Main page-->
+    <Grid x:Name="grid_Main" BackgroundColor="{DynamicResource ApplicationLightColor}">
+        <!-- Main Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Page Header -->
+        <Grid Grid.Row="0" HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+            <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
+                <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Help"/>
+                <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="News Scroll"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
+                <ImageButton Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconSettings" Clicked="iconSettings_Tap"/>
+            </StackLayout>
+        </Grid>
+
+        <!-- Page Help -->
+        <ScrollView Grid.Row="1" Style="{StaticResource ScrollViewVertical}">
+            <StackLayout Margin="10,5,20,0">
+                <StackLayout x:Name="sp_Help"/>
+                <Button x:Name="btn_HelpProjectWebsite" Margin="0,20,0,0" Text="Visit Project Website" Style="{StaticResource ButtonAccent}" Clicked="btn_ProjectWebsite_Tapped"/>
+                <Button x:Name="btn_HelpMakeDonation" Margin="0,8,0,0" Text="Open Donation Page" Style="{StaticResource ButtonAccent}" Clicked="btn_MakeDonation_Tapped"/>
+                <Button x:Name="btn_PrivacyPolicy" Margin="0,8,0,0" Text="App Privacy Policy" Style="{StaticResource ButtonAccent}" Clicked="btn_PrivacyPolicy_Tapped"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

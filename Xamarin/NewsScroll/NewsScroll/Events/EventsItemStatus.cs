@@ -1,5 +1,4 @@
 ﻿using NewsScroll.Classes;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace NewsScroll
             try
             {
                 ObservableCollection<Items> SelectedList = (ObservableCollection<Items>)TargetListView.ItemsSource;
-                Int32 TargetListViewItems = SelectedList.Count;
+                int TargetListViewItems = SelectedList.Count;
                 if (TargetListViewItems > 0)
                 {
                     List<string> messageAnswers = new List<string>();
@@ -23,7 +22,7 @@ namespace NewsScroll
                     messageAnswers.Add("Scroll to the middle");
                     messageAnswers.Add("Scroll to the end");
                     messageAnswers.Add("Scroll to unread item");
-                    string stringReturnToPrevious = String.Empty;
+                    string stringReturnToPrevious = string.Empty;
                     if (PreviousItemId != 0 && TargetListViewItems > PreviousItemId)
                     {
                         stringReturnToPrevious = "Scroll back to " + PreviousItemId;

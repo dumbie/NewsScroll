@@ -1,6 +1,5 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,17 +12,18 @@ using static NewsScroll.Lists.Lists;
 
 namespace NewsScroll
 {
-    public partial class NewsPage : ContentPage
+    public partial class SearchPage : ContentPage
     {
         //Page Variables
         private int vPreviousScrollItem = 0;
 
-        public NewsPage()
+        public SearchPage()
         {
             InitializeComponent();
             Page_Loaded();
         }
 
+        //Application Navigation
         private async void Page_Loaded()
         {
             try
@@ -48,15 +48,21 @@ namespace NewsScroll
                 //Adjust the swiping direction
                 SwipeBarAdjust();
 
-                //Show page status
-                ProgressDisableUI("Preparing news page...", true);
-
                 //Bind list to ListView
-                listview_Items.ItemsSource = List_NewsItems;
+                listview_Items.ItemsSource = List_SearchItems;
                 combobox_FeedSelection.ItemsSource = List_FeedSelect;
 
-                //Load all the items
-                await LoadItems(true, false);
+                //Load the search history
+                await LoadSearchHistory();
+
+                //Load feeds into selector
+                await LoadSelectionFeeds(null, null, false, true);
+                combobox_FeedSelection.SelectedIndex = 0;
+
+                //Focus on the text box to open keyboard
+                txtbox_Search.IsEnabled = false;
+                txtbox_Search.IsEnabled = true;
+                txtbox_Search.Focus();
             }
             catch { }
         }
@@ -71,10 +77,8 @@ namespace NewsScroll
                 EventProgressEnableUI += new DelegateProgressEnableUI(ProgressEnableUI);
                 EventHideShowHeader += new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus += new DelegateHideProgressionStatus(HideProgressionStatus);
-                EventUpdateTotalItemsCount += new DelegateUpdateTotalItemsCount(UpdateSelectionFeeds);
                 //EventAdjustItemsScrollingDirection += new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
                 //EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
-                EventRefreshPageItems += new DelegateRefreshPageItems(RefreshItems);
 
                 //Register ListView events
                 listview_Items.ItemTapped += EventsListView.listview_Items_Tapped;
@@ -82,9 +86,6 @@ namespace NewsScroll
                 //Register ListView scroll viewer
                 listview_Items.ItemAppearing += ScrollViewer_ItemAppearing;
                 listview_Items.ItemDisappearing += ScrollViewer_ItemDisappearing;
-
-                //Register combo box events
-                combobox_FeedSelection.SelectedIndexChanged += combobox_FeedSelection_SelectionChanged;
 
                 //Register item status count events
                 TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
@@ -110,10 +111,8 @@ namespace NewsScroll
                 EventProgressEnableUI -= new DelegateProgressEnableUI(ProgressEnableUI);
                 EventHideShowHeader -= new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus -= new DelegateHideProgressionStatus(HideProgressionStatus);
-                EventUpdateTotalItemsCount -= new DelegateUpdateTotalItemsCount(UpdateSelectionFeeds);
                 //EventAdjustItemsScrollingDirection -= new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
                 //EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
-                EventRefreshPageItems -= new DelegateRefreshPageItems(RefreshItems);
 
                 //Register ListView events
                 listview_Items.ItemTapped -= EventsListView.listview_Items_Tapped;
@@ -121,9 +120,6 @@ namespace NewsScroll
                 //Register ListView scroll viewer
                 listview_Items.ItemAppearing -= ScrollViewer_ItemAppearing;
                 listview_Items.ItemDisappearing -= ScrollViewer_ItemDisappearing;
-
-                //Register combo box events
-                combobox_FeedSelection.SelectedIndexChanged -= combobox_FeedSelection_SelectionChanged;
 
                 //Monitor user touch swipe
                 grid_SwipeBar.GestureRecognizers.Clear();
@@ -139,7 +135,7 @@ namespace NewsScroll
                 Debug.WriteLine("Clearing page resources...");
 
                 DisablePageEvents();
-                vNewsFeed = null;
+                vSearchFeed = null;
 
                 listview_Items.ItemsSource = null;
                 combobox_FeedSelection.ItemsSource = null;
@@ -149,37 +145,6 @@ namespace NewsScroll
                 await ClearObservableCollection(List_NewsItems);
                 await ClearObservableCollection(List_SearchItems);
                 await ClearObservableCollection(List_StarredItems);
-            }
-            catch { }
-        }
-
-        private async void combobox_FeedSelection_SelectionChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                //Load selected feed items
-                Picker ComboBoxSender = sender as Picker;
-                Feeds SelectedItem = ComboBoxSender.SelectedItem as Feeds;
-                if (SelectedItem != null)
-                {
-                    string CheckKind = "feed";
-                    if (SelectedItem.feed_folder_status) { CheckKind = "folder"; }
-                    else if (SelectedItem.feed_collection_status) { CheckKind = "collection"; }
-
-                    ProgressDisableUI("Checking " + CheckKind + " items...", true);
-                    Debug.WriteLine("Checking " + CheckKind + " items...");
-
-                    //Set the loading feed or folder
-                    vNewsFeed = SelectedItem;
-
-                    //Reset the previous scroll item
-                    vPreviousScrollItem = 0;
-
-                    //Load all the items
-                    await LoadItems(false, false);
-
-                    ProgressEnableUI();
-                }
             }
             catch { }
         }
@@ -226,9 +191,9 @@ namespace NewsScroll
 
                     if (DisableInterface)
                     {
-                        //Disable feed selection
-                        combobox_FeedSelection.IsEnabled = false;
-                        combobox_FeedSelection.Opacity = 0.30;
+                        //Disable Search
+                        txtbox_Search.IsEnabled = false;
+                        txtbox_Search.Opacity = 0.30;
 
                         //Disable content
                         button_StatusCurrentItem.IsEnabled = false;
@@ -237,16 +202,12 @@ namespace NewsScroll
                         //Disable buttons
                         iconApi.IsEnabled = false;
                         iconApi.Opacity = 0.30;
+                        iconNews.IsEnabled = false;
+                        iconNews.Opacity = 0.30;
                         iconStar.IsEnabled = false;
                         iconStar.Opacity = 0.30;
-                        iconSearch.IsEnabled = false;
-                        iconSearch.Opacity = 0.30;
                         iconSettings.IsEnabled = false;
                         iconSettings.Opacity = 0.30;
-                        iconRefresh.IsEnabled = false;
-                        iconRefresh.Opacity = 0.30;
-                        iconReadAll.IsEnabled = false;
-                        iconReadAll.Opacity = 0.30;
                     }
                 }
                 catch { }
@@ -264,9 +225,9 @@ namespace NewsScroll
                     grid_StatusApplication.IsVisible = false;
                     label_StatusApplication.Text = string.Empty;
 
-                    //Enable feed selection
-                    combobox_FeedSelection.IsEnabled = true;
-                    combobox_FeedSelection.Opacity = 1;
+                    //Enable Search
+                    txtbox_Search.IsEnabled = true;
+                    txtbox_Search.Opacity = 1;
 
                     //Enable content
                     button_StatusCurrentItem.IsEnabled = true;
@@ -275,16 +236,12 @@ namespace NewsScroll
                     //Enable buttons
                     iconApi.IsEnabled = true;
                     iconApi.Opacity = 1;
+                    iconNews.IsEnabled = true;
+                    iconNews.Opacity = 1;
                     iconStar.IsEnabled = true;
                     iconStar.Opacity = 1;
-                    iconSearch.IsEnabled = true;
-                    iconSearch.Opacity = 1;
                     iconSettings.IsEnabled = true;
                     iconSettings.Opacity = 1;
-                    iconRefresh.IsEnabled = true;
-                    iconRefresh.Opacity = 1;
-                    iconReadAll.IsEnabled = true;
-                    iconReadAll.Opacity = 1;
                 }
                 catch { }
                 AppVariables.BusyApplication = false;
@@ -292,7 +249,7 @@ namespace NewsScroll
         }
 
         //User Interface - Buttons
-        async void iconSearch_Tap(object sender, EventArgs e)
+        async void iconStar_Tap(object sender, EventArgs e)
         {
             try
             {
@@ -302,7 +259,22 @@ namespace NewsScroll
                 await ApiUpdate.WaitForBusyApplication();
 
                 await CleanupPageResources();
-                App.NavigateToPage(new SearchPage(), true, false);
+                App.NavigateToPage(new StarredPage(), true, false);
+            }
+            catch { }
+        }
+
+        async void iconNews_Tap(object sender, EventArgs e)
+        {
+            try
+            {
+                HideShowMenu(true);
+
+                //Wait for busy application
+                await ApiUpdate.WaitForBusyApplication();
+
+                await CleanupPageResources();
+                App.NavigateToPage(new NewsPage(), true, false);
             }
             catch { }
         }
@@ -322,33 +294,19 @@ namespace NewsScroll
             catch { }
         }
 
-        async void iconStar_Tap(object sender, EventArgs e)
-        {
-            try
-            {
-                HideShowMenu(true);
-
-                //Wait for busy application
-                await ApiUpdate.WaitForBusyApplication();
-
-                await CleanupPageResources();
-                App.NavigateToPage(new StarredPage(), true, false);
-            }
-            catch { }
-        }
-
         private async void iconPersonalize_Tap(object sender, EventArgs e)
         {
             try
             {
                 HideShowMenu(true);
+                //fix
                 //PersonalizePopup personalizePopup = new PersonalizePopup();
                 //await personalizePopup.OpenPopup();
             }
             catch { }
         }
 
-        private async void iconSettings_Tap(object sender, EventArgs e)
+        async void iconSettings_Tap(object sender, EventArgs e)
         {
             try
             {
@@ -363,64 +321,33 @@ namespace NewsScroll
             catch { }
         }
 
-        async void iconRefresh_Tap(object sender, EventArgs e)
+        private async void txtbox_Search_SearchButtonPressed(object sender, EventArgs e)
         {
             try
             {
-                HideShowMenu(true);
-                await RefreshItems(true);
-            }
-            catch { }
-        }
+                //Set search or selection string
+                vSearchTerm = txtbox_Search.Text;
+                vSearchTerm = AVFunctions.StringRemoveEnd(vSearchTerm, " ");
+                txtbox_Search.Text = vSearchTerm;
 
-        private async Task RefreshItems(bool Confirm)
-        {
-            try
-            {
-                string messageResult = string.Empty;
-                if (Confirm)
+                //Check searchbox input
+                if (string.IsNullOrWhiteSpace(vSearchTerm))
                 {
-                    List<string> messageAnswers = new List<string>();
-                    messageAnswers.Add("Refresh news items");
-                    messageAnswers.Add("Cancel");
+                    if (!List_SearchItems.Any())
+                    {
+                        txt_NewsScrollInfo.Text = "Please select a feed to search in and enter a search term to look for...";
+                        txt_NewsScrollInfo.IsVisible = true;
+                    }
 
-                    messageResult = await AVMessageBox.Popup("Refresh news items", "Do you want to refresh all the news items and scroll to the top?", messageAnswers);
+                    //Focus on the text box to open keyboard
+                    txtbox_Search.IsEnabled = false;
+                    txtbox_Search.IsEnabled = true;
+                    txtbox_Search.Focus();
+                    return;
                 }
 
-                if (messageResult == "Refresh news items")
-                {
-                    //Reset the online status
-                    OnlineUpdateFeeds = true;
-                    OnlineUpdateNews = true;
-                    ApiMessageError = string.Empty;
-
-                    //Load all the items
-                    await LoadItems(true, false);
-                }
-                else if (!List_NewsItems.Any() && !(bool)AppSettingLoad("DisplayReadMarkedItems"))
-                {
-                    Feeds TempFeed = new Feeds();
-                    TempFeed.feed_id = "1";
-
-                    //Change the selection feed
-                    ChangeSelectionFeed(TempFeed, false);
-
-                    //Load all the items
-                    await LoadItems(false, true);
-                }
-            }
-            catch { }
-        }
-
-        async void iconReadAll_Tap(object sender, EventArgs e)
-        {
-            try
-            {
-                HideShowMenu(true);
-                bool MarkedAllRead = await MarkReadAll(List_NewsItems, true);
-
-                //Ask if user wants to refresh the items
-                if (MarkedAllRead) { await RefreshItems(true); }
+                //Search for the items
+                await LoadItems();
             }
             catch { }
         }

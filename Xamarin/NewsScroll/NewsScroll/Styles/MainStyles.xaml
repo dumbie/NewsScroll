@@ -64,6 +64,12 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
+    <!--SearchBar Styles-->
+    <Style x:Key="SearchBar" TargetType="SearchBar">
+        <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+
     <!--Rectangle Styles-->
     <Style x:Key="RectangleAccent" TargetType="Rectangle">
         <Setter Property="HeightRequest" Value="2"/>

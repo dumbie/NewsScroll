@@ -34,7 +34,7 @@ namespace NewsScroll
 
                     //Filter un/ignored feeds
                     List<string> IgnoredFeedList = LoadTableFeeds.Where(x => x.feed_ignore_status == true).Select(x => x.feed_id).ToList();
-                    LoadTableItems = FilterNewsItems(IgnoredFeedList, LoadTableItems, NewsPage.vCurrentLoadingFeedFolder, SkipItems, NumberOfItems);
+                    LoadTableItems = FilterNewsItems(IgnoredFeedList, LoadTableItems, vNewsFeed, SkipItems, NumberOfItems);
 
                     if (!Silent) { EventProgressDisableUI("Loading " + LoadTableItems.Count() + " news items...", true); }
                     Debug.WriteLine("Loading " + LoadTableItems.Count() + ", skipped " + SkipItems + " loaded news items...");
@@ -81,7 +81,7 @@ namespace NewsScroll
                         string FeedId = vSearchFeed.feed_id;
                         if (FeedId != "0")
                         {
-                            Debug.WriteLine("Search in feed: " + FeedId);
+                            Debug.WriteLine("Searching in feed: " + FeedId);
                             LoadTableItems = LoadTableItems.Where(x => x.item_title.ToLower().Contains(vSearchTerm.ToLower()) && x.item_feed_id == FeedId && UnignoredFeedList.Any(y => y == x.item_feed_id)).ToList();
                         }
                         else
@@ -143,7 +143,7 @@ namespace NewsScroll
 
                     //Filter un/ignored feeds
                     List<string> IgnoredFeedList = LoadTableFeeds.Where(x => x.feed_ignore_status == true).Select(x => x.feed_id).ToList();
-                    FoundItems = FilterNewsItems(IgnoredFeedList, LoadTableItems, NewsPage.vCurrentLoadingFeedFolder, 0, AppVariables.ItemsMaximumLoad).Count();
+                    FoundItems = FilterNewsItems(IgnoredFeedList, LoadTableItems, vNewsFeed, 0, AppVariables.ItemsToLoadMax).Count();
                 }
                 else if (AppVariables.LoadStarred)
                 {
