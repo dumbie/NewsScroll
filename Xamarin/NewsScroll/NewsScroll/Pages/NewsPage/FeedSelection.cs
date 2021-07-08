@@ -99,7 +99,7 @@ namespace NewsScroll
                 int TotalItemsUnread = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsToLoadMax).Count();
                 Feeds FeedItemUnread = new Feeds();
                 FeedItemUnread.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
-                FeedItemUnread.feed_title = "Current unread items";
+                FeedItemUnread.feed_title = "Unread news items";
                 FeedItemUnread.feed_item_count = TotalItemsUnread;
                 FeedItemUnread.feed_collection_status = true;
                 FeedItemUnread.feed_id = "2";
@@ -110,7 +110,7 @@ namespace NewsScroll
                 int TotalItemsRead = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsToLoadMax).Count();
                 Feeds FeedItemRead = new Feeds();
                 FeedItemRead.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
-                FeedItemRead.feed_title = "Already read items";
+                FeedItemRead.feed_title = "Read news items";
                 FeedItemRead.feed_item_count = TotalItemsRead;
                 FeedItemRead.feed_collection_status = true;
                 FeedItemRead.feed_id = "1";
@@ -135,6 +135,7 @@ namespace NewsScroll
                             //Add folder
                             Feeds FolderItem = new Feeds();
                             FolderItem.feed_icon = FolderIcon;
+                            FolderItem.feed_title = "(Folder) " + FeedFolder;
                             FolderItem.feed_folder_title = FeedFolder;
                             FolderItem.feed_folder_status = true;
                             List_FeedSelect.Add(FolderItem);

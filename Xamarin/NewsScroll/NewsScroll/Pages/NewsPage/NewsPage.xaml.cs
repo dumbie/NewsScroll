@@ -40,10 +40,10 @@ namespace NewsScroll
                 RegisterPageEvents();
 
                 //Adjust the scrolling direction
-                //await AdjustItemsScrollingDirection(Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]));
+                ChangeListViewDirection(Convert.ToInt32(AppSettingLoad("ListViewDirection")));
 
                 //Adjust the list view style
-                //ChangeListViewStyle(Convert.ToInt32(AppVariables.ApplicationSettings["ListViewStyle"]));
+                ChangeListViewStyle(Convert.ToInt32(AppSettingLoad("ListViewStyle")));
 
                 //Adjust the swiping direction
                 SwipeBarAdjust();
@@ -72,8 +72,8 @@ namespace NewsScroll
                 EventHideShowHeader += new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus += new DelegateHideProgressionStatus(HideProgressionStatus);
                 EventUpdateTotalItemsCount += new DelegateUpdateTotalItemsCount(UpdateSelectionFeeds);
-                //EventAdjustItemsScrollingDirection += new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
-                //EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventChangeListViewDirection += new DelegateChangeListViewDirection(ChangeListViewDirection);
+                EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
                 EventRefreshPageItems += new DelegateRefreshPageItems(RefreshItems);
 
                 //Register ListView events
@@ -111,8 +111,8 @@ namespace NewsScroll
                 EventHideShowHeader -= new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus -= new DelegateHideProgressionStatus(HideProgressionStatus);
                 EventUpdateTotalItemsCount -= new DelegateUpdateTotalItemsCount(UpdateSelectionFeeds);
-                //EventAdjustItemsScrollingDirection -= new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
-                //EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventChangeListViewDirection -= new DelegateChangeListViewDirection(ChangeListViewDirection);
+                EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
                 EventRefreshPageItems -= new DelegateRefreshPageItems(RefreshItems);
 
                 //Register ListView events
@@ -337,13 +337,12 @@ namespace NewsScroll
             catch { }
         }
 
-        private async void iconPersonalize_Tap(object sender, EventArgs e)
+        private void iconPersonalize_Tap(object sender, EventArgs e)
         {
             try
             {
                 HideShowMenu(true);
-                //PersonalizePopup personalizePopup = new PersonalizePopup();
-                //await personalizePopup.OpenPopup();
+                PersonalizePopup.Popup();
             }
             catch { }
         }
@@ -384,7 +383,7 @@ namespace NewsScroll
                     messageAnswers.Add("Refresh news items");
                     messageAnswers.Add("Cancel");
 
-                    messageResult = await AVMessageBox.Popup("Refresh news items", "Do you want to refresh all the news items and scroll to the top?", messageAnswers);
+                    messageResult = await MessagePopup.Popup("Refresh news items", "Do you want to refresh all the news items and scroll to the top?", messageAnswers);
                 }
 
                 if (messageResult == "Refresh news items")

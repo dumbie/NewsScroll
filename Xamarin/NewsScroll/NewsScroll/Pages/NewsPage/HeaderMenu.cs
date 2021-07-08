@@ -47,7 +47,6 @@ namespace NewsScroll
                     stackpanel_Header.IsVisible = true;
 
                     iconMenu.Margin = new Thickness(0, 0, 0, 0);
-
                     iconMenu.Source = ImageSource.FromResource("NewsScroll.Assets.iconMenu.png");
                     iconMenu.Opacity = 1;
 

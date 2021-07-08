@@ -15,8 +15,8 @@
         <!-- Page Header -->
         <Grid Grid.Row="0" HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
             <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
-                <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Help"/>
-                <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="News Scroll"/>
+                <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Help"/>
+                <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="News Scroll"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                 <ImageButton Source="{AVExtensions:ImageResource Assets.iconSettings.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconSettings" Clicked="iconSettings_Tap"/>

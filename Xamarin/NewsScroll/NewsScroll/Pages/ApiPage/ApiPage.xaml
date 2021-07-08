@@ -17,8 +17,8 @@
             <!-- Page Header -->
             <Grid x:Name="stackpanel_Header" Grid.Row="0" HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
                 <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
-                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="The Old Reader"/>
-                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Loading feeds"/>
+                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="The Old Reader"/>
+                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Loading feeds"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                     <ImageButton Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconRefresh" Clicked="iconRefresh_Tap"/>
@@ -28,7 +28,15 @@
 
             <!-- Page Manage -->
             <StackLayout x:Name="stackpanel_Manage" Grid.Row="1">
-                <SearchBar x:Name="txtbox_AddFeed" HorizontalOptions="Fill" Style="{StaticResource SearchBar}" Placeholder="RSS feed link..." SearchButtonPressed="txtbox_AddFeed_SearchButtonPressed"/>
+                <Grid Margin="0,2,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Entry Grid.Column="0" x:Name="txtbox_AddFeed" Keyboard="Url" HorizontalOptions="Fill" Style="{StaticResource Entry}" Placeholder="RSS feed link..."/>
+                    <Button Grid.Column="1" x:Name="btn_AddFeed" Style="{StaticResource ButtonAccent}" Text="Add" Clicked="button_AddFeed_Clicked"/>
+                </Grid>
+
                 <Grid Margin="0,2,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -43,12 +51,12 @@
             <Label Grid.Row="2" x:Name="txt_NewsScrollInfo" Style="{StaticResource LabelLightGray}" FontSize="{DynamicResource TextSizeLarge}" HorizontalTextAlignment="Center" Text="Your news items will be shown here shortly..." VerticalOptions="Center" HorizontalOptions="Center"/>
 
             <!-- Page ListView -->
-            <ListView Grid.Row="2" x:Name="listview_Items" SelectionMode="Single" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewItemsVertical0}"/>
+            <ListView Grid.Row="2" x:Name="listview_Items" SelectionMode="Single" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewFeeds}" Margin="5"/>
         </Grid>
 
         <!-- Status Application -->
         <Grid x:Name="grid_StatusApplication" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
-            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Status bar..."/>
+            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Status bar..."/>
         </Grid>
 
         <!-- Grid Popup Menu -->

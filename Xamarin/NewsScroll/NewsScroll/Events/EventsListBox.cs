@@ -83,18 +83,24 @@ namespace NewsScroll
                 string CurrentPageName = App.Current.MainPage.ToString();
 
                 //Check if mark read till is enabled
-                string ActionMarkReadTill = string.Empty;
-                if (CurrentPageName.EndsWith("NewsPage") && vNewsFeed.feed_id != "1") { ActionMarkReadTill = "Mark read till item"; }
+                string actionMarkReadTill = string.Empty;
+                if (CurrentPageName.EndsWith("NewsPage") && vNewsFeed.feed_id != "1")
+                {
+                    actionMarkReadTill = "Mark read till item";
+                }
 
                 List<string> messageAnswers = new List<string>();
                 messageAnswers.Add("Open in browser");
                 messageAnswers.Add("Share this item");
                 messageAnswers.Add(ActionStarItem + " this item");
                 messageAnswers.Add("Mark item as " + ActionReadItem.ToLower());
-                messageAnswers.Add(ActionMarkReadTill);
+                if (!string.IsNullOrWhiteSpace(actionMarkReadTill))
+                {
+                    messageAnswers.Add(actionMarkReadTill);
+                }
                 messageAnswers.Add("Cancel");
 
-                string messageResult = await AVMessageBox.Popup("News item actions", "What would you like to do with this item?", messageAnswers);
+                string messageResult = await MessagePopup.Popup("News item actions", "What would you like to do with this item?", messageAnswers);
                 if (messageResult == "Open in browser")
                 {
                     await ListItemOpenBrowser(SendListView, SelectedItem, SelectedList, CurrentPageName);
@@ -119,7 +125,7 @@ namespace NewsScroll
                 {
                     await ListItemMarkRead(false, SendListView, SelectedItem, SelectedList, CurrentPageName);
                 }
-                else if (messageResult == ActionMarkReadTill)
+                else if (messageResult == actionMarkReadTill)
                 {
                     bool MarkedRead = await MarkReadTill(SelectedList, SelectedItem, true, false, true);
                     if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
@@ -200,7 +206,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", messageAnswers);
+                    await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", messageAnswers);
                     return;
                 }
 

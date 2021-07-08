@@ -110,7 +110,7 @@ namespace NewsScroll
                     if (!Silent) { EventProgressDisableUI("Loading " + LoadTableFeeds.Count() + " feeds...", true); }
                     Debug.WriteLine("Loading " + LoadTableFeeds.Count() + " feeds...");
 
-                    await Process.ProcessTableFeedsToList(List_Feeds, LoadTableFeeds);
+                    Process.ProcessTableFeedsToList(List_Feeds, LoadTableFeeds);
                 }
 
                 if (EnableUI) { EventProgressEnableUI(); }

@@ -33,7 +33,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Mark item " + ActionType.ToLower());
                     messageAnswers.Add("Cancel");
 
-                    string messageResult = await AVMessageBox.Popup("Mark item " + ActionType.ToLower(), "Do you want to mark this item as " + ActionType.ToLower() + "?", messageAnswers);
+                    string messageResult = await MessagePopup.Popup("Mark item " + ActionType.ToLower(), "Do you want to mark this item as " + ActionType.ToLower() + "?", messageAnswers);
                     if (messageResult == "Cancel")
                     {
                         return false;
@@ -50,7 +50,7 @@ namespace NewsScroll.Api
                 List<string> messageAnswers = new List<string>();
                 messageAnswers.Add("Ok");
 
-                await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", messageAnswers);
+                await MessagePopup.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", messageAnswers);
                 EventProgressEnableUI();
                 return false;
             }
@@ -137,7 +137,7 @@ namespace NewsScroll.Api
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", messageAnswers);
+                    await MessagePopup.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", messageAnswers);
                     EventProgressEnableUI();
                 }
 
@@ -161,7 +161,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Mark read till item");
                     messageAnswers.Add("Cancel");
 
-                    string messageResult = await AVMessageBox.Popup("Mark items read till item", "Do you want to mark all items for the selected feed till this item as read?", messageAnswers);
+                    string messageResult = await MessagePopup.Popup("Mark items read till item", "Do you want to mark all items for the selected feed till this item as read?", messageAnswers);
                     if (messageResult == "Cancel")
                     {
                         return false;
@@ -282,7 +282,7 @@ namespace NewsScroll.Api
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", messageAnswers);
+                    await MessagePopup.Popup("Failed to mark items read", "Please check your internet connection and try again.", messageAnswers);
                     EventProgressEnableUI();
                 }
 
@@ -293,7 +293,7 @@ namespace NewsScroll.Api
                 List<string> messageAnswers = new List<string>();
                 messageAnswers.Add("Ok");
 
-                await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", messageAnswers);
+                await MessagePopup.Popup("Failed to mark items read", "Please check your internet connection and try again.", messageAnswers);
                 EventProgressEnableUI();
                 return false;
             }
@@ -310,7 +310,7 @@ namespace NewsScroll.Api
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Not logged in", "Marking all items read can only be done when you are logged in.", messageAnswers);
+                    await MessagePopup.Popup("Not logged in", "Marking all items read can only be done when you are logged in.", messageAnswers);
                     return false;
                 }
 
@@ -320,7 +320,7 @@ namespace NewsScroll.Api
                     messageAnswers.Add("Mark all items read");
                     messageAnswers.Add("Cancel");
 
-                    string messageResult = await AVMessageBox.Popup("Mark all items read", "Do you want to mark all items for every feed as read?", messageAnswers);
+                    string messageResult = await MessagePopup.Popup("Mark all items read", "Do you want to mark all items for every feed as read?", messageAnswers);
                     if (messageResult == "Cancel")
                     {
                         return false;
@@ -397,7 +397,7 @@ namespace NewsScroll.Api
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", messageAnswers);
+                    await MessagePopup.Popup("Failed to mark all items read", "Please check your internet connection and try again.", messageAnswers);
                     EventProgressEnableUI();
                 }
 
@@ -408,7 +408,7 @@ namespace NewsScroll.Api
                 List<string> messageAnswers = new List<string>();
                 messageAnswers.Add("Ok");
 
-                await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", messageAnswers);
+                await MessagePopup.Popup("Failed to mark all items read", "Please check your internet connection and try again.", messageAnswers);
                 EventProgressEnableUI();
                 return false;
             }

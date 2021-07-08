@@ -30,7 +30,7 @@ namespace NewsScroll.AppStartup
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    string messageResult = await AVMessageBox.Popup("Failed to connect to the database", "Your database will be cleared, please restart the application to continue.", messageAnswers);
+                    string messageResult = await MessagePopup.Popup("Failed to connect to the database", "Your database will be cleared, please restart the application to continue.", messageAnswers);
 
                     await DatabaseReset();
                     System.Diagnostics.Process.GetCurrentProcess().Kill();

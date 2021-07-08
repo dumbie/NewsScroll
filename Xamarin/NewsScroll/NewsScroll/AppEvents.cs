@@ -28,8 +28,8 @@ namespace NewsScroll.AppEvents
         public delegate Task DelegateUpdateTotalItemsCount(List<TableFeeds> LoadTableFeeds, List<TableItems> LoadTableItems, bool Silent, bool EnableUI);
         public static DelegateUpdateTotalItemsCount EventUpdateTotalItemsCount = null;
 
-        public delegate Task DelegateAdjustItemsScrollingDirection(int Direction);
-        public static DelegateAdjustItemsScrollingDirection EventAdjustItemsScrollingDirection = null;
+        public delegate void DelegateChangeListViewDirection(int Direction);
+        public static DelegateChangeListViewDirection EventChangeListViewDirection = null;
 
         public delegate void DelegateChangeListViewStyle(int Style);
         public static DelegateChangeListViewStyle EventChangeListViewStyle = null;
@@ -60,7 +60,7 @@ namespace NewsScroll.AppEvents
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", messageAnswers);
+                    await MessagePopup.Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", messageAnswers);
                     await SyncOfflineChanges(false, true);
                 }
 

@@ -6,7 +6,7 @@ namespace NewsScroll
     public partial class SearchPage
     {
         //Listview item appearing
-        private void ScrollViewer_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        private async void ScrollViewer_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             try
             {
@@ -24,13 +24,13 @@ namespace NewsScroll
                 }
 
                 //Update the shown item content
-                ItemUpdateImages(e.Item, false);
+                await ItemUpdateImages(e.Item, false);
             }
             catch { }
         }
 
         //Listview item disappearing
-        private void ScrollViewer_ItemDisappearing(object sender, ItemVisibilityEventArgs e)
+        private async void ScrollViewer_ItemDisappearing(object sender, ItemVisibilityEventArgs e)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace NewsScroll
                 }
 
                 //Update the shown item content
-                ItemUpdateImages(e.Item, true);
+                await ItemUpdateImages(e.Item, true);
             }
             catch { }
         }

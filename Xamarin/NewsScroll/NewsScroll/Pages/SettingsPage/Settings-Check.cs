@@ -109,9 +109,9 @@ namespace NewsScroll
                 }
 
                 //Item Scroll Direction
-                if (!AppSettingCheck("ItemScrollDirection"))
+                if (!AppSettingCheck("ListViewDirection"))
                 {
-                    await AppSettingSave("ItemScrollDirection", "0");
+                    await AppSettingSave("ListViewDirection", "0");
                 }
 
                 //Adjust font size

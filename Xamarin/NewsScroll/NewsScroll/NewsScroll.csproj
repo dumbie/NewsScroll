@@ -11,11 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\iconClose-Dark.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Extensions\AVImageResource.cs" Link="ArnoldVinkCode\Extensions\AVImageResource.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVDownloader.cs" Link="ArnoldVinkCode\Functions\AVDownloader.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVFunctions.cs" Link="ArnoldVinkCode\Functions\AVFunctions.cs" />
-    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVImages.cs" Link="ArnoldVinkCode\Functions\AVImages.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Files\AVFiles-PCL.cs" Link="ArnoldVinkCode\Functions\AVFiles-PCL.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Images\AVImages-PCL.cs" Link="ArnoldVinkCode\Functions\Images\AVImages-PCL.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Settings\AVSettings-PCL.cs" Link="ArnoldVinkCode\Functions\AVSettings-PCL.cs" />
   </ItemGroup>
 
@@ -33,6 +37,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\iconBrowser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\iconClose-Dark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\iconClose.png">
@@ -177,7 +184,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Pages\MessageBox\AVMessageBox.xaml">
+    <EmbeddedResource Update="Pages\MessagePopup\MessagePopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PersonalizePopup\PersonalizePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\SettingsPage\SettingsPage.xaml">
@@ -195,12 +205,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ArnoldVinkCode\Functions\" />
     <Folder Include="ArnoldVinkCode\Extensions\" />
-    <Folder Include="ArnoldVinkCode\Styles\" />
+    <Folder Include="ArnoldVinkCode\Functions\Images\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\MessagePopup\MessagePopup.xaml.cs">
+      <DependentUpon>MessagePopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\NewsPage\NewsPage.xaml.cs">
       <DependentUpon>NewsPage.xaml</DependentUpon>
     </Compile>

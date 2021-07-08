@@ -14,8 +14,6 @@ namespace NewsScroll
         private bool vIgnoreText = false;
         private int vWebViewLimit = 3;
         private int vWebViewAdded = 0;
-        private int vGridColumn = 0;
-        private int vGridRow = 0;
 
         private async Task<bool> HtmlToStackLayout(StackLayout targetElement, string FullHtml, string BaseLink)
         {

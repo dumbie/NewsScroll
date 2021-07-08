@@ -30,7 +30,7 @@ namespace NewsScroll
                     }
                     messageAnswers.Add("Cancel");
 
-                    string messageResult = await AVMessageBox.Popup("Item scroller", "Would you like to scroll in the items?", messageAnswers);
+                    string messageResult = await MessagePopup.Popup("Item scroller", "Would you like to scroll in the items?", messageAnswers);
                     if (messageResult == "Scroll to beginning")
                     {
                         await Task.Delay(10);

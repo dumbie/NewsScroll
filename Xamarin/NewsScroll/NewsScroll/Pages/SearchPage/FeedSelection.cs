@@ -110,6 +110,7 @@ namespace NewsScroll
                             //Add folder
                             Feeds FolderItem = new Feeds();
                             FolderItem.feed_icon = FolderIcon;
+                            FolderItem.feed_title = "(Folder) " + FeedFolder;
                             FolderItem.feed_folder_title = FeedFolder;
                             FolderItem.feed_folder_status = true;
                             List_FeedSelect.Add(FolderItem);

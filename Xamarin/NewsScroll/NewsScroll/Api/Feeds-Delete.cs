@@ -34,9 +34,7 @@ namespace NewsScroll.Api
                     await vSQLConnection.ExecuteAsync("DELETE FROM TableItems WHERE item_feed_id = ('" + FeedId + "') AND item_star_status = ('0')");
 
                     //Delete the feed icon
-                    //fix
-                    //IStorageItem LocalFile = await ApplicationData.Current.LocalFolder.TryGetItemAsync(FeedId + ".png");
-                    //if (LocalFile != null) { try { await LocalFile.DeleteAsync(StorageDeleteOption.PermanentDelete); } catch { } }
+                    AVFiles.File_Delete(FeedId + ".png", true);
 
                     Debug.WriteLine("Deleted the feed and items off: " + FeedId);
                     return true;

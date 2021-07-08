@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.AppVariables;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll
@@ -130,7 +132,7 @@ namespace NewsScroll
         }
 
         //Update the item image content
-        public static void ItemUpdateImages(object itemObject, bool resetContent)
+        public static async Task ItemUpdateImages(object itemObject, bool resetContent)
         {
             try
             {
@@ -138,27 +140,24 @@ namespace NewsScroll
                 if (resetContent)
                 {
                     //Debug.WriteLine("Disappearing item: " + updateItem.item_title);
-                    if (updateItem.item_image != null)
-                    {
-                        updateItem.item_image = null;
-                    }
+                    //Unload feed icon
                     if (updateItem.feed_icon != null)
                     {
                         updateItem.feed_icon = null;
+                    }
+
+                    //Unload item image
+                    if (updateItem.item_image != null)
+                    {
+                        updateItem.item_image = null;
                     }
                 }
                 else
                 {
                     //Debug.WriteLine("Appearing item: " + updateItem.item_title);
-                    string ItemImageLink = updateItem.item_image_link;
-                    //fix AppVariables.LoadMedia
-                    if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == true)
-                    {
-                        updateItem.item_image = ImageSource.FromUri(new Uri(ItemImageLink));
-                    }
+                    //Load feed icon
                     if (updateItem.feed_icon == null)
                     {
-                        //Load feed icon
                         if (updateItem.feed_id.StartsWith("user/"))
                         {
                             updateItem.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
@@ -171,6 +170,15 @@ namespace NewsScroll
                         {
                             updateItem.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
                         }
+                    }
+
+                    //Load item image
+                    string ItemImageLink = updateItem.item_image_link;
+                    if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == true && AppVariables.LoadMedia)
+                    {
+                        Uri imageUri = new Uri(ItemImageLink);
+                        Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
+                        updateItem.item_image = ImageSource.FromStream(() => imageStream);
                     }
                 }
             }

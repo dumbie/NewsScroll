@@ -29,7 +29,7 @@ namespace NewsScroll.Api
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Invalid feed link", "The entered feed link is invalid or does not contain a feed, please check your link and try again.", messageAnswers);
+                    await MessagePopup.Popup("Invalid feed link", "The entered feed link is invalid or does not contain a feed, please check your link and try again.", messageAnswers);
                     //Debug.WriteLine(WebJObject["error"].ToString());
                     return false;
                 }
@@ -38,7 +38,7 @@ namespace NewsScroll.Api
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Feed has been added", "Your new feed has been added to your account, and will appear on the next feed refresh.", messageAnswers);
+                    await MessagePopup.Popup("Feed has been added", "Your new feed has been added to your account, and will appear on the next feed refresh.", messageAnswers);
                     return true;
                 }
             }
@@ -47,7 +47,7 @@ namespace NewsScroll.Api
                 List<string> messageAnswers = new List<string>();
                 messageAnswers.Add("Ok");
 
-                await AVMessageBox.Popup("Failed to add feed", "Please check your account settings, internet connection and try again.", messageAnswers);
+                await MessagePopup.Popup("Failed to add feed", "Please check your account settings, internet connection and try again.", messageAnswers);
                 return false;
             }
         }

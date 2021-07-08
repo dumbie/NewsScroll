@@ -1,7 +1,9 @@
 ﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -187,7 +189,7 @@ namespace NewsScroll
                 messageAnswers.Add("Refresh feeds");
                 messageAnswers.Add("Cancel");
 
-                string messageResult = await AVMessageBox.Popup("Refresh feeds", "Do you want to refresh the feeds and scroll to the top?", messageAnswers);
+                string messageResult = await MessagePopup.Popup("Refresh feeds", "Do you want to refresh the feeds and scroll to the top?", messageAnswers);
                 if (messageResult == "Refresh feeds")
                 {
                     //Reset the online status
@@ -206,6 +208,7 @@ namespace NewsScroll
         {
             try
             {
+                //fix
                 //ListView SendListView = sender as ListView;
                 //Feeds SelectedItem = ((e.OriginalSource as FrameworkElement).DataContext) as Feeds;
                 //if (SelectedItem != null)
@@ -260,7 +263,7 @@ namespace NewsScroll
         }
 
         //Add feed to The Old Reader
-        private async void txtbox_AddFeed_SearchButtonPressed(object sender, EventArgs e)
+        private async void button_AddFeed_Clicked(object sender, EventArgs e)
         {
             try
             {
@@ -281,7 +284,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Not logged in", "Adding a feed can only be done when you are logged in.", messageAnswers);
+                    await MessagePopup.Popup("Not logged in", "Adding a feed can only be done when you are logged in.", messageAnswers);
                     return;
                 }
 
@@ -291,7 +294,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("No internet connection", "Adding a feed can only be done when there is an internet connection available.", messageAnswers);
+                    await MessagePopup.Popup("No internet connection", "Adding a feed can only be done when there is an internet connection available.", messageAnswers);
                     return;
                 }
 
@@ -314,7 +317,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("Invalid feed link", "The entered feed link is invalid or does not contain a feed, please check your link and try again.", messageAnswers);
+                    await MessagePopup.Popup("Invalid feed link", "The entered feed link is invalid or does not contain a feed, please check your link and try again.", messageAnswers);
 
                     //Focus on the text box to open keyboard
                     txtbox_AddFeed.IsEnabled = false;
@@ -334,7 +337,7 @@ namespace NewsScroll
                     ApiMessageError = string.Empty;
 
                     //Reset the last update setting
-                    AppSettingSave("LastItemsUpdate", "Never");
+                    await AppSettingSave("LastItemsUpdate", "Never");
 
                     //Reset the textbox entry
                     txtbox_AddFeed.Text = string.Empty;
@@ -452,7 +455,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("No feeds selected", "Please select some feeds that you want to un/ignore first.", messageAnswers);
+                    await MessagePopup.Popup("No feeds selected", "Please select some feeds that you want to un/ignore first.", messageAnswers);
                     return;
                 }
                 else
@@ -469,21 +472,18 @@ namespace NewsScroll
 
                         List<TableFeeds> TableEditFeeds = await vSQLConnection.Table<TableFeeds>().ToListAsync();
 
-                        //fix
-                        //foreach (Feeds SelectedItem in listview_Items.SelectedItems)
-                        //{
-                        //    TableFeeds TableResult = TableEditFeeds.Where(x => x.feed_id == SelectedItem.feed_id).FirstOrDefault();
-                        //    if (SelectedItem.feed_ignore_status == true)
-                        //    {
-                        //        TableResult.feed_ignore_status = false;
-                        //        SelectedItem.feed_ignore_status = false;
-                        //    }
-                        //    else
-                        //    {
-                        //        TableResult.feed_ignore_status = true;
-                        //        SelectedItem.feed_ignore_status = true;
-                        //    }
-                        //}
+                        Feeds SelectedItem = (Feeds)listview_Items.SelectedItem;
+                        TableFeeds TableResult = TableEditFeeds.Where(x => x.feed_id == SelectedItem.feed_id).FirstOrDefault();
+                        if (SelectedItem.feed_ignore_status == true)
+                        {
+                            TableResult.feed_ignore_status = false;
+                            SelectedItem.feed_ignore_status = false;
+                        }
+                        else
+                        {
+                            TableResult.feed_ignore_status = true;
+                            SelectedItem.feed_ignore_status = true;
+                        }
 
                         //Update the items in database
                         await vSQLConnection.UpdateAllAsync(TableEditFeeds);
@@ -494,14 +494,14 @@ namespace NewsScroll
                         List<string> messageAnswers = new List<string>();
                         messageAnswers.Add("Ok");
 
-                        await AVMessageBox.Popup("Feeds have been un/ignored", "Their items will be hidden or shown again on the next news item refresh.", messageAnswers);
+                        await MessagePopup.Popup("Feeds have been un/ignored", "Their items will be hidden or shown again on the next news item refresh.", messageAnswers);
                     }
                     catch
                     {
                         List<string> messageAnswers = new List<string>();
                         messageAnswers.Add("Ok");
 
-                        await AVMessageBox.Popup("Failed to un/ignore feeds", "Please try to un/ignored the feeds again.", messageAnswers);
+                        await MessagePopup.Popup("Failed to un/ignore feeds", "Please try to un/ignored the feeds again.", messageAnswers);
                     }
 
                     ProgressEnableUI();
@@ -521,7 +521,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("No internet connection", "Deleting a feed can only be done when there is an internet connection available.", messageAnswers);
+                    await MessagePopup.Popup("No internet connection", "Deleting a feed can only be done when there is an internet connection available.", messageAnswers);
                     return;
                 }
 
@@ -531,7 +531,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("No feeds selected", "Please select some feeds that you want to delete first.", messageAnswers);
+                    await MessagePopup.Popup("No feeds selected", "Please select some feeds that you want to delete first.", messageAnswers);
                     return;
                 }
                 else
@@ -543,20 +543,20 @@ namespace NewsScroll
 
                     try
                     {
-                        //fix
-                        //foreach (Feeds SelectedItem in listview_Items.SelectedItems) { await DeleteFeed(SelectedItem.feed_id); }
+                        Feeds SelectedItem = (Feeds)listview_Items.SelectedItem;
+                        await DeleteFeed(SelectedItem.feed_id);
 
                         List<string> messageAnswers = new List<string>();
                         messageAnswers.Add("Ok");
 
-                        await AVMessageBox.Popup("Feeds have been deleted", "The feeds and it's items will disappear on the next refresh.", messageAnswers);
+                        await MessagePopup.Popup("Feeds have been deleted", "The feeds and it's items will disappear on the next refresh.", messageAnswers);
                     }
                     catch
                     {
                         List<string> messageAnswers = new List<string>();
                         messageAnswers.Add("Ok");
 
-                        await AVMessageBox.Popup("Failed to delete feeds", "Please check your account settings, internet connection and try again.", messageAnswers);
+                        await MessagePopup.Popup("Failed to delete feeds", "Please check your account settings, internet connection and try again.", messageAnswers);
                     }
 
                     //Reset the online status

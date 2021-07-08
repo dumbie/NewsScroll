@@ -17,8 +17,8 @@
             <!-- Page Header -->
             <Grid Grid.Row="0" x:Name="StackLayout_Header" HeightRequest="65" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
                 <StackLayout Margin="10,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
-                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Itemviewer"/>
-                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="News Scroll"/>
+                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Itemviewer"/>
+                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="News Scroll"/>
                 </StackLayout>
             </Grid>
 
@@ -26,7 +26,7 @@
             <ScrollView Grid.Row="1" x:Name="scrollviewer_NewsItem" Style="{StaticResource ScrollViewVertical}">
                 <StackLayout x:Name="StackLayout_NewsItem" Padding="10,5,10,0" BackgroundColor="Transparent">
                     <StackLayout>
-                        <Label x:Name="tb_ItemTitle" Text="{Binding vItemViewerItem.item_title}" FontSize="{DynamicResource TextSizeLarge}"/>
+                        <Label x:Name="tb_ItemTitle" Text="{Binding vItemViewerItem.item_title}" Style="{StaticResource LabelBlack}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label x:Name="tb_ItemDateString" Text="{Binding vItemViewerItem.item_datestring}" Style="{StaticResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                         <Grid Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>
@@ -54,7 +54,7 @@
 
         <!-- Status Application -->
         <Grid x:Name="grid_StatusApplication" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
-            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Status bar..."/>
+            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Status bar..."/>
         </Grid>
 
         <!-- Swipe Bar -->

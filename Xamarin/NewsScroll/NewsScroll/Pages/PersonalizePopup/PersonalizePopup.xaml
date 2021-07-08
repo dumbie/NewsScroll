@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsScroll.PersonalizePopup"
+             BackgroundColor="Transparent"
+             Padding="40"
+             xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
+
+    <!--Main page-->
+    <Frame Padding="4" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+        <Grid Padding="10,10,10,10" BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <Grid Grid.Row="0" HeightRequest="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Margin="10,0,10,0" HorizontalOptions="Start" VerticalOptions="Center" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeLarge}" Text="Display settings"/>
+                <ImageButton x:Name="iconClose" Source="{AVExtensions:ImageResource Assets.iconClose-Dark.png}" Grid.Column="1" Style="{StaticResource ButtonImage}" HorizontalOptions="End" Clicked="iconClose_Tap"/>
+            </Grid>
+
+            <!-- Page Settings -->
+            <ScrollView Grid.Row="1" Margin="5,5,5,5" Style="{StaticResource ScrollViewVertical}">
+                <StackLayout>
+                    <Label Text="Used application color theme:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Picker x:Name="setting_ColorTheme" Margin="0,5,0,0" HorizontalOptions="Fill" Style="{StaticResource Picker}">
+                        <Picker.Items>
+                            <x:String>Light theme</x:String>
+                            <x:String>Dark theme</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <StackLayout IsVisible="false">
+                        <Label Text="News item scrolling direction:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                        <Picker x:Name="setting_ListViewDirection" Margin="0,5,0,0" HorizontalOptions="Fill" Style="{StaticResource Picker}">
+                            <Picker.Items>
+                                <x:String>Vertical</x:String>
+                                <x:String>Horizontal</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+
+                    <Label Text="Displayed item list view style:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Picker x:Name="setting_ListViewStyle" Margin="0,5,0,0" HorizontalOptions="Fill" Style="{StaticResource Picker}">
+                        <Picker.Items>
+                            <x:String>Title, image and text</x:String>
+                            <x:String>Title and image</x:String>
+                            <x:String>Title and text</x:String>
+                            <x:String>Title only</x:String>
+                        </Picker.Items>
+                    </Picker>
+
+                    <Label Text="Adjust the displayed font size:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Slider x:Name="setting_AdjustFontSize" Minimum="-5" Maximum="15" HorizontalOptions="Fill" Style="{StaticResource SliderAccent}"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </Frame>
+</ContentPage>

@@ -3,6 +3,7 @@ using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.AppVariables;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll
@@ -135,18 +137,18 @@ namespace NewsScroll
                     //}
 
                     //Load the item content
-                    bool SetHtmlToRichTextBlock = false;
+                    bool SetHtmlToRichLabel = false;
                     if (!string.IsNullOrWhiteSpace(item_content_custom))
                     {
-                        SetHtmlToRichTextBlock = await HtmlToStackLayout(item_content, item_content_custom, string.Empty);
+                        SetHtmlToRichLabel = await HtmlToStackLayout(item_content, item_content_custom, string.Empty);
                     }
                     else if (!string.IsNullOrWhiteSpace(LoadTable.item_content_full))
                     {
-                        SetHtmlToRichTextBlock = await HtmlToStackLayout(item_content, LoadTable.item_content_full, string.Empty);
+                        SetHtmlToRichLabel = await HtmlToStackLayout(item_content, LoadTable.item_content_full, string.Empty);
                     }
 
                     //Check if html to xaml has failed
-                    if (!SetHtmlToRichTextBlock || !item_content.Children.Any())
+                    if (!SetHtmlToRichLabel || !item_content.Children.Any())
                     {
                         //Load summary text
                         Label labelSummary = new Label();
@@ -158,14 +160,14 @@ namespace NewsScroll
                     }
 
                     //Check if item content contains preview image
-                    CheckItemContentContainsPreviewImage(LoadTable);
+                    await CheckItemContentContainsPreviewImage(LoadTable);
                 }
             }
             catch { }
         }
 
         //Check if item content contains preview image
-        private void CheckItemContentContainsPreviewImage(TableItems LoadTable)
+        private async Task CheckItemContentContainsPreviewImage(TableItems LoadTable)
         {
             try
             {
@@ -179,7 +181,7 @@ namespace NewsScroll
                 }
 
                 //Check if there are images and the preview image is included
-                CheckTextBlockForPreviewImage(item_content, ItemImageLink, out int ItemImagecount, out bool FoundPreviewImage);
+                CheckLabelForPreviewImage(item_content, ItemImageLink, out int ItemImagecount, out bool FoundPreviewImage);
 
                 //Update the preview image based on result
                 if (ItemImagecount == 0 || !FoundPreviewImage)
@@ -199,11 +201,15 @@ namespace NewsScroll
                         return;
                     }
 
-                    item_image.Source = ImageSource.FromUri(new Uri(ItemImageLink));
+                    //Load item image
+                    Uri imageUri = new Uri(ItemImageLink);
+                    Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
+                    item_image.Source = ImageSource.FromStream(() => imageStream);
                     item_image.IsVisible = true;
                 }
                 else
                 {
+                    //Unload item image
                     item_image.Source = null;
                     item_image.IsVisible = false;
                 }
@@ -216,7 +222,7 @@ namespace NewsScroll
         }
 
         //Check if there are images and the preview image is included
-        private void CheckTextBlockForPreviewImage(StackLayout targetElement, string ItemImageLink, out int ItemImageCount, out bool FoundPreviewImage)
+        private void CheckLabelForPreviewImage(StackLayout targetElement, string ItemImageLink, out int ItemImageCount, out bool FoundPreviewImage)
         {
             try
             {
@@ -435,13 +441,12 @@ namespace NewsScroll
             catch { }
         }
 
-        private async void iconPersonalize_Tap(object sender, EventArgs e)
+        private void iconPersonalize_Tap(object sender, EventArgs e)
         {
             try
             {
-                //await HideShowMenu(true);
-                //PersonalizePopup personalizePopup = new PersonalizePopup();
-                //await personalizePopup.OpenPopup();
+                HideShowMenu(true);
+                PersonalizePopup.Popup();
             }
             catch { }
         }
@@ -476,7 +481,7 @@ namespace NewsScroll
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
 
-                    await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", messageAnswers);
+                    await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", messageAnswers);
                     return;
                 }
 
@@ -554,7 +559,7 @@ namespace NewsScroll
                         messageAnswers.Add("Ok");
 
                         Debug.WriteLine("No network available to fully load this item.");
-                        await AVMessageBox.Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", messageAnswers);
+                        await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", messageAnswers);
                     }
                 }
 
@@ -595,7 +600,7 @@ namespace NewsScroll
                             messageAnswers.Add("Open in browser");
                             messageAnswers.Add("Cancel");
 
-                            string messageResult = await AVMessageBox.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", messageAnswers);
+                            string messageResult = await MessagePopup.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", messageAnswers);
                             if (messageResult == "Open in browser")
                             {
                                 await OpenBrowser(null, true);
@@ -607,7 +612,7 @@ namespace NewsScroll
                             messageAnswers.Add("Ok");
 
                             Debug.WriteLine("There is currently no full item content available. (No Internet)");
-                            await AVMessageBox.Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", messageAnswers);
+                            await MessagePopup.Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", messageAnswers);
                         }
                     }
                     else

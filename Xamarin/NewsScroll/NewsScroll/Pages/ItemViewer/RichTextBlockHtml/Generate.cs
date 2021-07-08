@@ -3,18 +3,20 @@ using Octane.Xamarin.Forms.VideoPlayer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
+using static NewsScroll.AppVariables;
 
 namespace NewsScroll
 {
     public partial class ItemViewer
     {
-        private void GenerateImage(StackLayout addElement, HtmlNode htmlNode)
+        private async Task GenerateImage(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -79,7 +81,9 @@ namespace NewsScroll
 
                 //Create item image
                 Image img_source = new Image();
-                img_source.Source = ImageSource.FromUri(new Uri(sourceUri));
+                Uri imageUri = new Uri(sourceUri);
+                Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
+                img_source.Source = ImageSource.FromStream(() => imageStream);
                 img_source.HeightRequest = 300;
                 addElement.Children.Add(img_source);
 
@@ -402,24 +406,24 @@ namespace NewsScroll
                 //Grid Header
                 if (!string.IsNullOrWhiteSpace(textHeader))
                 {
-                    Label TextBlockHeader = new Label();
-                    TextBlockHeader.Text = textHeader + ":";
-                    TextBlockHeader.HorizontalOptions = LayoutOptions.Start;
-                    TextBlockHeader.TextColor = (Color)ApplicationAccentLightColor;
+                    Label LabelHeader = new Label();
+                    LabelHeader.Text = textHeader + ":";
+                    LabelHeader.HorizontalOptions = LayoutOptions.Start;
+                    LabelHeader.TextColor = (Color)ApplicationAccentLightColor;
 
                     //Fix
                     ////Enable or disable text selection
                     //if ((bool)AppSettingLoad("ItemTextSelection"])
                     //{
-                    //    TextBlockHeader.IsTextSelectionEnabled = true;
+                    //    LabelHeader.IsTextSelectionEnabled = true;
                     //}
                     //else
                     //{
-                    //    TextBlockHeader.IsTextSelectionEnabled = false;
+                    //    LabelHeader.IsTextSelectionEnabled = false;
                     //}
 
                     //Add to stackpanel
-                    stackPanelGrid.Children.Add(TextBlockHeader);
+                    stackPanelGrid.Children.Add(LabelHeader);
                 }
 
                 //Grid Text
@@ -435,25 +439,25 @@ namespace NewsScroll
 
                 if (!string.IsNullOrWhiteSpace(StringText))
                 {
-                    Label textBlock = new Label();
-                    textBlock.Text = StringText;
-                    textBlock.HorizontalTextAlignment = textAlignment;
-                    textBlock.HorizontalOptions = horizontalOptions;
-                    textBlock.BackgroundColor = (Color)ApplicationLightGrayColor;
+                    Label Label = new Label();
+                    Label.Text = StringText;
+                    Label.HorizontalTextAlignment = textAlignment;
+                    Label.HorizontalOptions = horizontalOptions;
+                    Label.BackgroundColor = (Color)ApplicationLightGrayColor;
 
                     //fix
                     ////Enable or disable text selection
                     //if ((bool)AppSettingLoad("ItemTextSelection"])
                     //{
-                    //    textBlock.IsTextSelectionEnabled = true;
+                    //    Label.IsTextSelectionEnabled = true;
                     //}
                     //else
                     //{
-                    //    textBlock.IsTextSelectionEnabled = false;
+                    //    Label.IsTextSelectionEnabled = false;
                     //}
 
                     //Add to stackpanel
-                    stackPanelGrid.Children.Add(textBlock);
+                    stackPanelGrid.Children.Add(Label);
                     addElement.Children.Add(stackPanelGrid);
                 }
                 else
@@ -486,24 +490,24 @@ namespace NewsScroll
                 //Grid Header
                 if (!string.IsNullOrWhiteSpace(textHeader))
                 {
-                    Label TextBlockHeader = new Label();
-                    TextBlockHeader.Text = textHeader + ":";
-                    TextBlockHeader.HorizontalOptions = LayoutOptions.Start;
-                    TextBlockHeader.TextColor = (Color)ApplicationAccentLightColor;
+                    Label LabelHeader = new Label();
+                    LabelHeader.Text = textHeader + ":";
+                    LabelHeader.HorizontalOptions = LayoutOptions.Start;
+                    LabelHeader.TextColor = (Color)ApplicationAccentLightColor;
 
                     //Fix
                     ////Enable or disable text selection
                     //if ((bool)AppSettingLoad("ItemTextSelection"])
                     //{
-                    //    TextBlockHeader.IsTextSelectionEnabled = true;
+                    //    LabelHeader.IsTextSelectionEnabled = true;
                     //}
                     //else
                     //{
-                    //    TextBlockHeader.IsTextSelectionEnabled = false;
+                    //    LabelHeader.IsTextSelectionEnabled = false;
                     //}
 
                     //Add to stackpanel
-                    stackPanelGrid.Children.Add(TextBlockHeader);
+                    stackPanelGrid.Children.Add(LabelHeader);
                 }
 
                 //Add other child node elements
@@ -516,11 +520,11 @@ namespace NewsScroll
                 ////Enable or disable text selection
                 //if ((bool)AppSettingLoad("ItemTextSelection"])
                 //{
-                //    richTextBlock.IsTextSelectionEnabled = true;
+                //    richLabel.IsTextSelectionEnabled = true;
                 //}
                 //else
                 //{
-                //    richTextBlock.IsTextSelectionEnabled = false;
+                //    richLabel.IsTextSelectionEnabled = false;
                 //}
 
                 //Add to stackpanel grid
@@ -549,24 +553,24 @@ namespace NewsScroll
                 //Grid Header
                 if (!string.IsNullOrWhiteSpace(textHeader))
                 {
-                    Label TextBlockHeader = new Label();
-                    TextBlockHeader.Text = textHeader + ":";
-                    TextBlockHeader.HorizontalOptions = LayoutOptions.Start;
-                    TextBlockHeader.TextColor = (Color)ApplicationAccentLightColor;
+                    Label LabelHeader = new Label();
+                    LabelHeader.Text = textHeader + ":";
+                    LabelHeader.HorizontalOptions = LayoutOptions.Start;
+                    LabelHeader.TextColor = (Color)ApplicationAccentLightColor;
 
                     //Fix
                     ////Enable or disable text selection
                     //if ((bool)AppSettingLoad("ItemTextSelection"])
                     //{
-                    //    TextBlockHeader.IsTextSelectionEnabled = true;
+                    //    LabelHeader.IsTextSelectionEnabled = true;
                     //}
                     //else
                     //{
-                    //    TextBlockHeader.IsTextSelectionEnabled = false;
+                    //    LabelHeader.IsTextSelectionEnabled = false;
                     //}
 
                     //Add to stackpanel
-                    stackPanelGrid.Children.Add(TextBlockHeader);
+                    stackPanelGrid.Children.Add(LabelHeader);
                 }
 
                 int RowCurrentCount = 0;
@@ -604,23 +608,23 @@ namespace NewsScroll
                             ColumnDefinition gridColDefinition = new ColumnDefinition();
                             gridRow.ColumnDefinitions.Add(gridColDefinition);
 
-                            Label textBlock = new Label();
-                            textBlock.Text = TableHeader.InnerText;
-                            textBlock.TextColor = (Color)ApplicationAccentLightColor;
+                            Label Label = new Label();
+                            Label.Text = TableHeader.InnerText;
+                            Label.TextColor = (Color)ApplicationAccentLightColor;
 
                             //Fix
                             ////Enable or disable text selection
                             //if ((bool)AppSettingLoad("ItemTextSelection"])
                             //{
-                            //    textBlock.IsTextSelectionEnabled = true;
+                            //    Label.IsTextSelectionEnabled = true;
                             //}
                             //else
                             //{
-                            //    textBlock.IsTextSelectionEnabled = false;
+                            //    Label.IsTextSelectionEnabled = false;
                             //}
 
-                            gridRow.Children.Add(textBlock);
-                            Grid.SetColumn(textBlock, ColumnCurrentCount);
+                            gridRow.Children.Add(Label);
+                            Grid.SetColumn(Label, ColumnCurrentCount);
                             ColumnCurrentCount++;
                         }
 
@@ -637,11 +641,11 @@ namespace NewsScroll
                             ////Enable or disable text selection
                             //if ((bool)AppSettingLoad("ItemTextSelection"])
                             //{
-                            //    richTextBlock.IsTextSelectionEnabled = true;
+                            //    richLabel.IsTextSelectionEnabled = true;
                             //}
                             //else
                             //{
-                            //    richTextBlock.IsTextSelectionEnabled = false;
+                            //    richLabel.IsTextSelectionEnabled = false;
                             //}
 
                             gridRow.Children.Add(spanContent);
@@ -665,11 +669,11 @@ namespace NewsScroll
                     ////Enable or disable text selection
                     //if ((bool)AppSettingLoad("ItemTextSelection"])
                     //{
-                    //    richTextBlock.IsTextSelectionEnabled = true;
+                    //    richLabel.IsTextSelectionEnabled = true;
                     //}
                     //else
                     //{
-                    //    richTextBlock.IsTextSelectionEnabled = false;
+                    //    richLabel.IsTextSelectionEnabled = false;
                     //}
 
                     //Add to stackpanel grid
@@ -721,8 +725,10 @@ namespace NewsScroll
         {
             try
             {
-                vGridRow++;
-                vGridColumn = 0;
+                Frame addFrame = new Frame();
+                addFrame.HeightRequest = 20;
+
+                addElement.Children.Add(addFrame);
             }
             catch { }
         }

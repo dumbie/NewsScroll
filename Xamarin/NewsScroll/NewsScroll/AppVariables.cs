@@ -1,7 +1,9 @@
-﻿using NewsScroll.Classes;
+﻿using ArnoldVinkCode;
+using NewsScroll.Classes;
 using System.Globalization;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace NewsScroll
 {
@@ -12,6 +14,9 @@ namespace NewsScroll
         public static int vSingleTappedClickCount = 0;
         public static bool BusyApplication = false;
         public static bool HeaderHidden = false;
+
+        //Dependency Variables
+        public static AVImages dependencyAVImages = DependencyService.Get<AVImages>();
 
         //Loading Variables
         public static bool LoadNews = false;

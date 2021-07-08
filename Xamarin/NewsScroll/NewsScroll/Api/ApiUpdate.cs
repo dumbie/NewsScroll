@@ -44,7 +44,7 @@ namespace NewsScroll
                                 messageAnswers.Add("Go to account settings");
                                 messageAnswers.Add("Switch to offline mode");
 
-                                string messageResult = await AVMessageBox.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                string messageResult = await MessagePopup.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
                                 if (messageResult == "Retry to login")
                                 {
                                     return await PageApiUpdate();
@@ -77,7 +77,7 @@ namespace NewsScroll
                                 messageAnswers.Add("Go to account settings");
                                 messageAnswers.Add("Switch to offline mode");
 
-                                string messageResult = await AVMessageBox.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                string messageResult = await MessagePopup.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
                                 if (messageResult == "Retry downloading feeds")
                                 {
                                     return await PageApiUpdate();
@@ -114,7 +114,7 @@ namespace NewsScroll
                                     messageAnswers.Add("Retry downloading items");
                                     messageAnswers.Add("Switch to offline mode");
 
-                                    string messageResult = await AVMessageBox.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                    string messageResult = await MessagePopup.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
                                     if (messageResult == "Retry downloading items")
                                     {
                                         return await PageApiUpdate();
@@ -137,7 +137,7 @@ namespace NewsScroll
                                     messageAnswers.Add("Retry downloading read items");
                                     messageAnswers.Add("Switch to offline mode");
 
-                                    string messageResult = await AVMessageBox.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                    string messageResult = await MessagePopup.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
                                     if (messageResult == "Retry downloading read items")
                                     {
                                         return await PageApiUpdate();
@@ -173,7 +173,7 @@ namespace NewsScroll
                                 messageAnswers.Add("Retry downloading starred items");
                                 messageAnswers.Add("Switch to offline mode");
 
-                                string messageResult = await AVMessageBox.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
+                                string messageResult = await MessagePopup.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", messageAnswers);
                                 if (messageResult == "Retry downloading starred items")
                                 {
                                     return await PageApiUpdate();

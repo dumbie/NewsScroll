@@ -21,7 +21,7 @@ namespace NewsScroll
 
                 //Get the currently selected feed
                 string SelectedFeedTitle = "All news items";
-                if (!(bool)AppSettingLoad("DisplayReadMarkedItems")) { SelectedFeedTitle = "Current unread items"; }
+                if (!(bool)AppSettingLoad("DisplayReadMarkedItems")) { SelectedFeedTitle = "Unread news items"; }
                 if (vNewsFeed != null)
                 {
                     if (vNewsFeed.feed_title != null) { SelectedFeedTitle = vNewsFeed.feed_title; }

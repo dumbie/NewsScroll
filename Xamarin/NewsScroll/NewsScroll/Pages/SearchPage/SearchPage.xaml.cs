@@ -40,10 +40,10 @@ namespace NewsScroll
                 RegisterPageEvents();
 
                 //Adjust the scrolling direction
-                //await AdjustItemsScrollingDirection(Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]));
+                ChangeListViewDirection(Convert.ToInt32(AppSettingLoad("ListViewDirection")));
 
                 //Adjust the list view style
-                //ChangeListViewStyle(Convert.ToInt32(AppVariables.ApplicationSettings["ListViewStyle"]));
+                ChangeListViewStyle(Convert.ToInt32(AppSettingLoad("ListViewStyle")));
 
                 //Adjust the swiping direction
                 SwipeBarAdjust();
@@ -77,8 +77,8 @@ namespace NewsScroll
                 EventProgressEnableUI += new DelegateProgressEnableUI(ProgressEnableUI);
                 EventHideShowHeader += new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus += new DelegateHideProgressionStatus(HideProgressionStatus);
-                //EventAdjustItemsScrollingDirection += new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
-                //EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventChangeListViewDirection += new DelegateChangeListViewDirection(ChangeListViewDirection);
+                EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
 
                 //Register ListView events
                 listview_Items.ItemTapped += EventsListView.listview_Items_Tapped;
@@ -111,8 +111,8 @@ namespace NewsScroll
                 EventProgressEnableUI -= new DelegateProgressEnableUI(ProgressEnableUI);
                 EventHideShowHeader -= new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus -= new DelegateHideProgressionStatus(HideProgressionStatus);
-                //EventAdjustItemsScrollingDirection -= new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
-                //EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventChangeListViewDirection -= new DelegateChangeListViewDirection(ChangeListViewDirection);
+                EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
 
                 //Register ListView events
                 listview_Items.ItemTapped -= EventsListView.listview_Items_Tapped;
@@ -294,14 +294,12 @@ namespace NewsScroll
             catch { }
         }
 
-        private async void iconPersonalize_Tap(object sender, EventArgs e)
+        private void iconPersonalize_Tap(object sender, EventArgs e)
         {
             try
             {
                 HideShowMenu(true);
-                //fix
-                //PersonalizePopup personalizePopup = new PersonalizePopup();
-                //await personalizePopup.OpenPopup();
+                PersonalizePopup.Popup();
             }
             catch { }
         }

@@ -53,9 +53,9 @@ namespace NewsScroll
                     case "br": { GenerateBreak(addElement); return; }
 
                     //Elements
-                    case "img": { GenerateImage(addElement, htmlNode); return; }
-                    case "picture": { GenerateImage(addElement, htmlNode); return; }
-                    case "figure": { GenerateImage(addElement, htmlNode); return; }
+                    case "img": { await GenerateImage(addElement, htmlNode); return; }
+                    case "picture": { await GenerateImage(addElement, htmlNode); return; }
+                    case "figure": { await GenerateImage(addElement, htmlNode); return; }
                     case "video": { GenerateVideo(addElement, htmlNode); return; }
                     case "iframe": { GenerateWebview(addElement, htmlNode); return; }
 

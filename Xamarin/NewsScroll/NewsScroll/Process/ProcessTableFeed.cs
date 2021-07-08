@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.Database.Database;
@@ -14,7 +13,7 @@ namespace NewsScroll
 {
     partial class Process
     {
-        public static async Task<bool> ProcessTableFeedsToList(ObservableCollection<Feeds> AddList, List<TableFeeds> LoadTableFeeds)
+        public static bool ProcessTableFeedsToList(ObservableCollection<Feeds> AddList, List<TableFeeds> LoadTableFeeds)
         {
             try
             {

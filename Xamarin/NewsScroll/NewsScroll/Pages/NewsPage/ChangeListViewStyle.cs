@@ -8,18 +8,42 @@ namespace NewsScroll
         {
             try
             {
-                bool VerticalList = true;
-                Style TargetStyle = (Style)Application.Current.Resources["ListViewVertical"];
-                if (listview_Items.Style != TargetStyle) { VerticalList = false; }
-
-                if (VerticalList)
+                bool verticalList = true;
+                Application.Current.Resources.TryGetValue("ListViewVertical", out object TargetStyle);
+                if (listview_Items.Style != (Style)TargetStyle)
                 {
-                    listview_Items.ItemTemplate = (DataTemplate)Application.Current.Resources["ListViewItemsVertical" + Style];
+                    verticalList = false;
+                }
+                //Debug.WriteLine("Vertical listview: " + verticalList);
+
+                if (verticalList)
+                {
+                    Application.Current.Resources.TryGetValue("ListViewItemsVertical" + Style, out object TargetTemplate);
+                    listview_Items.ItemTemplate = (DataTemplate)TargetTemplate;
                 }
                 else
                 {
-                    listview_Items.ItemTemplate = (DataTemplate)Application.Current.Resources["ListViewItemsHorizontal" + Style];
+                    Application.Current.Resources.TryGetValue("ListViewItemsHorizontal" + Style, out object TargetTemplate);
+                    listview_Items.ItemTemplate = (DataTemplate)TargetTemplate;
                 }
+            }
+            catch { }
+        }
+
+        public void ChangeListViewDirection(int Direction)
+        {
+            try
+            {
+                //if (Direction == 0)
+                //{
+                //    Application.Current.Resources.TryGetValue("ListViewVertical", out object TargetStyle);
+                //    listview_Items.Style = (Style)TargetStyle;
+                //}
+                //else
+                //{
+                //    Application.Current.Resources.TryGetValue("ListViewHorizontal", out object TargetStyle);
+                //    listview_Items.Style = (Style)TargetStyle;
+                //}
             }
             catch { }
         }

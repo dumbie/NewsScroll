@@ -18,8 +18,8 @@
                 <!-- Page Menu -->
                 <Grid HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
                     <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
-                        <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Search"/>
-                        <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="No results"/>
+                        <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Search"/>
+                        <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="No results"/>
                     </StackLayout>
                     <StackLayout Margin="0,0,55,0" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                         <ImageButton x:Name="iconNews" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconNews.png}" HeightRequest="45" Clicked="iconNews_Tap"/>
@@ -47,7 +47,7 @@
 
         <!-- Status Application -->
         <Grid x:Name="grid_StatusApplication" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
-            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Status bar..."/>
+            <Label x:Name="label_StatusApplication" Margin="5,0,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Status bar..."/>
         </Grid>
 
         <!-- Swipe Bar -->

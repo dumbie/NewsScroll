@@ -63,6 +63,9 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Images\AVImages-Apple.cs">
+      <Link>ArnoldVinkCode\Functions\Images\AVImages-Apple.cs</Link>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

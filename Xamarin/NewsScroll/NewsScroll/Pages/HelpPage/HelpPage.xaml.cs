@@ -14,7 +14,7 @@ namespace NewsScroll
         }
 
         //Application Navigation
-        private async void Page_Loaded()
+        private void Page_Loaded()
         {
             try
             {

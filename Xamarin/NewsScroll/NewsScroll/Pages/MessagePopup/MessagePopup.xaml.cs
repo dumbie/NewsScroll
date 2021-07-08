@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace NewsScroll
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AVMessageBox : ContentPage
+    public partial class MessagePopup : ContentPage
     {
         //Window Initialize
-        public AVMessageBox()
+        public MessagePopup()
         {
             try
             {
@@ -76,7 +74,7 @@ namespace NewsScroll
             return vPopupResult;
         }
 
-        //Show messagebox
+        //Show the popup
         public static async Task<string> Popup(string Question, string Description, List<string> Answers)
         {
             try
@@ -84,9 +82,9 @@ namespace NewsScroll
                 string messageResult = "defaultpopupstring";
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    AVMessageBox newMessageBox = new AVMessageBox();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(newMessageBox, false);
-                    messageResult = await newMessageBox.WaitResult(Question, Description, Answers);
+                    MessagePopup newPopup = new MessagePopup();
+                    await Application.Current.MainPage.Navigation.PushModalAsync(newPopup, false);
+                    messageResult = await newPopup.WaitResult(Question, Description, Answers);
                 });
 
                 while (messageResult == "defaultpopupstring")
@@ -97,12 +95,12 @@ namespace NewsScroll
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Failed to create new message box: " + ex.Message);
+                Debug.WriteLine("Failed to create message popup: " + ex.Message);
                 return string.Empty;
             }
         }
 
-        //Close messagebox
+        //Close the popup
         public void Close()
         {
             try

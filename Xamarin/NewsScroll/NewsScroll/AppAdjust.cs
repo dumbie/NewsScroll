@@ -35,19 +35,19 @@ namespace NewsScroll
                 int FontSize = Convert.ToInt32(AppSettingLoad("AdjustFontSize"));
                 Debug.WriteLine("Adjusting the font size to: " + FontSize);
 
-                Application.Current.Resources.TryGetValue("TextSizeSmall", out object TextSizeSmallGet);
+                Application.Current.Resources.TryGetValue("TextSizeSmallDefault", out object TextSizeSmallGet);
                 double SmallSize = (double)TextSizeSmallGet + FontSize;
                 Application.Current.Resources["TextSizeSmall"] = SmallSize;
 
-                Application.Current.Resources.TryGetValue("TextSizeMedium", out object TextSizeMediumGet);
+                Application.Current.Resources.TryGetValue("TextSizeMediumDefault", out object TextSizeMediumGet);
                 double MediumSize = (double)TextSizeMediumGet + FontSize;
                 Application.Current.Resources["TextSizeMedium"] = MediumSize;
 
-                Application.Current.Resources.TryGetValue("TextSizeLarge", out object TextSizeLargeGet);
+                Application.Current.Resources.TryGetValue("TextSizeLargeDefault", out object TextSizeLargeGet);
                 double LargeSize = (double)TextSizeLargeGet + FontSize;
                 Application.Current.Resources["TextSizeLarge"] = LargeSize;
 
-                Application.Current.Resources.TryGetValue("TextSizeHuge", out object TextSizeHugeGet);
+                Application.Current.Resources.TryGetValue("TextSizeHugeDefault", out object TextSizeHugeGet);
                 double HugeSize = (double)TextSizeHugeGet + FontSize;
                 Application.Current.Resources["TextSizeHuge"] = HugeSize;
             }

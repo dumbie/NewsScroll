@@ -16,8 +16,8 @@
             <!-- Page Header -->
             <Grid Grid.Row="0" HeightRequest="65" BackgroundColor="{DynamicResource ApplicationAccentDimColor}">
                 <StackLayout Margin="10,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
-                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Settings"/>
-                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="News Scroll"/>
+                    <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Settings"/>
+                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="News Scroll"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                     <ImageButton x:Name="iconNews" Style="{StaticResource ButtonImage}" Clicked="iconNews_Tap" Source="{AVExtensions:ImageResource Assets.iconNews.png}" HeightRequest="45"/>
@@ -145,7 +145,7 @@
         <Grid x:Name="grid_StatusApplication" HeightRequest="30" VerticalOptions="Start" HorizontalOptions="Fill" Margin="0,65,0,0" IsVisible="False" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                 <ProgressBar  ProgressColor="White" Margin="10,0,0,0"/>
-                <Label x:Name="label_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource LabelWhite}" FontSize="{DynamicResource TextSizeMedium}" Text="Status bar..."/>
+                <Label x:Name="label_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Status bar..."/>
             </StackLayout>
         </Grid>
 

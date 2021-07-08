@@ -13,14 +13,14 @@ namespace NewsScroll
 {
     public partial class StarredPage : ContentPage
     {
+        //Page Variables
+        private static int vPreviousScrollItem = 0;
+
         public StarredPage()
         {
             InitializeComponent();
             Page_Loaded();
         }
-
-        //Page Variables
-        private static int vPreviousScrollItem = 0;
 
         private async void Page_Loaded()
         {
@@ -40,11 +40,11 @@ namespace NewsScroll
                 //Show page status
                 ProgressDisableUI("Preparing starred page...", true);
 
-                ////Adjust the scrolling direction
-                //AdjustItemsScrollingDirection(Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]));
+                //Adjust the scrolling direction
+                ChangeListViewDirection(Convert.ToInt32(AppSettingLoad("ListViewDirection")));
 
-                ////Adjust the list view style
-                //ChangeListViewStyle(Convert.ToInt32(AppVariables.ApplicationSettings["ListViewStyle"]));
+                //Adjust the list view style
+                ChangeListViewStyle(Convert.ToInt32(AppSettingLoad("ListViewStyle")));
 
                 //Adjust the swiping direction
                 SwipeBarAdjust();
@@ -69,8 +69,8 @@ namespace NewsScroll
                 EventHideShowHeader += new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus += new DelegateHideProgressionStatus(HideProgressionStatus);
                 EventUpdateTotalItemsCount += new DelegateUpdateTotalItemsCount(UpdateTotalItemsCount);
-                //EventAdjustItemsScrollingDirection += new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
-                //EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventChangeListViewDirection += new DelegateChangeListViewDirection(ChangeListViewDirection);
+                EventChangeListViewStyle += new DelegateChangeListViewStyle(ChangeListViewStyle);
 
                 //Register ListView events
                 listview_Items.ItemTapped += EventsListView.listview_Items_Tapped;
@@ -104,8 +104,8 @@ namespace NewsScroll
                 EventHideShowHeader -= new DelegateHideShowHeader(HideShowHeader);
                 EventHideProgressionStatus -= new DelegateHideProgressionStatus(HideProgressionStatus);
                 EventUpdateTotalItemsCount -= new DelegateUpdateTotalItemsCount(UpdateTotalItemsCount);
-                //EventAdjustItemsScrollingDirection -= new DelegateAdjustItemsScrollingDirection(AdjustItemsScrollingDirection);
-                //EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
+                EventChangeListViewDirection -= new DelegateChangeListViewDirection(ChangeListViewDirection);
+                EventChangeListViewStyle -= new DelegateChangeListViewStyle(ChangeListViewStyle);
 
                 //Register ListView events
                 listview_Items.ItemTapped -= EventsListView.listview_Items_Tapped;
@@ -330,7 +330,7 @@ namespace NewsScroll
                 messageAnswers.Add("Refresh starred items");
                 messageAnswers.Add("Cancel");
 
-                string messageResult = await AVMessageBox.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", messageAnswers);
+                string messageResult = await MessagePopup.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", messageAnswers);
                 if (messageResult == "Refresh starred items")
                 {
                     //Reset the online status
@@ -360,15 +360,12 @@ namespace NewsScroll
             catch { }
         }
 
-        private async void iconPersonalize_Tap(object sender, EventArgs e)
+        private void iconPersonalize_Tap(object sender, EventArgs e)
         {
             try
             {
                 HideShowMenu(true);
-
-                //fix
-                //PersonalizePopup personalizePopup = new PersonalizePopup();
-                //await personalizePopup.OpenPopup();
+                PersonalizePopup.Popup();
             }
             catch { }
         }
