@@ -45,6 +45,15 @@
                     <Button Grid.Column="0" x:Name="btn_IgnoreFeeds" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Un/ignore" Clicked="btn_IgnoreFeeds_Click"/>
                     <Button Grid.Column="1" x:Name="btn_DeleteFeeds" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Margin="2,0,0,0" Text="Delete" Clicked="btn_DeleteFeeds_Click"/>
                 </Grid>
+
+                <Grid Margin="0,2,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="btn_SetIcon" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Set icon" Clicked="btn_SetIcon_Clicked"/>
+                    <Button Grid.Column="1" x:Name="btn_SetFolder" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Margin="2,0,0,0" Text="Set folder" Clicked="btn_SetFolder_Clicked" IsEnabled="false"/>
+                </Grid>
             </StackLayout>
 
             <!-- Page Information -->

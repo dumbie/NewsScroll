@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -44,7 +43,7 @@ namespace NewsScroll
         {
             try
             {
-                bool IsNetworkAvailable = NetworkInterface.GetIsNetworkAvailable();
+                bool IsNetworkAvailable = Connectivity.NetworkAccess == NetworkAccess.Internet;
                 if (AppSettingLoad("ItemOpenMethod").ToString() == "1" && IsNetworkAvailable)
                 {
                     //Mark the item as read
@@ -201,7 +200,7 @@ namespace NewsScroll
             try
             {
                 //Check internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");

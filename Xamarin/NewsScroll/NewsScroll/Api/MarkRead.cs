@@ -6,9 +6,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.AppVariables;
@@ -64,7 +65,7 @@ namespace NewsScroll.Api
                 string ItemId = ListItem.item_id;
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet || ApiMessageError.StartsWith("(Off)"))
                 {
                     if (!Silent) { EventProgressDisableUI("Off marking item as " + ActionType.ToLower() + "...", true); }
                     Debug.WriteLine("Off marking item as " + ActionType.ToLower() + "...");
@@ -112,7 +113,8 @@ namespace NewsScroll.Api
                         if (ActionType == "Read")
                         {
                             TableEditItems.item_read_status = true;
-                            ListItem.item_read_status = true; //Updates itemviewer
+                            ListItem.item_read_status = true;
+                            ListItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
                             if (currentPage.EndsWith("NewsPage") && vNewsFeed.feed_id != "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
                             {
                                 UpdateList.Remove(ListItem);
@@ -121,7 +123,8 @@ namespace NewsScroll.Api
                         else
                         {
                             TableEditItems.item_read_status = false;
-                            ListItem.item_read_status = false; //Updates itemviewer
+                            ListItem.item_read_status = false;
+                            ListItem.item_read_icon = null;
                             if (currentPage.EndsWith("NewsPage") && vNewsFeed.feed_id == "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
                             {
                                 UpdateList.Remove(ListItem);
@@ -175,7 +178,7 @@ namespace NewsScroll.Api
                 List<Items> TableEditItems = UpdateList.Where(x => x.item_id == EndItemId || x.item_read_status == false).ToList();
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet || ApiMessageError.StartsWith("(Off)"))
                 {
                     if (!Silent) { EventProgressDisableUI("Off marking read till item...", true); }
                     Debug.WriteLine("Off marking read till item...");
@@ -265,6 +268,7 @@ namespace NewsScroll.Api
                         else
                         {
                             NewsItem.item_read_status = true;
+                            NewsItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
                         }
 
                         //Check if the end item has been reached
@@ -330,7 +334,7 @@ namespace NewsScroll.Api
                 bool MarkStatus = false;
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet || ApiMessageError.StartsWith("(Off)"))
                 {
                     EventProgressDisableUI("Off marking all items as read...", true);
                     Debug.WriteLine("Off marking all items as read...");
@@ -387,6 +391,7 @@ namespace NewsScroll.Api
                         else
                         {
                             NewsItem.item_read_status = true;
+                            NewsItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
                         }
                     }
 

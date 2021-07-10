@@ -35,9 +35,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding vItemViewerItem.feed_icon}" Margin="0,0,5,0"/>
-                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding vItemViewerItem.item_star_status}" Source="{AVExtensions:ImageResource Assets.iconStar-Dark.png}" Margin="0,0,5,0"/>
-                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding vItemViewerItem.item_read_status}" Source="{AVExtensions:ImageResource Assets.iconRead-Dark.png}" Margin="0,0,5,0"/>
+                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding vItemViewerItem.feed_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding vItemViewerItem.item_star_status}" Source="{AVExtensions:ImageResource Assets.iconStar-Dark.png}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding vItemViewerItem.item_read_status}" Source="{AVExtensions:ImageResource Assets.iconRead-Dark.png}" Margin="0,0,2,0"/>
                             <Grid Grid.Column="3" VerticalOptions="Center" BackgroundColor="{StaticResource ApplicationAccentLightColor}" HeightRequest="2"/>
                         </Grid>
                     </StackLayout>
@@ -45,9 +45,9 @@
                     <Image x:Name="item_image" HeightRequest="300" IsVisible="False"/>
                     <StackLayout x:Name="item_content"/>
 
-                    <Button Margin="0,20,0,0" x:Name="button_LoadFullItem" FontSize="{DynamicResource TextSizeSmall}" IsVisible="False" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Load the full item" Clicked="LoadFullItem_Tap"/>
-                    <Button Margin="0,10,0,0" x:Name="button_OpenInBrowser" FontSize="{DynamicResource TextSizeSmall}" IsVisible="False" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Open in browser" Clicked="iconBrowserItem_Tap"/>
-                    <Button Margin="0,10,0,10" x:Name="button_GoBackPage" FontSize="{DynamicResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Go back" Clicked="iconBack_Tap"/>
+                    <Button Margin="0,20,0,0" x:Name="button_LoadFullItem" IsVisible="False" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Load the full item" Clicked="LoadFullItem_Tap"/>
+                    <Button Margin="0,10,0,0" x:Name="button_OpenInBrowser" IsVisible="False" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Open in browser" Clicked="iconBrowserItem_Tap"/>
+                    <Button Margin="0,10,0,10" x:Name="button_GoBackPage" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Go back" Clicked="iconBack_Tap"/>
                 </StackLayout>
             </ScrollView>
         </Grid>

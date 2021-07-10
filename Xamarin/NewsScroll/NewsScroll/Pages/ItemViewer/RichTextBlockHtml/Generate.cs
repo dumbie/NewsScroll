@@ -725,10 +725,12 @@ namespace NewsScroll
         {
             try
             {
-                Frame addFrame = new Frame();
-                addFrame.HeightRequest = 20;
+                Grid addGrid = new Grid();
+                addGrid.HeightRequest = 10;
+                addGrid.HorizontalOptions = LayoutOptions.Fill;
+                addGrid.BackgroundColor = Color.Transparent;
 
-                addElement.Children.Add(addFrame);
+                addElement.Children.Add(addGrid);
             }
             catch { }
         }

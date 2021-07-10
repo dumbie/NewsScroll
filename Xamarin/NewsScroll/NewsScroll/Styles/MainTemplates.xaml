@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xaml-comp compile="true" ?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!--ListView Feeds-->
@@ -33,9 +34,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,5,0"/>
-                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="Assets/iconStar-Dark.png" Margin="0,0,2,0"/>
-                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="Assets/iconRead-Dark.png" Margin="0,0,2,0"/>
+                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="{Binding item_star_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="{Binding item_read_icon}" Margin="0,0,2,0"/>
                             <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}"/>
                         </Grid>
                     </StackLayout>
@@ -61,9 +62,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,5,0"/>
-                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="Assets/iconStar-Dark.png" Margin="0,0,2,0"/>
-                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="Assets/iconRead-Dark.png" Margin="0,0,2,0"/>
+                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="{Binding item_star_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="{Binding item_read_icon}" Margin="0,0,2,0"/>
                             <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}"/>
                         </Grid>
                     </StackLayout>
@@ -88,9 +89,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,5,0"/>
-                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="Assets/iconStar-Dark.png" Margin="0,0,2,0"/>
-                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="Assets/iconRead-Dark.png" Margin="0,0,2,0"/>
+                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="{Binding item_star_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="{Binding item_read_icon}" Margin="0,0,2,0"/>
                             <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}"/>
                         </Grid>
                     </StackLayout>
@@ -115,9 +116,9 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,5,0"/>
-                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="Assets/iconStar-Dark.png" Margin="0,0,2,0"/>
-                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="Assets/iconRead-Dark.png" Margin="0,0,2,0"/>
+                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding feed_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_star_status}" Source="{Binding item_star_icon}" Margin="0,0,2,0"/>
+                            <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding item_read_status}" Source="{Binding item_read_icon}" Margin="0,0,2,0"/>
                             <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}"/>
                         </Grid>
                     </StackLayout>

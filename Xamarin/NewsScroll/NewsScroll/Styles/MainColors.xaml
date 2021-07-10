@@ -1,4 +1,6 @@
-﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!-- Accent Color -->
     <Color x:Key="ApplicationAccentLightColor">#00C7FF</Color>
     <SolidColorBrush x:Key="ApplicationAccentLightBrush">#00C7FF</SolidColorBrush>

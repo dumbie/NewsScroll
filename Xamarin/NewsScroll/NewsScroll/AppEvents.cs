@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll.AppEvents
@@ -40,31 +37,6 @@ namespace NewsScroll.AppEvents
             try
             {
                 Debug.WriteLine("Registering application events...");
-
-                //Create event to check internet connection
-                Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-            }
-            catch { }
-        }
-
-        private static async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
-        {
-            try
-            {
-                bool currentOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
-                Debug.WriteLine("Connectivity changed, internet available: " + currentOnlineStatus);
-
-                //Check if internet connection has changed
-                if (currentOnlineStatus && !AppVariables.PreviousOnlineStatus)
-                {
-                    List<string> messageAnswers = new List<string>();
-                    messageAnswers.Add("Ok");
-
-                    await MessagePopup.Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", messageAnswers);
-                    await SyncOfflineChanges(false, true);
-                }
-
-                AppVariables.PreviousOnlineStatus = currentOnlineStatus;
             }
             catch { }
         }
@@ -75,9 +47,6 @@ namespace NewsScroll.AppEvents
             try
             {
                 Debug.WriteLine("Disabling application events...");
-
-                //Disable event to check internet connection
-                Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
             }
             catch { }
         }

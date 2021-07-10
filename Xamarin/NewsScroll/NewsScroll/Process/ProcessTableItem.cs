@@ -6,8 +6,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
@@ -24,7 +24,10 @@ namespace NewsScroll
             {
                 //Check if media needs to load
                 AppVariables.LoadMedia = true;
-                if (!NetworkInterface.GetIsNetworkAvailable() && !(bool)AppSettingLoad("DisplayImagesOffline")) { AppVariables.LoadMedia = false; }
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet && !(bool)AppSettingLoad("DisplayImagesOffline"))
+                {
+                    AppVariables.LoadMedia = false;
+                }
 
                 //Wait for busy database
                 await ApiUpdate.WaitForBusyDatabase();
@@ -146,6 +149,16 @@ namespace NewsScroll
                         updateItem.feed_icon = null;
                     }
 
+                    //Unload status image
+                    if (updateItem.item_read_icon != null)
+                    {
+                        updateItem.item_read_icon = null;
+                    }
+                    if (updateItem.item_star_icon != null)
+                    {
+                        updateItem.item_star_icon = null;
+                    }
+
                     //Unload item image
                     if (updateItem.item_image != null)
                     {
@@ -170,6 +183,16 @@ namespace NewsScroll
                         {
                             updateItem.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
                         }
+                    }
+
+                    //Load status image
+                    if (updateItem.item_read_icon == null && updateItem.item_read_status)
+                    {
+                        updateItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
+                    }
+                    if (updateItem.item_star_icon == null && updateItem.item_star_status)
+                    {
+                        updateItem.item_star_icon = ImageSource.FromResource("NewsScroll.Assets.iconStar-Dark.png");
                     }
 
                     //Load item image

@@ -1,8 +1,8 @@
 ﻿using ArnoldVinkCode;
 using NewsScroll.Classes;
 using System.Globalization;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace NewsScroll
@@ -10,7 +10,7 @@ namespace NewsScroll
     class AppVariables
     {
         //Application Variables
-        public static bool PreviousOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
+        public static bool PreviousOnlineStatus = Connectivity.NetworkAccess == NetworkAccess.Internet;
         public static int vSingleTappedClickCount = 0;
         public static bool BusyApplication = false;
         public static bool HeaderHidden = false;

@@ -3,10 +3,11 @@ using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
@@ -65,9 +66,6 @@ namespace NewsScroll
                 EventProgressEnableUI += new DelegateProgressEnableUI(ProgressEnableUI);
                 EventHideProgressionStatus += new DelegateHideProgressionStatus(HideProgressionStatus);
                 EventUpdateTotalItemsCount += new DelegateUpdateTotalItemsCount(UpdateTotalItemsCount);
-
-                //Register ListView events
-                listview_Items.ItemTapped += UpdateFeedIcon;
             }
             catch { }
         }
@@ -82,9 +80,6 @@ namespace NewsScroll
                 EventProgressEnableUI -= new DelegateProgressEnableUI(ProgressEnableUI);
                 EventHideProgressionStatus -= new DelegateHideProgressionStatus(HideProgressionStatus);
                 EventUpdateTotalItemsCount -= new DelegateUpdateTotalItemsCount(UpdateTotalItemsCount);
-
-                //Register ListView events
-                listview_Items.ItemTapped -= UpdateFeedIcon;
             }
             catch { }
         }
@@ -203,61 +198,77 @@ namespace NewsScroll
             catch { }
         }
 
-        //Update the feed icon
-        private async void UpdateFeedIcon(object sender, EventArgs e)
+        //Set the feed folder
+        private void btn_SetFolder_Clicked(object sender, EventArgs e)
         {
             try
             {
-                //fix
-                //ListView SendListView = sender as ListView;
-                //Feeds SelectedItem = ((e.OriginalSource as FrameworkElement).DataContext) as Feeds;
-                //if (SelectedItem != null)
-                //{
-                //List<string> messageAnswers = new List<string>();
-                //messageAnswers.Add("Ok");
-                //    string messageResult = await AVMessageBox.Popup("Change the feed icon", "Would you like to set a custom feed icon for " + SelectedItem.feed_title + "?", "Set custom icon", "Reset the icon", "", "", "", true);
-                //    if (messageResult == 1)
-                //    {
-                //        Debug.WriteLine("Changing icon for feed: " + SelectedItem.feed_id + " / " + SelectedItem.feed_title);
+                //https://theoldreader.com/reader/api/0/subscription/edit
+                //s=feed/FeedId
+                //a=user/-/label/FolderTitle
+            }
+            catch { }
+        }
 
-                //        FileOpenPicker FileOpenPicker = new FileOpenPicker();
-                //        FileOpenPicker.ViewMode = PickerViewMode.Thumbnail;
-                //        FileOpenPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                //        FileOpenPicker.FileTypeFilter.Add(".png");
+        //Set the feed icon
+        private async void btn_SetIcon_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                Feeds SelectedItem = (Feeds)listview_Items.SelectedItem;
+                if (SelectedItem != null)
+                {
+                    List<string> messageAnswers = new List<string>();
+                    messageAnswers.Add("Set custom icon");
+                    messageAnswers.Add("Reset the icon");
+                    messageAnswers.Add("Cancel");
 
-                //        //Save and replace feed icon locally
-                //        StorageFile StorageFile = await FileOpenPicker.PickSingleFileAsync();
-                //        if (StorageFile != null)
-                //        {
-                //            await StorageFile.CopyAndReplaceAsync(await ApplicationData.Current.LocalFolder.CreateFileAsync(SelectedItem.feed_id + ".png", CreationCollisionOption.ReplaceExisting));
+                    string messageResult = await MessagePopup.Popup("Change the feed icon", "Would you like to set a custom feed icon for " + SelectedItem.feed_title + "?", messageAnswers);
+                    if (messageResult == "Set custom icon")
+                    {
+                        Debug.WriteLine("Changing icon for feed: " + SelectedItem.feed_id + " / " + SelectedItem.feed_title);
 
-                //            //Load the feed icon
-                //            BitmapImage FeedIcon = null;
-                //            if (SelectedItem.feed_id.StartsWith("user/")) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + SelectedItem.feed_id + ".png", false); }
-                //            if (FeedIcon == null) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
+                        PickOptions pickOptions = new PickOptions();
+                        pickOptions.FileTypes = FilePickerFileType.Png;
 
-                //            SelectedItem.feed_icon = FeedIcon;
-                //        }
-                //    }
-                //    else if (messageResult == 2)
-                //    {
-                //        //Delete the feed icon
-                //        IStorageItem LocalFile = await ApplicationData.Current.LocalFolder.TryGetItemAsync(SelectedItem.feed_id + ".png");
-                //        if (LocalFile != null) { try { await LocalFile.DeleteAsync(StorageDeleteOption.PermanentDelete); } catch { } }
+                        FileResult pickResult = await FilePicker.PickAsync(pickOptions);
+                        if (pickResult != null)
+                        {
+                            //Load feed icon
+                            Stream imageStream = await pickResult.OpenReadAsync();
 
-                //        //Load default feed icon
-                //        SelectedItem.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                            //Update feed icon
+                            imageStream.Position = 0;
+                            SelectedItem.feed_icon = ImageSource.FromStream(() => imageStream);
 
-                //        //Reset the online status
-                //        OnlineUpdateFeeds = true;
-                //        ApiMessageError = String.Empty;
+                            //Save feed icon
+                            using (MemoryStream memoryStream = new MemoryStream())
+                            {
+                                imageStream.Position = 0;
+                                await imageStream.CopyToAsync(memoryStream);
+                                byte[] imageBytes = memoryStream.ToArray();
+                                AVFiles.File_SaveBytes(SelectedItem.feed_id + ".png", imageBytes, true, true);
+                            }
+                        }
+                    }
+                    else if (messageResult == "Reset the icon")
+                    {
+                        //Delete the feed icon
+                        AVFiles.File_Delete(SelectedItem.feed_id + ".png", true);
 
-                //List<string> messageAnswers = new List<string>();
-                // messageAnswers.Add("Ok");
+                        //Load default feed icon
+                        SelectedItem.feed_icon = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
 
-                //        await AVMessageBox.Popup("Feed icon reset", "The feed icon has been reset and will be refreshed on the next online feed update, you can refresh the feeds by clicking on the refresh icon above.", "Ok", "", "", "", "", false);
-                //    }
-                //}
+                        //Reset the online status
+                        OnlineUpdateFeeds = true;
+                        ApiMessageError = string.Empty;
+
+                        List<string> messageAnswersReset = new List<string>();
+                        messageAnswersReset.Add("Ok");
+
+                        await MessagePopup.Popup("Feed icon reset", "The feed icon has been reset and will be refreshed on the next online feed update, you can refresh the feeds by clicking on the refresh icon above.", messageAnswersReset);
+                    }
+                }
             }
             catch { }
         }
@@ -289,7 +300,7 @@ namespace NewsScroll
                 }
 
                 //Check for internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
@@ -516,7 +527,7 @@ namespace NewsScroll
             try
             {
                 //Check for internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");

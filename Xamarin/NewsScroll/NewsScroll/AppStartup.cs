@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using static NewsScroll.AppEvents.AppEvents;
+using static NewsScroll.AppTimers;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll.AppStartup
@@ -39,6 +40,9 @@ namespace NewsScroll.AppStartup
 
                 //Create the database tables
                 await DatabaseCreate();
+
+                //Register application timers
+                TimersRegister();
 
                 //Register Application Events
                 EventsRegister();

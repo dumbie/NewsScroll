@@ -150,12 +150,24 @@ namespace NewsScroll.Api
                             try { Categories = JTokenRoot["categories"].ToString(); } catch { }
 
                             //Read the item
-                            if (Categories.Contains("\"user/-/state/com.google/read\"")) { TableResult.item_read_status = true; }
-                            else { TableResult.item_read_status = false; }
+                            if (Categories.Contains("\"user/-/state/com.google/read\""))
+                            {
+                                TableResult.item_read_status = true;
+                            }
+                            else
+                            {
+                                TableResult.item_read_status = false;
+                            }
 
                             //Star the item
-                            if (AppVariables.LoadStarred || Categories.Contains("\"user/-/state/com.google/starred\"")) { TableResult.item_star_status = true; }
-                            else { TableResult.item_star_status = false; }
+                            if (AppVariables.LoadStarred || Categories.Contains("\"user/-/state/com.google/starred\""))
+                            {
+                                TableResult.item_star_status = true;
+                            }
+                            else
+                            {
+                                TableResult.item_star_status = false;
+                            }
 
                             TableUpdatedItems.Add(TableResult);
                         }
@@ -327,12 +339,24 @@ namespace NewsScroll.Api
                     try { Categories = JTokenRoot["categories"].ToString(); } catch { Debug.WriteLine("Failed to check categories for item: " + ItemId); }
 
                     //Read the item
-                    if (Categories.Contains("\"user/-/state/com.google/read\"")) { AddItem.item_read_status = true; }
-                    else { AddItem.item_read_status = false; }
+                    if (Categories.Contains("\"user/-/state/com.google/read\""))
+                    {
+                        AddItem.item_read_status = true;
+                    }
+                    else
+                    {
+                        AddItem.item_read_status = false;
+                    }
 
                     //Star the item
-                    if (Starred || Categories.Contains("\"user/-/state/com.google/starred\"")) { AddItem.item_star_status = true; }
-                    else { AddItem.item_star_status = false; }
+                    if (Starred || Categories.Contains("\"user/-/state/com.google/starred\""))
+                    {
+                        AddItem.item_star_status = true;
+                    }
+                    else
+                    {
+                        AddItem.item_star_status = false;
+                    }
 
                     return AddItem;
                 }

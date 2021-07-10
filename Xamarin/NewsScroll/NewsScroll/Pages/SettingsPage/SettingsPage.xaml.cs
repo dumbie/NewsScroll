@@ -1,7 +1,6 @@
 ﻿using ArnoldVinkCode;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -225,7 +224,7 @@ namespace NewsScroll
         {
             try
             {
-                if (NetworkInterface.GetIsNetworkAvailable())
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
                     await Browser.OpenAsync(new Uri("https://theoldreader.com/users/sign_up"), BrowserLaunchMode.SystemPreferred);
                 }

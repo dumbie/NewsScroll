@@ -62,6 +62,17 @@ namespace NewsScroll.Classes
             }
         }
 
+        private ImageSource priv_item_read_icon;
+        public ImageSource item_read_icon
+        {
+            get { return priv_item_read_icon; }
+            set
+            {
+                priv_item_read_icon = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private bool priv_item_star_status;
         public bool item_star_status
         {
@@ -69,6 +80,17 @@ namespace NewsScroll.Classes
             set
             {
                 priv_item_star_status = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ImageSource priv_item_star_icon;
+        public ImageSource item_star_icon
+        {
+            get { return priv_item_star_icon; }
+            set
+            {
+                priv_item_star_icon = value;
                 NotifyPropertyChanged();
             }
         }

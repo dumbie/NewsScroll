@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -52,7 +51,7 @@ namespace NewsScroll
                 txt_AppInfo.Text = ApiMessageError + Source.feed_title;
 
                 //Check if internet is available
-                if (NetworkInterface.GetIsNetworkAvailable())
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
                     iconItem.IsVisible = true;
                     iconBrowser.IsVisible = true;
@@ -108,7 +107,7 @@ namespace NewsScroll
                 {
                     //Check if media needs to load
                     AppVariables.LoadMedia = true;
-                    if (!NetworkInterface.GetIsNetworkAvailable() && !(bool)AppSettingLoad("DisplayImagesOffline"))
+                    if (Connectivity.NetworkAccess != NetworkAccess.Internet && !(bool)AppSettingLoad("DisplayImagesOffline"))
                     {
                         AppVariables.LoadMedia = false;
                     }
@@ -476,7 +475,7 @@ namespace NewsScroll
             try
             {
                 //Check internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
                     List<string> messageAnswers = new List<string>();
                     messageAnswers.Add("Ok");
@@ -546,7 +545,7 @@ namespace NewsScroll
                 else
                 {
                     //Check if internet is available
-                    if (NetworkInterface.GetIsNetworkAvailable())
+                    if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                     {
                         ProgressDisableUI("Loading the full item...");
 
@@ -592,7 +591,7 @@ namespace NewsScroll
                     if (RetryCount == 3)
                     {
                         //Check if internet is available
-                        if (NetworkInterface.GetIsNetworkAvailable())
+                        if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                         {
                             Debug.WriteLine("There is currently no full item content available.");
 

@@ -56,7 +56,7 @@
                         </Picker.Items>
                     </Picker>
 
-                    <Label Text="Adjust the displayed font size:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Label x:Name="setting_AdjustFontSizeText" Text="Adjust the displayed font size:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
                     <Slider x:Name="setting_AdjustFontSize" Minimum="-5" Maximum="15" HorizontalOptions="Fill" Style="{StaticResource SliderAccent}"/>
                 </StackLayout>
             </ScrollView>

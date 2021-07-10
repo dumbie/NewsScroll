@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.Database.Database;
@@ -62,7 +63,7 @@ namespace NewsScroll.Api
                 string ItemId = ListItem.item_id;
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet || ApiMessageError.StartsWith("(Off)"))
                 {
                     if (!Silent) { EventProgressDisableUI("Off " + ActionType.ToLower() + "ring the item...", true); }
                     Debug.WriteLine("Off " + ActionType.ToLower() + "ring the item...");
@@ -108,11 +109,13 @@ namespace NewsScroll.Api
                         {
                             TableEditItems.item_star_status = true;
                             ListItem.item_star_status = true;
+                            ListItem.item_star_icon = ImageSource.FromResource("NewsScroll.Assets.iconStar-Dark.png");
                         }
                         else
                         {
                             TableEditItems.item_star_status = false;
                             ListItem.item_star_status = false;
+                            ListItem.item_star_icon = null;
                             if (RemoveFromList) { List_StarredItems.Remove(ListItem); }
                         }
                     }
