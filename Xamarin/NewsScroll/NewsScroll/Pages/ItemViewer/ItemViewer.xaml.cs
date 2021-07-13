@@ -205,6 +205,13 @@ namespace NewsScroll
                     Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
                     item_image.Source = ImageSource.FromStream(() => imageStream);
                     item_image.IsVisible = true;
+
+                    TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+                    item_image.GestureRecognizers.Add(tapGestureRecognizer);
+                    tapGestureRecognizer.Tapped += delegate
+                    {
+                        new ImagePopup().Popup(ItemImageLink);
+                    };
                 }
                 else
                 {

@@ -210,6 +210,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\ImagePopup\ImagePopup.xaml.cs">
+      <DependentUpon>ImagePopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\MessagePopup\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>
     </Compile>

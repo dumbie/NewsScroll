@@ -84,7 +84,15 @@ namespace NewsScroll
                 Uri imageUri = new Uri(sourceUri);
                 Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
                 img_source.Source = ImageSource.FromStream(() => imageStream);
-                img_source.HeightRequest = 300;
+                img_source.MinimumHeightRequest = 300;
+
+                TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
+                img_source.GestureRecognizers.Add(tapGestureRecognizer);
+                tapGestureRecognizer.Tapped += delegate
+                {
+                    new ImagePopup().Popup(sourceUri);
+                };
+
                 addElement.Children.Add(img_source);
 
                 //Get and set alt from the image
@@ -177,7 +185,7 @@ namespace NewsScroll
                 if (!string.IsNullOrWhiteSpace(VideoString))
                 {
                     VideoPlayer video = new VideoPlayer();
-                    video.HeightRequest = 300;
+                    video.MinimumHeightRequest = 300;
                     video.HorizontalOptions = LayoutOptions.Fill;
                     video.Source = new Uri(VideoString);
                     video.DisplayControls = true;
@@ -256,7 +264,7 @@ namespace NewsScroll
                 {
                     WebView webView = new WebView();
                     webView.Source = new Uri(WebLink);
-                    webView.HeightRequest = 300;
+                    webView.MinimumHeightRequest = 300;
 
                     addElement.Children.Add(webView);
                     //GenerateBreak(addElement);

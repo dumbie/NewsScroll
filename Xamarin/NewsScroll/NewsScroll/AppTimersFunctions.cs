@@ -22,11 +22,11 @@ namespace NewsScroll
             try
             {
                 bool currentOnlineStatus = Connectivity.NetworkAccess == NetworkAccess.Internet;
-                Debug.WriteLine("Connectivity changed, internet available: " + currentOnlineStatus);
 
                 //Check if internet connection has changed
                 if (currentOnlineStatus && !AppVariables.PreviousOnlineStatus)
                 {
+                    Debug.WriteLine("Connectivity changed, internet available: " + currentOnlineStatus);
                     AppVariables.PreviousOnlineStatus = currentOnlineStatus;
 
                     List<string> messageAnswers = new List<string>();
