@@ -10,21 +10,21 @@
         <DataTemplate x:Key="ListViewItemString">
             <ViewCell>
                 <ViewCell.View>
-                    <Label Padding="0,10,0,10" Text="{Binding}" Style="{StaticResource LabelBlack}"/>
+                    <Label Padding="0,10,0,10" Text="{Binding}" Style="{DynamicResource LabelDark}"/>
                 </ViewCell.View>
             </ViewCell>
         </DataTemplate>
     </ContentPage.Resources>
 
     <Frame Padding="4" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
-        <Grid Padding="10,10,10,10" BackgroundColor="White">
+        <Grid Padding="10,10,10,10" BackgroundColor="{DynamicResource ApplicationLightColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <StackLayout Grid.Row="0">
-                <Label x:Name="grid_MessageBox_Question" Style="{StaticResource LabelBlack}" FontSize="{DynamicResource TextSizeHuge}" Text="Question"/>
+                <Label x:Name="grid_MessageBox_Question" Style="{StaticResource LabelDark}" FontSize="{DynamicResource TextSizeHugeDefault}" Text="Question"/>
                 <Line x:Name="grid_MessageBox_Border" HeightRequest="2" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" HorizontalOptions="Fill" Margin="0,5,0,5"/>
                 <Label x:Name="grid_MessageBox_Description" Style="{StaticResource LabelLightGray}" Text="Description"/>
             </StackLayout>

@@ -17,9 +17,6 @@ namespace NewsScroll.Api
                 if (!Silent) { EventProgressDisableUI("Syncing offline changes...", true); }
                 Debug.WriteLine("Syncing offline changes...");
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Get current offline sync items
                 List<TableOffline> OfflineSyncItemList = await vSQLConnection.Table<TableOffline>().ToListAsync();
 
@@ -105,9 +102,6 @@ namespace NewsScroll.Api
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Sync variables
                 List<TableOffline> AddSyncItems = new List<TableOffline>();
                 foreach (string AddId in AddIds)
@@ -135,9 +129,6 @@ namespace NewsScroll.Api
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Add sync item
                 TableOffline SyncItem = new TableOffline();
                 if (AddType == "Star") { SyncItem.item_star_status = AddId; }

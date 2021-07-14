@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppVariables;
@@ -16,7 +15,7 @@ namespace NewsScroll
 {
     public partial class ItemViewer
     {
-        private async Task GenerateImage(StackLayout addElement, HtmlNode htmlNode)
+        private async void GenerateImage(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -101,14 +100,10 @@ namespace NewsScroll
                     string imageAltText = Process.ProcessItemTextSummary(htmlNode.Attributes["alt"].Value, false, false);
                     if (!string.IsNullOrWhiteSpace(imageAltText))
                     {
-                        //Grid color
-                        Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
-                        Application.Current.Resources.TryGetValue("ApplicationLightGrayColor", out object ApplicationLightGrayColor);
-
                         Label imageAltLabel = new Label();
                         imageAltLabel.Text = "* " + imageAltText;
-                        imageAltLabel.TextColor = (Color)ApplicationAccentLightColor;
-                        imageAltLabel.BackgroundColor = (Color)ApplicationLightGrayColor;
+                        imageAltLabel.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                        imageAltLabel.SetDynamicResource(Label.BackgroundColorProperty, "ApplicationLightGrayColor");
 
                         //Fix
                         ////Enable or disable text selection
@@ -277,13 +272,13 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateHyperLink(StackLayout addElement, HtmlNode htmlNode)
+        private void GenerateHyperLink(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
                 //Add other child node elements
                 vIgnoreText = true;
-                await AddNodes(addElement, htmlNode, false);
+                AddNodes(addElement, htmlNode, false);
                 vIgnoreText = false;
 
                 //Get the text
@@ -305,11 +300,9 @@ namespace NewsScroll
                 //Generate hyperlink
                 if (!string.IsNullOrWhiteSpace(StringText) && !LinkUrl.StartsWith("javascript:"))
                 {
-                    Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
-
                     Label hyperLink = new Label();
                     hyperLink.Text = StringText;
-                    hyperLink.TextColor = (Color)ApplicationAccentLightColor;
+                    hyperLink.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
                     hyperLink.TextDecorations = TextDecorations.Underline;
 
                     TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
@@ -386,13 +379,10 @@ namespace NewsScroll
                 string StringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true);
                 if (!string.IsNullOrWhiteSpace(StringText))
                 {
-                    Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
-                    Application.Current.Resources.TryGetValue("TextSizeLarge", out object TextSizeLarge);
-
                     Label headerText = new Label();
                     headerText.Text = StringText;
-                    headerText.TextColor = (Color)ApplicationAccentLightColor;
-                    headerText.FontSize = (double)TextSizeLarge;
+                    headerText.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                    headerText.SetDynamicResource(Label.FontSizeProperty, "TextSizeLarge");
 
                     addElement.Children.Add(headerText);
                 }
@@ -407,17 +397,13 @@ namespace NewsScroll
                 //Grid stacklayout
                 StackLayout stackPanelGrid = new StackLayout();
 
-                //Grid colors
-                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
-                Application.Current.Resources.TryGetValue("ApplicationLightGrayColor", out object ApplicationLightGrayColor);
-
                 //Grid Header
                 if (!string.IsNullOrWhiteSpace(textHeader))
                 {
                     Label LabelHeader = new Label();
                     LabelHeader.Text = textHeader + ":";
                     LabelHeader.HorizontalOptions = LayoutOptions.Start;
-                    LabelHeader.TextColor = (Color)ApplicationAccentLightColor;
+                    LabelHeader.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
 
                     //Fix
                     ////Enable or disable text selection
@@ -451,7 +437,7 @@ namespace NewsScroll
                     Label.Text = StringText;
                     Label.HorizontalTextAlignment = textAlignment;
                     Label.HorizontalOptions = horizontalOptions;
-                    Label.BackgroundColor = (Color)ApplicationLightGrayColor;
+                    Label.SetDynamicResource(Label.BackgroundColorProperty, "ApplicationLightGrayColor");
 
                     //fix
                     ////Enable or disable text selection
@@ -477,7 +463,7 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateGridContent(StackLayout addElement, HtmlNode htmlNode, string textHeader)
+        private void GenerateGridContent(StackLayout addElement, HtmlNode htmlNode, string textHeader)
         {
             try
             {
@@ -491,17 +477,13 @@ namespace NewsScroll
                 //Grid stacklayout
                 StackLayout stackPanelGrid = new StackLayout();
 
-                //Grid colors
-                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
-                Application.Current.Resources.TryGetValue("ApplicationLightGrayColor", out object ApplicationLightGrayColor);
-
                 //Grid Header
                 if (!string.IsNullOrWhiteSpace(textHeader))
                 {
                     Label LabelHeader = new Label();
                     LabelHeader.Text = textHeader + ":";
                     LabelHeader.HorizontalOptions = LayoutOptions.Start;
-                    LabelHeader.TextColor = (Color)ApplicationAccentLightColor;
+                    LabelHeader.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
 
                     //Fix
                     ////Enable or disable text selection
@@ -520,8 +502,8 @@ namespace NewsScroll
 
                 //Add other child node elements
                 StackLayout spanContent = new StackLayout();
-                spanContent.BackgroundColor = (Color)ApplicationLightGrayColor;
-                await AddNodes(spanContent, htmlNode, false);
+                spanContent.SetDynamicResource(StackLayout.BackgroundColorProperty, "ApplicationLightGrayColor");
+                AddNodes(spanContent, htmlNode, false);
                 stackPanelGrid.Children.Add(spanContent);
 
                 //Fix
@@ -541,7 +523,7 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateTable(StackLayout addElement, HtmlNode htmlNode, string textHeader)
+        private void GenerateTable(StackLayout addElement, HtmlNode htmlNode, string textHeader)
         {
             try
             {
@@ -550,10 +532,6 @@ namespace NewsScroll
 
                 //Set image settings
                 vImageShowAlt = false;
-
-                //Grid color
-                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
-                Application.Current.Resources.TryGetValue("ApplicationLightGrayColor", out object ApplicationLightGrayColor);
 
                 //Grid Stackpanel
                 StackLayout stackPanelGrid = new StackLayout();
@@ -564,7 +542,7 @@ namespace NewsScroll
                     Label LabelHeader = new Label();
                     LabelHeader.Text = textHeader + ":";
                     LabelHeader.HorizontalOptions = LayoutOptions.Start;
-                    LabelHeader.TextColor = (Color)ApplicationAccentLightColor;
+                    LabelHeader.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
 
                     //Fix
                     ////Enable or disable text selection
@@ -587,7 +565,7 @@ namespace NewsScroll
                 {
                     //Add table child node elements
                     Grid gridContent = new Grid();
-                    gridContent.BackgroundColor = (Color)ApplicationLightGrayColor;
+                    gridContent.SetDynamicResource(Grid.BackgroundColorProperty, "ApplicationLightGrayColor");
 
                     foreach (HtmlNode TableRow in htmlNode.Descendants("tr"))
                     {
@@ -618,7 +596,7 @@ namespace NewsScroll
 
                             Label Label = new Label();
                             Label.Text = TableHeader.InnerText;
-                            Label.TextColor = (Color)ApplicationAccentLightColor;
+                            Label.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
 
                             //Fix
                             ////Enable or disable text selection
@@ -644,7 +622,7 @@ namespace NewsScroll
 
                             //Add other child node elements
                             StackLayout spanContent = new StackLayout();
-                            await AddNodes(spanContent, TableColumn, false);
+                            AddNodes(spanContent, TableColumn, false);
 
                             ////Enable or disable text selection
                             //if ((bool)AppSettingLoad("ItemTextSelection"])
@@ -671,8 +649,8 @@ namespace NewsScroll
 
                     //Add other child node elements
                     StackLayout spanContent = new StackLayout();
-                    spanContent.BackgroundColor = (Color)ApplicationLightGrayColor;
-                    await AddNodes(spanContent, htmlNode, false);
+                    spanContent.SetDynamicResource(StackLayout.BackgroundColorProperty, "ApplicationLightGrayColor");
+                    AddNodes(spanContent, htmlNode, false);
 
                     ////Enable or disable text selection
                     //if ((bool)AppSettingLoad("ItemTextSelection"])
@@ -696,11 +674,11 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateUl(StackLayout addElement, HtmlNode htmlNode)
+        private void GenerateUl(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
-                await AddNodes(addElement, htmlNode, false);
+                AddNodes(addElement, htmlNode, false);
                 //GenerateBreak(addElement);
             }
             catch { }
@@ -713,11 +691,13 @@ namespace NewsScroll
                 string liText = htmlNode.InnerText;
                 if (!string.IsNullOrWhiteSpace(liText))
                 {
-                    Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
+                    Span liHeader = new Span { Text = "* " };
+                    liHeader.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+                    Span liContent = new Span { Text = liText };
 
                     FormattedString formattedString = new FormattedString();
-                    formattedString.Spans.Add(new Span { Text = "* ", TextColor = (Color)ApplicationAccentLightColor });
-                    formattedString.Spans.Add(new Span { Text = liText });
+                    formattedString.Spans.Add(liHeader);
+                    formattedString.Spans.Add(liContent);
 
                     Label textLabel = new Label();
                     textLabel.FormattedText = formattedString;
@@ -743,11 +723,11 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateParagraph(StackLayout addElement, HtmlNode htmlNode)
+        private void GenerateParagraph(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
-                await AddNodes(addElement, htmlNode, false);
+                AddNodes(addElement, htmlNode, false);
                 //GenerateBreak(addElement);
                 //GenerateBreak(addElement);
             }
@@ -763,6 +743,8 @@ namespace NewsScroll
                 {
                     Label textLabel = new Label();
                     textLabel.Text = stringText;
+                    textLabel.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    textLabel.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(textLabel);
                     Debug.WriteLine("Added text node: " + stringText);
@@ -771,11 +753,11 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateSpan(StackLayout addElement, HtmlNode htmlNode)
+        private void GenerateSpan(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
-                await AddNodes(addElement, htmlNode, false);
+                AddNodes(addElement, htmlNode, false);
                 //GenerateBreak(addElement);
             }
             catch { }

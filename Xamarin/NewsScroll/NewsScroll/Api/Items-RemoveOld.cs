@@ -19,9 +19,6 @@ namespace NewsScroll.Api
                 if (!Silent) { EventProgressDisableUI("Checking older items...", true); }
                 Debug.WriteLine("Checking older items...");
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Date time calculations
                 DateTime RemoveItemsRange = DateTime.UtcNow.AddDays(-Convert.ToDouble(AppSettingLoad("RemoveItemsRange")));
                 List<string> DeleteItems = (await vSQLConnection.Table<TableItems>().Where(x => x.item_star_status == false && x.item_datetime < RemoveItemsRange).ToListAsync()).Select(x => x.item_id).ToList();

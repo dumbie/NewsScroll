@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using ArnoldVinkCode;
+using Xamarin.Forms;
 using static NewsScroll.Process;
 
 namespace NewsScroll
@@ -6,7 +7,7 @@ namespace NewsScroll
     public partial class StarredPage
     {
         //Listview item appearing
-        private async void ScrollViewer_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        private void ScrollViewer_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             try
             {
@@ -24,13 +25,17 @@ namespace NewsScroll
                 }
 
                 //Update the shown item content
-                await ItemUpdateImages(e.Item, false);
+                async void TaskAction()
+                {
+                    await ItemUpdateImages(e.Item, false);
+                }
+                AVActions.TaskStart(TaskAction);
             }
             catch { }
         }
 
         //Listview item disappearing
-        private async void ScrollViewer_ItemDisappearing(object sender, ItemVisibilityEventArgs e)
+        private void ScrollViewer_ItemDisappearing(object sender, ItemVisibilityEventArgs e)
         {
             try
             {
@@ -48,7 +53,11 @@ namespace NewsScroll
                 }
 
                 //Update the shown item content
-                await ItemUpdateImages(e.Item, true);
+                async void TaskAction()
+                {
+                    await ItemUpdateImages(e.Item, true);
+                }
+                AVActions.TaskStart(TaskAction);
             }
             catch { }
         }

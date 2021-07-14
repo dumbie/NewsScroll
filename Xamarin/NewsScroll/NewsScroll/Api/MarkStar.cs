@@ -98,9 +98,6 @@ namespace NewsScroll.Api
 
                 if (MarkStatus)
                 {
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Mark item in database and list
                     TableItems TableEditItems = await vSQLConnection.Table<TableItems>().Where(x => x.item_id == ItemId).FirstOrDefaultAsync();
                     if (TableEditItems != null)

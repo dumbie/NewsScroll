@@ -31,7 +31,7 @@
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,102,0,0" IsVisible="False" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
-            <Label x:Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
+            <Label x:Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelLight}" Text="Release to..."/>
         </Grid>
     </Grid>
 </ContentPage>

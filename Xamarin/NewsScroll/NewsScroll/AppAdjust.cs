@@ -17,11 +17,21 @@ namespace NewsScroll
 
                 if (SelectedTheme == 0)
                 {
-                    //Application.Current.Resources["ApplicationLightColor"] = Color.Red;
+                    //Light mode
+                    Application.Current.UserAppTheme = OSAppTheme.Light;
+                    Application.Current.Resources["ApplicationLightColor"] = Color.FromHex("F1F1F1");
+                    Application.Current.Resources["ApplicationDarkColor"] = Color.FromHex("000000");
+                    Application.Current.Resources["ApplicationLightGrayColor"] = Color.FromHex("DBDBDB");
+                    Application.Current.Resources["ApplicationDarkGrayColor"] = Color.FromHex("505050");
                 }
                 else if (SelectedTheme == 1)
                 {
-                    //Application.Current.Resources["ApplicationLightColor"] = Color.Blue;
+                    //Dark mode
+                    Application.Current.UserAppTheme = OSAppTheme.Dark;
+                    Application.Current.Resources["ApplicationLightColor"] = Color.FromHex("000000");
+                    Application.Current.Resources["ApplicationDarkColor"] = Color.FromHex("F1F1F1");
+                    Application.Current.Resources["ApplicationLightGrayColor"] = Color.FromHex("505050");
+                    Application.Current.Resources["ApplicationDarkGrayColor"] = Color.FromHex("DBDBDB");
                 }
             }
             catch { }

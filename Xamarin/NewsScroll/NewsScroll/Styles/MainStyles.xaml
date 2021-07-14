@@ -2,7 +2,6 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     <!-- Text Sizes -->
-    <x:Double x:Key="TextSizeInterfaceDefault">16</x:Double>
     <x:Double x:Key="TextSizeInterface">16</x:Double>
     <x:Double x:Key="TextSizeSmallDefault">18</x:Double>
     <x:Double x:Key="TextSizeSmall">18</x:Double>
@@ -15,55 +14,87 @@
 
     <!-- Label Styles -->
     <Style x:Key="LabelWhite" TargetType="Label">
-        <Setter Property="TextColor" Value="{DynamicResource ApplicationLightColor}"/>
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationWhiteColor}"/>
     </Style>
     <Style x:Key="LabelWhiteLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationWhiteColor}"/>
+    </Style>
+
+    <Style x:Key="LabelLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationLightColor}"/>
+    </Style>
+    <Style x:Key="LabelLightLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="FontAttributes" Value="Italic"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationLightColor}"/>
     </Style>
 
     <Style x:Key="LabelBlack" TargetType="Label">
-        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationBlackColor}"/>
     </Style>
     <Style x:Key="LabelBlackLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationBlackColor}"/>
+    </Style>
+
+    <Style x:Key="LabelDark" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
+    </Style>
+    <Style x:Key="LabelDarkLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="FontAttributes" Value="Italic"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
     </Style>
 
     <Style x:Key="LabelLightGray" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationGrayColor}"/>
     </Style>
     <Style x:Key="LabelLightGrayLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="FontAttributes" Value="Italic"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationGrayColor}"/>
     </Style>
 
     <Style x:Key="LabelLightDarkGray" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkGrayColor}"/>
     </Style>
     <Style x:Key="LabelLightDarkGrayLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="FontAttributes" Value="Italic"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkGrayColor}"/>
     </Style>
 
     <Style x:Key="LabelAccent" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationAccentLightColor}"/>
     </Style>
     <Style x:Key="LabelAccentLight" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="FontAttributes" Value="Italic"/>
         <Setter Property="TextColor" Value="{DynamicResource ApplicationAccentLightColor}"/>
     </Style>
 
     <Style x:Key="LabelRed" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="{DynamicResource InvalidColor}"/>
     </Style>
     <Style x:Key="LabelGreen" TargetType="Label">
+        <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
         <Setter Property="TextColor" Value="{DynamicResource ValidColor}"/>
     </Style>
 
     <!--Picker Styles-->
     <Style x:Key="Picker" TargetType="Picker">
         <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
@@ -75,12 +106,17 @@
     <!--Entry Styles-->
     <Style x:Key="Entry" TargetType="Entry">
         <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
+        <Setter Property="PlaceholderColor" Value="{DynamicResource ApplicationDarkGrayColor}"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <!--SearchBar Styles-->
     <Style x:Key="SearchBar" TargetType="SearchBar">
         <Setter Property="FontSize" Value="{DynamicResource TextSizeInterface}"/>
+        <Setter Property="TextColor" Value="{DynamicResource ApplicationDarkColor}"/>
+        <Setter Property="PlaceholderColor" Value="{DynamicResource ApplicationDarkGrayColor}"/>
+        <Setter Property="CancelButtonColor" Value="{DynamicResource ApplicationAccentLightColor}"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 

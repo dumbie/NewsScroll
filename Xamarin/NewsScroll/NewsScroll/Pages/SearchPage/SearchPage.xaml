@@ -19,7 +19,7 @@
                 <Grid HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
                     <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
                         <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Search"/>
-                        <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="No results"/>
+                        <Label x:Name="txt_AppInfo" LineBreakMode="NoWrap" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="No results"/>
                     </StackLayout>
                     <StackLayout Margin="0,0,55,0" Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                         <ImageButton x:Name="iconNews" Style="{StaticResource ButtonImage}" Source="{AVExtensions:ImageResource Assets.iconNews.png}" HeightRequest="45" Clicked="iconNews_Tap"/>
@@ -27,7 +27,7 @@
                 </Grid>
 
                 <!-- Feed Selection -->
-                <Picker x:Name="combobox_FeedSelection" ItemDisplayBinding="{Binding feed_title}" IsEnabled="False" Opacity="0.30" VerticalOptions="Fill" HorizontalOptions="Fill"/>
+                <Picker x:Name="combobox_FeedSelection" Style="{DynamicResource Picker}" ItemDisplayBinding="{Binding feed_title}" IsEnabled="False" Opacity="0.30" VerticalOptions="Fill" HorizontalOptions="Fill"/>
 
                 <!-- Search Box -->
                 <SearchBar x:Name="txtbox_Search" HorizontalOptions="Fill" Style="{StaticResource SearchBar}" Placeholder="Search term..." SearchButtonPressed="txtbox_Search_SearchButtonPressed"/>
@@ -42,7 +42,7 @@
 
         <!-- Status Current Item -->
         <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Padding="0,25,25,0" BackgroundColor="Transparent">
-            <Label x:Name="label_StatusCurrentItem" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" Padding="5" Style="{StaticResource LabelWhite}" Text="1"/>
+            <Label x:Name="label_StatusCurrentItem" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" Padding="5" Style="{StaticResource LabelLight}" Text="1"/>
         </Frame>
 
         <!-- Status Application -->
@@ -55,7 +55,7 @@
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,100,0,0" IsVisible="false">
-            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
+            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelLight}" Text="Release to..."/>
         </Grid>
 
         <!-- Grid Popup Button -->

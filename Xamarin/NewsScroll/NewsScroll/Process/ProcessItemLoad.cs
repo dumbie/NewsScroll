@@ -19,9 +19,6 @@ namespace NewsScroll
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Load items from the table
                 if (AppVariables.LoadNews)
                 {
@@ -128,9 +125,6 @@ namespace NewsScroll
             int FoundItems = 0;
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Load items from the table
                 if (AppVariables.LoadNews)
                 {

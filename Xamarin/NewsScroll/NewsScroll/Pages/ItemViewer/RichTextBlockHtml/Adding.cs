@@ -1,27 +1,26 @@
 ﻿using HtmlAgilityPack;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace NewsScroll
 {
     public partial class ItemViewer
     {
-        private async Task AddNodes(StackLayout addElement, HtmlNode htmlNode, bool firstOnly)
+        private void AddNodes(StackLayout addElement, HtmlNode htmlNode, bool firstOnly)
         {
             try
             {
                 foreach (HtmlNode childNode in htmlNode.ChildNodes)
                 {
                     Debug.WriteLine("Adding node: " + childNode.Name);
-                    await AddBlockFromNode(addElement, childNode);
+                    AddBlockFromNode(addElement, childNode);
                     if (firstOnly) { break; }
                 }
             }
             catch { }
         }
 
-        private async Task AddBlockFromNode(StackLayout addElement, HtmlNode htmlNode)
+        private void AddBlockFromNode(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -53,30 +52,30 @@ namespace NewsScroll
                     case "br": { GenerateBreak(addElement); return; }
 
                     //Elements
-                    case "img": { await GenerateImage(addElement, htmlNode); return; }
-                    case "picture": { await GenerateImage(addElement, htmlNode); return; }
-                    case "figure": { await GenerateImage(addElement, htmlNode); return; }
+                    case "img": { GenerateImage(addElement, htmlNode); return; }
+                    case "picture": { GenerateImage(addElement, htmlNode); return; }
+                    case "figure": { GenerateImage(addElement, htmlNode); return; }
                     case "video": { GenerateVideo(addElement, htmlNode); return; }
                     case "iframe": { GenerateWebview(addElement, htmlNode); return; }
 
                     //Table
-                    case "table": { await GenerateTable(addElement, htmlNode, "Table"); return; }
+                    case "table": { GenerateTable(addElement, htmlNode, "Table"); return; }
 
                     //Menu
-                    case "ul": { await GenerateUl(addElement, htmlNode); return; }
+                    case "ul": { GenerateUl(addElement, htmlNode); return; }
                     case "li": { GenerateLi(addElement, htmlNode); return; }
 
                     //Containers
-                    case "p": { await GenerateParagraph(addElement, htmlNode); return; }
-                    case "a": { await GenerateHyperLink(addElement, htmlNode); return; }
-                    case "span": { await GenerateSpan(addElement, htmlNode); return; }
+                    case "p": { GenerateParagraph(addElement, htmlNode); return; }
+                    case "a": { GenerateHyperLink(addElement, htmlNode); return; }
+                    case "span": { GenerateSpan(addElement, htmlNode); return; }
 
                     //Containers Grid
-                    case "q": { await GenerateGridContent(addElement, htmlNode, "Quote"); return; }
-                    case "blockquote": { await GenerateGridContent(addElement, htmlNode, "Quote"); return; }
+                    case "q": { GenerateGridContent(addElement, htmlNode, "Quote"); return; }
+                    case "blockquote": { GenerateGridContent(addElement, htmlNode, "Quote"); return; }
 
                     //Default
-                    default: { await AddNodes(addElement, htmlNode, false); return; }
+                    default: { AddNodes(addElement, htmlNode, false); return; }
                 }
             }
             catch { }

@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Extensions\AVImageResource.cs" Link="ArnoldVinkCode\Extensions\AVImageResource.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\ArnoldVinkActions\AVActions.cs" Link="ArnoldVinkCode\Functions\ArnoldVinkActions\AVActions.cs" />
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\ArnoldVinkActions\Classes\AVTaskDetails.cs" Link="ArnoldVinkCode\Functions\ArnoldVinkActions\Classes\AVTaskDetails.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVDownloader.cs" Link="ArnoldVinkCode\Functions\AVDownloader.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVFunctions.cs" Link="ArnoldVinkCode\Functions\AVFunctions.cs" />
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Files\AVFiles-PCL.cs" Link="ArnoldVinkCode\Functions\AVFiles-PCL.cs" />
@@ -144,8 +146,8 @@
     <PackageReference Include="SmartReader" Version="0.7.5" />
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -206,6 +208,7 @@
 
   <ItemGroup>
     <Folder Include="ArnoldVinkCode\Extensions\" />
+    <Folder Include="ArnoldVinkCode\Functions\ArnoldVinkActions\Classes\" />
     <Folder Include="ArnoldVinkCode\Functions\Images\" />
   </ItemGroup>
 

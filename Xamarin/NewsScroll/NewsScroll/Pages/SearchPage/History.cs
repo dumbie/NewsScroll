@@ -11,11 +11,10 @@ namespace NewsScroll
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Load and add search history
                 //txtbox_Search.ItemsSource = (await vSQLConnection.Table<TableSearchHistory>().ToListAsync()).Select(x => x.search_term).Reverse();
+                //fix
+                await Task.Delay(0);
             }
             catch { }
         }
@@ -26,9 +25,6 @@ namespace NewsScroll
             try
             {
                 Debug.WriteLine("Adding " + SearchTerm + " to the search history database...");
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 //Clear search history from database
                 await vSQLConnection.ExecuteAsync("DELETE FROM TableSearchHistory WHERE lower(search_term) = ('" + SearchTerm.ToLower() + "')");

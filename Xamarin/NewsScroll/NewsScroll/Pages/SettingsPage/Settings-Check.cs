@@ -42,12 +42,6 @@ namespace NewsScroll
                     await AppSettingSave("DisplayReadMarkedItems", false);
                 }
 
-                //Hide Read Marked item
-                if (!AppSettingCheck("HideReadMarkedItem"))
-                {
-                    await AppSettingSave("HideReadMarkedItem", false);
-                }
-
                 //News item content cutting
                 if (!AppSettingCheck("ContentCutting"))
                 {

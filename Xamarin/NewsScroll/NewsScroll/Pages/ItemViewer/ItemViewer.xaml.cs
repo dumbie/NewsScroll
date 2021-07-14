@@ -98,9 +98,6 @@ namespace NewsScroll
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Load the full item
                 TableItems LoadTable = await vSQLConnection.Table<TableItems>().Where(x => x.item_id == vItemViewerItem.item_id).FirstOrDefaultAsync();
                 if (LoadTable != null)
@@ -139,11 +136,11 @@ namespace NewsScroll
                     bool SetHtmlToRichLabel = false;
                     if (!string.IsNullOrWhiteSpace(item_content_custom))
                     {
-                        SetHtmlToRichLabel = await HtmlToStackLayout(item_content, item_content_custom, string.Empty);
+                        SetHtmlToRichLabel = HtmlToStackLayout(item_content, item_content_custom, string.Empty);
                     }
                     else if (!string.IsNullOrWhiteSpace(LoadTable.item_content_full))
                     {
-                        SetHtmlToRichLabel = await HtmlToStackLayout(item_content, LoadTable.item_content_full, string.Empty);
+                        SetHtmlToRichLabel = HtmlToStackLayout(item_content, LoadTable.item_content_full, string.Empty);
                     }
 
                     //Check if html to xaml has failed
@@ -159,14 +156,14 @@ namespace NewsScroll
                     }
 
                     //Check if item content contains preview image
-                    await CheckItemContentContainsPreviewImage(LoadTable);
+                    CheckItemContentContainsPreviewImage(LoadTable);
                 }
             }
             catch { }
         }
 
         //Check if item content contains preview image
-        private async Task CheckItemContentContainsPreviewImage(TableItems LoadTable)
+        private void CheckItemContentContainsPreviewImage(TableItems LoadTable)
         {
             try
             {

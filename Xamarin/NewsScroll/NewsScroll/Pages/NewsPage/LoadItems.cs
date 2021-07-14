@@ -30,11 +30,16 @@ namespace NewsScroll
 
                 //Update the loading information
                 txt_AppInfo.Text = "Loading items";
-                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
+
+                Span text1 = new Span { Text = "Your news items from " };
+                Span text2 = new Span { Text = SelectedFeedTitle };
+                text2.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+                Span text3 = new Span { Text = " will be shown here shortly..." };
+
                 FormattedString formattedString = new FormattedString();
-                formattedString.Spans.Add(new Span { Text = "Your news items from " });
-                formattedString.Spans.Add(new Span { Text = SelectedFeedTitle, TextColor = (Color)ApplicationAccentLightColor });
-                formattedString.Spans.Add(new Span { Text = " will be shown here shortly..." });
+                formattedString.Spans.Add(text1);
+                formattedString.Spans.Add(text2);
+                formattedString.Spans.Add(text3);
                 txt_NewsScrollInfo.FormattedText = formattedString;
                 txt_NewsScrollInfo.IsVisible = true;
 
@@ -71,9 +76,6 @@ namespace NewsScroll
                     App.NavigateToPage(new SettingsPage(), true, false);
                     return;
                 }
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 //Set all items to list
                 List<TableFeeds> LoadTableFeeds = await vSQLConnection.Table<TableFeeds>().OrderBy(x => x.feed_folder).ToListAsync();

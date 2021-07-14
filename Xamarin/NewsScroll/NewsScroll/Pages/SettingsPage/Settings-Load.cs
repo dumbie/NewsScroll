@@ -25,9 +25,6 @@ namespace NewsScroll
                 //Display Read Marked items
                 setting_DisplayReadMarkedItems.IsChecked = (bool)AppSettingLoad("DisplayReadMarkedItems");
 
-                //Hide Read Marked item
-                setting_HideReadMarkedItem.IsChecked = (bool)AppSettingLoad("HideReadMarkedItem");
-
                 //News item content cutting
                 setting_ContentCutting.IsChecked = (bool)AppSettingLoad("ContentCutting");
 

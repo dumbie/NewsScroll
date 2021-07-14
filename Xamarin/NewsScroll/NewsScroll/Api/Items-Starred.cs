@@ -31,9 +31,6 @@ namespace NewsScroll.Api
                         if (!Silent) { EventProgressDisableUI("Updating " + WebJObject["itemRefs"].Count() + " star status...", true); }
                         Debug.WriteLine("Updating " + WebJObject["itemRefs"].Count() + " star status...");
 
-                        //Wait for busy database
-                        await ApiUpdate.WaitForBusyDatabase();
-
                         //Check and set the received star item ids
                         List<TableItems> TableEditItems = await vSQLConnection.Table<TableItems>().ToListAsync();
 

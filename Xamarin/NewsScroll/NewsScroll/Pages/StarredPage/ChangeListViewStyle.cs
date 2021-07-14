@@ -18,13 +18,11 @@ namespace NewsScroll
 
                 if (verticalList)
                 {
-                    Application.Current.Resources.TryGetValue("ListViewItemsVertical" + Style, out object TargetTemplate);
-                    listview_Items.ItemTemplate = (DataTemplate)TargetTemplate;
+                    listview_Items.SetDynamicResource(ListView.ItemTemplateProperty, "ListViewItemsVertical" + Style);
                 }
                 else
                 {
-                    Application.Current.Resources.TryGetValue("ListViewItemsHorizontal" + Style, out object TargetTemplate);
-                    listview_Items.ItemTemplate = (DataTemplate)TargetTemplate;
+                    listview_Items.SetDynamicResource(ListView.ItemTemplateProperty, "ListViewItemsHorizontal" + Style);
                 }
             }
             catch { }

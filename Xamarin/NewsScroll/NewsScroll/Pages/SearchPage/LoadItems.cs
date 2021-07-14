@@ -27,13 +27,21 @@ namespace NewsScroll
 
                 //Update the items count placer
                 txt_AppInfo.Text = "Searching items";
-                Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
+
+                Span text1 = new Span { Text = "Your search results for " };
+                Span text2 = new Span { Text = vSearchTerm };
+                text2.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+                Span text3 = new Span { Text = " in " };
+                Span text4 = new Span { Text = vSearchFeedTitle };
+                text4.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+                Span text5 = new Span { Text = " will be shown here shortly..." };
+
                 FormattedString formattedString = new FormattedString();
-                formattedString.Spans.Add(new Span { Text = "Your search results for " });
-                formattedString.Spans.Add(new Span { Text = vSearchTerm, TextColor = (Color)ApplicationAccentLightColor });
-                formattedString.Spans.Add(new Span { Text = " in " });
-                formattedString.Spans.Add(new Span { Text = vSearchFeedTitle, TextColor = (Color)ApplicationAccentLightColor });
-                formattedString.Spans.Add(new Span { Text = " will be shown here shortly..." });
+                formattedString.Spans.Add(text1);
+                formattedString.Spans.Add(text2);
+                formattedString.Spans.Add(text3);
+                formattedString.Spans.Add(text4);
+                formattedString.Spans.Add(text5);
                 txt_NewsScrollInfo.FormattedText = formattedString;
                 txt_NewsScrollInfo.IsVisible = true;
 
@@ -57,9 +65,6 @@ namespace NewsScroll
                     App.NavigateToPage(new SettingsPage(), true, false);
                     return;
                 }
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 //Set all items to list
                 List<TableItems> LoadTableItems = await vSQLConnection.Table<TableItems>().ToListAsync();

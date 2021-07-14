@@ -29,9 +29,6 @@ namespace NewsScroll
                     AppVariables.LoadMedia = false;
                 }
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 List<TableFeeds> FeedList = await vSQLConnection.Table<TableFeeds>().ToListAsync();
                 foreach (TableItems LoadTable in LoadTableItems)
                 {
@@ -200,7 +197,7 @@ namespace NewsScroll
                     if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == true && AppVariables.LoadMedia)
                     {
                         Uri imageUri = new Uri(ItemImageLink);
-                        Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
+                        Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 512, 512);
                         updateItem.item_image = ImageSource.FromStream(() => imageStream);
                     }
                 }

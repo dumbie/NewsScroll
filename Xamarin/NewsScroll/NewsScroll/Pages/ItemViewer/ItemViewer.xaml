@@ -18,7 +18,7 @@
             <Grid Grid.Row="0" x:Name="StackLayout_Header" HeightRequest="65" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
                 <StackLayout Margin="10,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
                     <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Itemviewer"/>
-                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="News Scroll"/>
+                    <Label x:Name="txt_AppInfo" LineBreakMode="NoWrap" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="News Scroll"/>
                 </StackLayout>
             </Grid>
 
@@ -26,7 +26,7 @@
             <ScrollView Grid.Row="1" x:Name="scrollviewer_NewsItem" Style="{StaticResource ScrollViewVertical}">
                 <StackLayout x:Name="StackLayout_NewsItem" Padding="10,5,10,0" BackgroundColor="Transparent">
                     <StackLayout>
-                        <Label x:Name="tb_ItemTitle" Text="{Binding vItemViewerItem.item_title}" Style="{StaticResource LabelBlack}" FontSize="{DynamicResource TextSizeLarge}"/>
+                        <Label x:Name="tb_ItemTitle" Text="{Binding vItemViewerItem.item_title}" Style="{StaticResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label x:Name="tb_ItemDateString" Text="{Binding vItemViewerItem.item_datestring}" Style="{StaticResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                         <Grid Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>
@@ -62,11 +62,11 @@
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,100,0,0" IsVisible="false">
-            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
+            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelLight}" Text="Release to..."/>
         </Grid>
 
         <!-- Grid Popup Button -->
-        <Grid VerticalOptions="Start" HorizontalOptions="End" Margin="0,6,0,0">
+        <Grid VerticalOptions="Start" HorizontalOptions="End" Margin="0,10,0,0">
             <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                 <ImageButton x:Name="iconBack" Source="{AVExtensions:ImageResource Assets.iconBack.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" Clicked="iconBack_Tap"/>
                 <ImageButton x:Name="iconMenu" Source="{AVExtensions:ImageResource Assets.iconMenu.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" Clicked="iconMenu_Tapped"/>

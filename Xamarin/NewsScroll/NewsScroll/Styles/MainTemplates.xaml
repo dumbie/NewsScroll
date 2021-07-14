@@ -11,9 +11,9 @@
                         <Label VerticalOptions="Center" Margin="0,0,8,0" IsVisible="{Binding feed_ignore_status}" Text="Ignored" Style="{StaticResource LabelRed}" FontSize="{StaticResource TextSizeMedium}"/>
                         <Label VerticalOptions="Center" Margin="0,0,8,0" Text="{Binding feed_folder_title}" Style="{StaticResource LabelAccent}" FontSize="{StaticResource TextSizeMedium}"/>
                         <Image VerticalOptions="Center" HeightRequest="16" WidthRequest="16" Source="{Binding feed_icon}" Margin="0,0,5,0"/>
-                        <Label VerticalOptions="Center" Text="{Binding feed_title}" FontSize="{StaticResource TextSizeMedium}"/>
+                        <Label VerticalOptions="Center" Text="{Binding feed_title}" Style="{DynamicResource LabelDark}" FontSize="{StaticResource TextSizeMedium}"/>
                     </StackLayout>
-                    <Label Text="{Binding feed_link}" Style="{StaticResource LabelLightGray}"/>
+                    <Label Text="{Binding feed_link}" Style="{StaticResource LabelLightGray}" FontSize="{StaticResource TextSizeInterface}"/>
                 </StackLayout>
             </ViewCell.View>
         </ViewCell>
@@ -25,7 +25,7 @@
             <ViewCell.View>
                 <StackLayout Margin="0,5,0,0">
                     <StackLayout>
-                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelBlack}" FontSize="{DynamicResource TextSizeLarge}"/>
+                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                         <Grid Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>
@@ -53,7 +53,7 @@
             <ViewCell.View>
                 <StackLayout Margin="0,5,0,0">
                     <StackLayout>
-                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelBlack}" FontSize="{DynamicResource TextSizeLarge}"/>
+                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                         <Grid Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>
@@ -80,7 +80,7 @@
             <ViewCell.View>
                 <StackLayout Margin="0,5,0,0">
                     <StackLayout>
-                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelBlack}" FontSize="{DynamicResource TextSizeLarge}"/>
+                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                         <Grid Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>
@@ -107,7 +107,7 @@
             <ViewCell.View>
                 <StackLayout Margin="0,5,0,0">
                     <StackLayout>
-                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelBlack}" FontSize="{DynamicResource TextSizeLarge}"/>
+                        <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                         <Grid Margin="0,5,0,5">
                             <Grid.ColumnDefinitions>

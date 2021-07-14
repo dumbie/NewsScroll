@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppVariables;
@@ -41,7 +40,7 @@ namespace NewsScroll
         }
 
         //Load and set the image
-        private async Task LoadImage(string imageLink)
+        private async void LoadImage(string imageLink)
         {
             try
             {
@@ -83,7 +82,7 @@ namespace NewsScroll
                 {
                     ImagePopup newPopup = new ImagePopup();
                     await Application.Current.MainPage.Navigation.PushModalAsync(newPopup, false);
-                    await newPopup.LoadImage(imageLink);
+                    newPopup.LoadImage(imageLink);
                 });
             }
             catch (Exception ex)

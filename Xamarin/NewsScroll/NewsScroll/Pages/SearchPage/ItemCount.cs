@@ -26,12 +26,19 @@ namespace NewsScroll
                 else
                 {
                     txt_AppInfo.Text = "No results";
-                    Application.Current.Resources.TryGetValue("ApplicationAccentLightColor", out object ApplicationAccentLightColor);
+
+                    Span text1 = new Span { Text = "No search results could be found for " };
+                    Span text2 = new Span { Text = vSearchTerm };
+                    text2.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+                    Span text3 = new Span { Text = " in " };
+                    Span text4 = new Span { Text = vSearchFeedTitle };
+                    text4.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+
                     FormattedString formattedString = new FormattedString();
-                    formattedString.Spans.Add(new Span { Text = "No search results could be found for " });
-                    formattedString.Spans.Add(new Span { Text = vSearchTerm, TextColor = (Color)ApplicationAccentLightColor });
-                    formattedString.Spans.Add(new Span { Text = " in " });
-                    formattedString.Spans.Add(new Span { Text = vSearchFeedTitle, TextColor = (Color)ApplicationAccentLightColor });
+                    formattedString.Spans.Add(text1);
+                    formattedString.Spans.Add(text2);
+                    formattedString.Spans.Add(text3);
+                    formattedString.Spans.Add(text4);
                     txt_NewsScrollInfo.FormattedText = formattedString;
                     txt_NewsScrollInfo.IsVisible = true;
 

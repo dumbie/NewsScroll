@@ -8,7 +8,7 @@
 
     <!--Main page-->
     <Frame Padding="4" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
-        <Grid Padding="10,10,10,10" BackgroundColor="White">
+        <Grid Padding="10,10,10,10" BackgroundColor="{DynamicResource ApplicationLightColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -21,14 +21,14 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Margin="10,0,10,0" HorizontalOptions="Start" VerticalOptions="Center" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeLarge}" Text="Display settings"/>
+                <Label Grid.Column="0" Margin="10,0,10,0" HorizontalOptions="Start" VerticalOptions="Center" Style="{StaticResource LabelDark}" FontSize="{StaticResource TextSizeLarge}" Text="Display settings"/>
                 <ImageButton x:Name="iconClose" Source="{AVExtensions:ImageResource Assets.iconClose-Dark.png}" Grid.Column="1" Style="{StaticResource ButtonImage}" HorizontalOptions="End" Clicked="iconClose_Tap"/>
             </Grid>
 
             <!-- Page Settings -->
             <ScrollView Grid.Row="1" Margin="5,5,5,5" Style="{StaticResource ScrollViewVertical}">
                 <StackLayout>
-                    <Label Text="Used application color theme:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Label Text="Used application color theme:" Margin="0,10,0,0" Style="{DynamicResource LabelDark}"/>
                     <Picker x:Name="setting_ColorTheme" Margin="0,5,0,0" HorizontalOptions="Fill" Style="{StaticResource Picker}">
                         <Picker.Items>
                             <x:String>Light theme</x:String>
@@ -37,7 +37,7 @@
                     </Picker>
 
                     <StackLayout IsVisible="false">
-                        <Label Text="News item scrolling direction:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                        <Label Text="News item scrolling direction:" Margin="0,10,0,0" Style="{DynamicResource LabelDark}"/>
                         <Picker x:Name="setting_ListViewDirection" Margin="0,5,0,0" HorizontalOptions="Fill" Style="{StaticResource Picker}">
                             <Picker.Items>
                                 <x:String>Vertical</x:String>
@@ -46,7 +46,7 @@
                         </Picker>
                     </StackLayout>
 
-                    <Label Text="Displayed item list view style:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Label Text="Displayed item list view style:" Margin="0,10,0,0" Style="{DynamicResource LabelDark}"/>
                     <Picker x:Name="setting_ListViewStyle" Margin="0,5,0,0" HorizontalOptions="Fill" Style="{StaticResource Picker}">
                         <Picker.Items>
                             <x:String>Title, image and text</x:String>
@@ -56,7 +56,7 @@
                         </Picker.Items>
                     </Picker>
 
-                    <Label x:Name="setting_AdjustFontSizeText" Text="Adjust the displayed font size:" Margin="0,10,0,0" Style="{DynamicResource LabelBlack}"/>
+                    <Label x:Name="setting_AdjustFontSizeText" Text="Adjust the displayed font size:" Margin="0,10,0,0" Style="{DynamicResource LabelDark}"/>
                     <Slider x:Name="setting_AdjustFontSize" Minimum="-5" Maximum="15" HorizontalOptions="Fill" Style="{StaticResource SliderAccent}"/>
                 </StackLayout>
             </ScrollView>

@@ -171,9 +171,6 @@ namespace NewsScroll
                     return;
                 }
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Set all items to list
                 List<TableItems> LoadTableItems = await vSQLConnection.Table<TableItems>().ToListAsync();
 

@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
+using static NewsScroll.AppEvents.AppEvents;
 using static NewsScroll.AppVariables;
 
 namespace NewsScroll
@@ -47,8 +49,7 @@ namespace NewsScroll
                 if (AppSettingLoad("ItemOpenMethod").ToString() == "1" && IsNetworkAvailable)
                 {
                     //Mark the item as read
-                    bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, false);
-                    //fixif (MarkedRead && (bool)AppSettingLoad("HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
+                    await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, false);
 
                     //Open item in webbrowser
                     await Browser.OpenAsync(new Uri(SelectedItem.item_link), BrowserLaunchMode.SystemPreferred);
@@ -59,8 +60,7 @@ namespace NewsScroll
                     App.NavigateToPage(new ItemViewer(SelectedItem), true, true);
 
                     //Mark the item as read
-                    bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true);
-                    //fixif (MarkedRead && (bool)AppSettingLoad("HideReadMarkedItem"]) { await EventUpdateTotalItemsCount(null, null, false, true); }
+                    await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true);
                 }
             }
             catch { }
@@ -129,30 +129,10 @@ namespace NewsScroll
                     bool MarkedRead = await MarkReadTill(SelectedList, SelectedItem, true, false, true);
                     if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
                     {
-                        if ((bool)AppSettingLoad("HideReadMarkedItem"))
+                        //Check if there are any unread items
+                        if (!SelectedList.Any(x => x.item_read_status == false))
                         {
-                            //fix
-                            //if (SendListView.Items.Any())
-                            //{
-                            //    //Scroll to the ListView top
-                            //    await Task.Delay(10);
-                            //    SendListView.ScrollIntoView(SendListView.Items.First());
-
-                            //    //Update the header and selection feeds
-                            //    await EventUpdateTotalItemsCount(null, null, false, true);
-                            //}
-                            //else
-                            //{
-                            //    await EventRefreshPageItems(true);
-                            //}
-                        }
-                        else
-                        {
-                            //fix
-                            //if (!SelectedList.Any(x => x.item_read_status == false))
-                            //{
-                            //    await EventRefreshPageItems(true);
-                            //}
+                            await EventRefreshPageItems(true);
                         }
                     }
                 }
@@ -168,26 +148,10 @@ namespace NewsScroll
                 bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, ForceRead, false);
                 if (MarkedRead && CurrentPageName.EndsWith("NewsPage"))
                 {
-                    if ((bool)AppSettingLoad("HideReadMarkedItem"))
+                    //Check if there are any unread items
+                    if (!SelectedList.Any(x => x.item_read_status == false))
                     {
-                        //fix
-                        //if (SendListView.Items.Any())
-                        //{
-                        //    //Update the header and selection feeds
-                        //    await EventUpdateTotalItemsCount(null, null, false, true);
-                        //}
-                        //else
-                        //{
-                        //    await EventRefreshPageItems(true);
-                        //}
-                    }
-                    else
-                    {
-                        //fix
-                        //if (!SelectedList.Any(x => x.item_read_status == false))
-                        //{
-                        //    await EventRefreshPageItems(true);
-                        //}
+                        await EventRefreshPageItems(true);
                     }
                 }
             }

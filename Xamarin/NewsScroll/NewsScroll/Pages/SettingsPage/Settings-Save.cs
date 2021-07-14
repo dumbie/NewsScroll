@@ -61,13 +61,6 @@ namespace NewsScroll
                     await AppSettingSave("DisplayReadMarkedItems", CheckBox.IsChecked);
                 };
 
-                //Hide Read Marked item
-                setting_HideReadMarkedItem.CheckedChanged += async (sender, e) =>
-                {
-                    CheckBox CheckBox = (CheckBox)sender;
-                    await AppSettingSave("HideReadMarkedItem", CheckBox.IsChecked);
-                };
-
                 //News item content cutting
                 setting_ContentCutting.CheckedChanged += async (sender, e) =>
                 {

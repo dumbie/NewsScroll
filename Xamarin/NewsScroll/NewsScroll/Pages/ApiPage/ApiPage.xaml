@@ -18,7 +18,7 @@
             <Grid x:Name="stackpanel_Header" Grid.Row="0" HeightRequest="65" VerticalOptions="Center" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
                 <StackLayout Margin="5,0,0,0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
                     <Label x:Name="txt_AppTitle" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="The Old Reader"/>
-                    <Label x:Name="txt_AppInfo" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Loading feeds"/>
+                    <Label x:Name="txt_AppInfo" LineBreakMode="NoWrap" HorizontalOptions="Start" Style="{StaticResource LabelWhite}" FontSize="{StaticResource TextSizeMediumDefault}" Text="Loading feeds"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="End">
                     <ImageButton Source="{AVExtensions:ImageResource Assets.iconRefresh.png}" HeightRequest="45" Style="{StaticResource ButtonImage}" x:Name="iconRefresh" Clicked="iconRefresh_Tap"/>

@@ -33,9 +33,6 @@ namespace NewsScroll.Api
                     List<string> ApiFeedIdList = new List<string>();
                     string[] LocalFileList = AVFiles.Directory_ListFiles(string.Empty, true);
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     List<TableFeeds> TableUpdatedFeeds = new List<TableFeeds>();
                     List<TableFeeds> TableCurrentFeeds = await vSQLConnection.Table<TableFeeds>().ToListAsync();
 

@@ -209,6 +209,16 @@ namespace NewsScroll
             catch { }
         }
 
+        private void iconPersonalize_Tap(object sender, EventArgs e)
+        {
+            try
+            {
+                HideShowMenu(true);
+                PersonalizePopup.Popup();
+            }
+            catch { }
+        }
+
         //Open Project Website
         async void ProjectWebsite_Click(object sender, EventArgs e)
         {
@@ -278,9 +288,6 @@ namespace NewsScroll
                 await ClearObservableCollection(List_SearchItems);
                 await ClearObservableCollection(List_StarredItems);
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 await vSQLConnection.DeleteAllAsync<TableFeeds>();
                 await vSQLConnection.DropTableAsync<TableFeeds>();
                 await vSQLConnection.CreateTableAsync<TableFeeds>();
@@ -322,9 +329,6 @@ namespace NewsScroll
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 string DatabaseSize = GetDatabaseSize();
                 int TotalItems = await vSQLConnection.Table<TableItems>().CountAsync();
                 int TotalFeeds = await vSQLConnection.Table<TableFeeds>().CountAsync();

@@ -397,9 +397,6 @@ namespace NewsScroll
                     return;
                 }
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Set all items to list
                 List<TableFeeds> LoadTableFeeds = await vSQLConnection.Table<TableFeeds>().OrderBy(x => x.feed_folder).ToListAsync();
 
@@ -477,9 +474,6 @@ namespace NewsScroll
                         await ApiUpdate.WaitForBusyApplication();
 
                         ProgressDisableUI("Un/ignoring selected feeds...", true);
-
-                        //Wait for busy database
-                        await ApiUpdate.WaitForBusyDatabase();
 
                         List<TableFeeds> TableEditFeeds = await vSQLConnection.Table<TableFeeds>().ToListAsync();
 

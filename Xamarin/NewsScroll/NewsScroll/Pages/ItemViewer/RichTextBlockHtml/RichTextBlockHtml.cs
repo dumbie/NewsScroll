@@ -2,7 +2,6 @@
 using HtmlAgilityPack;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace NewsScroll
@@ -15,7 +14,7 @@ namespace NewsScroll
         private int vWebViewLimit = 3;
         private int vWebViewAdded = 0;
 
-        private async Task<bool> HtmlToStackLayout(StackLayout targetElement, string FullHtml, string BaseLink)
+        private bool HtmlToStackLayout(StackLayout targetElement, string FullHtml, string BaseLink)
         {
             try
             {
@@ -40,7 +39,7 @@ namespace NewsScroll
 
                 //Add the generated blocks to the stack layout
                 targetElement.Children.Clear();
-                await AddNodes(targetElement, htmlDocument.DocumentNode, false);
+                AddNodes(targetElement, htmlDocument.DocumentNode, false);
 
                 Debug.WriteLine("Converted html to stacklayout.");
                 return true;

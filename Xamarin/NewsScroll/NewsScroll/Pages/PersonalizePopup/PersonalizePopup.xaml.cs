@@ -122,7 +122,10 @@ namespace NewsScroll
                     await AppSettingSave("ListViewDirection", ComboBox.SelectedIndex);
 
                     //Adjust the scrolling direction
-                    EventChangeListViewDirection(ComboBox.SelectedIndex);
+                    if (EventChangeListViewDirection != null)
+                    {
+                        EventChangeListViewDirection(ComboBox.SelectedIndex);
+                    }
                 };
 
                 //Adjust Font Size
@@ -143,7 +146,10 @@ namespace NewsScroll
                     await AppSettingSave("ListViewStyle", ComboBox.SelectedIndex);
 
                     //Adjust the list style
-                    EventChangeListViewStyle(ComboBox.SelectedIndex);
+                    if (EventChangeListViewStyle != null)
+                    {
+                        EventChangeListViewStyle(ComboBox.SelectedIndex);
+                    }
                 };
             }
             catch { }

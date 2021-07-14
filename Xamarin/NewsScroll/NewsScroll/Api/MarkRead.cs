@@ -12,7 +12,6 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
-using static NewsScroll.AppVariables;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll.Api
@@ -100,9 +99,6 @@ namespace NewsScroll.Api
 
                 if (MarkStatus)
                 {
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Get the current page name
                     string currentPage = App.Current.MainPage.ToString();
 
@@ -115,20 +111,12 @@ namespace NewsScroll.Api
                             TableEditItems.item_read_status = true;
                             ListItem.item_read_status = true;
                             ListItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
-                            if (currentPage.EndsWith("NewsPage") && vNewsFeed.feed_id != "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
-                            {
-                                UpdateList.Remove(ListItem);
-                            }
                         }
                         else
                         {
                             TableEditItems.item_read_status = false;
                             ListItem.item_read_status = false;
                             ListItem.item_read_icon = null;
-                            if (currentPage.EndsWith("NewsPage") && vNewsFeed.feed_id == "1" && (bool)AppSettingLoad("HideReadMarkedItem"))
-                            {
-                                UpdateList.Remove(ListItem);
-                            }
                         }
                     }
 
@@ -251,25 +239,15 @@ namespace NewsScroll.Api
                         }
                     }
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     SqlStringItemIds = AVFunctions.StringRemoveEnd(SqlStringItemIds, ",");
                     await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_id IN (" + SqlStringItemIds + ") AND item_read_status = ('0')");
 
                     //Update current items list
                     foreach (Items NewsItem in UpdateList.ToList())
                     {
-                        //Mark the item as read or remove it from list
-                        if ((bool)AppSettingLoad("HideReadMarkedItem"))
-                        {
-                            UpdateList.Remove(NewsItem);
-                        }
-                        else
-                        {
-                            NewsItem.item_read_status = true;
-                            NewsItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
-                        }
+                        //Mark the item as read
+                        NewsItem.item_read_status = true;
+                        NewsItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
 
                         //Check if the end item has been reached
                         if (EndItemId == NewsItem.item_id)
@@ -339,9 +317,6 @@ namespace NewsScroll.Api
                     EventProgressDisableUI("Off marking all items as read...", true);
                     Debug.WriteLine("Off marking all items as read...");
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     List<string> UnreadItemList = (await vSQLConnection.Table<TableItems>().Where(x => !x.item_read_status).ToListAsync()).Select(x => x.item_id).ToList();
                     await AddOfflineSync(UnreadItemList, "Read");
                     MarkStatus = true;
@@ -374,9 +349,6 @@ namespace NewsScroll.Api
                 {
                     Debug.WriteLine("Marked all items as read on the server or offline sync list.");
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Update items in database
                     await vSQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_read_status = ('0')");
 
@@ -384,15 +356,9 @@ namespace NewsScroll.Api
                     List<Items> ListItems = UpdateList.Where(x => x.item_read_status == false).ToList();
                     foreach (Items NewsItem in ListItems)
                     {
-                        if ((bool)AppSettingLoad("HideReadMarkedItem"))
-                        {
-                            UpdateList.Remove(NewsItem);
-                        }
-                        else
-                        {
-                            NewsItem.item_read_status = true;
-                            NewsItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
-                        }
+                        //Mark the item as read
+                        NewsItem.item_read_status = true;
+                        NewsItem.item_read_icon = ImageSource.FromResource("NewsScroll.Assets.iconRead-Dark.png");
                     }
 
                     EventProgressEnableUI();
