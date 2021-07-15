@@ -73,6 +73,8 @@ namespace NewsScroll
                 {
                     Label img_lowbandwidth = new Label();
                     img_lowbandwidth.Text = "Gif not loaded,\nlow bandwidth mode.";
+                    img_lowbandwidth.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    img_lowbandwidth.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(img_lowbandwidth);
                     return;
@@ -100,10 +102,19 @@ namespace NewsScroll
                     string imageAltText = Process.ProcessItemTextSummary(htmlNode.Attributes["alt"].Value, false, false);
                     if (!string.IsNullOrWhiteSpace(imageAltText))
                     {
+                        Span altHeader = new Span { Text = "* " };
+                        altHeader.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
+                        Span altContent = new Span { Text = imageAltText };
+
+                        FormattedString formattedString = new FormattedString();
+                        formattedString.Spans.Add(altHeader);
+                        formattedString.Spans.Add(altContent);
+
                         Label imageAltLabel = new Label();
-                        imageAltLabel.Text = "* " + imageAltText;
-                        imageAltLabel.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                        imageAltLabel.FormattedText = formattedString;
                         imageAltLabel.SetDynamicResource(Label.BackgroundColorProperty, "ApplicationLightGrayColor");
+                        imageAltLabel.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                        imageAltLabel.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                         //Fix
                         ////Enable or disable text selection
@@ -127,6 +138,8 @@ namespace NewsScroll
             {
                 Label img_failed = new Label();
                 img_failed.Text = "Image is not available,\nopen item in browser to view it.";
+                img_failed.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                img_failed.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                 addElement.Children.Add(img_failed);
                 //GenerateBreak(addElement);
@@ -143,6 +156,8 @@ namespace NewsScroll
                 {
                     Label video_network = new Label();
                     video_network.Text = "Video not loaded,\nnetwork is not available.";
+                    video_network.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    video_network.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(video_network);
                     //GenerateBreak(addElement);
@@ -169,6 +184,8 @@ namespace NewsScroll
                 {
                     Label img_lowbandwidth = new Label();
                     img_lowbandwidth.Text = "Video not loaded,\nlow bandwidth mode.";
+                    img_lowbandwidth.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    img_lowbandwidth.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(img_lowbandwidth);
                     //GenerateBreak(addElement);
@@ -213,6 +230,8 @@ namespace NewsScroll
                 {
                     Label webView_limit = new Label();
                     webView_limit.Text = "Webview not loaded,\nlimit has been reached.";
+                    webView_limit.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    webView_limit.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(webView_limit);
                     //GenerateBreak(addElement);
@@ -224,6 +243,8 @@ namespace NewsScroll
                 {
                     Label webView_notavailable = new Label();
                     webView_notavailable.Text = "Webview not loaded,\nnetwork is not available.";
+                    webView_notavailable.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    webView_notavailable.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(webView_notavailable);
                     //GenerateBreak(addElement);
@@ -247,6 +268,8 @@ namespace NewsScroll
                 {
                     Label img_lowbandwidth = new Label();
                     img_lowbandwidth.Text = "Webview not loaded,\nlow bandwidth mode.";
+                    img_lowbandwidth.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    img_lowbandwidth.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(img_lowbandwidth);
                     //GenerateBreak(addElement);
@@ -302,8 +325,10 @@ namespace NewsScroll
                 {
                     Label hyperLink = new Label();
                     hyperLink.Text = StringText;
-                    hyperLink.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
-                    hyperLink.TextDecorations = TextDecorations.Underline;
+                    if (vTextDecorations != null) { hyperLink.TextDecorations = (TextDecorations)vTextDecorations; vTextDecorations = null; } else { hyperLink.TextDecorations = TextDecorations.Underline; }
+                    if (vFontAttributes != null) { hyperLink.FontAttributes = (FontAttributes)vFontAttributes; vFontAttributes = null; }
+                    hyperLink.SetDynamicResource(Label.StyleProperty, "LabelAccent");
+                    hyperLink.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
                     hyperLink.GestureRecognizers.Add(tapGestureRecognizer);
@@ -324,37 +349,15 @@ namespace NewsScroll
         {
             try
             {
-                Label bold = new Label();
-                bold.Text = htmlNode.InnerText;
-                bold.FontAttributes = FontAttributes.Bold;
-
-                addElement.Children.Add(bold);
-            }
-            catch { }
-        }
-
-        private void GenerateUnderline(StackLayout addElement, HtmlNode htmlNode)
-        {
-            try
-            {
-                Label underline = new Label();
-                underline.Text = htmlNode.InnerText;
-                underline.TextDecorations = TextDecorations.Underline;
-
-                addElement.Children.Add(underline);
-            }
-            catch { }
-        }
-
-        private void GenerateStrikethrough(StackLayout addElement, HtmlNode htmlNode)
-        {
-            try
-            {
-                Label underline = new Label();
-                underline.Text = htmlNode.InnerText;
-                underline.TextDecorations = TextDecorations.Strikethrough;
-
-                addElement.Children.Add(underline);
+                if (vFontAttributes != null)
+                {
+                    vFontAttributes |= FontAttributes.Bold;
+                }
+                else
+                {
+                    vFontAttributes = FontAttributes.Bold;
+                }
+                AddNodes(addElement, htmlNode, false);
             }
             catch { }
         }
@@ -363,11 +366,49 @@ namespace NewsScroll
         {
             try
             {
-                Label italic = new Label();
-                italic.Text = htmlNode.InnerText;
-                italic.FontAttributes = FontAttributes.Italic;
+                if (vFontAttributes != null)
+                {
+                    vFontAttributes |= FontAttributes.Italic;
+                }
+                else
+                {
+                    vFontAttributes = FontAttributes.Italic;
+                }
+                AddNodes(addElement, htmlNode, false);
+            }
+            catch { }
+        }
 
-                addElement.Children.Add(italic);
+        private void GenerateUnderline(StackLayout addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                if (vFontAttributes != null)
+                {
+                    vTextDecorations |= TextDecorations.Underline;
+                }
+                else
+                {
+                    vTextDecorations = TextDecorations.Underline;
+                }
+                AddNodes(addElement, htmlNode, false);
+            }
+            catch { }
+        }
+
+        private void GenerateStrikethrough(StackLayout addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                if (vFontAttributes != null)
+                {
+                    vTextDecorations |= TextDecorations.Strikethrough;
+                }
+                else
+                {
+                    vTextDecorations = TextDecorations.Strikethrough;
+                }
+                AddNodes(addElement, htmlNode, false);
             }
             catch { }
         }
@@ -381,7 +422,7 @@ namespace NewsScroll
                 {
                     Label headerText = new Label();
                     headerText.Text = StringText;
-                    headerText.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                    headerText.SetDynamicResource(Label.StyleProperty, "LabelAccent");
                     headerText.SetDynamicResource(Label.FontSizeProperty, "TextSizeLarge");
 
                     addElement.Children.Add(headerText);
@@ -400,10 +441,11 @@ namespace NewsScroll
                 //Grid Header
                 if (!string.IsNullOrWhiteSpace(textHeader))
                 {
-                    Label LabelHeader = new Label();
-                    LabelHeader.Text = textHeader + ":";
-                    LabelHeader.HorizontalOptions = LayoutOptions.Start;
-                    LabelHeader.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                    Label labelHeader = new Label();
+                    labelHeader.Text = textHeader + ":";
+                    labelHeader.HorizontalOptions = LayoutOptions.Start;
+                    labelHeader.SetDynamicResource(Label.StyleProperty, "LabelAccent");
+                    labelHeader.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     //Fix
                     ////Enable or disable text selection
@@ -417,7 +459,7 @@ namespace NewsScroll
                     //}
 
                     //Add to stackpanel
-                    stackPanelGrid.Children.Add(LabelHeader);
+                    stackPanelGrid.Children.Add(labelHeader);
                 }
 
                 //Grid Text
@@ -438,6 +480,8 @@ namespace NewsScroll
                     Label.HorizontalTextAlignment = textAlignment;
                     Label.HorizontalOptions = horizontalOptions;
                     Label.SetDynamicResource(Label.BackgroundColorProperty, "ApplicationLightGrayColor");
+                    Label.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    Label.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     //fix
                     ////Enable or disable text selection
@@ -483,7 +527,8 @@ namespace NewsScroll
                     Label LabelHeader = new Label();
                     LabelHeader.Text = textHeader + ":";
                     LabelHeader.HorizontalOptions = LayoutOptions.Start;
-                    LabelHeader.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                    LabelHeader.SetDynamicResource(Label.StyleProperty, "LabelAccent");
+                    LabelHeader.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     //Fix
                     ////Enable or disable text selection
@@ -542,7 +587,8 @@ namespace NewsScroll
                     Label LabelHeader = new Label();
                     LabelHeader.Text = textHeader + ":";
                     LabelHeader.HorizontalOptions = LayoutOptions.Start;
-                    LabelHeader.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                    LabelHeader.SetDynamicResource(Label.StyleProperty, "LabelAccent");
+                    LabelHeader.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     //Fix
                     ////Enable or disable text selection
@@ -596,7 +642,8 @@ namespace NewsScroll
 
                             Label Label = new Label();
                             Label.Text = TableHeader.InnerText;
-                            Label.SetDynamicResource(Label.TextColorProperty, "ApplicationAccentLightColor");
+                            Label.SetDynamicResource(Label.StyleProperty, "LabelAccent");
+                            Label.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                             //Fix
                             ////Enable or disable text selection
@@ -701,9 +748,11 @@ namespace NewsScroll
 
                     Label textLabel = new Label();
                     textLabel.FormattedText = formattedString;
+                    textLabel.SetDynamicResource(Label.StyleProperty, "LabelDark");
+                    textLabel.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(textLabel);
-                    Debug.WriteLine("Added li node: " + liText);
+                    Debug.WriteLine("Added li: " + liText);
                 }
             }
             catch { }
@@ -743,11 +792,13 @@ namespace NewsScroll
                 {
                     Label textLabel = new Label();
                     textLabel.Text = stringText;
+                    if (vTextDecorations != null) { textLabel.TextDecorations = (TextDecorations)vTextDecorations; vTextDecorations = null; }
+                    if (vFontAttributes != null) { textLabel.FontAttributes = (FontAttributes)vFontAttributes; vFontAttributes = null; }
                     textLabel.SetDynamicResource(Label.StyleProperty, "LabelDark");
                     textLabel.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
 
                     addElement.Children.Add(textLabel);
-                    Debug.WriteLine("Added text node: " + stringText);
+                    Debug.WriteLine("Added text: " + stringText);
                 }
             }
             catch { }

@@ -238,17 +238,11 @@ namespace NewsScroll
                             Stream imageStream = await pickResult.OpenReadAsync();
 
                             //Update feed icon
-                            imageStream.Position = 0;
+                            if (imageStream.CanSeek) { imageStream.Position = 0; }
                             SelectedItem.feed_icon = ImageSource.FromStream(() => imageStream);
 
                             //Save feed icon
-                            using (MemoryStream memoryStream = new MemoryStream())
-                            {
-                                imageStream.Position = 0;
-                                await imageStream.CopyToAsync(memoryStream);
-                                byte[] imageBytes = memoryStream.ToArray();
-                                AVFiles.File_SaveBytes(SelectedItem.feed_id + ".png", imageBytes, true, true);
-                            }
+                            AVFiles.File_SaveStream(SelectedItem.feed_id + ".png", imageStream, true, true);
                         }
                     }
                     else if (messageResult == "Reset the icon")

@@ -23,7 +23,7 @@
     <DataTemplate x:Key="ListViewItemsVertical0">
         <ViewCell>
             <ViewCell.View>
-                <StackLayout Margin="0,5,0,0">
+                <StackLayout Margin="5,5,5,0">
                     <StackLayout>
                         <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
@@ -51,7 +51,7 @@
     <DataTemplate x:Key="ListViewItemsVertical1">
         <ViewCell>
             <ViewCell.View>
-                <StackLayout Margin="0,5,0,0">
+                <StackLayout Margin="5,5,5,0">
                     <StackLayout>
                         <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
@@ -78,7 +78,7 @@
     <DataTemplate x:Key="ListViewItemsVertical2">
         <ViewCell>
             <ViewCell.View>
-                <StackLayout Margin="0,5,0,0">
+                <StackLayout Margin="5,5,5,0">
                     <StackLayout>
                         <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
@@ -105,7 +105,7 @@
     <DataTemplate x:Key="ListViewItemsVertical3">
         <ViewCell>
             <ViewCell.View>
-                <StackLayout Margin="0,5,0,0">
+                <StackLayout Margin="5,5,5,0">
                     <StackLayout>
                         <Label Text="{Binding item_title}" Style="{DynamicResource LabelDark}" FontSize="{DynamicResource TextSizeLarge}"/>
                         <Label Text="{Binding item_datestring}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>

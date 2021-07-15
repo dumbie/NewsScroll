@@ -35,7 +35,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Source="{Binding vItemViewerItem.feed_icon}" Margin="0,0,2,0"/>
+                            <Image x:Name="image_feed_icon" Grid.Column="0" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" Margin="0,0,2,0"/>
                             <Image Grid.Column="1" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding vItemViewerItem.item_star_status}" Source="{AVExtensions:ImageResource Assets.iconStar-Dark.png}" Margin="0,0,2,0"/>
                             <Image Grid.Column="2" VerticalOptions="Center" HeightRequest="18" WidthRequest="18" IsVisible="{Binding vItemViewerItem.item_read_status}" Source="{AVExtensions:ImageResource Assets.iconRead-Dark.png}" Margin="0,0,2,0"/>
                             <Grid Grid.Column="3" VerticalOptions="Center" BackgroundColor="{StaticResource ApplicationAccentLightColor}" HeightRequest="2"/>
@@ -62,7 +62,7 @@
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,100,0,0" IsVisible="false">
-            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelLight}" Text="Release to..."/>
+            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
         </Grid>
 
         <!-- Grid Popup Button -->

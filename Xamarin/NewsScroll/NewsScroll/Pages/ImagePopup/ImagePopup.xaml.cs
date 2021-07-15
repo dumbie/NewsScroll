@@ -159,13 +159,7 @@ namespace NewsScroll
                 Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 999999, 999999);
 
                 //Save image
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    imageStream.Position = 0;
-                    await imageStream.CopyToAsync(memoryStream);
-                    byte[] imageBytes = memoryStream.ToArray();
-                    AVFiles.File_SaveBytes(filePath, imageBytes, true, false);
-                }
+                AVFiles.File_SaveStream(filePath, imageStream, true, false);
             }
             catch
             {

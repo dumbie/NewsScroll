@@ -9,6 +9,8 @@ namespace NewsScroll
     public partial class ItemViewer
     {
         //Rich text block html variables
+        private FontAttributes? vFontAttributes = null;
+        private TextDecorations? vTextDecorations = null;
         private bool vImageShowAlt = true;
         private bool vIgnoreText = false;
         private int vWebViewLimit = 3;

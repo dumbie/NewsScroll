@@ -39,8 +39,10 @@
         </Grid>
 
         <!-- Status Current Item -->
-        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Padding="0,25,25,0" BackgroundColor="Transparent">
-            <Label x:Name="label_StatusCurrentItem" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" Padding="5" Style="{StaticResource LabelLight}" Text="1"/>
+        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Center" Padding="0,25,25,0" BackgroundColor="Transparent">
+            <Frame CornerRadius="6" Padding="15,2,15,2" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+                <Label x:Name="label_StatusCurrentItem" VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource LabelWhite}" Text="1"/>
+            </Frame>
         </Frame>
 
         <!-- Status Application -->
@@ -53,7 +55,7 @@
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,100,0,0" IsVisible="false">
-            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelLight}" Text="Release to..."/>
+            <Label x:Name="label_SwipeAction" FontSize="{DynamicResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
         </Grid>
 
         <!-- Grid Popup Button -->

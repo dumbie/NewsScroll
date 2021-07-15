@@ -7,7 +7,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
@@ -22,13 +21,6 @@ namespace NewsScroll
         {
             try
             {
-                //Check if media needs to load
-                AppVariables.LoadMedia = true;
-                if (Connectivity.NetworkAccess != NetworkAccess.Internet && !(bool)AppSettingLoad("DisplayImagesOffline"))
-                {
-                    AppVariables.LoadMedia = false;
-                }
-
                 List<TableFeeds> FeedList = await vSQLConnection.Table<TableFeeds>().ToListAsync();
                 foreach (TableItems LoadTable in LoadTableItems)
                 {

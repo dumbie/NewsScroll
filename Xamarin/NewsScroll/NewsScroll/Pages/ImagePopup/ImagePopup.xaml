@@ -18,7 +18,7 @@
         </ScrollView>
 
         <!-- Page Header -->
-        <Grid x:Name="grid_Header" HeightRequest="65" VerticalOptions="Start" HorizontalOptions="Fill" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+        <Grid x:Name="grid_Header" Padding="10,0,10,0" HeightRequest="65" VerticalOptions="Start" HorizontalOptions="End" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
             <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Center">
                 <ImageButton x:Name="item_video" Source="{AVExtensions:ImageResource Assets.iconVideoPause.png}" IsVisible="False" Style="{StaticResource ButtonImage}" Clicked="item_video_Click"/>
                 <ImageButton x:Name="iconSave" Source="{AVExtensions:ImageResource Assets.iconSave.png}" Style="{StaticResource ButtonImage}" Clicked="button_iconSave_Tap"/>
@@ -31,7 +31,7 @@
 
         <!-- Swipe Action -->
         <Grid x:Name="grid_SwipeAction" VerticalOptions="Start" HorizontalOptions="Center" Margin="0,102,0,0" IsVisible="False" BackgroundColor="{StaticResource ApplicationAccentLightColor}">
-            <Label x:Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelLight}" Text="Release to..."/>
+            <Label x:Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalOptions="Center" Style="{StaticResource LabelWhite}" Text="Release to..."/>
         </Grid>
     </Grid>
 </ContentPage>

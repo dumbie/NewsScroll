@@ -50,6 +50,20 @@ namespace NewsScroll
                 vItemViewerItem = Source;
                 txt_AppInfo.Text = ApiMessageError + Source.feed_title;
 
+                //Load feed icon
+                if (vItemViewerItem.feed_id.StartsWith("user/"))
+                {
+                    image_feed_icon.Source = ImageSource.FromResource("NewsScroll.Assets.iconUser-Dark.png");
+                }
+                else
+                {
+                    image_feed_icon.Source = AVFiles.File_LoadImage(vItemViewerItem.feed_id + ".png", true);
+                }
+                if (image_feed_icon.Source == null)
+                {
+                    image_feed_icon.Source = ImageSource.FromResource("NewsScroll.Assets.iconRSS-Dark.png");
+                }
+
                 //Check if internet is available
                 if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
@@ -102,13 +116,6 @@ namespace NewsScroll
                 TableItems LoadTable = await vSQLConnection.Table<TableItems>().Where(x => x.item_id == vItemViewerItem.item_id).FirstOrDefaultAsync();
                 if (LoadTable != null)
                 {
-                    //Check if media needs to load
-                    AppVariables.LoadMedia = true;
-                    if (Connectivity.NetworkAccess != NetworkAccess.Internet && !(bool)AppSettingLoad("DisplayImagesOffline"))
-                    {
-                        AppVariables.LoadMedia = false;
-                    }
-
                     //Set the date time string
                     DateTime convertedDate = DateTime.SpecifyKind(LoadTable.item_datetime, DateTimeKind.Utc).ToLocalTime();
                     string DateAuthorString = convertedDate.ToString(AppVariables.CultureInfoLocal.DateTimeFormat.LongDatePattern, AppVariables.CultureInfoLocal.DateTimeFormat) + ", " + convertedDate.ToString(AppVariables.CultureInfoLocal.DateTimeFormat.ShortTimePattern, AppVariables.CultureInfoLocal.DateTimeFormat);
@@ -163,7 +170,7 @@ namespace NewsScroll
         }
 
         //Check if item content contains preview image
-        private void CheckItemContentContainsPreviewImage(TableItems LoadTable)
+        private async void CheckItemContentContainsPreviewImage(TableItems LoadTable)
         {
             try
             {
@@ -197,18 +204,19 @@ namespace NewsScroll
                         return;
                     }
 
-                    //Load item image
-                    Uri imageUri = new Uri(ItemImageLink);
-                    Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
-                    item_image.Source = ImageSource.FromStream(() => imageStream);
-                    item_image.IsVisible = true;
-
+                    //Add tap recognizer
                     TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
                     item_image.GestureRecognizers.Add(tapGestureRecognizer);
                     tapGestureRecognizer.Tapped += delegate
                     {
                         new ImagePopup().Popup(ItemImageLink);
                     };
+
+                    //Load item image
+                    Uri imageUri = new Uri(ItemImageLink);
+                    Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
+                    item_image.Source = ImageSource.FromStream(() => imageStream);
+                    item_image.IsVisible = true;
                 }
                 else
                 {

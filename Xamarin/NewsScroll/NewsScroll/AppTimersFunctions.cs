@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Xamarin.Essentials;
+using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
 
 namespace NewsScroll
@@ -22,6 +23,13 @@ namespace NewsScroll
             try
             {
                 bool currentOnlineStatus = Connectivity.NetworkAccess == NetworkAccess.Internet;
+
+                //Check if media needs to load
+                AppVariables.LoadMedia = true;
+                if (!currentOnlineStatus && !(bool)AppSettingLoad("DisplayImagesOffline"))
+                {
+                    AppVariables.LoadMedia = false;
+                }
 
                 //Check if internet connection has changed
                 if (currentOnlineStatus && !AppVariables.PreviousOnlineStatus)

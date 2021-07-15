@@ -10,7 +10,6 @@ namespace NewsScroll
         {
             try
             {
-
                 AppVariables.CurrentTotalItemsCount = vNewsFeed.feed_item_count;
                 if (AppVariables.CurrentTotalItemsCount > 0)
                 {
