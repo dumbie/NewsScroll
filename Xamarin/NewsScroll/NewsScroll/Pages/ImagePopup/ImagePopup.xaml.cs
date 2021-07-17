@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppVariables;
@@ -78,10 +79,10 @@ namespace NewsScroll
         {
             try
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                Device.BeginInvokeOnMainThread(() =>
                 {
                     ImagePopup newPopup = new ImagePopup();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(newPopup, false);
+                    App.NavigateToPage(newPopup, true, true);
                     newPopup.LoadImage(imageLink);
                 });
             }
@@ -92,8 +93,8 @@ namespace NewsScroll
         }
 
         //Close the popup
-        private void iconClose_Tap(object sender, EventArgs e) { try { Close(); } catch { } }
-        public void Close()
+        private async void iconClose_Tap(object sender, EventArgs e) { try { await Close(); } catch { } }
+        public async Task Close()
         {
             try
             {
@@ -104,7 +105,7 @@ namespace NewsScroll
                 DisablePageEvents();
 
                 //Close the popup
-                this.IsVisible = false;
+                await Application.Current.MainPage.Navigation.PopModalAsync(false);
             }
             catch { }
         }

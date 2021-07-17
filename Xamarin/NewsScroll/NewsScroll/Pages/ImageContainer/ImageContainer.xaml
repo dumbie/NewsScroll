@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NewsScroll.ImageContainer"
+             BackgroundColor="{DynamicResource ApplicationDarkGrayTransparentColor}"
+             xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="item_status" x:FieldModifier="Public" FontSize="{DynamicResource TextSizeSmall}" Style="{StaticResource LabelLightGray}" Opacity="0.60" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" Text="Image loading,&#x0a;or is not available."/>
+
+        <Image Grid.Row="0" x:Name="item_source">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="item_source_Clicked"/>
+            </Image.GestureRecognizers>
+        </Image>
+
+        <Label Grid.Row="1" x:Name="item_description" x:FieldModifier="Public" HorizontalOptions="Center" VerticalOptions="End" Style="{StaticResource LabelAccent}" FontSize="{DynamicResource TextSizeMedium}" IsVisible="false" HorizontalTextAlignment="Center" Text="Image description..."/>
+
+        <ImageButton x:Name="item_video" Source="{AVExtensions:ImageResource Assets.iconVideoPlay.png}" Opacity="0.80" IsVisible="false" Background="Transparent" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="35" Clicked="item_video_Click"/>
+    </Grid>
+</ContentView>

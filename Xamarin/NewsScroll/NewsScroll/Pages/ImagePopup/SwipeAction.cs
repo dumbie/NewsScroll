@@ -73,11 +73,11 @@ namespace NewsScroll
         }
 
         //Handle user touch swipe
-        void Page_ManipulationCompleted(object sender, SwipedEventArgs e)
+        async void Page_ManipulationCompleted(object sender, SwipedEventArgs e)
         {
             try
             {
-                Close();
+                await Close();
             }
             catch { }
         }

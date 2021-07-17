@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer
+    public partial class ItemPopup
     {
         //Rich text block html variables
         private FontAttributes? vFontAttributes = null;

@@ -124,7 +124,7 @@ namespace NewsScroll
         }
 
         //Update the item image content
-        public static async Task ItemUpdateImages(object itemObject, bool resetContent)
+        public static void ItemUpdateImages(object itemObject, bool resetContent)
         {
             try
             {
@@ -185,12 +185,10 @@ namespace NewsScroll
                     }
 
                     //Load item image
-                    string ItemImageLink = updateItem.item_image_link;
-                    if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == true && AppVariables.LoadMedia)
+                    string itemImageLink = updateItem.item_image_link;
+                    if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(itemImageLink) && updateItem.item_image_visibility == true && AppVariables.LoadMedia)
                     {
-                        Uri imageUri = new Uri(ItemImageLink);
-                        Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 512, 512);
-                        updateItem.item_image = ImageSource.FromStream(() => imageStream);
+                        updateItem.item_image = itemImageLink;
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.AppEvents.AppEvents;
@@ -34,10 +35,10 @@ namespace NewsScroll
         {
             try
             {
-                Device.BeginInvokeOnMainThread(async () =>
+                Device.BeginInvokeOnMainThread(() =>
                 {
                     PersonalizePopup newPopup = new PersonalizePopup();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(newPopup, false);
+                    App.NavigateToPage(newPopup, true, true);
                 });
             }
             catch (Exception ex)
@@ -47,12 +48,12 @@ namespace NewsScroll
         }
 
         //Close the popup
-        private void iconClose_Tap(object sender, EventArgs e) { try { Close(); } catch { } }
-        public void Close()
+        private async void iconClose_Tap(object sender, EventArgs e) { try { await Close(); } catch { } }
+        public async Task Close()
         {
             try
             {
-                this.IsVisible = false;
+                await Application.Current.MainPage.Navigation.PopModalAsync(false);
             }
             catch { }
         }

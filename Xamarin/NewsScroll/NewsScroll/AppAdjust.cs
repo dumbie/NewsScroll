@@ -23,6 +23,8 @@ namespace NewsScroll
                     Application.Current.Resources["ApplicationDarkColor"] = Color.FromHex("000000");
                     Application.Current.Resources["ApplicationLightGrayColor"] = Color.FromHex("DBDBDB");
                     Application.Current.Resources["ApplicationDarkGrayColor"] = Color.FromHex("505050");
+                    Application.Current.Resources["ApplicationLightGrayTransparentBrush"] = Color.FromHex("AADBDBDB");
+                    Application.Current.Resources["ApplicationDarkGrayTransparentBrush"] = Color.FromHex("AA505050");
                 }
                 else if (SelectedTheme == 1)
                 {
@@ -32,6 +34,8 @@ namespace NewsScroll
                     Application.Current.Resources["ApplicationDarkColor"] = Color.FromHex("F1F1F1");
                     Application.Current.Resources["ApplicationLightGrayColor"] = Color.FromHex("505050");
                     Application.Current.Resources["ApplicationDarkGrayColor"] = Color.FromHex("DBDBDB");
+                    Application.Current.Resources["ApplicationLightGrayTransparentBrush"] = Color.FromHex("AA505050");
+                    Application.Current.Resources["ApplicationDarkGrayTransparentBrush"] = Color.FromHex("AADBDBDB");
                 }
             }
             catch { }

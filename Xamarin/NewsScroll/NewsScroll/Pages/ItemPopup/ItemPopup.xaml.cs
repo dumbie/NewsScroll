@@ -3,22 +3,21 @@ using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using static ArnoldVinkCode.ArnoldVinkSettings;
 using static NewsScroll.Api.Api;
 using static NewsScroll.AppEvents.AppEvents;
-using static NewsScroll.AppVariables;
 using static NewsScroll.Database.Database;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer : ContentPage
+    public partial class ItemPopup : ContentPage
     {
-        public ItemViewer(Items bindingItem)
+        public ItemPopup(Items bindingItem)
         {
             try
             {
@@ -28,7 +27,7 @@ namespace NewsScroll
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Failed initializing itemviewer: " + ex.Message);
+                Debug.WriteLine("Failed initializing itempopup: " + ex.Message);
             }
         }
 
@@ -103,7 +102,7 @@ namespace NewsScroll
             catch
             {
                 Debug.WriteLine("Failed loading item.");
-                ClosePopup();
+                await ClosePopup();
             }
         }
 
@@ -169,119 +168,76 @@ namespace NewsScroll
             catch { }
         }
 
-        //Check if item content contains preview image
-        private async void CheckItemContentContainsPreviewImage(TableItems LoadTable)
+        //Check if there are images and the preview image is included
+        private void CheckItemContentContainsPreviewImage(TableItems loadTable)
         {
             try
             {
                 //Check the preview image
-                string ItemImageLink = LoadTable.item_image;
-                if (string.IsNullOrWhiteSpace(ItemImageLink))
+                string itemImageLink = loadTable.item_image;
+                if (string.IsNullOrWhiteSpace(itemImageLink))
                 {
-                    item_image.Source = null;
+                    item_image.image_link = null;
                     item_image.IsVisible = false;
                     return;
                 }
 
-                //Check if there are images and the preview image is included
-                CheckLabelForPreviewImage(item_content, ItemImageLink, out int ItemImagecount, out bool FoundPreviewImage);
+                //Check if there are images or the preview image is included
+                IEnumerable<View> imageContainers = item_content.Children.Where(x => x.GetType() == typeof(ImageContainer));
+                int itemImageCount = imageContainers.Count();
+                bool foundPreviewImage = false;
+                foreach (ImageContainer imageContainer in imageContainers)
+                {
+                    try
+                    {
+                        string CompareBitmapLink = Regex.Replace(imageContainer.image_link, @"^(?:http(?:s)?://)?(?:www(?:[0-9]+)?\.)?", string.Empty, RegexOptions.IgnoreCase).ToLower();
+                        string CompareItemImageLink = Regex.Replace(itemImageLink, @"^(?:http(?:s)?://)?(?:www(?:[0-9]+)?\.)?", string.Empty, RegexOptions.IgnoreCase).ToLower();
+                        //Debug.WriteLine("Comparing image: " + CompareBitmapLink + " vs " + CompareItemImageLink);
+                        if (CompareBitmapLink == CompareItemImageLink)
+                        {
+                            foundPreviewImage = true;
+                            break;
+                        }
+                    }
+                    catch { }
+                }
 
                 //Update the preview image based on result
-                if (ItemImagecount == 0 || !FoundPreviewImage)
+                if (itemImageCount == 0 || !foundPreviewImage)
                 {
-                    Debug.WriteLine("No media found in rich text block, adding item image.");
-
-                    //Check if media is a gif(v) file
-                    bool ImageIsGif = ItemImageLink.ToLower().Contains(".gif");
-
-                    //Check if low bandwidth mode is enabled
-                    if (ImageIsGif && (bool)AppSettingLoad("LowBandwidthMode"))
-                    {
-                        //Debug.WriteLine("Low bandwidth mode skipping gif.");
-                        //item_image.item_status.Text = "Gif not loaded,\nlow bandwidth mode.";
-                        item_image.Source = null;
-                        item_image.IsVisible = false;
-                        return;
-                    }
-
-                    //Add tap recognizer
-                    TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
-                    item_image.GestureRecognizers.Add(tapGestureRecognizer);
-                    tapGestureRecognizer.Tapped += delegate
-                    {
-                        new ImagePopup().Popup(ItemImageLink);
-                    };
-
-                    //Load item image
-                    Uri imageUri = new Uri(ItemImageLink);
-                    Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
-                    item_image.Source = ImageSource.FromStream(() => imageStream);
+                    Debug.WriteLine("No media found in rich text block, showing item image: " + itemImageLink);
+                    item_image.image_link = itemImageLink;
                     item_image.IsVisible = true;
                 }
                 else
                 {
-                    //Unload item image
-                    item_image.Source = null;
+                    item_image.image_link = null;
                     item_image.IsVisible = false;
                 }
             }
             catch
             {
-                item_image.Source = null;
+                item_image.image_link = null;
                 item_image.IsVisible = false;
             }
         }
 
-        //Check if there are images and the preview image is included
-        private void CheckLabelForPreviewImage(StackLayout targetElement, string ItemImageLink, out int ItemImageCount, out bool FoundPreviewImage)
-        {
-            try
-            {
-                IEnumerable<object> itemImages = targetElement.Children.Where(x => x.GetType() == typeof(Image));
-                ItemImageCount = itemImages.Count();
-                if (ItemImageCount > 0)
-                {
-                    FoundPreviewImage = true;
-                }
-                else
-                {
-                    FoundPreviewImage = false;
-                }
-
-                //fix
-                //image.Source.GetValue (UriImageSource.UriProperty);
-                //string CompareBitmapLink = Regex.Replace(bitmapSource.UriSource.ToString(), @"^(?:http(?:s)?://)?(?:www(?:[0-9]+)?\.)?", string.Empty, RegexOptions.IgnoreCase).ToLower();
-                //string CompareItemImageLink = Regex.Replace(ItemImageLink, @"^(?:http(?:s)?://)?(?:www(?:[0-9]+)?\.)?", string.Empty, RegexOptions.IgnoreCase).ToLower();
-                ////Debug.WriteLine("Comparing image: " + CompareBitmapLink + " vs " + CompareItemImageLink);
-                //if (CompareBitmapLink == CompareItemImageLink)
-                //{
-                //    FoundPreviewImage = true;
-                //    break;
-                //}
-            }
-            catch
-            {
-                ItemImageCount = 0;
-                FoundPreviewImage = false;
-            }
-        }
-
         //Close the popup
-        public void ClosePopup()
+        public async Task ClosePopup()
         {
             try
             {
                 Debug.WriteLine("Closing the item popup...");
 
-                //Close the popup
-                this.IsVisible = false;
-
                 //Cleanup xaml resources
-                item_image.Source = null;
+                //item_image.Source = null;
                 item_content.Children.Clear();
 
                 //Disable page events
                 DisablePageEvents();
+
+                //Close the popup
+                await Application.Current.MainPage.Navigation.PopModalAsync(false);
             }
             catch { }
         }
@@ -329,10 +285,10 @@ namespace NewsScroll
                 grid_StatusApplication.IsVisible = true;
 
                 //Disable content
-                item_content.IsEnabled = false;
-                item_content.Opacity = 0.30;
                 item_image.IsEnabled = false;
                 item_image.Opacity = 0.30;
+                item_content.IsEnabled = false;
+                item_content.Opacity = 0.30;
 
                 //Disable buttons
                 iconStar.IsEnabled = false;
@@ -364,10 +320,10 @@ namespace NewsScroll
                 label_StatusApplication.Text = string.Empty;
 
                 //Enable content
-                item_content.IsEnabled = true;
-                item_content.Opacity = 1;
                 item_image.IsEnabled = true;
                 item_image.Opacity = 1;
+                item_content.IsEnabled = true;
+                item_content.Opacity = 1;
 
                 //Enable buttons
                 iconStar.IsEnabled = true;
@@ -393,11 +349,11 @@ namespace NewsScroll
         }
 
         //User Interface - Buttons
-        void iconBack_Tap(object sender, EventArgs e)
+        async void iconBack_Tap(object sender, EventArgs e)
         {
             try
             {
-                ClosePopup();
+                await ClosePopup();
             }
             catch { }
         }
@@ -497,7 +453,10 @@ namespace NewsScroll
                 }
 
                 //Close the popup
-                if (closePopup) { ClosePopup(); }
+                if (closePopup)
+                {
+                    await ClosePopup();
+                }
 
                 //Open item in webbrowser
                 if (TargetUri != null)

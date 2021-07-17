@@ -23,7 +23,7 @@ namespace NewsScroll
                 {
                     if (popUp)
                     {
-                        await Application.Current.MainPage.Navigation.PushModalAsync(targetPage);
+                        await Application.Current.MainPage.Navigation.PushModalAsync(targetPage, false);
                     }
                     else
                     {

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <?xaml-comp compile="true" ?>
-<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:NewsScroll="clr-namespace:NewsScroll">
 
     <!--ListView Feeds-->
     <DataTemplate x:Key="ListViewFeeds">
@@ -40,7 +40,7 @@
                             <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}"/>
                         </Grid>
                     </StackLayout>
-                    <Image HeightRequest="240" Source="{Binding item_image}" IsVisible="{Binding item_image_visibility}"/>
+                    <NewsScroll:ImageContainer HeightRequest="240" image_link="{Binding item_image}" IsEnabled="False" IsVisible="{Binding item_image_visibility}"/>
                     <Label Text="{Binding item_content}" Style="{DynamicResource LabelLightGray}" FontSize="{DynamicResource TextSizeMedium}"/>
                 </StackLayout>
             </ViewCell.View>
@@ -68,7 +68,7 @@
                             <Grid Grid.Column="3" VerticalOptions="Center" HeightRequest="2" BackgroundColor="{StaticResource ApplicationAccentLightColor}"/>
                         </Grid>
                     </StackLayout>
-                    <Image HeightRequest="240" Source="{Binding item_image}" IsVisible="{Binding item_image_visibility}"/>
+                    <NewsScroll:ImageContainer HeightRequest="240" image_link="{Binding item_image}" IsEnabled="False" IsVisible="{Binding item_image_visibility}"/>
                 </StackLayout>
             </ViewCell.View>
         </ViewCell>

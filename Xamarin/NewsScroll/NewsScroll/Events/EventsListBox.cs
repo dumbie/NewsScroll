@@ -57,7 +57,7 @@ namespace NewsScroll
                 else
                 {
                     //Open item in itemviewer
-                    App.NavigateToPage(new ItemViewer(SelectedItem), true, true);
+                    App.NavigateToPage(new ItemPopup(SelectedItem), true, true);
 
                     //Mark the item as read
                     await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, true);

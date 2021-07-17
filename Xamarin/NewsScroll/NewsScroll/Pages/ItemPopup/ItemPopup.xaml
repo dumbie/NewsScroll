@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NewsScroll.ItemViewer"
+             x:Class="NewsScroll.ItemPopup"
              xmlns:AVExtensions="clr-namespace:ArnoldVinkExtensions"
+             xmlns:NewsScroll="clr-namespace:NewsScroll"
              BackgroundColor="Transparent">
 
     <!--Main page-->
@@ -42,7 +43,7 @@
                         </Grid>
                     </StackLayout>
 
-                    <Image x:Name="item_image" HeightRequest="300" IsVisible="False"/>
+                    <NewsScroll:ImageContainer x:Name="item_image" IsVisible="false"/>
                     <StackLayout x:Name="item_content"/>
 
                     <Button Margin="0,20,0,0" x:Name="button_LoadFullItem" IsVisible="False" Style="{StaticResource ButtonAccent}" HorizontalOptions="Fill" Text="Load the full item" Clicked="LoadFullItem_Tap"/>

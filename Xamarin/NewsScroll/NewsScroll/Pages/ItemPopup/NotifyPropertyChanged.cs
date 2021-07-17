@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer : INotifyPropertyChanged
+    public partial class ItemPopup : INotifyPropertyChanged
     {
         //Webviewer Variables
         private Items priv_ItemViewerItem;

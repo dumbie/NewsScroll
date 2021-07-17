@@ -59,6 +59,9 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\AVFunctions.cs">
+      <Link>ArnoldVinkCode\Functions\AVFunctions.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\ArnoldVinkCode\Xamarin\Functions\Images\AVImages-Android.cs">
       <Link>ArnoldVinkCode\Functions\Images\AVImages-Android.cs</Link>
     </Compile>

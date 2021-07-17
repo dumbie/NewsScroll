@@ -186,6 +186,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Pages\ImageContainer\ImageContainer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\MessagePopup\MessagePopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -213,8 +216,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\ImageContainer\Properties.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\ImageContainer\ImageContainer.xaml.cs">
+      <DependentUpon>ImageContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\ImagePopup\ImagePopup.xaml.cs">
       <DependentUpon>ImagePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\ItemPopup\ItemPopup.xaml.cs">
+      <DependentUpon>ItemPopup.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\MessagePopup\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>

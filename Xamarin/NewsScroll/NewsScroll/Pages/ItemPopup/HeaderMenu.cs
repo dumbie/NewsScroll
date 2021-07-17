@@ -4,7 +4,7 @@ using static NewsScroll.AppVariables;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer
+    public partial class ItemPopup
     {
         async void iconMenu_Tapped(object sender, EventArgs e)
         {

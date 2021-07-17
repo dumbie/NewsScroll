@@ -4,7 +4,7 @@ using static ArnoldVinkCode.ArnoldVinkSettings;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer
+    public partial class ItemPopup
     {
         //Adjust the swipe bar
         void SwipeBarAdjust()
@@ -73,11 +73,11 @@ namespace NewsScroll
         }
 
         //Handle user touch swipe
-        void Page_ManipulationCompleted(object sender, SwipedEventArgs e)
+        async void Page_ManipulationCompleted(object sender, SwipedEventArgs e)
         {
             try
             {
-                ClosePopup();
+                await ClosePopup();
             }
             catch { }
         }

@@ -25,11 +25,7 @@ namespace NewsScroll
                 }
 
                 //Update the shown item content
-                async void TaskAction()
-                {
-                    await ItemUpdateImages(e.Item, false);
-                }
-                AVActions.TaskStart(TaskAction);
+                ItemUpdateImages(e.Item, false);
             }
             catch { }
         }
@@ -53,11 +49,7 @@ namespace NewsScroll
                 }
 
                 //Update the shown item content
-                async void TaskAction()
-                {
-                    await ItemUpdateImages(e.Item, true);
-                }
-                AVActions.TaskStart(TaskAction);
+                ItemUpdateImages(e.Item, true);
             }
             catch { }
         }

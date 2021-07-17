@@ -22,8 +22,12 @@
     <SolidColorBrush x:Key="ApplicationGrayBrush">#787878</SolidColorBrush>
     <Color x:Key="ApplicationLightGrayColor">#DBDBDB</Color>
     <SolidColorBrush x:Key="ApplicationLightGrayBrush">#DBDBDB</SolidColorBrush>
+    <Color x:Key="ApplicationLightGrayTransparentColor">#AADBDBDB</Color>
+    <SolidColorBrush x:Key="ApplicationLightGrayTransparentBrush">#AADBDBDB</SolidColorBrush>
     <Color x:Key="ApplicationDarkGrayColor">#505050</Color>
     <SolidColorBrush x:Key="ApplicationDarkGrayBrush">#505050</SolidColorBrush>
+    <Color x:Key="ApplicationDarkGrayTransparentColor">#AA505050</Color>
+    <SolidColorBrush x:Key="ApplicationDarkGrayTransparentBrush">#AA505050</SolidColorBrush>
 
     <!-- Other Color -->
     <Color x:Key="ValidColor">#1EB955</Color>

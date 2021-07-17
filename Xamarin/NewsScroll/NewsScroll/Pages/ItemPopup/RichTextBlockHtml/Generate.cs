@@ -13,9 +13,9 @@ using static NewsScroll.AppVariables;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer
+    public partial class ItemPopup
     {
-        private async void GenerateImage(StackLayout addElement, HtmlNode htmlNode)
+        private void GenerateImage(StackLayout addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -80,21 +80,9 @@ namespace NewsScroll
                     return;
                 }
 
-                //Create item image
-                Image img_source = new Image();
-                Uri imageUri = new Uri(sourceUri);
-                Stream imageStream = await dependencyAVImages.DownloadResizeImage(imageUri, 1024, 1024);
-                img_source.Source = ImageSource.FromStream(() => imageStream);
-                img_source.MinimumHeightRequest = 300;
-
-                TapGestureRecognizer tapGestureRecognizer = new TapGestureRecognizer();
-                img_source.GestureRecognizers.Add(tapGestureRecognizer);
-                tapGestureRecognizer.Tapped += delegate
-                {
-                    new ImagePopup().Popup(sourceUri);
-                };
-
-                addElement.Children.Add(img_source);
+                //Create item container
+                ImageContainer imageContainer = new ImageContainer();
+                imageContainer.image_link = sourceUri;
 
                 //Get and set alt from the image
                 if (vImageShowAlt && htmlNode.Attributes["alt"] != null)
@@ -102,19 +90,8 @@ namespace NewsScroll
                     string imageAltText = Process.ProcessItemTextSummary(htmlNode.Attributes["alt"].Value, false, false);
                     if (!string.IsNullOrWhiteSpace(imageAltText))
                     {
-                        Span altHeader = new Span { Text = "* " };
-                        altHeader.SetDynamicResource(Span.TextColorProperty, "ApplicationAccentLightColor");
-                        Span altContent = new Span { Text = imageAltText };
-
-                        FormattedString formattedString = new FormattedString();
-                        formattedString.Spans.Add(altHeader);
-                        formattedString.Spans.Add(altContent);
-
-                        Label imageAltLabel = new Label();
-                        imageAltLabel.FormattedText = formattedString;
-                        imageAltLabel.SetDynamicResource(Label.BackgroundColorProperty, "ApplicationLightGrayColor");
-                        imageAltLabel.SetDynamicResource(Label.StyleProperty, "LabelDark");
-                        imageAltLabel.SetDynamicResource(Label.FontSizeProperty, "TextSizeMedium");
+                        imageContainer.item_description.Text = imageAltText;
+                        imageContainer.item_description.IsVisible = true;
 
                         //Fix
                         ////Enable or disable text selection
@@ -126,11 +103,10 @@ namespace NewsScroll
                         //{
                         //    img.item_description.IsTextSelectionEnabled = false;
                         //}
-
-                        addElement.Children.Add(imageAltLabel);
                     }
                 }
 
+                addElement.Children.Add(imageContainer);
                 Debug.WriteLine("Added image: " + sourceUri);
                 //GenerateBreak(addElement);
             }
@@ -605,7 +581,6 @@ namespace NewsScroll
                     stackPanelGrid.Children.Add(LabelHeader);
                 }
 
-                int RowCurrentCount = 0;
                 int RowTotalCount = htmlNode.Descendants("tr").Count();
                 if (RowTotalCount > 0)
                 {
@@ -613,12 +588,13 @@ namespace NewsScroll
                     Grid gridContent = new Grid();
                     gridContent.SetDynamicResource(Grid.BackgroundColorProperty, "ApplicationLightGrayColor");
 
+                    //Table Row
+                    int RowCurrentCount = 0;
                     foreach (HtmlNode TableRow in htmlNode.Descendants("tr"))
                     {
-                        int ColumnCurrentCount = 0;
-
                         //Create and add row
                         RowDefinition gridRowDefinition = new RowDefinition();
+                        gridRowDefinition.Height = GridLength.Auto;
                         gridContent.RowDefinitions.Add(gridRowDefinition);
 
                         Grid gridRow = new Grid();
@@ -635,9 +611,11 @@ namespace NewsScroll
                         //}
 
                         //Table Header
+                        int ColumnCurrentCount = 0;
                         foreach (HtmlNode TableHeader in TableRow.Descendants("th"))
                         {
                             ColumnDefinition gridColDefinition = new ColumnDefinition();
+                            gridColDefinition.Width = GridLength.Star;
                             gridRow.ColumnDefinitions.Add(gridColDefinition);
 
                             Label Label = new Label();
@@ -665,6 +643,7 @@ namespace NewsScroll
                         foreach (HtmlNode TableColumn in TableRow.Descendants("td"))
                         {
                             ColumnDefinition gridColDefinition = new ColumnDefinition();
+                            gridColDefinition.Width = GridLength.Star;
                             gridRow.ColumnDefinitions.Add(gridColDefinition);
 
                             //Add other child node elements

@@ -41,8 +41,8 @@
         </Grid>
 
         <!-- Status Current Item -->
-        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Center" Padding="0,25,25,0" BackgroundColor="Transparent">
-            <Frame CornerRadius="6" Padding="15,2,15,2" BackgroundColor="{DynamicResource ApplicationAccentLightColor}">
+        <Frame x:Name="button_StatusCurrentItem" IsVisible="true" VerticalOptions="End" HorizontalOptions="Start" Padding="5,25,25,5" BackgroundColor="Transparent">
+            <Frame CornerRadius="6" Padding="15,2,15,2" BackgroundColor="{DynamicResource ApplicationAccentLightColor}" Opacity="0.80">
                 <Label x:Name="label_StatusCurrentItem" VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource LabelWhite}" Text="1"/>
             </Frame>
         </Frame>

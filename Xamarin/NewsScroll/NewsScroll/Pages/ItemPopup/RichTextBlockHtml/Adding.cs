@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace NewsScroll
 {
-    public partial class ItemViewer
+    public partial class ItemPopup
     {
         private void AddNodes(StackLayout addElement, HtmlNode htmlNode, bool firstOnly)
         {
@@ -73,6 +73,7 @@ namespace NewsScroll
                     //Containers Grid
                     case "q": { GenerateGridContent(addElement, htmlNode, "Quote"); return; }
                     case "blockquote": { GenerateGridContent(addElement, htmlNode, "Quote"); return; }
+                    case "section": { GenerateGridContent(addElement, htmlNode, string.Empty); return; }
 
                     //Default
                     default: { AddNodes(addElement, htmlNode, false); return; }

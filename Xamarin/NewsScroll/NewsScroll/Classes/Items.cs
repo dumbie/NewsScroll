@@ -139,17 +139,6 @@ namespace NewsScroll.Classes
             }
         }
 
-        private ImageSource priv_item_image;
-        public ImageSource item_image
-        {
-            get { return priv_item_image; }
-            set
-            {
-                priv_item_image = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private bool priv_item_image_visibility;
         public bool item_image_visibility
         {
@@ -157,6 +146,17 @@ namespace NewsScroll.Classes
             set
             {
                 priv_item_image_visibility = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string priv_item_image;
+        public string item_image
+        {
+            get { return priv_item_image; }
+            set
+            {
+                priv_item_image = value;
                 NotifyPropertyChanged();
             }
         }

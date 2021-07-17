@@ -35,10 +35,10 @@ namespace NewsScroll
                     iconMenu.Source = ImageSource.FromResource("NewsScroll.Assets.iconMenu-Dark.png");
                     iconMenu.Opacity = 0.60;
 
-                    grid_StatusApplication.Margin = new Thickness(0, 0, 0, 0);
-
                     //Update the current item status text
                     label_StatusCurrentItem.Text = AppVariables.CurrentViewItemsCount + "/" + AppVariables.CurrentTotalItemsCount;
+
+                    grid_StatusApplication.Margin = new Thickness(0, 0, 0, 0);
 
                     AppVariables.HeaderHidden = true;
                 }

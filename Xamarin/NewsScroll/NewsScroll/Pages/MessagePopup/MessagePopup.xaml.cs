@@ -68,7 +68,7 @@ namespace NewsScroll
                 while (vPopupResult == string.Empty && !vPopupDone && this.IsVisible) { await Task.Delay(500); }
 
                 //Close the messagebox popup
-                Close();
+               await Close();
             }
             catch { }
             return vPopupResult;
@@ -79,18 +79,14 @@ namespace NewsScroll
         {
             try
             {
-                string messageResult = "defaultpopupstring";
+                string messageResult = null;
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     MessagePopup newPopup = new MessagePopup();
-                    await Application.Current.MainPage.Navigation.PushModalAsync(newPopup, false);
+                    App.NavigateToPage(newPopup, true, true);
                     messageResult = await newPopup.WaitResult(Question, Description, Answers);
                 });
-
-                while (messageResult == "defaultpopupstring")
-                {
-                    await Task.Delay(100);
-                }
+                while (messageResult == null) { await Task.Delay(100); }
                 return messageResult;
             }
             catch (Exception ex)
@@ -101,12 +97,12 @@ namespace NewsScroll
         }
 
         //Close the popup
-        public void Close()
+        public async Task Close()
         {
             try
             {
-                this.IsVisible = false;
                 vPopupDone = true;
+                await Application.Current.MainPage.Navigation.PopModalAsync(false);
             }
             catch { }
         }
