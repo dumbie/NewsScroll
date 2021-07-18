@@ -1,0 +1,30 @@
+﻿<Grid
+    x:Class="NewsScroll.MainElements.grid_item_image"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:MainElements="using:NewsScroll.MainElements"
+    mc:Ignorable="d">
+
+    <Grid.Background>
+        <SolidColorBrush Color="#888" Opacity="0.20"/>
+    </Grid.Background>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+
+    <TextBlock x:FieldModifier="public" Name="item_status" FontSize="{Binding TextSizeSmall, Source={StaticResource StyleUpdater}}" Style="{StaticResource TextBlockLightGray}" Opacity="0.60" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="Image loading,&#x0a;or is not available."/>
+
+    <Border x:FieldModifier="public" Name="item_border" BorderThickness="1" BorderBrush="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Image Grid.Row="0" x:FieldModifier="public" Name="item_source" ImageOpened="bitmapimage_ImageOpened" ImageFailed="bitmapimage_ImageFailed" PointerEntered="item_source_PointerEntered" PointerCaptureLost="item_source_PointerLostExited" PointerExited="item_source_PointerLostExited" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform" ToolTipService.ToolTip="Click to zoom in" Tapped="item_source_Tapped"/>
+    </Border>
+
+    <TextBlock Grid.Row="1" x:FieldModifier="public" Name="item_description" HorizontalAlignment="Center" VerticalAlignment="Bottom" Style="{StaticResource TextBlockAccent}" Visibility="Collapsed" TextWrapping="Wrap" TextAlignment="Center" Text="Image description..."/>
+
+    <Button x:FieldModifier="public" Name="item_video" Visibility="Collapsed" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Click="item_video_Click">
+        <Image x:FieldModifier="public" Name="item_video_status" Source="/Assets/iconVideoPlay.png" Opacity="0.80"/>
+    </Button>
+</Grid>

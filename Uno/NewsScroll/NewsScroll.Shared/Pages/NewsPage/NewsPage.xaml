@@ -1,0 +1,113 @@
+﻿<Page
+    x:Class="NewsScroll.NewsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NewsScroll"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontSize="{StaticResource TextSizeInterface}"
+    LayoutUpdated="OnLayoutUpdated">
+
+    <!--Main page-->
+    <Grid Name="grid_Main" Background="Black">
+        <!-- Main Grid -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <StackPanel Grid.Row="0" Name="stackpanel_Header" Height="99" Tag="99">
+                <!-- Page Menu -->
+                <Grid Height="65" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Name="txt_AppTitle" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Items"/>
+                        <TextBlock Name="txt_AppInfo" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Loading items"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,61,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource ButtonImage}" Name="iconReadAll" Click="iconReadAll_Tap" ToolTipService.ToolTip="Mark all items read">
+                            <Image Source="/Assets/iconReadAll.png" Height="45"/>
+                        </Button>
+                        <Button Style="{StaticResource ButtonImage}" Name="iconRefresh" Click="iconRefresh_Tap" ToolTipService.ToolTip="Refresh items">
+                            <Image Source="/Assets/iconRefresh.png" Height="45"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Feed Selection -->
+                <ComboBox Name="combobox_FeedSelection" IsHitTestVisible="False" Opacity="0.30" Style="{StaticResource ComboBox}" ItemTemplate="{StaticResource ComboBoxFeedSelectorCount}" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+
+            <!-- Page Information -->
+            <TextBlock Grid.Row="1" Name="txt_NewsScrollInfo" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap" TextAlignment="Center" Text="Your news items will be shown here shortly..." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <!-- Page ListView -->
+            <ListView Grid.Row="1" Name="ListView_Items" Style="{StaticResource ListViewVertical}" ItemTemplate="{StaticResource ListViewItemsVertical0}" ItemContainerStyle="{StaticResource ListViewItemStretchedVertical}" SelectionMode="Single"/>
+        </Grid>
+
+        <!-- Status Current Item -->
+        <Button Name="button_StatusCurrentItem" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ButtonImage}" Margin="6,0,0,6" Padding="0,25,25,0" ToolTipService.ToolTip="Scroll in the items" Click="button_StatusCurrentItem_Tapped">
+            <Border Name="border_StatusCurrentItem" CornerRadius="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2">
+                <Border.Background>
+                    <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+                </Border.Background>
+                <TextBlock Name="textblock_StatusCurrentItem" Margin="4,1,4,1" Style="{StaticResource TextBlockWhite}" Text="1" Tag="1"/>
+            </Border>
+        </Button>
+
+        <!-- Status Application -->
+        <Grid Name="grid_StatusApplication" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,65,0,0" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
+                <TextBlock Name="textblock_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Swipe Bar -->
+        <Grid Name="grid_SwipeBar" Background="Transparent"/>
+
+        <!-- Swipe Action -->
+        <Grid Name="grid_SwipeAction" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,102,0,0" Visibility="Collapsed">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.80"/>
+            </Grid.Background>
+            <TextBlock Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalAlignment="Center" Style="{StaticResource TextBlockWhite}" Text="Release to..."/>
+        </Grid>
+
+        <!-- Grid Popup Button -->
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6,0,0">
+            <Button Style="{StaticResource ButtonImage}" Name="iconMenu" Tapped="iconMenu_Tapped" DoubleTapped="iconMenu_DoubleTapped" ToolTipService.ToolTip="Open the menu">
+                <Image Name="image_iconMenu" Source="/Assets/iconMenu.png" Height="45"/>
+            </Button>
+        </Grid>
+
+        <!-- Grid Popup Menu -->
+        <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+            </Grid.Background>
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource ButtonImage}" Name="iconStar" Click="iconStar_Tap" ToolTipService.ToolTip="Show starred items">
+                    <Image Source="/Assets/iconStar.png" Height="45"/>
+                </Button>
+                <Button Style="{StaticResource ButtonImage}" Name="iconSearch" Click="iconSearch_Tap" ToolTipService.ToolTip="Search for items">
+                    <Image Source="/Assets/iconSearch.png" Height="45"/>
+                </Button>
+                <Button Style="{StaticResource ButtonImage}" Name="iconApi" Click="iconApi_Tap" ToolTipService.ToolTip="Manage the feeds">
+                    <Image Source="/Assets/iconApi.png" Height="45"/>
+                </Button>
+                <Button Style="{StaticResource ButtonImage}" Name="iconPersonalize" Click="iconPersonalize_Tap" ToolTipService.ToolTip="Adjust display settings">
+                    <Image Source="/Assets/iconPersonalize.png" Height="45"/>
+                </Button>
+                <Button Style="{StaticResource ButtonImage}" Name="iconSettings" Click="iconSettings_Tap" ToolTipService.ToolTip="Go to settings">
+                    <Image Source="/Assets/iconSettings.png" Height="45"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

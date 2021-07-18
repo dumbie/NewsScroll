@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6279c845-92f8-4333-ab99-3d213163593c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>NewsScroll</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\ApiVariables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Feeds-Add.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Feeds-Delete.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Feeds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Items-Read.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Items-RemoveOld.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Items-Starred.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Items.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Login.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\MarkRead.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\MarkStar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\OfflineSync.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Share.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\WebParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AppAdjust.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppEvents.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppLists.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppStartup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppTimers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppVariables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ArnoldVinkCode\Functions\AVDownloader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ArnoldVinkCode\Functions\AVFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ArnoldVinkCode\Functions\AVFunctions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ArnoldVinkCode\Functions\AVImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\ComboBoxImageList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Feeds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Items.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EventsItemStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EventsListBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\EventsScrollViewer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ApiPage\ApiPage.xaml.cs">
+      <DependentUpon>ApiPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ApiPage\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\HelpPage\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\ChangeListViewStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\HeaderMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\ItemsScrollingDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\NewsPage.xaml.cs">
+      <DependentUpon>NewsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\SelectionFeeds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\ChangeListViewStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\HeaderMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\History.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\ItemsScrollingDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\SelectionFeeds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\ChangeListViewStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\HeaderMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\ItemsScrollingDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\StarredPage.xaml.cs">
+      <DependentUpon>StarredPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ImageViewer\ImageViewer.xaml.cs">
+      <DependentUpon>ImageViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ImageViewer\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ImageViewer\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\HeaderMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\ItemViewer.xaml.cs">
+      <DependentUpon>ItemViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\NotifyPropertyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\RichTextBlockHtml\Adding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\RichTextBlockHtml\Generate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\RichTextBlockHtml\RichTextBlockHtml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\PersonalizePopup.xaml.cs">
+      <DependentUpon>PersonalizePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\WebViewer\HeaderMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\WebViewer\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\WebViewer\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\WebViewer\WebViewer.xaml.cs">
+      <DependentUpon>WebViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Process\ProcessItemContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Process\ProcessItemLoad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Process\ProcessTableFeed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Process\ProcessTableItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\Settings-Check.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\Settings-Load.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\Settings-Save.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\MainElements\grid_item_image.xaml.cs">
+      <DependentUpon>grid_item_image.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\MainElements\grid_item_video.xaml.cs">
+      <DependentUpon>grid_item_video.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\MainElements\grid_item_webview.xaml.cs">
+      <DependentUpon>grid_item_webview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\MainTemplates.xaml.cs">
+      <DependentUpon>MainTemplates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\StyleUpdater.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\ApiPage\ApiPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\HelpPage\HelpPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\NewsPage\NewsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SearchPage\SearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\SettingsPage\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Pages\StarredPage\StarredPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Popups\ImageViewer\ImageViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Popups\ItemViewer\ItemViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Popups\MessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Popups\PersonalizePopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Popups\WebViewer\WebViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainElements\grid_item_image.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainElements\grid_item_video.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainElements\grid_item_webview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\backgroundSettings.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconApi.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBack-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBack.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBrowser.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconClose-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconClose.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconFolder-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconHelp.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconItemFull.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconItemSumm.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconMenu-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconMenu.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconNews.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconPersonalize.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRead-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRead.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconReadAll.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRefresh.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRSS-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSave.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconScreenMode.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconScroll.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSearch.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSettings.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconShare.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStar-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStar.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStarAdd.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStarRemove.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconUser-Dark.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconVideoPause.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconVideoPlay.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\0.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\1.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\2.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\3.png" />
+  </ItemGroup>
+</Project>
