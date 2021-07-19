@@ -23,9 +23,6 @@ namespace NewsScroll
                 combobox_FeedSelection.Opacity = 0.30;
                 await ClearObservableCollection(List_FeedSelect);
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Check if received lists are empty
                 List<TableFeeds> LoadTableFeeds = await SQLConnection.Table<TableFeeds>().OrderBy(x => x.feed_folder).ToListAsync();
 

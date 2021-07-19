@@ -32,10 +32,10 @@
     </Style>
 
     <Style x:Key="TextBlockAccent" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
     <Style x:Key="TextBlockAccentLight" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="FontWeight" Value="SemiLight"/>
     </Style>
 
@@ -55,7 +55,7 @@
     <Style x:Key="ComboBox" TargetType="ComboBox">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
     </Style>
 
@@ -68,7 +68,7 @@
     <!--TextBox Styles-->
     <Style x:Key="TextBox" TargetType="TextBox">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
@@ -79,19 +79,19 @@
     </Style>
     <Style x:Key="PasswordBox" TargetType="PasswordBox">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
     <!--AutoSuggestBox Styles-->
     <Style x:Key="AutoSuggestBox" TargetType="AutoSuggestBox">
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
     <Style x:Key="AutoSuggestBoxTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}">
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
@@ -99,7 +99,7 @@
     <!--Rectangle Styles-->
     <Style x:Key="RectangleAccent" TargetType="Rectangle">
         <Setter Property="Height" Value="2"/>
-        <Setter Property="Fill" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Fill" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
 
     <!--ProgressBar Styles-->
@@ -108,15 +108,15 @@
         <Setter Property="Margin" Value="0,3,0,3"/>
         <Setter Property="Background" Value="#CDCDCD"/>
         <Setter Property="BorderBrush" Value="#CDCDCD"/>
-        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ApplicationAccentLightBrush}"/>
     </Style>
 
     <!--Button Styles-->
     <Style x:Key="ButtonAccent" TargetType="Button">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
         <Setter Property="Foreground" Value="#F1F1F1"/>
-        <Setter Property="Background" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ApplicationAccentLightBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
     </Style>
     <Style x:Key="ButtonImage" TargetType="Button">
@@ -128,7 +128,7 @@
 
     <!--Slider Styles-->
     <Style x:Key="SliderAccent" TargetType="Slider">
-        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="Background" Value="#888"/>
     </Style>
 
@@ -140,18 +140,6 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <!--<Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Recycling" Orientation="Vertical" Background="Transparent" ManipulationMode="TranslateX, System"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemContainerTransitions">
-            <Setter.Value>
-                <TransitionCollection/>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="ListViewHorizontal" TargetType="ListView">
@@ -161,18 +149,6 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <!--<Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel VirtualizingStackPanel.VirtualizationMode="Recycling" Orientation="Horizontal" Background="Transparent" ManipulationMode="TranslateY, System"/>
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemContainerTransitions">
-            <Setter.Value>
-                <TransitionCollection/>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="ListViewItemStretched" TargetType="ListViewItem">

@@ -9,24 +9,6 @@ namespace NewsScroll
 {
     class EventsScrollViewer
     {
-        public static Items GetCurrentVisibleItem(ListView TargetListView, int Offset)
-        {
-            try
-            {
-                if (TargetListView.Items.Any())
-                {
-                    VirtualizingStackPanel virtualStackPanel = AVFunctions.FindVisualChild<VirtualizingStackPanel>(TargetListView);
-                    if (virtualStackPanel != null)
-                    {
-                        int CurrentOffsetId = (virtualStackPanel.Orientation == Orientation.Horizontal) ? (int)virtualStackPanel.HorizontalOffset : (int)virtualStackPanel.VerticalOffset;
-                        return TargetListView.Items[(CurrentOffsetId + Offset)] as Items;
-                    }
-                }
-            }
-            catch { }
-            return null;
-        }
-
         public static double[] GetCurrentOffset(ListView TargetListView)
         {
             try
@@ -86,6 +68,7 @@ namespace NewsScroll
                             if (AddItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && AddItem.item_image_visibility == Visibility.Visible)
                             {
                                 AddItem.item_image = await AVImage.LoadBitmapImage(ItemImageLink, false);
+                                System.Diagnostics.Debug.WriteLine("Loaded item image: " + ItemImageLink);
                             }
                             if (AddItem.feed_icon == null)
                             {

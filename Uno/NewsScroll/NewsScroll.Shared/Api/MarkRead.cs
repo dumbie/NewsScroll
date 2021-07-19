@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using ArnoldVinkMessageBox;
 using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,7 @@ namespace NewsScroll.Api
 
                 if (Confirm)
                 {
-                    int MsgBoxResult = await AVMessageBox.Popup("Mark item " + ActionType.ToLower(), "Do you want to mark this item as " + ActionType.ToLower() + "?", "Mark item " + ActionType.ToLower(), "", "", "", "", true);
+                    int MsgBoxResult = await MessagePopup.Popup("Mark item " + ActionType.ToLower(), "Do you want to mark this item as " + ActionType.ToLower() + "?", "Mark item " + ActionType.ToLower(), "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -39,7 +38,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                await MessagePopup.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -78,32 +77,28 @@ namespace NewsScroll.Api
 
                 if (MarkStatus)
                 {
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Mark item in database and list
                     TableItems TableEditItems = await SQLConnection.Table<TableItems>().Where(x => x.item_id == ItemId).FirstOrDefaultAsync();
                     if (TableEditItems != null)
                     {
-                        //fix
-                        //if (ActionType == "Read")
-                        //{
-                        //    TableEditItems.item_read_status = true;
-                        //    ListItem.item_read_status = Visibility.Visible; //Updates itemviewer
-                        //    if (//FixApp.vApplicationFrame.SourcePageType.ToString().EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1" && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                        //    {
-                        //        UpdateList.Remove(ListItem);
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    TableEditItems.item_read_status = false;
-                        //    ListItem.item_read_status = Visibility.Collapsed; //Updates itemviewer
-                        //    if (//FixApp.vApplicationFrame.SourcePageType.ToString().EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id == "1" && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
-                        //    {
-                        //        UpdateList.Remove(ListItem);
-                        //    }
-                        //}
+                        if (ActionType == "Read")
+                        {
+                            TableEditItems.item_read_status = true;
+                            ListItem.item_read_status = Visibility.Visible; //Updates itemviewer
+                            if (App.vApplicationFrame.SourcePageType.ToString().EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1" && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
+                            {
+                                UpdateList.Remove(ListItem);
+                            }
+                        }
+                        else
+                        {
+                            TableEditItems.item_read_status = false;
+                            ListItem.item_read_status = Visibility.Collapsed; //Updates itemviewer
+                            if (App.vApplicationFrame.SourcePageType.ToString().EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id == "1" && (bool)AppVariables.ApplicationSettings["HideReadMarkedItem"])
+                            {
+                                UpdateList.Remove(ListItem);
+                            }
+                        }
                     }
 
                     //Update the items in database
@@ -111,7 +106,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Failed to mark item " + ActionType.ToLower(), "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 
@@ -131,7 +126,7 @@ namespace NewsScroll.Api
             {
                 if (Confirm)
                 {
-                    int MsgBoxResult = await AVMessageBox.Popup("Mark items read till item", "Do you want to mark all items for the selected feed till this item as read?", "Mark read till item", "", "", "", "", true);
+                    int MsgBoxResult = await MessagePopup.Popup("Mark items read till item", "Do you want to mark all items for the selected feed till this item as read?", "Mark read till item", "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -211,9 +206,6 @@ namespace NewsScroll.Api
                         }
                     }
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     SqlStringItemIds = AVFunctions.StringRemoveEnd(SqlStringItemIds, ",");
                     await SQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_id IN (" + SqlStringItemIds + ") AND item_read_status = ('0')");
 
@@ -242,7 +234,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 
@@ -250,7 +242,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                await MessagePopup.Popup("Failed to mark items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -264,13 +256,13 @@ namespace NewsScroll.Api
                 //Check if user is logged in
                 if (!CheckLogin())
                 {
-                    await AVMessageBox.Popup("Not logged in", "Marking all items read can only be done when you are logged in.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Not logged in", "Marking all items read can only be done when you are logged in.", "Ok", "", "", "", "", false);
                     return false;
                 }
 
                 if (Confirm)
                 {
-                    int MsgBoxResult = await AVMessageBox.Popup("Mark all items read", "Do you want to mark all items for every feed as read?", "Mark all items read", "", "", "", "", true);
+                    int MsgBoxResult = await MessagePopup.Popup("Mark all items read", "Do you want to mark all items for every feed as read?", "Mark all items read", "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -281,9 +273,6 @@ namespace NewsScroll.Api
                 {
                     await EventProgressDisableUI("Off marking all items as read...", true);
                     System.Diagnostics.Debug.WriteLine("Off marking all items as read...");
-
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
 
                     List<string> UnreadItemList = (await SQLConnection.Table<TableItems>().Where(x => !x.item_read_status).ToListAsync()).Select(x => x.item_id).ToList();
                     await AddOfflineSync(UnreadItemList, "Read");
@@ -313,9 +302,6 @@ namespace NewsScroll.Api
                 {
                     System.Diagnostics.Debug.WriteLine("Marked all items as read on the server or offline sync list.");
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Update items in database
                     await SQLConnection.ExecuteAsync("UPDATE TableItems SET item_read_status = ('1') WHERE item_read_status = ('0')");
 
@@ -337,7 +323,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 
@@ -345,7 +331,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                await MessagePopup.Popup("Failed to mark all items read", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }

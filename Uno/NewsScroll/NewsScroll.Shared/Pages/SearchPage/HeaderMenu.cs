@@ -67,9 +67,6 @@ namespace NewsScroll
                     if (AppVariables.CurrentTotalItemsCount == 0) { textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString(); }
                     else { textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString() + "/" + AppVariables.CurrentTotalItemsCount; }
 
-                    //Adjust the title bar color
-                    await AppAdjust.AdjustTitleBarColor(this.RequestedTheme, false, false);
-
                     AppVariables.HeaderHidden = true;
                 }
                 else
@@ -82,14 +79,11 @@ namespace NewsScroll
                     image_iconMenu.Opacity = 1;
 
                     grid_StatusApplication.Margin = new Thickness(0, 65, 0, 0);
-                    grid_StatusApplication.Background = new SolidColorBrush((Color)Resources["SystemAccentColor"]) { Opacity = 0.60 };
-                    border_StatusCurrentItem.Background = new SolidColorBrush((Color)Resources["SystemAccentColor"]) { Opacity = 0.50 };
+                    grid_StatusApplication.Background = new SolidColorBrush((Color)Resources["ApplicationAccentLightColor"]) { Opacity = 0.60 };
+                    border_StatusCurrentItem.Background = new SolidColorBrush((Color)Resources["ApplicationAccentLightColor"]) { Opacity = 0.50 };
 
                     //Update the current item status text
                     textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString();
-
-                    //Adjust the title bar color
-                    await AppAdjust.AdjustTitleBarColor(this.RequestedTheme, true, false);
 
                     AppVariables.HeaderHidden = false;
                 }

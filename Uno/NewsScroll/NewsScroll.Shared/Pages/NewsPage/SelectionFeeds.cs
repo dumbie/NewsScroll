@@ -71,9 +71,6 @@ namespace NewsScroll
                 combobox_FeedSelection.Opacity = 0.30;
                 await ClearObservableCollection(List_FeedSelect);
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Check if received lists are empty
                 if (LoadTableFeeds == null) { LoadTableFeeds = await SQLConnection.Table<TableFeeds>().OrderBy(x => x.feed_folder).ToListAsync(); }
                 if (LoadTableItems == null) { LoadTableItems = await SQLConnection.Table<TableItems>().ToListAsync(); }
@@ -194,9 +191,6 @@ namespace NewsScroll
 
                 combobox_FeedSelection.IsHitTestVisible = false;
                 combobox_FeedSelection.Opacity = 0.30;
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 //Check if received lists are empty
                 if (LoadTableFeeds == null) { LoadTableFeeds = await SQLConnection.Table<TableFeeds>().ToListAsync(); }

@@ -32,9 +32,6 @@ namespace NewsScroll.Api
                     List<string> ApiFeedIdList = new List<string>();
                     IReadOnlyList<IStorageItem> LocalFileList = await ApplicationData.Current.LocalFolder.GetItemsAsync();
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     List<TableFeeds> TableUpdatedFeeds = new List<TableFeeds>();
                     List<TableFeeds> TableCurrentFeeds = await SQLConnection.Table<TableFeeds>().ToListAsync();
 

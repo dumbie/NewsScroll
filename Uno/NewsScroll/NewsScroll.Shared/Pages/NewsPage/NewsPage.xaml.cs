@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using ArnoldVinkMessageBox;
 using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
@@ -15,6 +14,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static ArnoldVinkCode.AVFunctions;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
@@ -68,13 +68,6 @@ namespace NewsScroll
                     //Bind list to ListView
                     ListView_Items.ItemsSource = List_NewsItems;
                     combobox_FeedSelection.ItemsSource = List_FeedSelect;
-
-                    ////Enable combobox searching
-                    //if (AVFunctions.DevOsVersion() >= 14393)
-                    //{
-                    //    combobox_FeedSelection.IsTextSearchEnabled = true;
-                    //    System.Diagnostics.Debug.WriteLine("Enabling combobox text searching.");
-                    //}
 
                     //Load all the items
                     await LoadItems(true, false);
@@ -244,7 +237,7 @@ namespace NewsScroll
                 txt_AppInfo.Text = "Loading items";
                 txt_NewsScrollInfo.Inlines.Clear();
                 txt_NewsScrollInfo.Inlines.Add(new Run() { Text = "Your news items from " });
-                txt_NewsScrollInfo.Inlines.Add(new Run() { Text = SelectedFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
+                txt_NewsScrollInfo.Inlines.Add(new Run() { Text = SelectedFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
                 txt_NewsScrollInfo.Inlines.Add(new Run() { Text = " will be shown here shortly..." });
                 txt_NewsScrollInfo.Visibility = Visibility.Visible;
 
@@ -282,9 +275,6 @@ namespace NewsScroll
                     //FixApp.vApplicationFrame.BackStack.Clear();
                     return;
                 }
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 //Set all items to list
                 List<TableFeeds> LoadTableFeeds = await SQLConnection.Table<TableFeeds>().OrderBy(x => x.feed_folder).ToListAsync();
@@ -335,12 +325,17 @@ namespace NewsScroll
         {
             try
             {
-                //fix
-                return;
-
                 //Get current scroll item
-                VirtualizingStackPanel virtualizingStackPanel = AVFunctions.FindVisualChild<VirtualizingStackPanel>(ListView_Items);
-                int CurrentOffSetId = (virtualizingStackPanel.Orientation == Orientation.Horizontal) ? (int)virtualizingStackPanel.HorizontalOffset : (int)virtualizingStackPanel.VerticalOffset;
+                int CurrentOffSetId = -1;
+                for (int i = 0; i < ListView_Items.Items.Count; i++)
+                {
+                    if (ElementIsVisible(ListView_Items.ContainerFromItem(ListView_Items.Items[i]) as ListViewItem, ListView_Items))
+                    {
+                        CurrentOffSetId = i;
+                        break;
+                    }
+                }
+                if (CurrentOffSetId < 0) { return; }
 
                 //Update the current item count
                 textblock_StatusCurrentItem.Tag = (CurrentOffSetId + 1).ToString();
@@ -546,7 +541,7 @@ namespace NewsScroll
             try
             {
                 int MsgBoxResult = 1;
-                if (Confirm) { MsgBoxResult = await AVMessageBox.Popup("Refresh news items", "Do you want to refresh all the news items and scroll to the top?", "Refresh news items", "", "", "", "", true); }
+                if (Confirm) { MsgBoxResult = await MessagePopup.Popup("Refresh news items", "Do you want to refresh all the news items and scroll to the top?", "Refresh news items", "", "", "", "", true); }
                 if (MsgBoxResult == 1)
                 {
                     //Reset the online status

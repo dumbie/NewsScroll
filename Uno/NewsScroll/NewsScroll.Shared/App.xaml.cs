@@ -1,5 +1,4 @@
-﻿using NewsScroll.Styles;
-using System;
+﻿using System;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,9 +37,6 @@ namespace NewsScroll
                 {
                     //Update application launch status
                     vApplicationLaunching = false;
-
-                    //Register style updater
-                    Current.Resources["StyleUpdater"] = new StyleUpdater();
 
                     //Check application startup
                     await ApplicationStartup();

@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using ArnoldVinkMessageBox;
 using System;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -85,7 +84,7 @@ namespace NewsScroll
         {
             try
             {
-                int MessageBoxResult = await AVMessageBox.Popup("No account is set", "Please set your account email and password to start using News Scroll.", "Enter account", "Register account", "Exit application", "", "", false);
+                int MessageBoxResult = await MessagePopup.Popup("No account is set", "Please set your account email and password to start using News Scroll.", "Enter account", "Register account", "Exit application", "", "", false);
                 if (MessageBoxResult == 1)
                 {
                     //Focus on the text box to open keyboard
@@ -261,7 +260,7 @@ namespace NewsScroll
                 }
                 else
                 {
-                    await AVMessageBox.Popup("No internet connection", "You can't register an account when there is no internet connection available.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No internet connection", "You can't register an account when there is no internet connection available.", "Ok", "", "", "", "", false);
                 }
             }
             catch { }
@@ -278,7 +277,7 @@ namespace NewsScroll
         {
             try
             {
-                int MessageBoxResult = await AVMessageBox.Popup("Clear database", "Do you want to clear all your stored offline feeds and items? All the feeds and items will need to be downloaded again.", "Clear database", "", "", "", "", true);
+                int MessageBoxResult = await MessagePopup.Popup("Clear database", "Do you want to clear all your stored offline feeds and items? All the feeds and items will need to be downloaded again.", "Clear database", "", "", "", "", true);
                 if (MessageBoxResult == 1)
                 {
                     await ClearDatabase();
@@ -307,9 +306,6 @@ namespace NewsScroll
                 await ClearObservableCollection(List_NewsItems);
                 await ClearObservableCollection(List_SearchItems);
                 await ClearObservableCollection(List_StarredItems);
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 await SQLConnection.DeleteAllAsync<TableFeeds>();
                 await SQLConnection.DropTableAsync<TableFeeds>();
@@ -352,9 +348,6 @@ namespace NewsScroll
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 string DatabaseSize = await GetDatabaseSize();
                 int TotalItems = await SQLConnection.Table<TableItems>().CountAsync();
                 int TotalFeeds = await SQLConnection.Table<TableFeeds>().CountAsync();

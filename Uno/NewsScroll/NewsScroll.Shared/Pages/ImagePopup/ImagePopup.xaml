@@ -1,0 +1,63 @@
+﻿<UserControl 
+        x:Class="NewsScroll.ImagePopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:NewsScroll"
+        mc:Ignorable="d"
+        FontSize="{StaticResource TextSizeInterface}"
+        LayoutUpdated="OnLayoutUpdated">
+
+    <Popup x:Name="popup_Main">
+        <!--Main page-->
+        <Grid Name="grid_Main">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity="0.80"/>
+            </Grid.Background>
+
+            <!-- Page Image -->
+            <TextBlock Name="image_status" Style="{StaticResource TextBlockLightGray}" Opacity="0.60" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" Text="Image loading,&#x0a;or is not available."/>
+            <ScrollViewer Name="scrollviewer_ImageViewer" ZoomMode="Enabled" Style="{StaticResource ScrollViewer}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinZoomFactor="0.4" MaxZoomFactor="5" Tapped="scrollviewer_ImageViewer_Tapped" DoubleTapped="scrollviewer_ImageViewer_DoubleTapped">
+                <Image Name="image_source" ImageOpened="Image_source_Opened" ImageFailed="Image_source_ImageFailed"/>
+            </ScrollViewer>
+
+            <!-- Page Header -->
+            <Grid Name="grid_Header" Height="65" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Grid.Background>
+                    <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Height="50" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Name="item_video" Visibility="Collapsed" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="item_video_Click" ToolTipService.ToolTip="Pause the video">
+                        <Image Name="item_video_status" Source="/Assets/iconVideoPause.png"/>
+                    </Button>
+                    <Button Name="iconSave" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="button_iconSave_Tap" ToolTipService.ToolTip="Save the image">
+                        <Image Source="/Assets/iconSave.png"/>
+                    </Button>
+                    <Button Name="iconScreenMode" Visibility="Collapsed" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="button_SwitchScreenMode_Tap" ToolTipService.ToolTip="Switch screen mode">
+                        <Image Source="/Assets/iconScreenMode.png"/>
+                    </Button>
+                    <Button Name="iconClose" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="iconClose_Tap" ToolTipService.ToolTip="Close image viewer">
+                        <Image Source="/Assets/iconClose.png"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Swipe Bar -->
+            <Grid Name="grid_SwipeBar" Background="Transparent"/>
+
+            <!-- Swipe Action -->
+            <Grid Name="grid_SwipeAction" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,102,0,0" Visibility="Collapsed">
+                <Grid.Background>
+                    <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.80"/>
+                </Grid.Background>
+                <TextBlock Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalAlignment="Center" Style="{StaticResource TextBlockWhite}" Text="Release to..."/>
+            </Grid>
+        </Grid>
+    </Popup>
+</UserControl>

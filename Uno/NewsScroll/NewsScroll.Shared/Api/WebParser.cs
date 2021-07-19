@@ -18,7 +18,7 @@ namespace NewsScroll.Api
                 ItemLink = WebUtility.UrlDecode(ItemLink);
 
                 Reader smartReader = new Reader(ItemLink);
-                //fixsmartReader.SetCustomUserAgent();
+                smartReader.SetCustomUserAgent("News Scroll (Robot; Bot)");
                 Article smartArticle = await smartReader.GetArticleAsync();
 
                 if (!Silent) { await EventProgressDisableUI("Processing the full item...", true); }

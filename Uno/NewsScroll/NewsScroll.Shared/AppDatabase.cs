@@ -58,9 +58,6 @@ namespace NewsScroll.Database
         {
             try
             {
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 await SQLConnection.CreateTableAsync<TableFeeds>();
                 await SQLConnection.CreateTableAsync<TableOffline>();
                 await SQLConnection.CreateTableAsync<TableItems>();

@@ -1,0 +1,29 @@
+﻿<UserControl 
+        x:Class="NewsScroll.MessagePopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NewsScroll"
+        mc:Ignorable="d"
+        FontSize="{StaticResource TextSizeInterface}"
+        LayoutUpdated="OnLayoutUpdated">
+
+    <Popup Name="popup_Main">
+        <!-- Main Grid -->
+        <Grid Name="grid_Main">
+            <Grid Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.60"/>
+            <StackPanel Padding="10,5,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{StaticResource ApplicationLightGrayBrush}">
+                <TextBlock Name="grid_MessageBox_Text" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap">Question</TextBlock>
+                <Rectangle HorizontalAlignment="Stretch" Style="{StaticResource RectangleAccent}" Margin="0,5,0,5"/>
+                <TextBlock Name="grid_MessageBox_Description" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap">Description</TextBlock>
+                <Button Name="grid_MessageBox_Btn1" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn1_Click"/>
+                <Button Name="grid_MessageBox_Btn2" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn2_Click"/>
+                <Button Name="grid_MessageBox_Btn3" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn3_Click"/>
+                <Button Name="grid_MessageBox_Btn4" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn4_Click"/>
+                <Button Name="grid_MessageBox_Btn5" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_Btn5_Click"/>
+                <Button Name="grid_MessageBox_BtnCancel" Content="Cancel" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" HorizontalAlignment="Stretch" Click="grid_MessageBox_BtnCancel_Click"/>
+            </StackPanel>
+        </Grid>
+    </Popup>
+</UserControl>

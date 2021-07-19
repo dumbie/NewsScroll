@@ -19,9 +19,6 @@ namespace NewsScroll.Api
                 string PostHttp = await AVDownloader.SendPostRequestAsync(7500, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "subscription/edit"), PostContent);
                 if (PostHttp == "OK" || PostHttp.Contains("<error>Not found</error>"))
                 {
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Clear feed from database
                     await SQLConnection.ExecuteAsync("DELETE FROM TableFeeds WHERE feed_id = ('" + FeedId + "')");
 

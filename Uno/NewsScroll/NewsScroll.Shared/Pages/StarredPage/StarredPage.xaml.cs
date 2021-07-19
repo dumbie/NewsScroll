@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using ArnoldVinkMessageBox;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using static ArnoldVinkCode.AVFunctions;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
@@ -190,9 +190,6 @@ namespace NewsScroll
                     return;
                 }
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Set all items to list
                 List<TableItems> LoadTableItems = await SQLConnection.Table<TableItems>().ToListAsync();
 
@@ -270,8 +267,16 @@ namespace NewsScroll
             try
             {
                 //Get current scroll item
-                VirtualizingStackPanel virtualizingStackPanel = AVFunctions.FindVisualChild<VirtualizingStackPanel>(ListView_Items);
-                int CurrentOffSetId = (virtualizingStackPanel.Orientation == Orientation.Horizontal) ? (int)virtualizingStackPanel.HorizontalOffset : (int)virtualizingStackPanel.VerticalOffset;
+                int CurrentOffSetId = -1;
+                for (int i = 0; i < ListView_Items.Items.Count; i++)
+                {
+                    if (ElementIsVisible(ListView_Items.ContainerFromItem(ListView_Items.Items[i]) as ListViewItem, ListView_Items))
+                    {
+                        CurrentOffSetId = i;
+                        break;
+                    }
+                }
+                if (CurrentOffSetId < 0) { return; }
 
                 //Update the current item status text
                 textblock_StatusCurrentItem.Tag = (CurrentOffSetId + 1).ToString();
@@ -421,7 +426,7 @@ namespace NewsScroll
         {
             try
             {
-                int MsgBoxResult = await AVMessageBox.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", "Refresh starred items", "", "", "", "", true);
+                int MsgBoxResult = await MessagePopup.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", "Refresh starred items", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     //Reset the online status

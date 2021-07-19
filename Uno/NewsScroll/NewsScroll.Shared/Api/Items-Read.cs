@@ -23,9 +23,6 @@ namespace NewsScroll.Api
                 if (!Silent) { await EventProgressDisableUI("Downloading read status...", true); }
                 System.Diagnostics.Debug.WriteLine("Downloading read status...");
 
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
-
                 //Get all stored items from the database
                 List<TableItems> CurrentItems = await SQLConnection.Table<TableItems>().ToListAsync();
                 if (CurrentItems.Any())

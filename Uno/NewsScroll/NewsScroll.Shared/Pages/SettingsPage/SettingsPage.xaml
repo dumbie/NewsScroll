@@ -6,11 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    FontSize="{StaticResource TextSizeInterface}"
-    RequestedTheme="{Binding ElementRequestedTheme, Source={StaticResource StyleUpdater}}">
+    FontSize="{StaticResource TextSizeInterface}">
 
     <!--Main page-->
-    <Grid Name="grid_Main" Background="{Binding ApplicationBackgroundEnabled, Source={StaticResource StyleUpdater}}">
+    <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
@@ -19,7 +18,7 @@
             </Grid.RowDefinitions>
 
             <!-- Page Header -->
-            <Grid Grid.Row="0" Height="65" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+            <Grid Grid.Row="0" Height="65" Background="{StaticResource ApplicationAccentLightBrush}">
                 <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <TextBlock Name="txt_AppTitle" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Settings"/>
                     <TextBlock Name="txt_AppInfo" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Scroll"/>
@@ -133,7 +132,7 @@
         <!-- Status Application -->
         <Grid Name="grid_StatusApplication" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,65,0,0" Visibility="Collapsed">
             <Grid.Background>
-                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
@@ -144,7 +143,7 @@
         <!-- Grid Popup Menu -->
         <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
             <Grid.Background>
-                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource ButtonImage}" Name="iconStar" Click="iconStar_Tap" ToolTipService.ToolTip="Show starred items">

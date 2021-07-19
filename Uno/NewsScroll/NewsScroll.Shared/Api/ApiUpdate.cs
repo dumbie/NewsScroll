@@ -1,5 +1,4 @@
-﻿using ArnoldVinkMessageBox;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Lists.Lists;
@@ -37,7 +36,7 @@ namespace NewsScroll
                             }
                             else
                             {
-                                int MessageResult = await AVMessageBox.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry to login", "Go to account settings", "Switch to offline mode", "", "", false);
+                                int MessageResult = await MessagePopup.Popup("Failed to login", "Would you like to retry to login to The Old Reader or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry to login", "Go to account settings", "Switch to offline mode", "", "", false);
                                 if (MessageResult == 1) { return await PageApiUpdate(); }
                                 else if (MessageResult == 2)
                                 {
@@ -62,7 +61,7 @@ namespace NewsScroll
                             }
                             else
                             {
-                                int MessageResult = await AVMessageBox.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading feeds", "Go to account settings", "Switch to offline mode", "", "", false);
+                                int MessageResult = await MessagePopup.Popup("Failed to load the feeds", "Would you like to retry loading the feeds or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading feeds", "Go to account settings", "Switch to offline mode", "", "", false);
                                 if (MessageResult == 1) { return await PageApiUpdate(); }
                                 else if (MessageResult == 2)
                                 {
@@ -92,7 +91,7 @@ namespace NewsScroll
                                 if (UpdateStatus) { UpdateStatus = await AllNewsItems(true, false, false, false); }
                                 if (!UpdateStatus)
                                 {
-                                    int MessageResult = await AVMessageBox.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading items", "Switch to offline mode", "", "", "", false);
+                                    int MessageResult = await MessagePopup.Popup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading items", "Switch to offline mode", "", "", "", false);
                                     if (MessageResult == 1) { return await PageApiUpdate(); }
                                     else
                                     {
@@ -108,7 +107,7 @@ namespace NewsScroll
                                 if (UpdateStatus) { UpdateStatus = await ItemsRead(List_NewsItems, false, false); }
                                 if (!UpdateStatus)
                                 {
-                                    int MessageResult = await AVMessageBox.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading read items", "Switch to offline mode", "", "", "", false);
+                                    int MessageResult = await MessagePopup.Popup("Failed to load read items", "Would you like to retry loading read items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading read items", "Switch to offline mode", "", "", "", false);
                                     if (MessageResult == 1) { return await PageApiUpdate(); }
                                     else
                                     {
@@ -137,7 +136,7 @@ namespace NewsScroll
                             }
                             else
                             {
-                                int MessageResult = await AVMessageBox.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading starred items", "Switch to offline mode", "", "", "", false);
+                                int MessageResult = await MessagePopup.Popup("Failed to load starred items", "Would you like to retry loading starred items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading starred items", "Switch to offline mode", "", "", "", false);
                                 if (MessageResult == 1) { return await PageApiUpdate(); }
                                 else
                                 {
@@ -159,16 +158,6 @@ namespace NewsScroll
                     return 1;
                 }
             });
-        }
-
-        //Waiting for the database to open up
-        public static async Task WaitForBusyDatabase()
-        {
-            try
-            {
-                await Task.Delay(0);
-            }
-            catch { }
         }
 
         //Waiting for the application to open up

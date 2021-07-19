@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
 
@@ -24,9 +23,6 @@ namespace NewsScroll
                 //Check if media needs to load
                 AppVariables.LoadMedia = true;
                 if (!NetworkInterface.GetIsNetworkAvailable() && !(bool)AppVariables.ApplicationSettings["DisplayImagesOffline"]) { AppVariables.LoadMedia = false; }
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 List<TableFeeds> FeedList = await SQLConnection.Table<TableFeeds>().ToListAsync();
                 foreach (TableItems LoadTable in LoadTableItems)
@@ -61,24 +57,11 @@ namespace NewsScroll
                         }
 
                         //Load item image
-                        BitmapImage ItemImage = null;
                         Visibility ItemImageVisibility = Visibility.Collapsed;
                         string ItemImageLink = LoadTable.item_image;
                         if (!string.IsNullOrWhiteSpace(ItemImageLink) && AppVariables.LoadMedia)
                         {
                             ItemImageVisibility = Visibility.Visible;
-                            if (AppVariables.CurrentItemsLoaded < AppVariables.ContentToScrollLoad)
-                            {
-                                ItemImage = await AVImage.LoadBitmapImage(ItemImageLink, false);
-                            }
-                        }
-
-                        //Load feed icon
-                        BitmapImage FeedIcon = null;
-                        if (AppVariables.CurrentItemsLoaded < AppVariables.ContentToScrollLoad)
-                        {
-                            if (FeedId.StartsWith("user/")) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + FeedId + ".png", false); }
-                            if (FeedIcon == null) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
                         }
 
                         //Set the date time string
@@ -100,7 +83,7 @@ namespace NewsScroll
                         else { item_content = AVFunctions.StringCut(LoadTable.item_content, AppVariables.MaximumItemTextLength, "..."); }
 
                         //Add item to the ListView
-                        Items NewItem = new Items() { feed_id = FeedId, feed_title = FeedTitle, feed_icon = FeedIcon, item_id = ItemId, item_read_status = ReadVisibility, item_star_status = StarredVisibility, item_title = LoadTable.item_title, item_image = ItemImage, item_image_visibility = ItemImageVisibility, item_image_link = ItemImageLink, item_content = item_content, item_link = LoadTable.item_link, item_datestring = DateAuthorString, item_datetime = LoadTable.item_datetime };
+                        Items NewItem = new Items() { feed_id = FeedId, feed_title = FeedTitle, item_id = ItemId, item_read_status = ReadVisibility, item_star_status = StarredVisibility, item_title = LoadTable.item_title, item_image_visibility = ItemImageVisibility, item_image_link = ItemImageLink, item_content = item_content, item_link = LoadTable.item_link, item_datestring = DateAuthorString, item_datetime = LoadTable.item_datetime };
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
                             try

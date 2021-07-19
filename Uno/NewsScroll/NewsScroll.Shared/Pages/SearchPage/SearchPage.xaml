@@ -7,11 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     FontSize="{StaticResource TextSizeInterface}"
-    RequestedTheme="{Binding ElementRequestedTheme, Source={StaticResource StyleUpdater}}"
     LayoutUpdated="OnLayoutUpdated">
 
     <!--Main page-->
-    <Grid Name="grid_Main" Background="{Binding ApplicationBackgroundEnabled, Source={StaticResource StyleUpdater}}">
+    <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
@@ -22,7 +21,7 @@
             <!-- Page Header -->
             <StackPanel Grid.Row="0" Name="stackpanel_Header" Height="130" Tag="130">
                 <!-- Page Menu -->
-                <Grid Height="65" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                <Grid Height="65" VerticalAlignment="Center" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationAccentLightBrush}">
                     <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
                         <TextBlock Name="txt_AppTitle" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Search"/>
                         <TextBlock Name="txt_AppInfo" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="No results"/>
@@ -52,7 +51,7 @@
         <Button Name="button_StatusCurrentItem" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ButtonImage}" Margin="6,0,0,6" Padding="0,25,25,0" ToolTipService.ToolTip="Scroll in the items" Click="button_StatusCurrentItem_Tapped">
             <Border Name="border_StatusCurrentItem" CornerRadius="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2">
                 <Border.Background>
-                    <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+                    <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
                 </Border.Background>
                 <TextBlock Name="textblock_StatusCurrentItem" Margin="4,1,4,1" Style="{StaticResource TextBlockWhite}" Text="1" Tag="1"/>
             </Border>
@@ -61,7 +60,7 @@
         <!-- Status Application -->
         <Grid Name="grid_StatusApplication" Height="30" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,65,0,0" Visibility="Collapsed">
             <Grid.Background>
-                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
@@ -75,7 +74,7 @@
         <!-- Swipe Action -->
         <Grid Name="grid_SwipeAction" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,102,0,0" Visibility="Collapsed">
             <Grid.Background>
-                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.80"/>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.80"/>
             </Grid.Background>
             <TextBlock Name="textblock_SwipeAction" FontSize="{StaticResource TextSizeMedium}" Margin="5" VerticalAlignment="Center" Style="{StaticResource TextBlockWhite}" Text="Release to..."/>
         </Grid>
@@ -90,7 +89,7 @@
         <!-- Grid Popup Menu -->
         <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
             <Grid.Background>
-                <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity="0.60"/>
+                <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource ButtonImage}" Name="iconStar" Click="iconStar_Tap" ToolTipService.ToolTip="Show starred items">

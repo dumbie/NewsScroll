@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Calls;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.Networking.Connectivity;
@@ -19,7 +18,7 @@ namespace ArnoldVinkCode
     class AVFunctions
     {
         //Convert String To Title Case
-        internal static string ToTitleCase(string ToTitleCase)
+        public static string ToTitleCase(string ToTitleCase)
         {
             char[] TitleCase = ToTitleCase.ToLower().ToCharArray();
             for (int i = 0; i < TitleCase.Count(); i++) { TitleCase[i] = i == 0 || TitleCase[i - 1] == ' ' ? char.ToUpper(TitleCase[i]) : TitleCase[i]; }
@@ -27,7 +26,7 @@ namespace ArnoldVinkCode
         }
 
         //Replace first text occurence in string
-        internal static string StringReplaceFirst(string StringText, string SearchFor, string ReplaceWith, bool StartsWith)
+        public static string StringReplaceFirst(string StringText, string SearchFor, string ReplaceWith, bool StartsWith)
         {
             if (StartsWith) { if (!StringText.ToLower().StartsWith(SearchFor.ToLower())) { return StringText; } }
             int Position = StringText.IndexOf(SearchFor, StringComparison.CurrentCultureIgnoreCase);
@@ -36,7 +35,7 @@ namespace ArnoldVinkCode
         }
 
         //Remove starting text occurence in string
-        internal static string StringRemoveStart(string String, string toRemove)
+        public static string StringRemoveStart(string String, string toRemove)
         {
             try
             {
@@ -50,7 +49,7 @@ namespace ArnoldVinkCode
         }
 
         //Remove multiple starting text occurence in string
-        internal static string StringRemoveMultiStart(string String, string[] toRemove)
+        public static string StringRemoveMultiStart(string String, string[] toRemove)
         {
             try
             {
@@ -67,7 +66,7 @@ namespace ArnoldVinkCode
         }
 
         //Remove ending text occurence in string
-        internal static string StringRemoveEnd(string String, string toRemove)
+        public static string StringRemoveEnd(string String, string toRemove)
         {
             try
             {
@@ -81,7 +80,7 @@ namespace ArnoldVinkCode
         }
 
         //Remove multiple ending text occurence in string
-        internal static string StringRemoveMultiEnd(string String, string[] toRemove)
+        public static string StringRemoveMultiEnd(string String, string[] toRemove)
         {
             try
             {
@@ -98,7 +97,7 @@ namespace ArnoldVinkCode
         }
 
         //Replace last text occurence in string
-        internal static string StringReplaceLast(string String, string ReplaceWith)
+        public static string StringReplaceLast(string String, string ReplaceWith)
         {
             try
             {
@@ -108,7 +107,7 @@ namespace ArnoldVinkCode
         }
 
         //Add string to string with character
-        internal static string StringAdd(string OldString, string AddString, string Character)
+        public static string StringAdd(string OldString, string AddString, string Character)
         {
             try
             {
@@ -120,7 +119,7 @@ namespace ArnoldVinkCode
         }
 
         //Remove text after certain character
-        internal static string StringRemoveAfter(string String, string RemoveCharacter, int RemoveAfter)
+        public static string StringRemoveAfter(string String, string RemoveCharacter, int RemoveAfter)
         {
             try
             {
@@ -131,14 +130,14 @@ namespace ArnoldVinkCode
         }
 
         //Convert String To Cutted String
-        internal static string StringCut(string CutString, int CutAt, string AddString)
+        public static string StringCut(string CutString, int CutAt, string AddString)
         {
             if (CutString.Length > CutAt) { return CutString.Substring(0, CutAt) + AddString; }
             else { return CutString; }
         }
 
         //Convert Number To Text
-        internal static string NumberToText(string StrNumber)
+        public static string NumberToText(string StrNumber)
         {
             try
             {
@@ -161,7 +160,7 @@ namespace ArnoldVinkCode
         }
 
         //Check if device is mobile
-        internal static bool DevMobile()
+        public static bool DevMobile()
         {
             try
             {
@@ -173,7 +172,7 @@ namespace ArnoldVinkCode
         }
 
         //Check device os version
-        internal static int DevOsVersion()
+        public static int DevOsVersion()
         {
             try
             {
@@ -185,7 +184,7 @@ namespace ArnoldVinkCode
         }
 
         //Get device free memory in MB
-        internal static ulong DevMemoryAvailableMB()
+        public static ulong DevMemoryAvailableMB()
         {
             try
             {
@@ -197,7 +196,7 @@ namespace ArnoldVinkCode
         }
 
         //Get device memory usage in percentage
-        internal static ulong DevMemoryUsePercentage()
+        public static ulong DevMemoryUsePercentage()
         {
             try
             {
@@ -209,7 +208,7 @@ namespace ArnoldVinkCode
         }
 
         //Get the device screen resolution
-        internal static Size DevScreenResolution()
+        public static Size DevScreenResolution()
         {
             try
             {
@@ -220,7 +219,7 @@ namespace ArnoldVinkCode
         }
 
         //Get the window resolution
-        internal static Rect AppWindowResolution()
+        public static Rect AppWindowResolution()
         {
             try
             {
@@ -231,7 +230,7 @@ namespace ArnoldVinkCode
         }
 
         //Get network connection type
-        internal static string GetNetworkType()
+        public static string GetNetworkType()
         {
             try
             {
@@ -244,43 +243,15 @@ namespace ArnoldVinkCode
             catch { return "NoConnection"; }
         }
 
-        //Get network connection name
-        internal static async Task<string> GetNetworkName()
-        {
-            try
-            {
-                //Check connection
-                ConnectionProfile ConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
-                if (ConnectionProfile == null) { return "No connection"; }
-                else
-                {
-                    //Get Wi-Fi / Ethernet name
-                    string FirstNetwork = ConnectionProfile.GetNetworkNames().FirstOrDefault();
-                    if (!string.IsNullOrWhiteSpace(FirstNetwork)) { return FirstNetwork; }
-
-                    //Get Cellular name
-                    if (ConnectionProfile.IsWwanConnectionProfile)
-                    {
-                        PhoneCallStore phoneCallStore = await PhoneCallManager.RequestStoreAsync();
-                        PhoneLine phoneLine = await PhoneLine.FromIdAsync(await phoneCallStore.GetDefaultLineAsync());
-                        return phoneLine.NetworkName;
-                    }
-
-                    return "Unknown";
-                }
-            }
-            catch { return "Unknown"; }
-        }
-
         //Check if datetime is between dates
-        internal static bool TimeBetween(DateTime NowTime, DateTime StartTime, DateTime EndTime, bool Inclusive)
+        public static bool TimeBetween(DateTime NowTime, DateTime StartTime, DateTime EndTime, bool Inclusive)
         {
             if (Inclusive) { return (NowTime >= StartTime) && (NowTime <= EndTime); }
             else { return (NowTime > StartTime) && (NowTime < EndTime); }
         }
 
         //Reset a timer tick estimate
-        internal static void ResetTimer(DispatcherTimer ResetTimer)
+        public static void ResetTimer(DispatcherTimer ResetTimer)
         {
             try
             {
@@ -292,7 +263,7 @@ namespace ArnoldVinkCode
 
         //Get the current application frame
         //Usage: if (GetCurrentAppFrame is FrameHere)
-        internal static object GetCurrentAppFrame()
+        public static object GetCurrentAppFrame()
         {
             try
             {
@@ -302,12 +273,32 @@ namespace ArnoldVinkCode
             catch { return null; }
         }
 
-        //Scroll to certain ui element
-        public static async Task ScrollViewToElement(ScrollViewer ScrollViewer, UIElement UIElement, bool VertScrolling, bool InstantScroll)
+        //Check if element is visible
+        public static bool ElementIsVisible(FrameworkElement element, FrameworkElement container)
         {
             try
             {
-                GeneralTransform GenTransform = UIElement.TransformToVisual((UIElement)ScrollViewer.Content);
+                if (element == null || container == null)
+                {
+                    return false;
+                }
+
+                Rect containerBounds = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
+                Rect elementBounds = element.TransformToVisual(container).TransformBounds(new Rect(0.0, 0.0, element.ActualWidth, element.ActualHeight));
+                return (elementBounds.Left < containerBounds.Right && elementBounds.Right > containerBounds.Left);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //Scroll to certain ui element
+        public static async Task ScrollViewToElement(ScrollViewer ScrollViewer, FrameworkElement element, bool VertScrolling, bool InstantScroll)
+        {
+            try
+            {
+                GeneralTransform GenTransform = element.TransformToVisual((UIElement)ScrollViewer.Content);
                 Point TransPoint = GenTransform.TransformPoint(new Point(0, 0));
 
                 await Task.Delay(10);
@@ -339,7 +330,7 @@ namespace ArnoldVinkCode
         }
 
         //Check if a file exists in app
-        internal static async Task<bool> AppFileExists(string FileName)
+        public static async Task<bool> AppFileExists(string FileName)
         {
             FileName = FileName.Replace("ms-appx:///", string.Empty);
             try
@@ -355,7 +346,7 @@ namespace ArnoldVinkCode
         }
 
         //Check if a file exists in local
-        internal static async Task<bool> LocalFileExists(string FileName)
+        public static async Task<bool> LocalFileExists(string FileName)
         {
             FileName = FileName.Replace("ms-appdata:///local/", string.Empty);
             try { return await ApplicationData.Current.LocalFolder.TryGetItemAsync(FileName) != null; }
@@ -367,7 +358,7 @@ namespace ArnoldVinkCode
         }
 
         //Convert Degrees to Cardinal string
-        internal static string DegreesToCardinal(double degrees)
+        public static string DegreesToCardinal(double degrees)
         {
             try
             {

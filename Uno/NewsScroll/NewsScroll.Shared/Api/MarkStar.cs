@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using ArnoldVinkMessageBox;
 using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ namespace NewsScroll.Api
 
                 if (Confirm)
                 {
-                    int MsgBoxResult = await AVMessageBox.Popup(ActionType + " item", "Do you want to " + ActionType.ToLower() + " this item?", ActionType + " item", "", "", "", "", true);
+                    int MsgBoxResult = await MessagePopup.Popup(ActionType + " item", "Do you want to " + ActionType.ToLower() + " this item?", ActionType + " item", "", "", "", "", true);
                     if (MsgBoxResult == 0) { return false; }
                 }
 
@@ -38,7 +37,7 @@ namespace NewsScroll.Api
             }
             catch
             {
-                await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                await MessagePopup.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 await EventProgressEnableUI();
                 return false;
             }
@@ -83,9 +82,6 @@ namespace NewsScroll.Api
 
                 if (MarkStatus)
                 {
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     //Mark item in database and list
                     TableItems TableEditItems = await SQLConnection.Table<TableItems>().Where(x => x.item_id == ItemId).FirstOrDefaultAsync();
                     if (TableEditItems != null)
@@ -108,7 +104,7 @@ namespace NewsScroll.Api
                 }
                 else
                 {
-                    await AVMessageBox.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Failed to " + ActionType.ToLower() + " item", "Please check your internet connection and try again.", "Ok", "", "", "", "", false);
                     await EventProgressEnableUI();
                 }
 

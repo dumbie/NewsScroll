@@ -108,9 +108,6 @@ namespace NewsScroll.Api
                     int ProcessedItems = 0;
                     int PreloadedItems = AppVariables.ItemsToPreloadBatch;
 
-                    //Wait for busy database
-                    await ApiUpdate.WaitForBusyDatabase();
-
                     List<TableItems> TableUpdatedItems = new List<TableItems>();
                     List<TableItems> TableCurrentItems = await SQLConnection.Table<TableItems>().ToListAsync();
 

@@ -18,9 +18,6 @@ namespace NewsScroll.Startup
                 //Check application settings
                 SettingsPage.SettingsCheck();
 
-                //Adjust the title bar color
-                await AppAdjust.AdjustTitleBarColor(null, true, true);
-
                 //Adjust the color theme
                 AppAdjust.AdjustColorTheme();
 

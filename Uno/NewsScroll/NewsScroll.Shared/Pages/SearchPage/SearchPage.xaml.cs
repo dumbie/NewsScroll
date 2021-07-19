@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static ArnoldVinkCode.AVFunctions;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
 using static NewsScroll.Lists.Lists;
@@ -185,9 +186,9 @@ namespace NewsScroll
                 txt_AppInfo.Text = "Searching items";
                 txt_NewsScrollInfo.Inlines.Clear();
                 txt_NewsScrollInfo.Inlines.Add(new Run() { Text = "Your search results for " });
-                txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchTerm, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
+                txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchTerm, Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
                 txt_NewsScrollInfo.Inlines.Add(new Run() { Text = " in " });
-                txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
+                txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
                 txt_NewsScrollInfo.Inlines.Add(new Run() { Text = " will be shown here shortly..." });
                 txt_NewsScrollInfo.Visibility = Visibility.Visible;
 
@@ -212,9 +213,6 @@ namespace NewsScroll
                     //FixApp.vApplicationFrame.BackStack.Clear();
                     return;
                 }
-
-                //Wait for busy database
-                await ApiUpdate.WaitForBusyDatabase();
 
                 //Set all items to list
                 List<TableItems> LoadTableItems = await SQLConnection.Table<TableItems>().ToListAsync();
@@ -265,9 +263,9 @@ namespace NewsScroll
                             txt_AppInfo.Text = "No results";
                             txt_NewsScrollInfo.Inlines.Clear();
                             txt_NewsScrollInfo.Inlines.Add(new Run() { Text = "No search results could be found for " });
-                            txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchTerm, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
+                            txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchTerm, Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
                             txt_NewsScrollInfo.Inlines.Add(new Run() { Text = " in " });
-                            txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]) });
+                            txt_NewsScrollInfo.Inlines.Add(new Run() { Text = vSearchFeedTitle, Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
                             txt_NewsScrollInfo.Visibility = Visibility.Visible;
 
                             button_StatusCurrentItem.Visibility = Visibility.Collapsed;
@@ -302,8 +300,16 @@ namespace NewsScroll
             try
             {
                 //Get current scroll item
-                VirtualizingStackPanel virtualizingStackPanel = AVFunctions.FindVisualChild<VirtualizingStackPanel>(ListView_Items);
-                int CurrentOffSetId = (virtualizingStackPanel.Orientation == Orientation.Horizontal) ? (int)virtualizingStackPanel.HorizontalOffset : (int)virtualizingStackPanel.VerticalOffset;
+                int CurrentOffSetId = -1;
+                for (int i = 0; i < ListView_Items.Items.Count; i++)
+                {
+                    if (ElementIsVisible(ListView_Items.ContainerFromItem(ListView_Items.Items[i]) as ListViewItem, ListView_Items))
+                    {
+                        CurrentOffSetId = i;
+                        break;
+                    }
+                }
+                if (CurrentOffSetId < 0) { return; }
 
                 //Update the current item count
                 textblock_StatusCurrentItem.Tag = (CurrentOffSetId + 1).ToString();

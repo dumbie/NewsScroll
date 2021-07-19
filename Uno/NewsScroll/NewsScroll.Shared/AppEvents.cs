@@ -1,5 +1,4 @@
-﻿using ArnoldVinkMessageBox;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
@@ -56,7 +55,7 @@ namespace NewsScroll.Events
                 //Check if internet connection has changed
                 if (CurrentOnlineStatus && !AppVariables.PreviousOnlineStatus)
                 {
-                    await AVMessageBox.Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", "Ok", "", "", "", "", false);
                     await SyncOfflineChanges(false, true);
                 }
 
