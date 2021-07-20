@@ -70,8 +70,8 @@ namespace NewsScroll
                     image_iconMenu.Opacity = 1;
 
                     grid_StatusApplication.Margin = new Thickness(0, 65, 0, 0);
-                    grid_StatusApplication.Background = new SolidColorBrush((Color)Resources["ApplicationAccentLightColor"]) { Opacity = 0.60 };
-                    border_StatusCurrentItem.Background = new SolidColorBrush((Color)Resources["ApplicationAccentLightColor"]) { Opacity = 0.50 };
+                    grid_StatusApplication.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) { Opacity = 0.60 };
+                    border_StatusCurrentItem.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) { Opacity = 0.50 };
 
                     //Update the current item status text
                     textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString();

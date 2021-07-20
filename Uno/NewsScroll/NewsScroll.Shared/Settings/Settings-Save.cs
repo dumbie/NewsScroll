@@ -143,20 +143,6 @@ namespace NewsScroll
                 }
             };
 
-            //Enable item text selection
-            setting_ItemTextSelection.Click += (sender, e) =>
-            {
-                CheckBox CheckBox = (CheckBox)sender;
-                if ((bool)CheckBox.IsChecked)
-                {
-                    AppVariables.ApplicationSettings["ItemTextSelection"] = true;
-                }
-                else
-                {
-                    AppVariables.ApplicationSettings["ItemTextSelection"] = false;
-                }
-            };
-
             //Low bandwidth mode
             setting_LowBandwidthMode.Click += (sender, e) =>
             {

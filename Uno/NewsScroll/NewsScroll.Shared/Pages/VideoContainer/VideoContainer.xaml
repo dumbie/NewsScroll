@@ -12,9 +12,9 @@
 
     <TextBlock x:FieldModifier="public" Name="item_status" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource TextBlockLightGray}" Opacity="0.60" TextAlignment="Center" Text="Video loading,&#x0a;or is not available."/>
 
-    <MediaElement x:FieldModifier="public" Name="item_source" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <MediaElement.TransportControls>
+    <MediaPlayerElement x:FieldModifier="public" Name="item_source" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <MediaPlayerElement.TransportControls>
             <MediaTransportControls IsCompact="True" IsFullWindowButtonVisible="False"/>
-        </MediaElement.TransportControls>
-    </MediaElement>
+        </MediaPlayerElement.TransportControls>
+    </MediaPlayerElement>
 </Grid>

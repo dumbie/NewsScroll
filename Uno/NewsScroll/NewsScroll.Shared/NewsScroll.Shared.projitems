@@ -60,6 +60,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ImageContainer\ImageContainer.xaml.cs">
       <DependentUpon>ImageContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ImageContainer\Properties.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ImagePopup\ImagePopup.xaml.cs">
       <DependentUpon>ImagePopup.xaml</DependentUpon>
     </Compile>
@@ -133,6 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Styles\MainTemplates.xaml.cs">
       <DependentUpon>MainTemplates.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\DynamicStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Pages\ApiPage\ApiPage.xaml">
@@ -191,6 +193,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MainFonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Styles\MainColors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,42 +214,116 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\backgroundSettings.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconApi.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBack-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBack.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBrowser.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconClose-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconClose.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconFolder-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconHelp.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconItemFull.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconItemSumm.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconMenu-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconMenu.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconNews.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconPersonalize.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRead-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRead.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconReadAll.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRefresh.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRSS-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSave.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconScreenMode.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconScroll.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSearch.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSettings.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconShare.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStar-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStar.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStarAdd.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStarRemove.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconUser-Dark.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconVideoPause.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\iconVideoPlay.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\1.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\2.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\3.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\backgroundSettings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconApi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBack-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconBrowser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconClose-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconClose.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconFolder-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconHelp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconItemFull.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconItemSumm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconMenu-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconMenu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconNews.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconPersonalize.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRead-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRead.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconReadAll.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRefresh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconRSS-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSave.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconScreenMode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconScroll.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSearch.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconSettings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconShare.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStar-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStarAdd.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconStarRemove.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconUser-Dark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconVideoPause.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\iconVideoPlay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

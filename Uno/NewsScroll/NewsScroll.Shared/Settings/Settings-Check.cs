@@ -76,12 +76,6 @@ namespace NewsScroll
                     else { AppVariables.ApplicationSettings["LoadAllItems"] = true; }
                 }
 
-                //Enable item text selection
-                if (!AppVariables.ApplicationSettings.ContainsKey("ItemTextSelection"))
-                {
-                    AppVariables.ApplicationSettings["ItemTextSelection"] = false;
-                }
-
                 //Disable Landscape Display
                 if (!AppVariables.ApplicationSettings.ContainsKey("DisableLandscapeDisplay"))
                 {

@@ -82,10 +82,6 @@
                             <ComboBoxItem Content="Webbrowser (Device)"/>
                         </ComboBox>
 
-                        <TextBlock Text="Itemview Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
-                        <CheckBox Name="setting_ItemTextSelection" Content="Enable news item text selection" Style="{StaticResource CheckBox}"/>
-                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will allow you to select and copy a news item text in the item viewer." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
-
                         <TextBlock Text="Update Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
                         <TextBlock Text="Items update and storage range:"/>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the items update and storage range, items older than this range will not be stored and will be removed:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>

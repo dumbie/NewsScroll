@@ -31,7 +31,7 @@
                 <ScrollViewer Grid.Row="1" Name="scrollviewer_NewsItem" HorizontalAlignment="Stretch" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel Name="stackpanel_NewsItem" MinWidth="280" MaxWidth="720" HorizontalAlignment="Center" Padding="10,5,10,0" Background="Transparent" ManipulationMode="TranslateX, System">
                         <StackPanel ToolTipService.ToolTip="{Binding vCurrentWebSource.feed_title}">
-                            <TextBlock Name="tb_ItemTitle" Text="{Binding vCurrentWebSource.item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
+                            <TextBlock Name="tb_ItemTitle" Text="{Binding vCurrentWebSource.item_title}" Style="{StaticResource TextBlockBlack}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
                             <TextBlock Name="tb_ItemDateString" Text="{Binding vCurrentWebSource.item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
                             <Grid Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>
@@ -48,7 +48,7 @@
                         </StackPanel>
 
                         <local:ImageContainer x:Name="item_image" Visibility="Collapsed"/>
-                        <RichTextBlock Name="rtb_ItemContent" Style="{StaticResource RichTextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap"/>
+                        <StackPanel Name="rtb_ItemContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
                         <Button Margin="0,20,0,0" Name="button_LoadFullItem" FontSize="{StaticResource TextSizeSmall}" Visibility="Collapsed" Style="{StaticResource ButtonAccent}" HorizontalAlignment="Stretch" Content="Load the full item" Click="LoadFullItem_Tap"/>
                         <Button Margin="0,10,0,0" Name="button_OpenInBrowser" FontSize="{StaticResource TextSizeSmall}" Visibility="Collapsed" Style="{StaticResource ButtonAccent}" HorizontalAlignment="Stretch" Content="Open in browser" Click="iconBrowserItem_Tap"/>

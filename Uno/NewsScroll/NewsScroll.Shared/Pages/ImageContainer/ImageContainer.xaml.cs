@@ -1,5 +1,6 @@
 ﻿using ArnoldVinkCode;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -8,25 +9,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace NewsScroll
 {
-    public partial class ImageContainer : DependencyObject
+    public partial class ImageContainer : Grid
     {
-        //Property item_image
-        public static readonly DependencyProperty item_image_Property = DependencyProperty.Register("value_item_image", typeof(BitmapImage), typeof(ImageContainer), new PropertyMetadata(null, item_image_Changed));
-        public BitmapImage value_item_image
-        {
-            get { return (BitmapImage)GetValue(item_image_Property); }
-            set { SetValue(item_image_Property, value); }
-        }
-        private static void item_image_Changed(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
-        {
-            try
-            {
-                ImageContainer sender = dependencyObject as ImageContainer;
-                if (sender != null) { sender.propertychanged_item_image(args); }
-            }
-            catch { }
-        }
-        private async void propertychanged_item_image(DependencyPropertyChangedEventArgs args)
+        private async void item_image_Update(DependencyPropertyChangedEventArgs args)
         {
             try
             {
@@ -96,7 +81,7 @@ namespace NewsScroll
         {
             try
             {
-                //FixWindow.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Hand, 1);
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Hand, 1);
                 item_border.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
             }
             catch { }
@@ -106,7 +91,7 @@ namespace NewsScroll
         {
             try
             {
-                //FixWindow.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 2);
+                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 2);
                 item_border.BorderBrush = new SolidColorBrush(Colors.Transparent);
             }
             catch { }

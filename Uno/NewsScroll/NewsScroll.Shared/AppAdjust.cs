@@ -1,11 +1,28 @@
-﻿using System;
+﻿using NewsScroll.Styles;
+using System;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace NewsScroll
 {
     class AppAdjust
     {
+        //Adjust the title bar
+        public static async Task AdjustTitleBar()
+        {
+            try
+            {
+#if __IOS__ || __ANDROID__
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.BackgroundColor = Colors.Transparent;
+                await statusBar.HideAsync();
+#endif
+            }
+            catch { }
+        }
+
         //Adjust the Color Theme
         public static void AdjustColorTheme()
         {
@@ -19,17 +36,17 @@ namespace NewsScroll
                 //{
                 //    SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
                 //    SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-                //    ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationLightGrayBrush = ColorEnabled;
-                //    ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //    ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ElementRequestedTheme = ElementTheme.Light;
+                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
+                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
+                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Light;
                 //}
                 //else if (SelectedTheme == 1)
                 //{
                 //    SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
                 //    SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                //    ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationLightGrayBrush = ColorEnabled;
-                //    ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //    ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ElementRequestedTheme = ElementTheme.Dark;
+                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
+                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
+                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Dark;
                 //}
                 //else
                 //{
@@ -37,17 +54,17 @@ namespace NewsScroll
                 //    {
                 //        SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
                 //        SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                //        ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationLightGrayBrush = ColorEnabled;
-                //        ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //        ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ElementRequestedTheme = ElementTheme.Dark;
+                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
+                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
+                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Dark;
                 //    }
                 //    else
                 //    {
                 //        SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
                 //        SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-                //        ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationLightGrayBrush = ColorEnabled;
-                //        ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //        ((StyleUpdater)Application.Current.Resources["StyleUpdater"]).ElementRequestedTheme = ElementTheme.Light;
+                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
+                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
+                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Light;
                 //    }
                 //}
             }
@@ -60,40 +77,21 @@ namespace NewsScroll
             try
             {
                 int FontSize = Convert.ToInt32(AppVariables.ApplicationSettings["AdjustFontSize"]);
-                //System.Diagnostics.Debug.WriteLine("Adjusting the font size to: " + FontSize);
+                System.Diagnostics.Debug.WriteLine("Adjusting the font size to: " + FontSize);
 
-                //Fix
-                //double SmallSize = (double)Application.Current.Resources["TextSizeSmall"] + FontSize;
-                //((StyleUpdater)Application.Current.Resources["StyleUpdater"]).TextSizeSmall = SmallSize;
+                double SmallSize = (double)Application.Current.Resources["TextSizeSmall"] + FontSize;
+                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeSmall = SmallSize;
 
-                //double MediumSize = (double)Application.Current.Resources["TextSizeMedium"] + FontSize;
-                //((StyleUpdater)Application.Current.Resources["StyleUpdater"]).TextSizeMedium = MediumSize;
+                double MediumSize = (double)Application.Current.Resources["TextSizeMedium"] + FontSize;
+                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeMedium = MediumSize;
 
-                //double LargeSize = (double)Application.Current.Resources["TextSizeLarge"] + FontSize;
-                //((StyleUpdater)Application.Current.Resources["StyleUpdater"]).TextSizeLarge = LargeSize;
+                double LargeSize = (double)Application.Current.Resources["TextSizeLarge"] + FontSize;
+                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeLarge = LargeSize;
 
-                //double HugeSize = (double)Application.Current.Resources["TextSizeHuge"] + FontSize;
-                //((StyleUpdater)Application.Current.Resources["StyleUpdater"]).TextSizeHuge = HugeSize;
+                double HugeSize = (double)Application.Current.Resources["TextSizeHuge"] + FontSize;
+                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeHuge = HugeSize;
             }
             catch { }
-        }
-
-        //Wait for element to finish the layout update
-        public static Task FinishLayoutUpdateAsync(FrameworkElement frameworkElement)
-        {
-            try
-            {
-                TaskCompletionSource<bool> TaskResult = new TaskCompletionSource<bool>();
-                void eventHandler(object sender, object args)
-                {
-                    frameworkElement.LayoutUpdated -= eventHandler;
-                    TaskResult.SetResult(true);
-                }
-
-                frameworkElement.LayoutUpdated += eventHandler;
-                return Task.WhenAll(new[] { Task.Delay(10), TaskResult.Task });
-            }
-            catch { return null; }
         }
     }
 }

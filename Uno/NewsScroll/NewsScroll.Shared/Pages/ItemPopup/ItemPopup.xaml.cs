@@ -130,46 +130,29 @@ namespace NewsScroll
                     if (!string.IsNullOrWhiteSpace(LoadTable.item_author)) { DateAuthorString += " by " + LoadTable.item_author; }
                     tb_ItemDateString.Text = DateAuthorString;
 
-                    //Enable or disable text selection
-                    if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                    {
-                        tb_ItemTitle.IsTextSelectionEnabled = true;
-                        tb_ItemDateString.IsTextSelectionEnabled = true;
-                        rtb_ItemContent.IsTextSelectionEnabled = true;
-                    }
-                    else
-                    {
-                        tb_ItemTitle.IsTextSelectionEnabled = false;
-                        tb_ItemDateString.IsTextSelectionEnabled = false;
-                        rtb_ItemContent.IsTextSelectionEnabled = false;
-                    }
-
                     //Load the item content
                     bool SetHtmlToRichTextBlock = false;
                     if (!string.IsNullOrWhiteSpace(CustomItemContent))
                     {
-                        await HtmlToRichTextBlock(rtb_ItemContent, CustomItemContent, string.Empty);
+                        await HtmlToXaml(rtb_ItemContent, CustomItemContent, string.Empty);
                         SetHtmlToRichTextBlock = true;
                     }
                     else if (!string.IsNullOrWhiteSpace(LoadTable.item_content_full))
                     {
-                        SetHtmlToRichTextBlock = await HtmlToRichTextBlock(rtb_ItemContent, LoadTable.item_content_full, string.Empty);
+                        SetHtmlToRichTextBlock = await HtmlToXaml(rtb_ItemContent, LoadTable.item_content_full, string.Empty);
                     }
 
                     //Check if html to xaml has failed
-                    if (!SetHtmlToRichTextBlock || !rtb_ItemContent.Blocks.Any())
+                    if (!SetHtmlToRichTextBlock || !rtb_ItemContent.Children.Any())
                     {
                         //Load summary text
-                        Paragraph paragraph = new Paragraph();
-                        paragraph.Inlines.Add(new Run() { Text = AVFunctions.StringCut(LoadTable.item_content, AppVariables.MaximumItemTextLength, "...") });
+                        TextBlock textLabel = new TextBlock();
+                        textLabel.Text = AVFunctions.StringCut(LoadTable.item_content, AppVariables.MaximumItemTextLength, "...");
 
                         //Add paragraph to rich text block
-                        rtb_ItemContent.Blocks.Clear();
-                        rtb_ItemContent.Blocks.Add(paragraph);
+                        rtb_ItemContent.Children.Clear();
+                        rtb_ItemContent.Children.Add(textLabel);
                     }
-
-                    //Wait for item content is loaded
-                    await AppAdjust.FinishLayoutUpdateAsync(rtb_ItemContent);
 
                     //Check if item content contains preview image
                     await CheckItemContentContainsPreviewImage(LoadTable);
@@ -288,7 +271,7 @@ namespace NewsScroll
 
                 //Cleanup xaml resources
                 item_image.item_source.Source = null;
-                rtb_ItemContent.Blocks.Clear();
+                rtb_ItemContent.Children.Clear();
 
                 //Disable page events
                 DisablePageEvents();

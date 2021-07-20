@@ -1,12 +1,15 @@
 ﻿using ArnoldVinkCode;
 using HtmlAgilityPack;
+using NewsScroll.Styles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.Media.Core;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -18,7 +21,7 @@ namespace NewsScroll
 {
     public partial class ItemPopup
     {
-        private async Task GenerateImage(Span addSpan, HtmlNode htmlNode)
+        private async Task GenerateImage(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -58,11 +61,8 @@ namespace NewsScroll
                     img.item_status.Text = "Image not loaded,\ndevice is low on memory.";
                     img.IsHitTestVisible = false;
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = img;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(img);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
@@ -77,15 +77,13 @@ namespace NewsScroll
                     img.item_status.Text = "Gif not loaded,\nlow bandwidth mode.";
                     img.IsHitTestVisible = false;
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = img;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(img);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
                 //Create item image
+                //Fix move image downloading to imagecontainer
                 System.Diagnostics.Debug.WriteLine("Adding image: " + sourceUri);
                 SvgImageSource SvgImage = null;
                 BitmapImage BitmapImage = null;
@@ -110,7 +108,7 @@ namespace NewsScroll
 
                     if (BitmapImage != null)
                     {
-                        img.value_item_image = BitmapImage;
+                        img.item_source.Source = BitmapImage;
                     }
 
                     //Get and set alt from the image
@@ -121,24 +119,11 @@ namespace NewsScroll
                         {
                             img.item_description.Text = AltText;
                             img.item_description.Visibility = Visibility.Visible;
-
-                            //Enable or disable text selection
-                            if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                            {
-                                img.item_description.IsTextSelectionEnabled = true;
-                            }
-                            else
-                            {
-                                img.item_description.IsTextSelectionEnabled = false;
-                            }
                         }
                     }
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = img;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(img);
+                    //GenerateBreak(addElement);
                 }
                 else
                 {
@@ -146,18 +131,15 @@ namespace NewsScroll
                     img.item_status.Text = "Image is not available,\nopen item in browser to view it.";
                     img.IsHitTestVisible = false;
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = img;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(img);
+                    //GenerateBreak(addElement);
                     return;
                 }
             }
             catch { }
         }
 
-        private void GenerateVideo(Span addSpan, HtmlNode htmlNode)
+        private void GenerateVideo(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -167,11 +149,8 @@ namespace NewsScroll
                     VideoContainer video = new VideoContainer();
                     video.item_status.Text = "Video not loaded,\nnetwork is not available.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = video;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(video);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
@@ -181,26 +160,19 @@ namespace NewsScroll
                     VideoContainer video = new VideoContainer();
                     video.item_status.Text = "Video not loaded,\ndevice is low on memory.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = video;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(video);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
                 //Check if low bandwidth mode is enabled
                 if ((bool)AppVariables.ApplicationSettings["LowBandwidthMode"])
                 {
-                    ImageContainer img = new ImageContainer();
-                    img.item_status.Text = "Video not loaded,\nlow bandwidth mode.";
-                    img.IsHitTestVisible = false;
+                    VideoContainer video = new VideoContainer();
+                    video.item_status.Text = "Video not loaded,\nlow bandwidth mode.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = img;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(video);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
@@ -209,36 +181,23 @@ namespace NewsScroll
                 if (!string.IsNullOrWhiteSpace(VideoString))
                 {
                     System.Diagnostics.Debug.WriteLine("Opening video: " + VideoString);
-
                     VideoContainer video = new VideoContainer();
-                    video.item_source.Source = new Uri(VideoString);
 
-                    //Check if media is a gif(v) file
-                    if (VideoString.ToLower().Contains(".gif"))
-                    {
-                        video.item_source.AutoPlay = true;
-                        video.item_source.MediaEnded += delegate
-                        {
-                            video.item_source.Position = new TimeSpan();
-                            video.item_source.Play();
-                        };
-                    }
-                    else
-                    {
-                        video.item_source.AutoPlay = false;
-                    }
+                    //Disable auto play
+                    video.item_source.AutoPlay = false;
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = video;
+                    //Set video source
+                    Uri videoUri = new Uri(VideoString, UriKind.RelativeOrAbsolute);
+                    video.item_source.Source = MediaSource.CreateFromUri(videoUri);
 
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(video);
+                    //GenerateBreak(addElement);
                 }
             }
             catch { }
         }
 
-        private void GenerateWebview(Span addSpan, HtmlNode htmlNode)
+        private void GenerateWebview(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -248,11 +207,8 @@ namespace NewsScroll
                     WebContainer webView = new WebContainer();
                     webView.item_status.Text = "Webview not loaded,\nlimit has been reached.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = webView;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(webView);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
@@ -262,11 +218,8 @@ namespace NewsScroll
                     WebContainer webView = new WebContainer();
                     webView.item_status.Text = "Webview not loaded,\nnetwork is not available.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = webView;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(webView);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
@@ -276,26 +229,19 @@ namespace NewsScroll
                     WebContainer webView = new WebContainer();
                     webView.item_status.Text = "Webview not loaded,\ndevice is low on memory.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = webView;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(webView);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
                 //Check if low bandwidth mode is enabled
                 if ((bool)AppVariables.ApplicationSettings["LowBandwidthMode"])
                 {
-                    ImageContainer img = new ImageContainer();
-                    img.item_status.Text = "Webview not loaded,\nlow bandwidth mode.";
-                    img.IsHitTestVisible = false;
+                    WebContainer webView = new WebContainer();
+                    webView.item_status.Text = "Webview not loaded,\nlow bandwidth mode.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = img;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(webView);
+                    //GenerateBreak(addElement);
                     return;
                 }
 
@@ -310,11 +256,9 @@ namespace NewsScroll
                     webView.item_source.ContainsFullScreenElementChanged += webview_Full_ContainsFullScreenElementChanged;
                     webView.item_source.NewWindowRequested += webview_Full_NewWindowRequested;
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = webView;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(webView);
+                    //GenerateBreak(addElement);
+                    System.Diagnostics.Debug.WriteLine("Added webview: " + WebLink);
 
                     //Update the webview count
                     vWebViewAdded++;
@@ -323,13 +267,13 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateHyperLink(Span addSpan, HtmlNode htmlNode)
+        private async Task GenerateHyperLink(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
                 //Add other child node elements
                 vIgnoreText = true;
-                await AddNodes(addSpan, htmlNode, false);
+                await AddNodes(addElement, htmlNode, false);
                 vIgnoreText = false;
 
                 //Get the text
@@ -351,78 +295,123 @@ namespace NewsScroll
                 //Generate hyperlink
                 if (!string.IsNullOrWhiteSpace(StringText) && !LinkUrl.StartsWith("javascript:"))
                 {
-                    Hyperlink hyperLink = new Hyperlink();
-                    hyperLink.Inlines.Add(new Run() { Text = StringText });
+                    TextBlock hyperLink = new TextBlock();
+                    hyperLink.Text = StringText;
                     ToolTipService.SetToolTip(hyperLink, LinkUrl);
-                    hyperLink.Click += async delegate
+
+                    if (vTextDecorations != null) { hyperLink.TextDecorations = (TextDecorations)vTextDecorations; vTextDecorations = null; } else { hyperLink.TextDecorations = TextDecorations.Underline; }
+                    if (vFontStyles != null) { hyperLink.FontStyle = (FontStyle)vFontStyles; vFontStyles = null; }
+                    if (vFontWeight != null) { hyperLink.FontWeight = (FontWeight)vFontWeight; vFontWeight = null; }
+
+                    Binding FontSizeBinding = new Binding();
+                    FontSizeBinding.Source = (DynamicStyle)Application.Current.Resources["DynamicStyle"];
+                    FontSizeBinding.Path = new PropertyPath("TextSizeMedium");
+                    hyperLink.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
+
+                    Binding StyleBinding = new Binding();
+                    StyleBinding.Source = Application.Current.Resources["TextBlockAccent"];
+                    hyperLink.SetBinding(TextBlock.StyleProperty, StyleBinding);
+
+                    hyperLink.Tapped += async delegate
                     {
-                        Uri targetUri = new Uri(ToolTipService.GetToolTip(hyperLink).ToString(), UriKind.RelativeOrAbsolute);
+                        Uri targetUri = new Uri(LinkUrl, UriKind.RelativeOrAbsolute);
                         await OpenBrowser(targetUri, false);
                     };
 
-                    System.Diagnostics.Debug.WriteLine("Adding text link: " + StringText);
-                    addSpan.Inlines.Add(hyperLink);
+                    addElement.Children.Add(hyperLink);
+                    System.Diagnostics.Debug.WriteLine("Added hyperLink: " + StringText);
                 }
             }
             catch { }
         }
 
-        private async Task GenerateBold(Span addSpan, HtmlNode htmlNode)
+        private async Task GenerateBold(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
-                Bold bold = new Bold();
-                await AddNodes(bold, htmlNode, false);
-                addSpan.Inlines.Add(bold);
+                vFontWeight = FontWeights.Bold;
+                await AddNodes(addElement, htmlNode, false);
             }
             catch { }
         }
 
-        private async Task GenerateUnderline(Span addSpan, HtmlNode htmlNode)
+        private async Task GenerateUnderline(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
-                Underline underline = new Underline();
-                await AddNodes(underline, htmlNode, false);
-                addSpan.Inlines.Add(underline);
-            }
-            catch { }
-        }
-
-        private async Task GenerateItalic(Span addSpan, HtmlNode htmlNode)
-        {
-            try
-            {
-                Italic italic = new Italic();
-                await AddNodes(italic, htmlNode, false);
-                addSpan.Inlines.Add(italic);
-            }
-            catch { }
-        }
-
-        private void GenerateHeader(Span addSpan, HtmlNode htmlNode)
-        {
-            try
-            {
-                string StringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true);
-                if (!string.IsNullOrWhiteSpace(StringText))
+                if (vTextDecorations != null)
                 {
+                    vTextDecorations |= TextDecorations.Underline;
+                }
+                else
+                {
+                    vTextDecorations = TextDecorations.Underline;
+                }
+                await AddNodes(addElement, htmlNode, false);
+            }
+            catch { }
+        }
+
+        private async Task GenerateStrikethrough(StackPanel addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                if (vTextDecorations != null)
+                {
+                    vTextDecorations |= TextDecorations.Strikethrough;
+                }
+                else
+                {
+                    vTextDecorations = TextDecorations.Strikethrough;
+                }
+                await AddNodes(addElement, htmlNode, false);
+            }
+            catch { }
+        }
+
+        private async Task GenerateItalic(StackPanel addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                if (vFontStyles != null)
+                {
+                    vFontStyles |= FontStyle.Italic;
+                }
+                else
+                {
+                    vFontStyles = FontStyle.Italic;
+                }
+                await AddNodes(addElement, htmlNode, false);
+            }
+            catch { }
+        }
+
+        private void GenerateHeader(StackPanel addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                string stringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true);
+                if (!string.IsNullOrWhiteSpace(stringText))
+                {
+                    TextBlock headerText = new TextBlock();
+                    headerText.Text = stringText;
+
+                    Binding StyleBinding = new Binding();
+                    StyleBinding.Source = Application.Current.Resources["TextBlockAccent"];
+                    headerText.SetBinding(TextBlock.StyleProperty, StyleBinding);
+
                     Binding FontSizeBinding = new Binding();
-                    //FixFontSizeBinding.Source = (StyleUpdater)Application.Current.Resources["StyleUpdater"];
+                    FontSizeBinding.Source = (DynamicStyle)Application.Current.Resources["DynamicStyle"];
                     FontSizeBinding.Path = new PropertyPath("TextSizeLarge");
+                    headerText.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
 
-                    Span spanHeader = new Span();
-                    BindingOperations.SetBinding(spanHeader, Span.FontSizeProperty, FontSizeBinding);
-                    spanHeader.Inlines.Add(new Run() { Text = StringText, Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
-                    spanHeader.Inlines.Add(new LineBreak());
-
-                    addSpan.Inlines.Add(spanHeader);
+                    addElement.Children.Add(headerText);
                 }
             }
             catch { }
         }
 
-        private void GenerateGridText(Span addSpan, HtmlNode htmlNode, string textHeader, bool textRaw, bool textHtml, TextAlignment textAlignment, HorizontalAlignment horizontalAlignment)
+        private void GenerateGridText(StackPanel addElement, HtmlNode htmlNode, string textHeader, bool textRaw, bool textHtml, TextAlignment textAlignment, HorizontalAlignment horizontalAlignment)
         {
             try
             {
@@ -438,23 +427,20 @@ namespace NewsScroll
                     TextBlockHeader.HorizontalAlignment = HorizontalAlignment.Left;
                     TextBlockHeader.Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
 
-                    //Enable or disable text selection
-                    if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                    {
-                        TextBlockHeader.IsTextSelectionEnabled = true;
-                    }
-                    else
-                    {
-                        TextBlockHeader.IsTextSelectionEnabled = false;
-                    }
-
                     //Add to stackpanel
                     stackPanelGrid.Children.Add(TextBlockHeader);
                 }
 
                 //Grid Text
                 string StringText = string.Empty;
-                if (textHtml) { StringText = Process.ProcessItemTextFull(htmlNode.InnerHtml, false, false, true); } else { StringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true); }
+                if (textHtml)
+                {
+                    StringText = Process.ProcessItemTextFull(htmlNode.InnerHtml, false, false, true);
+                }
+                else
+                {
+                    StringText = Process.ProcessItemTextFull(htmlNode.InnerText, false, false, true);
+                }
                 if (!string.IsNullOrWhiteSpace(StringText))
                 {
                     TextBlock textBlock = new TextBlock();
@@ -463,19 +449,9 @@ namespace NewsScroll
                     textBlock.TextAlignment = textAlignment;
                     textBlock.HorizontalAlignment = horizontalAlignment;
 
-                    //Enable or disable text selection
-                    if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                    {
-                        textBlock.IsTextSelectionEnabled = true;
-                    }
-                    else
-                    {
-                        textBlock.IsTextSelectionEnabled = false;
-                    }
-
                     //StackPanel Content
                     StackPanel stackPanelContent = new StackPanel();
-                    stackPanelContent.Background = new SolidColorBrush(Color.FromArgb(255, 136, 136, 136)) { Opacity = 0.20 };
+                    stackPanelContent.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationDarkGrayTransparentColor"]);
                     stackPanelContent.Children.Add(textBlock);
 
                     //Add to stackpanel grid
@@ -487,19 +463,21 @@ namespace NewsScroll
                     return;
                 }
 
-                InlineUIContainer iui = new InlineUIContainer();
-                iui.Child = stackPanelGrid;
-                addSpan.Inlines.Add(iui);
+                addElement.Children.Add(stackPanelGrid);
             }
             catch { }
         }
 
-        private async Task GenerateGridContent(Span addSpan, HtmlNode htmlNode, string textHeader)
+        private async Task GenerateGridContent(StackPanel addElement, HtmlNode htmlNode, string textHeader)
         {
             try
             {
                 //Check if node contains childs
-                if (!htmlNode.ChildNodes.Any()) { System.Diagnostics.Debug.WriteLine("No child nodes found to add to grid content."); return; }
+                if (!htmlNode.ChildNodes.Any())
+                {
+                    System.Diagnostics.Debug.WriteLine("No child nodes found to add to grid content.");
+                    return;
+                }
 
                 //Grid Stackpanel
                 StackPanel stackPanelGrid = new StackPanel();
@@ -513,63 +491,33 @@ namespace NewsScroll
                     TextBlockHeader.HorizontalAlignment = HorizontalAlignment.Left;
                     TextBlockHeader.Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
 
-                    //Enable or disable text selection
-                    if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                    {
-                        TextBlockHeader.IsTextSelectionEnabled = true;
-                    }
-                    else
-                    {
-                        TextBlockHeader.IsTextSelectionEnabled = false;
-                    }
-
                     //Add to stackpanel
                     stackPanelGrid.Children.Add(TextBlockHeader);
                 }
 
-                //Add other child node elements
-                Span spanContent = new Span();
-                await AddNodes(spanContent, htmlNode, false);
-                Paragraph paraContent = new Paragraph();
-                paraContent.Inlines.Add(spanContent);
-
-                //Convert span to textblock
-                RichTextBlock richTextBlock = new RichTextBlock();
-                richTextBlock.TextWrapping = TextWrapping.Wrap;
-
-                //Enable or disable text selection
-                if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                {
-                    richTextBlock.IsTextSelectionEnabled = true;
-                }
-                else
-                {
-                    richTextBlock.IsTextSelectionEnabled = false;
-                }
-
-                richTextBlock.Blocks.Add(paraContent);
-
                 //StackPanel Content
                 StackPanel stackPanelContent = new StackPanel();
-                stackPanelContent.Background = new SolidColorBrush(Color.FromArgb(255, 136, 136, 136)) { Opacity = 0.20 };
-                stackPanelContent.Children.Add(richTextBlock);
+                stackPanelContent.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationDarkGrayTransparentColor"]);
+                await AddNodes(stackPanelContent, htmlNode, false);
 
                 //Add to stackpanel grid
                 stackPanelGrid.Children.Add(stackPanelContent);
 
-                InlineUIContainer iui = new InlineUIContainer();
-                iui.Child = stackPanelGrid;
-                addSpan.Inlines.Add(iui);
+                addElement.Children.Add(stackPanelGrid);
             }
             catch { }
         }
 
-        private async Task GenerateTable(Span addSpan, HtmlNode htmlNode, string textHeader)
+        private async Task GenerateTable(StackPanel addElement, HtmlNode htmlNode, string textHeader)
         {
             try
             {
                 //Check if node contains childs
-                if (!htmlNode.ChildNodes.Any()) { System.Diagnostics.Debug.WriteLine("No child nodes found to add to grid content."); return; }
+                if (!htmlNode.ChildNodes.Any())
+                {
+                    System.Diagnostics.Debug.WriteLine("No child nodes found to add to table.");
+                    return;
+                }
 
                 //Set image settings
                 vImageShowAlt = false;
@@ -586,16 +534,6 @@ namespace NewsScroll
                     TextBlockHeader.HorizontalAlignment = HorizontalAlignment.Left;
                     TextBlockHeader.Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
 
-                    //Enable or disable text selection
-                    if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                    {
-                        TextBlockHeader.IsTextSelectionEnabled = true;
-                    }
-                    else
-                    {
-                        TextBlockHeader.IsTextSelectionEnabled = false;
-                    }
-
                     //Add to stackpanel
                     stackPanelGrid.Children.Add(TextBlockHeader);
                 }
@@ -606,7 +544,7 @@ namespace NewsScroll
                 {
                     //Add table child node elements
                     Grid gridContent = new Grid();
-                    gridContent.Background = new SolidColorBrush(Color.FromArgb(255, 136, 136, 136)) { Opacity = 0.20 };
+                    gridContent.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationDarkGrayTransparentColor"]);
 
                     foreach (HtmlNode TableRow in htmlNode.Descendants("tr"))
                     {
@@ -638,16 +576,6 @@ namespace NewsScroll
                             textBlock.Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
                             textBlock.Text = TableHeader.InnerText;
 
-                            //Enable or disable text selection
-                            if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                            {
-                                textBlock.IsTextSelectionEnabled = true;
-                            }
-                            else
-                            {
-                                textBlock.IsTextSelectionEnabled = false;
-                            }
-
                             gridRow.Children.Add(textBlock);
                             Grid.SetColumn(textBlock, ColumnCurrentCount);
                             ColumnCurrentCount++;
@@ -660,29 +588,11 @@ namespace NewsScroll
                             gridRow.ColumnDefinitions.Add(gridColDefinition);
 
                             //Add other child node elements
-                            Span spanContent = new Span();
+                            StackPanel spanContent = new StackPanel();
                             await AddNodes(spanContent, TableColumn, false);
-                            Paragraph paraContent = new Paragraph();
-                            paraContent.Inlines.Add(spanContent);
 
-                            //Convert span to textblock
-                            RichTextBlock richTextBlock = new RichTextBlock();
-                            richTextBlock.TextWrapping = TextWrapping.Wrap;
-
-                            //Enable or disable text selection
-                            if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                            {
-                                richTextBlock.IsTextSelectionEnabled = true;
-                            }
-                            else
-                            {
-                                richTextBlock.IsTextSelectionEnabled = false;
-                            }
-
-                            richTextBlock.Blocks.Add(paraContent);
-
-                            gridRow.Children.Add(richTextBlock);
-                            Grid.SetColumn(richTextBlock, ColumnCurrentCount);
+                            gridRow.Children.Add(spanContent);
+                            Grid.SetColumn(spanContent, ColumnCurrentCount);
                             ColumnCurrentCount++;
                         }
                     }
@@ -695,39 +605,15 @@ namespace NewsScroll
                     System.Diagnostics.Debug.WriteLine("No row found in the table.");
 
                     //Add other child node elements
-                    Span spanContent = new Span();
+                    StackPanel spanContent = new StackPanel();
+                    spanContent.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationDarkGrayTransparentColor"]);
                     await AddNodes(spanContent, htmlNode, false);
-                    Paragraph paraContent = new Paragraph();
-                    paraContent.Inlines.Add(spanContent);
-
-                    //Convert span to textblock
-                    RichTextBlock richTextBlock = new RichTextBlock();
-                    richTextBlock.TextWrapping = TextWrapping.Wrap;
-
-                    //Enable or disable text selection
-                    if ((bool)AppVariables.ApplicationSettings["ItemTextSelection"])
-                    {
-                        richTextBlock.IsTextSelectionEnabled = true;
-                    }
-                    else
-                    {
-                        richTextBlock.IsTextSelectionEnabled = false;
-                    }
-
-                    richTextBlock.Blocks.Add(paraContent);
-
-                    //StackPanel Content
-                    StackPanel stackPanelContent = new StackPanel();
-                    stackPanelContent.Background = new SolidColorBrush(Color.FromArgb(255, 136, 136, 136)) { Opacity = 0.20 };
-                    stackPanelContent.Children.Add(richTextBlock);
 
                     //Add to stackpanel grid
-                    stackPanelGrid.Children.Add(stackPanelContent);
+                    stackPanelGrid.Children.Add(spanContent);
                 }
 
-                InlineUIContainer iui = new InlineUIContainer();
-                iui.Child = stackPanelGrid;
-                addSpan.Inlines.Add(iui);
+                addElement.Children.Add(stackPanelGrid);
 
                 //Set image settings
                 vImageShowAlt = true;
@@ -735,62 +621,90 @@ namespace NewsScroll
             catch { }
         }
 
-        private async Task GenerateUl(Span addSpan, HtmlNode htmlNode)
+        private async Task GenerateUl(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
-                await AddNodes(addSpan, htmlNode, false);
-                addSpan.Inlines.Add(new LineBreak());
+                await AddNodes(addElement, htmlNode, false);
+                //GenerateBreak(addElement);
             }
             catch { }
         }
 
-        private async Task GenerateLi(Span addSpan, HtmlNode htmlNode)
+        private void GenerateLi(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
-                addSpan.Inlines.Add(new Run() { Text = "* ", Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
-                await AddNodes(addSpan, htmlNode, false);
-                addSpan.Inlines.Add(new LineBreak());
-            }
-            catch { }
-        }
-
-        private void GenerateBreak(Span addSpan)
-        {
-            try
-            {
-                addSpan.Inlines.Add(new LineBreak());
-            }
-            catch { }
-        }
-
-        private async Task GenerateParagraph(Span addSpan, HtmlNode htmlNode)
-        {
-            try
-            {
-                await AddNodes(addSpan, htmlNode, false);
-                addSpan.Inlines.Add(new LineBreak());
-                addSpan.Inlines.Add(new LineBreak());
-            }
-            catch { }
-        }
-
-        private void GenerateText(Span addSpan, HtmlNode htmlNode)
-        {
-            try
-            {
-                string StringText = Process.ProcessItemTextFull(htmlNode.InnerText, true, false, true);
-                if (!string.IsNullOrWhiteSpace(StringText))
+                string liText = htmlNode.InnerText;
+                if (!string.IsNullOrWhiteSpace(liText))
                 {
-                    System.Diagnostics.Debug.WriteLine("Adding text node: " + StringText);
-                    addSpan.Inlines.Add(new Run() { Text = StringText });
+                    TextBlock textLabel = new TextBlock();
+                    textLabel.Inlines.Add(new Run() { Text = "* ", Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
+                    textLabel.Inlines.Add(new Run() { Text = liText });
+
+                    addElement.Children.Add(textLabel);
+                    System.Diagnostics.Debug.WriteLine("Added li: " + liText);
                 }
             }
             catch { }
         }
 
-        private async Task GenerateSpan(Span addSpan, HtmlNode htmlNode)
+        private void GenerateBreak(StackPanel addElement)
+        {
+            try
+            {
+                Grid addGrid = new Grid();
+                addGrid.Height = 15;
+                addGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                addGrid.Background = new SolidColorBrush(Colors.Transparent);
+                addElement.Children.Add(addGrid);
+            }
+            catch { }
+        }
+
+        private async Task GenerateParagraph(StackPanel addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                await AddNodes(addElement, htmlNode, false);
+                //GenerateBreak(addElement);
+                //GenerateBreak(addElement);
+            }
+            catch { }
+        }
+
+        private void GenerateText(StackPanel addElement, HtmlNode htmlNode)
+        {
+            try
+            {
+                string stringText = Process.ProcessItemTextFull(htmlNode.InnerText, true, false, true);
+                if (!string.IsNullOrWhiteSpace(stringText))
+                {
+                    TextBlock textLabel = new TextBlock();
+                    textLabel.Text = stringText;
+                    textLabel.TextWrapping = TextWrapping.Wrap;
+
+                    if (vTextDecorations != null) { textLabel.TextDecorations = (TextDecorations)vTextDecorations; vTextDecorations = null; }
+                    if (vFontStyles != null) { textLabel.FontStyle = (FontStyle)vFontStyles; vFontStyles = null; }
+                    if (vFontWeight != null) { textLabel.FontWeight = (FontWeight)vFontWeight; vFontWeight = null; }
+
+                    Binding FontSizeBinding = new Binding();
+                    FontSizeBinding.Source = (DynamicStyle)Application.Current.Resources["DynamicStyle"];
+                    FontSizeBinding.Path = new PropertyPath("TextSizeMedium");
+                    textLabel.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
+
+                    Binding StyleBinding = new Binding();
+                    StyleBinding.Source = Application.Current.Resources["TextBlockBlack"];
+                    textLabel.SetBinding(TextBlock.StyleProperty, StyleBinding);
+
+                    addElement.Children.Add(textLabel);
+                    System.Diagnostics.Debug.WriteLine("Added text: " + stringText);
+                }
+            }
+            catch { }
+        }
+
+        private async Task GenerateSpan(StackPanel addElement, HtmlNode htmlNode)
         {
             try
             {
@@ -802,15 +716,12 @@ namespace NewsScroll
                     WebContainer webView = new WebContainer();
                     webView.item_status.Text = "Webview not loaded,\nopen in browser.";
 
-                    InlineUIContainer iui = new InlineUIContainer();
-                    iui.Child = webView;
-
-                    addSpan.Inlines.Add(iui);
-                    //addSpan.Inlines.Add(new LineBreak());
+                    addElement.Children.Add(webView);
+                    //GenerateBreak(addElement);
                 }
                 else
                 {
-                    await AddNodes(addSpan, htmlNode, false);
+                    await AddNodes(addElement, htmlNode, false);
                 }
             }
             catch { }

@@ -1,10 +1,11 @@
 ﻿using ArnoldVinkCode;
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace NewsScroll
 {
-    public partial class WebContainer
+    public partial class WebContainer : Grid
     {
         //Webview variables
         private DispatcherTimer vDispatcherTimer_MemoryCheck = new DispatcherTimer();

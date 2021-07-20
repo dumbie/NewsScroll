@@ -68,7 +68,7 @@
                 </Grid>
             </StackPanel>
 
-            <local:ImageContainer Tag="NoScale" MinHeight="240" Height="240" value_item_image="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
+            <local:ImageContainer Tag="NoScale" MinHeight="240" Height="240" item_image_Value="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
 
             <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
         </StackPanel>
@@ -94,7 +94,7 @@
                 </Grid>
             </StackPanel>
 
-            <local:ImageContainer Tag="NoScale" MinHeight="240" Height="240" value_item_image="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
+            <local:ImageContainer Tag="NoScale" MinHeight="240" Height="240" item_image_Value="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
         </StackPanel>
     </DataTemplate>
 
@@ -164,7 +164,7 @@
                 </Grid>
             </StackPanel>
 
-            <local:ImageContainer Tag="NoScale" MaxHeight="300" value_item_image="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
+            <local:ImageContainer Tag="NoScale" MaxHeight="300" item_image_Value="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
 
             <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
         </StackPanel>
@@ -190,7 +190,7 @@
                 </Grid>
             </StackPanel>
 
-            <local:ImageContainer Tag="NoScale" MaxHeight="300" value_item_image="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
+            <local:ImageContainer Tag="NoScale" MaxHeight="300" item_image_Value="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
         </StackPanel>
     </DataTemplate>
 

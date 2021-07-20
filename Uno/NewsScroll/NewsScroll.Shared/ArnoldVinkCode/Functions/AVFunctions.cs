@@ -192,7 +192,7 @@ namespace ArnoldVinkCode
                 ulong memoryLimit = MemoryManager.AppMemoryUsageLimit;
                 return (memoryLimit - memoryUsage) / 1024 / 1024;
             }
-            catch { return 0; }
+            catch { return 999999999; }
         }
 
         //Get device memory usage in percentage

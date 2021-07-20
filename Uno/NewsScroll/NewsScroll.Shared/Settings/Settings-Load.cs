@@ -38,9 +38,6 @@ namespace NewsScroll
                 //Load all available items
                 setting_LoadAllItems.IsChecked = (bool)AppVariables.ApplicationSettings["LoadAllItems"];
 
-                //Enable item text selection
-                setting_ItemTextSelection.IsChecked = (bool)AppVariables.ApplicationSettings["ItemTextSelection"];
-
                 //Low bandwidth mode
                 setting_LowBandwidthMode.IsChecked = (bool)AppVariables.ApplicationSettings["LowBandwidthMode"];
 
