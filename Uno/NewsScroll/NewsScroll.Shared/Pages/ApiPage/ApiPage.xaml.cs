@@ -15,7 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
@@ -28,40 +27,38 @@ namespace NewsScroll
         public ApiPage()
         {
             this.InitializeComponent();
+            this.Loaded += Page_Loaded;
         }
 
         //Application Navigation
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Loaded += async delegate
+            try
             {
-                try
+                //Check the set account
+                if (!CheckAccount())
                 {
-                    //Check the set account
-                    if (!CheckAccount())
-                    {
-                        await CleanupPageResources();
-                        return;
-                    }
-
-                    //Register page events
-                    RegisterPageEvents();
-
-                    //Bind list to ListView
-                    ListView_Items.ItemsSource = List_Feeds;
-
-                    //Set the autosuggestbox inputscope
-                    TextBox SuggestTextBox = AVFunctions.FindVisualChild<TextBox>(txtbox_AddFeed);
-                    InputScope inputScope = new InputScope();
-                    InputScopeName inputScopeName = new InputScopeName() { NameValue = InputScopeNameValue.Url };
-                    inputScope.Names.Add(inputScopeName);
-                    SuggestTextBox.InputScope = inputScope;
-
-                    //Load all the feeds
-                    await LoadFeeds();
+                    await CleanupPageResources();
+                    return;
                 }
-                catch { }
-            };
+
+                //Register page events
+                RegisterPageEvents();
+
+                //Bind list to ListView
+                ListView_Items.ItemsSource = List_Feeds;
+
+                //Set the autosuggestbox inputscope
+                TextBox SuggestTextBox = AVFunctions.FindVisualChild<TextBox>(txtbox_AddFeed);
+                InputScope inputScope = new InputScope();
+                InputScopeName inputScopeName = new InputScopeName() { NameValue = InputScopeNameValue.Url };
+                inputScope.Names.Add(inputScopeName);
+                SuggestTextBox.InputScope = inputScope;
+
+                //Load all the feeds
+                await LoadFeeds();
+            }
+            catch { }
         }
 
         //Register page events
@@ -128,19 +125,6 @@ namespace NewsScroll
         }
 
         //User Interface - Buttons
-        void HideShowMenu(bool ForceClose)
-        {
-            try
-            {
-                int MenuTargetSize = Convert.ToInt32(grid_PopupMenu.Tag);
-                int MenuCurrentSize = Convert.ToInt32(grid_PopupMenu.Height);
-                if (ForceClose || MenuCurrentSize == MenuTargetSize) { grid_PopupMenu.Height = 0; }
-                else { grid_PopupMenu.Height = MenuTargetSize; }
-            }
-            catch { }
-        }
-        void iconMenu_Tap(object sender, RoutedEventArgs e) { try { HideShowMenu(false); } catch { } }
-
         async void iconNews_Tap(object sender, RoutedEventArgs e)
         {
             try

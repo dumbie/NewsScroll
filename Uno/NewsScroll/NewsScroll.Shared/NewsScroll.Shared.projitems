@@ -53,6 +53,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ApiPage\ApiPage.xaml.cs">
       <DependentUpon>ApiPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\ApiPage\HeaderMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\ApiPage\Shortcuts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\HelpPage\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
@@ -80,6 +81,7 @@
       <DependentUpon>MessagePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\ChangeListViewStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\ScrollViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\HeaderMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\ItemsScrollingDirection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\NewsPage.xaml.cs">
@@ -92,6 +94,7 @@
       <DependentUpon>PersonalizePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\ChangeListViewStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\ScrollViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\HeaderMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\History.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\ItemsScrollingDirection.cs" />
@@ -101,10 +104,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\SelectionFeeds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\Shortcuts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage\HeaderMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\ChangeListViewStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\ScrollViewer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\HeaderMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\ItemsScrollingDirection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\Shortcuts.cs" />

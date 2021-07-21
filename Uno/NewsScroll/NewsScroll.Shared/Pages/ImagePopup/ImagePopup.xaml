@@ -11,7 +11,7 @@
 
     <Popup x:Name="popup_Main">
         <!--Main page-->
-        <Grid Name="grid_Main">
+        <Grid Name="grid_Main" Width="10000" Height="10000">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.80"/>
             </Grid.Background>

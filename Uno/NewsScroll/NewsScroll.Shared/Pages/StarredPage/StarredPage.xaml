@@ -44,7 +44,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
                 </Border.Background>
-                <TextBlock Name="textblock_StatusCurrentItem" Margin="4,1,4,1" Style="{StaticResource TextBlockWhite}" Text="1" Tag="1"/>
+                <TextBlock Name="textblock_StatusCurrentItem" Margin="4,1,4,1" Style="{StaticResource TextBlockWhite}" Text="0"/>
             </Border>
         </Button>
 
@@ -54,8 +54,8 @@
                 <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
-                <TextBlock Name="textblock_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+                <ProgressRing Foreground="White" IsActive="True" Margin="5,0,0,0"/>
+                <TextBlock Name="textblock_StatusApplication" Margin="5,0,0,0" VerticalAlignment="Center" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
             </StackPanel>
         </Grid>
 
@@ -78,7 +78,7 @@
         </Grid>
 
         <!-- Grid Popup Menu -->
-        <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
+        <Grid Name="grid_PopupMenu" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.Networking.Connectivity;
-using Windows.Storage;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
@@ -327,34 +325,6 @@ namespace ArnoldVinkCode
             }
             catch { }
             return default(T);
-        }
-
-        //Check if a file exists in app
-        public static async Task<bool> AppFileExists(string FileName)
-        {
-            FileName = FileName.Replace("ms-appx:///", string.Empty);
-            try
-            {
-                await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + FileName));
-                return true;
-            }
-            catch (FileNotFoundException)
-            {
-                System.Diagnostics.Debug.WriteLine("Could not find a requested app file: " + FileName);
-                return false;
-            }
-        }
-
-        //Check if a file exists in local
-        public static async Task<bool> LocalFileExists(string FileName)
-        {
-            FileName = FileName.Replace("ms-appdata:///local/", string.Empty);
-            try { return await ApplicationData.Current.LocalFolder.TryGetItemAsync(FileName) != null; }
-            catch
-            {
-                System.Diagnostics.Debug.WriteLine("Could not find a requested local file: " + FileName);
-                return false;
-            }
         }
 
         //Convert Degrees to Cardinal string

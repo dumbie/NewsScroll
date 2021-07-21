@@ -107,9 +107,10 @@ namespace NewsScroll
                         TouchSwipingCompleted = true;
 
                         string SwipeAction = "hide";
-                        int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                        int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                        if (HeaderTargetSize != HeaderCurrentSize) { SwipeAction = "open"; }
+                        if (stackpanel_Header.Visibility != Visibility.Visible)
+                        {
+                            SwipeAction = "open";
+                        }
 
                         textblock_SwipeAction.Text = "Release to " + SwipeAction + " menu";
                         grid_SwipeAction.Visibility = Visibility.Visible;

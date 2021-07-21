@@ -47,6 +47,7 @@
     <!--ComboBox Styles-->
     <Style x:Key="ComboBox" TargetType="ComboBox">
         <Setter Property="FontSize" Value="{StaticResource TextSizeInterface}"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{StaticResource ApplicationAccentLightBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NewsScroll;
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -53,6 +55,39 @@ namespace ArnoldVinkCode
             {
                 System.Diagnostics.Debug.WriteLine("Failed saving Bytes to file.");
                 return null;
+            }
+        }
+
+        //Check if a file exists as resource
+        public static bool FileExistsResource(string fileName, out string resourceName)
+        {
+            fileName = fileName.Replace("ms-appx:///", string.Empty).Replace("/", ".");
+            try
+            {
+                string[] embeddedResources = typeof(App).Assembly.GetManifestResourceNames();
+                resourceName = embeddedResources.Where(x => x.EndsWith(fileName)).FirstOrDefault();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Could not find a requested resource file: " + fileName + " / " + ex.Message);
+                resourceName = string.Empty;
+                return false;
+            }
+        }
+
+        //Check if a file exists in local
+        public static async Task<bool> FileExistsLocal(string fileName)
+        {
+            fileName = fileName.Replace("ms-appdata:///local/", string.Empty);
+            try
+            {
+                return await ApplicationData.Current.LocalFolder.TryGetItemAsync(fileName) != null;
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Could not find a requested local file: " + fileName);
+                return false;
             }
         }
     }

@@ -44,9 +44,7 @@
                         <TextBlock Text="Account Settings" FontSize="{StaticResource TextSizeLarge}"/>
                         <TextBlock Text="The Old Reader Username/E-mail:"/>
                         <TextBlock Text="* Username and e-mail are case sensitive." Style="{StaticResource TextBlockLightGray}"/>
-
-                        <!--CharacterCasing="Lower"-->
-                        <TextBox Name="setting_ApiAccount" Style="{StaticResource TextBox}" Width="280" Margin="0,3,0,0" HorizontalAlignment="Left" InputScope="EmailNameOrAddress" PlaceholderText="Account e-mail adres..."/>
+                        <TextBox Name="setting_ApiAccount" Style="{StaticResource TextBox}" Width="280" Margin="0,3,0,0" HorizontalAlignment="Left" InputScope="EmailNameOrAddress" CharacterCasing="Lower" PlaceholderText="Account e-mail adres..."/>
                         <TextBlock Text="The Old Reader Password:"/>
                         <PasswordBox Name="setting_ApiPassword" Style="{StaticResource PasswordBox}" Width="280" HorizontalAlignment="Left" PlaceholderText="Account password..."/>
 
@@ -131,13 +129,13 @@
                 <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
-                <TextBlock Name="textblock_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+                <ProgressRing Foreground="White" IsActive="True" Margin="5,0,0,0"/>
+                <TextBlock Name="textblock_StatusApplication" Margin="5,0,0,0" VerticalAlignment="Center" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
             </StackPanel>
         </Grid>
 
         <!-- Grid Popup Menu -->
-        <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
+        <Grid Name="grid_PopupMenu" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
             <Grid.Background>
                 <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
             </Grid.Background>

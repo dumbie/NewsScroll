@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NewsScroll;
+using System;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
@@ -27,11 +28,17 @@ namespace ArnoldVinkCode
                         SvgToBitmapImage.UriSource = new Uri(Path, UriKind.RelativeOrAbsolute);
                         TaskResult.SetResult(SvgToBitmapImage);
                     }
-                    catch { TaskResult.SetResult(null); }
+                    catch
+                    {
+                        TaskResult.SetResult(null);
+                    }
                 });
                 return await TaskResult.Task;
             }
-            else { return null; }
+            else
+            {
+                return null;
+            }
         }
 
         //Load BitmapImage
@@ -47,7 +54,7 @@ namespace ArnoldVinkCode
                         BitmapImage ImageToBitmapImage = new BitmapImage();
 
                         //Check if image file exists
-                        if (Path.StartsWith("ms-appdata:///local") && await AVFunctions.LocalFileExists(Path))
+                        if (Path.StartsWith("ms-appdata:///local") && await AVFile.FileExistsLocal(Path))
                         {
                             //System.Diagnostics.Debug.WriteLine("LocalImage exists: " + LocalFileName);
                             string LocalFileName = Path.Replace("ms-appdata:///local/", string.Empty);
@@ -59,7 +66,17 @@ namespace ArnoldVinkCode
                             }
                             TaskResult.SetResult(ImageToBitmapImage);
                         }
-                        else if (Path.StartsWith("ms-appx:///") && await AVFunctions.AppFileExists(Path))
+                        else if (Path.StartsWith("ms-resource:///") && AVFile.FileExistsResource(Path, out string resourceName))
+                        {
+                            //System.Diagnostics.Debug.WriteLine("ResourceImage exists: " + Path);
+                            using (IRandomAccessStream OpenAsync = typeof(App).Assembly.GetManifestResourceStream(resourceName).AsRandomAccessStream())
+                            {
+                                await ImageToBitmapImage.SetSourceAsync(OpenAsync);
+                                OpenAsync.Dispose();
+                            }
+                            TaskResult.SetResult(ImageToBitmapImage);
+                        }
+                        else if (Path.StartsWith("ms-appx:///"))
                         {
                             //System.Diagnostics.Debug.WriteLine("AppImage exists: " + Path);
                             ImageToBitmapImage.UriSource = new Uri(Path, UriKind.RelativeOrAbsolute);
@@ -97,11 +114,17 @@ namespace ArnoldVinkCode
                             TaskResult.SetResult(null);
                         }
                     }
-                    catch { TaskResult.SetResult(null); }
+                    catch
+                    {
+                        TaskResult.SetResult(null);
+                    }
                 });
                 return await TaskResult.Task;
             }
-            else { return null; }
+            else
+            {
+                return null;
+            }
         }
 
         //Convert Base64 image to BitmapImage
@@ -113,12 +136,17 @@ namespace ArnoldVinkCode
                 byte[] byteBuffer = Convert.FromBase64String(RawBase64Data);
 
                 BitmapImage image = new BitmapImage();
+#if WINDOWS_UWP
                 using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
                 {
                     await stream.WriteAsync(byteBuffer.AsBuffer());
                     stream.Seek(0);
                     await image.SetSourceAsync(stream);
                 }
+#else
+                Stream stream = new MemoryStream(byteBuffer);
+                await image.SetSourceAsync(stream);
+#endif
                 return image;
             }
             catch { return null; }

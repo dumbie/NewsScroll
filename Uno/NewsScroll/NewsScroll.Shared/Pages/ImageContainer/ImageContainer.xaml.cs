@@ -81,7 +81,9 @@ namespace NewsScroll
         {
             try
             {
+#if WINDOWS_UWP
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Hand, 1);
+#endif
                 item_border.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
             }
             catch { }
@@ -91,7 +93,9 @@ namespace NewsScroll
         {
             try
             {
+#if WINDOWS_UWP
                 Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 2);
+#endif
                 item_border.BorderBrush = new SolidColorBrush(Colors.Transparent);
             }
             catch { }

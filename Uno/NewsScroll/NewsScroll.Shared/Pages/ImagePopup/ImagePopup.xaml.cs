@@ -238,6 +238,7 @@ namespace NewsScroll
                             //image_ImageViewer.Width = vBitmapImage.PixelWidth;
                             //image_ImageViewer.Height = vBitmapImage.PixelHeight;
 
+                            //Fix
                             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
                             await renderTargetBitmap.RenderAsync(image_source);
                             IBuffer PixelBuffer = await renderTargetBitmap.GetPixelsAsync();

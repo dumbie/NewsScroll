@@ -9,9 +9,9 @@
         FontSize="{StaticResource TextSizeInterface}"
         LayoutUpdated="OnLayoutUpdated">
 
-    <Popup Name="popup_Main">
+    <Popup x:Name="popup_Main">
         <!-- Main Grid -->
-        <Grid Name="grid_Main">
+        <Grid Name="grid_Main" Width="10000" Height="10000">
             <Grid Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.60"/>
             <StackPanel Padding="10,5,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{StaticResource ApplicationLightGrayBrush}">
                 <TextBlock Name="grid_MessageBox_Text" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap">Question</TextBlock>

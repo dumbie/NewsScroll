@@ -39,8 +39,14 @@ namespace NewsScroll.Startup
 
                 //Calculate the maximum preload items
                 Size ScreenResolution = AVFunctions.DevScreenResolution();
-                if (ScreenResolution.Width > ScreenResolution.Height) { AppVariables.ContentToScrollLoad = Convert.ToInt32(ScreenResolution.Width / 280) + 4; }
-                else { AppVariables.ContentToScrollLoad = Convert.ToInt32(ScreenResolution.Height / 280) + 4; }
+                if (ScreenResolution.Width > ScreenResolution.Height)
+                {
+                    AppVariables.ContentToScrollLoad = Convert.ToInt32(ScreenResolution.Width / 280) + 4;
+                }
+                else
+                {
+                    AppVariables.ContentToScrollLoad = Convert.ToInt32(ScreenResolution.Height / 280) + 4;
+                }
                 System.Diagnostics.Debug.WriteLine("Preload items has been set to: " + AppVariables.ContentToScrollLoad);
 
                 //Connect to the database

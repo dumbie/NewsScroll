@@ -8,7 +8,6 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Lists.Lists;
@@ -21,33 +20,31 @@ namespace NewsScroll
         public SettingsPage()
         {
             this.InitializeComponent();
+            this.Loaded += Page_Loaded;
         }
 
         //Page variables
         private string vPreviousAccount = string.Empty;
 
         //Application Navigation
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Loaded += async delegate
+            try
             {
-                try
-                {
-                    //Load and set the settings
-                    SettingsLoad();
-                    SettingsSave();
+                //Load and set the settings
+                SettingsLoad();
+                SettingsSave();
 
-                    //Hide the switch fullscreen mode
-                    if (!AVFunctions.DevMobile()) { button_SwitchScreenMode.Visibility = Visibility.Visible; }
+                //Hide the switch fullscreen mode
+                if (!AVFunctions.DevMobile()) { button_SwitchScreenMode.Visibility = Visibility.Visible; }
 
-                    //Store the previous username
-                    vPreviousAccount = AppVariables.ApplicationSettings["ApiAccount"].ToString();
+                //Store the previous username
+                vPreviousAccount = AppVariables.ApplicationSettings["ApiAccount"].ToString();
 
-                    //Load and set database size
-                    await UpdateSizeInformation();
-                }
-                catch { }
-            };
+                //Load and set database size
+                await UpdateSizeInformation();
+            }
+            catch { }
         }
 
         async void iconHelp_Tap(object sender, RoutedEventArgs e)
@@ -108,19 +105,6 @@ namespace NewsScroll
         }
 
         //User Interface - Buttons
-        void HideShowMenu(bool ForceClose)
-        {
-            try
-            {
-                int MenuTargetSize = Convert.ToInt32(grid_PopupMenu.Tag);
-                int MenuCurrentSize = Convert.ToInt32(grid_PopupMenu.Height);
-                if (ForceClose || MenuCurrentSize == MenuTargetSize) { grid_PopupMenu.Height = 0; }
-                else { grid_PopupMenu.Height = MenuTargetSize; }
-            }
-            catch { }
-        }
-        void iconMenu_Tap(object sender, RoutedEventArgs e) { try { HideShowMenu(false); } catch { } }
-
         async void iconNews_Tap(object sender, RoutedEventArgs e)
         {
             try

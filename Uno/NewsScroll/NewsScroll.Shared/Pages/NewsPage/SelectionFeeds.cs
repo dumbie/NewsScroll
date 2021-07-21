@@ -288,15 +288,13 @@ namespace NewsScroll
                 }
 
                 //Update the current item count
-                int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                if (HeaderCurrentSize == HeaderTargetSize || AppVariables.CurrentTotalItemsCount == 0)
+                if (stackpanel_Header.Visibility == Visibility.Visible || AppVariables.CurrentTotalItemsCount == 0)
                 {
-                    textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString();
+                    textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount.ToString();
                 }
                 else
                 {
-                    textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString() + "/" + AppVariables.CurrentTotalItemsCount;
+                    textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount + "/" + AppVariables.CurrentTotalItemsCount;
                 }
             }
             catch { }

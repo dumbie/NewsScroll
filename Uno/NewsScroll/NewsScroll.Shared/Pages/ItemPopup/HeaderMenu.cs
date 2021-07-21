@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using System;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -39,11 +38,9 @@ namespace NewsScroll
         {
             try
             {
-                int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                if (ForceClose || HeaderCurrentSize == HeaderTargetSize)
+                if (ForceClose || stackpanel_Header.Visibility == Visibility.Visible)
                 {
-                    stackpanel_Header.Height = 0;
+                    stackpanel_Header.Visibility = Visibility.Collapsed;
                     await HideShowMenu(true);
 
                     if (!AVFunctions.DevMobile()) { iconMenu.Margin = new Thickness(0, 0, 16, 0); }
@@ -62,7 +59,7 @@ namespace NewsScroll
                 }
                 else
                 {
-                    stackpanel_Header.Height = HeaderTargetSize;
+                    stackpanel_Header.Visibility = Visibility.Visible;
 
                     iconMenu.Margin = new Thickness(0, 0, 0, 0);
 
@@ -86,16 +83,17 @@ namespace NewsScroll
         {
             try
             {
-                int MenuTargetSize = Convert.ToInt32(grid_PopupMenu.Tag);
-                int MenuCurrentSize = Convert.ToInt32(grid_PopupMenu.Height);
-                if (ForceClose || MenuCurrentSize == MenuTargetSize) { grid_PopupMenu.Height = 0; }
+                if (ForceClose || grid_PopupMenu.Visibility == Visibility.Visible)
+                {
+                    grid_PopupMenu.Visibility = Visibility.Collapsed;
+                }
                 else
                 {
-                    grid_PopupMenu.Height = MenuTargetSize;
-
-                    int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                    int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                    if (HeaderCurrentSize < HeaderTargetSize) { await EventHideShowHeader(false); }
+                    grid_PopupMenu.Visibility = Visibility.Visible;
+                    if (stackpanel_Header.Visibility != Visibility.Visible)
+                    {
+                        await HideShowHeader(false);
+                    }
                 }
             }
             catch { }

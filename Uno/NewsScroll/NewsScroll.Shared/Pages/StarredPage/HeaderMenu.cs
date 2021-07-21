@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using System;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -38,11 +37,9 @@ namespace NewsScroll
         {
             try
             {
-                int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                if (ForceClose || HeaderCurrentSize == HeaderTargetSize)
+                if (ForceClose || stackpanel_Header.Visibility == Visibility.Visible)
                 {
-                    stackpanel_Header.Height = 0;
+                    stackpanel_Header.Visibility = Visibility.Collapsed;
                     await HideShowMenu(true);
 
                     if (!AVFunctions.DevMobile()) { iconMenu.Margin = new Thickness(0, 0, 16, 0); }
@@ -55,14 +52,20 @@ namespace NewsScroll
                     border_StatusCurrentItem.Background = new SolidColorBrush(Color.FromArgb(255, 88, 88, 88)) { Opacity = 0.50 };
 
                     //Update the current item status text
-                    if (AppVariables.CurrentTotalItemsCount == 0) { textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString(); }
-                    else { textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString() + "/" + AppVariables.CurrentTotalItemsCount; }
+                    if (AppVariables.CurrentTotalItemsCount == 0)
+                    {
+                        textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount.ToString();
+                    }
+                    else
+                    {
+                        textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount + "/" + AppVariables.CurrentTotalItemsCount;
+                    }
 
                     AppVariables.HeaderHidden = true;
                 }
                 else
                 {
-                    stackpanel_Header.Height = HeaderTargetSize;
+                    stackpanel_Header.Visibility = Visibility.Visible;
 
                     iconMenu.Margin = new Thickness(0, 0, 0, 0);
 
@@ -74,7 +77,7 @@ namespace NewsScroll
                     border_StatusCurrentItem.Background = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) { Opacity = 0.50 };
 
                     //Update the current item status text
-                    textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString();
+                    textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount.ToString();
 
                     AppVariables.HeaderHidden = false;
                 }
@@ -86,16 +89,17 @@ namespace NewsScroll
         {
             try
             {
-                int MenuTargetSize = Convert.ToInt32(grid_PopupMenu.Tag);
-                int MenuCurrentSize = Convert.ToInt32(grid_PopupMenu.Height);
-                if (ForceClose || MenuCurrentSize == MenuTargetSize) { grid_PopupMenu.Height = 0; }
+                if (ForceClose || grid_PopupMenu.Visibility == Visibility.Visible)
+                {
+                    grid_PopupMenu.Visibility = Visibility.Collapsed;
+                }
                 else
                 {
-                    grid_PopupMenu.Height = MenuTargetSize;
-
-                    int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                    int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                    if (HeaderCurrentSize < HeaderTargetSize) { await HideShowHeader(false); }
+                    grid_PopupMenu.Visibility = Visibility.Visible;
+                    if (stackpanel_Header.Visibility != Visibility.Visible)
+                    {
+                        await HideShowHeader(false);
+                    }
                 }
             }
             catch { }

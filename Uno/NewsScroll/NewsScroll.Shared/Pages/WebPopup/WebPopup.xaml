@@ -11,7 +11,7 @@
 
     <Popup x:Name="popup_Main">
         <!--Main page-->
-        <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}">
+        <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}" Width="10000" Height="10000">
             <!-- Main Grid -->
             <Grid>
                 <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Page Header -->
-                <Grid Grid.Row="0" Name="stackpanel_Header" Tag="65" Height="65" Background="{StaticResource ApplicationAccentLightBrush}">
+                <Grid Grid.Row="0" Name="stackpanel_Header" Height="65" Background="{StaticResource ApplicationAccentLightBrush}">
                     <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
                         <TextBlock Name="txt_AppTitle" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Webviewer"/>
                         <TextBlock Name="txt_AppInfo" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Scroll"/>
@@ -37,8 +37,8 @@
                     <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
                 </Grid.Background>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <ProgressRing Foreground="White" IsActive="True" Margin="10,0,0,0"/>
-                    <TextBlock Name="textblock_StatusApplication" Margin="10,-3,0,0" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
+                    <ProgressRing Foreground="White" IsActive="True" Margin="5,0,0,0"/>
+                    <TextBlock Name="textblock_StatusApplication" Margin="5,0,0,0" VerticalAlignment="Center" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Status bar..."/>
                 </StackPanel>
             </Grid>
 
@@ -66,7 +66,7 @@
             </Grid>
 
             <!-- Grid Popup Menu -->
-            <Grid Name="grid_PopupMenu" Height="0" Tag="60" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
+            <Grid Name="grid_PopupMenu" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,65,0,0">
                 <Grid.Background>
                     <SolidColorBrush Color="{StaticResource ApplicationAccentLightColor}" Opacity="0.60"/>
                 </Grid.Background>

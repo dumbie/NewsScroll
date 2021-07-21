@@ -4,7 +4,7 @@
     {
         //Server Variables
         //public static string ApiConnectionUrl = "http://192.168.0.3/api/NewsScroll/";
-        public static string ApiConnectionUrl = "hxttps://theoldreader.com/reader/api/0/";
+        public static string ApiConnectionUrl = "https://theoldreader.com/reader/api/0/";
 
         //Online update status
         public static bool OnlineUpdateNews = true;

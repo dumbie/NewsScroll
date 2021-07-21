@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Windows.System;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using static NewsScroll.Api.Api;
@@ -14,11 +12,8 @@ namespace NewsScroll
         private void SettingsSave()
         {
             //Account username
-            setting_ApiAccount.KeyUp += (sender, e) =>
+            setting_ApiAccount.TextChanged += (sender, e) =>
             {
-                //Hide the keyboard
-                if (e.Key == VirtualKey.Enter) { InputPane.GetForCurrentView().TryHide(); }
-
                 //Reset the online status
                 OnlineUpdateFeeds = true;
                 OnlineUpdateNews = true;
@@ -29,11 +24,8 @@ namespace NewsScroll
             };
 
             //Account password
-            setting_ApiPassword.KeyUp += (sender, e) =>
+            setting_ApiPassword.PasswordChanged += (sender, e) =>
             {
-                //Hide the keyboard
-                if (e.Key == VirtualKey.Enter) { InputPane.GetForCurrentView().TryHide(); }
-
                 //Reset the online status
                 OnlineUpdateFeeds = true;
                 OnlineUpdateNews = true;
@@ -92,11 +84,8 @@ namespace NewsScroll
             };
 
             //News item content cutting length
-            setting_ContentCuttingLength.KeyUp += (sender, e) =>
+            setting_ContentCuttingLength.TextChanged += (sender, e) =>
             {
-                //Hide the keyboard
-                if (e.Key == VirtualKey.Enter) { InputPane.GetForCurrentView().TryHide(); }
-
                 Color ColorInvalid = Color.FromArgb(255, 205, 25, 40);
                 SolidColorBrush BrushInvalid = new SolidColorBrush(ColorInvalid);
 

@@ -34,6 +34,7 @@ namespace NewsScroll
         public static string[] BlockedListUrl = new string[] { "feedproxy.google.com", "feedburner.com", "placehold.it", "mbn2_twig" };
 
         //Items Current Variables
+        public static int CurrentShownItemCount = 0;
         public static int CurrentTotalItemsCount = 0;
         public static int CurrentFeedsLoaded = 0;
         public static int CurrentItemsLoaded = 0;

@@ -14,8 +14,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using static ArnoldVinkCode.AVFunctions;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
 using static NewsScroll.Lists.Lists;
@@ -27,6 +25,7 @@ namespace NewsScroll
         public SearchPage()
         {
             this.InitializeComponent();
+            this.Loaded += Page_Loaded;
         }
 
         //Search Variables
@@ -38,41 +37,38 @@ namespace NewsScroll
         private static int vPreviousScrollItem = 0;
 
         //Application Navigation
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Loaded += async delegate
+            try
             {
-                try
-                {
-                    //Register page events
-                    RegisterPageEvents();
+                //Register page events
+                RegisterPageEvents();
 
-                    //Adjust the scrolling direction
-                    await AdjustItemsScrollingDirection(Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]));
+                //Adjust the scrolling direction
+                await AdjustItemsScrollingDirection(Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]));
 
-                    //Adjust the list view style
-                    ChangeListViewStyle(Convert.ToInt32(AppVariables.ApplicationSettings["ListViewStyle"]));
+                //Adjust the list view style
+                ChangeListViewStyle(Convert.ToInt32(AppVariables.ApplicationSettings["ListViewStyle"]));
 
-                    //Adjust the swiping direction
-                    SwipeBarAdjust();
+                //Adjust the swiping direction
+                SwipeBarAdjust();
 
-                    //Bind list to ListView
-                    ListView_Items.ItemsSource = List_SearchItems;
-                    combobox_FeedSelection.ItemsSource = List_FeedSelect;
+                //Bind list to ListView
+                ListView_Items.ItemsSource = List_SearchItems;
+                combobox_FeedSelection.ItemsSource = List_FeedSelect;
 
-                    //Load the search history
-                    await LoadSearchHistory();
+                //Load the search history
+                await LoadSearchHistory();
 
-                    //Load feeds into selector
-                    await LoadSelectionFeeds(false, true);
+                //Load feeds into selector
+                await LoadSelectionFeeds(false, true);
 
-                    //Focus on the text box to open keyboard
-                    txtbox_Search.IsEnabled = false;
-                    txtbox_Search.IsEnabled = true;
-                    txtbox_Search.Focus(FocusState.Programmatic);
-                }
-                catch { }
-            };
+                //Focus on the text box to open keyboard
+                txtbox_Search.IsEnabled = false;
+                txtbox_Search.IsEnabled = true;
+                txtbox_Search.Focus(FocusState.Programmatic);
+            }
+            catch { }
         }
 
         //Register page events
@@ -277,58 +273,17 @@ namespace NewsScroll
                         }
 
                         //Update the current item count
-                        int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                        int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                        if (HeaderCurrentSize == HeaderTargetSize || AppVariables.CurrentTotalItemsCount == 0)
+                        if (stackpanel_Header.Visibility == Visibility.Visible || AppVariables.CurrentTotalItemsCount == 0)
                         {
-                            textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString();
+                            textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount.ToString();
                         }
                         else
                         {
-                            textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString() + "/" + AppVariables.CurrentTotalItemsCount;
+                            textblock_StatusCurrentItem.Text = AppVariables.CurrentShownItemCount + "/" + AppVariables.CurrentTotalItemsCount;
                         }
                     }
                     catch { }
                 });
-            }
-            catch { }
-        }
-
-        //Monitor and handle the scroll viewer
-        private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            try
-            {
-                //Get current scroll item
-                int CurrentOffSetId = -1;
-                for (int i = 0; i < ListView_Items.Items.Count; i++)
-                {
-                    if (ElementIsVisible(ListView_Items.ContainerFromItem(ListView_Items.Items[i]) as ListViewItem, ListView_Items))
-                    {
-                        CurrentOffSetId = i;
-                        break;
-                    }
-                }
-                if (CurrentOffSetId < 0) { return; }
-
-                //Update the current item count
-                textblock_StatusCurrentItem.Tag = (CurrentOffSetId + 1).ToString();
-                int HeaderTargetSize = Convert.ToInt32(stackpanel_Header.Tag);
-                int HeaderCurrentSize = Convert.ToInt32(stackpanel_Header.Height);
-                if (HeaderCurrentSize == HeaderTargetSize || AppVariables.CurrentTotalItemsCount == 0)
-                {
-                    textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString();
-                }
-                else
-                {
-                    textblock_StatusCurrentItem.Text = textblock_StatusCurrentItem.Tag.ToString() + "/" + AppVariables.CurrentTotalItemsCount;
-                }
-
-                //Update the shown item content
-                await EventsScrollViewer.ScrollViewerUpdateContent(ListView_Items, CurrentOffSetId);
-
-                //Check if new items need to be loaded
-                await EventsScrollViewer.ScrollViewerAddItems(ListView_Items, CurrentOffSetId);
             }
             catch { }
         }
@@ -338,8 +293,11 @@ namespace NewsScroll
         {
             try
             {
-                bool Scrolled = await EventsItemStatus.ListViewScroller(ListView_Items, Convert.ToInt32(textblock_StatusCurrentItem.Tag), vPreviousScrollItem);
-                if (Scrolled) { vPreviousScrollItem = Convert.ToInt32(textblock_StatusCurrentItem.Tag); }
+                bool Scrolled = await EventsItemStatus.ListViewScroller(ListView_Items, Convert.ToInt32(AppVariables.CurrentShownItemCount), vPreviousScrollItem);
+                if (Scrolled)
+                {
+                    vPreviousScrollItem = Convert.ToInt32(AppVariables.CurrentShownItemCount);
+                }
             }
             catch { }
         }
