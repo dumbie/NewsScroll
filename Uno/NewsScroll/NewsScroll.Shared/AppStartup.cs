@@ -77,26 +77,5 @@ namespace NewsScroll.Startup
             }
             catch { }
         }
-
-        //Switch between screen modes
-        public static void SwitchScreenMode()
-        {
-            try
-            {
-                if (!AVFunctions.DevMobile())
-                {
-                    System.Diagnostics.Debug.WriteLine("Switching between screen modes.");
-                    if (AppVariables.ApplicationView.IsFullScreenMode)
-                    {
-                        try { AppVariables.ApplicationView.ExitFullScreenMode(); } catch { }
-                    }
-                    else
-                    {
-                        try { AppVariables.ApplicationView.TryEnterFullScreenMode(); } catch { }
-                    }
-                }
-            }
-            catch { }
-        }
     }
 }

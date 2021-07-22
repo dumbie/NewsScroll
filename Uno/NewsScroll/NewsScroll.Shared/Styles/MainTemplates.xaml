@@ -78,7 +78,7 @@
     <DataTemplate x:Key="ListViewItemsVertical1">
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
                 <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>

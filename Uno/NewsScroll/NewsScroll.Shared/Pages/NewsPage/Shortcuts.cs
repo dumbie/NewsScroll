@@ -15,7 +15,7 @@ namespace NewsScroll
                     try
                     {
                         PersonalizePopup personalizePopup = new PersonalizePopup();
-                        await personalizePopup.OpenPopup();
+                        await personalizePopup.Popup();
                     }
                     catch { }
                 }

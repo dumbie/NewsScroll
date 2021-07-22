@@ -100,5 +100,8 @@
                 </Button>
             </StackPanel>
         </Grid>
+
+        <!-- Popup Container -->
+        <Grid x:Name="grid_Popup_Container"/>
     </Grid>
 </Page>

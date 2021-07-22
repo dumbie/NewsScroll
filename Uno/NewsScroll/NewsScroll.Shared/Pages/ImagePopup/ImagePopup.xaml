@@ -11,7 +11,7 @@
 
     <Popup x:Name="popup_Main">
         <!--Main page-->
-        <Grid Name="grid_Main" Width="10000" Height="10000">
+        <Grid Name="grid_Main">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.80"/>
             </Grid.Background>
@@ -38,9 +38,6 @@
                     </Button>
                     <Button Name="iconSave" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="button_iconSave_Tap" ToolTipService.ToolTip="Save the image">
                         <Image Source="/Assets/iconSave.png"/>
-                    </Button>
-                    <Button Name="iconScreenMode" Visibility="Collapsed" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="button_SwitchScreenMode_Tap" ToolTipService.ToolTip="Switch screen mode">
-                        <Image Source="/Assets/iconScreenMode.png"/>
                     </Button>
                     <Button Name="iconClose" Style="{StaticResource ButtonImage}" HorizontalAlignment="Right" Click="iconClose_Tap" ToolTipService.ToolTip="Close image viewer">
                         <Image Source="/Assets/iconClose.png"/>

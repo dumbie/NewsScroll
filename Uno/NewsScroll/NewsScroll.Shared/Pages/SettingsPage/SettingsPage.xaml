@@ -76,7 +76,6 @@
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the method you want to use to open a news item when you click on it:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
                         <ComboBox Name="setting_ItemOpenMethod" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Itemviewer (In-app)"/>
-                            <ComboBoxItem Content="Webviewer (In-app)"/>
                             <ComboBoxItem Content="Webbrowser (Device)"/>
                         </ComboBox>
 
@@ -113,7 +112,6 @@
                         <TextBlock Name="txt_OfflineStoredSize" Text="Loading stored item information..." TextWrapping="Wrap" Margin="0,10,0,0"/>
 
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,15,0,0" Content="Go to the news items page" Click="iconNews_Tap"/>
-                        <Button Name="button_SwitchScreenMode" Visibility="Collapsed" Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Switch between screen size modes" Click="button_SwitchScreenMode_Tap"/>
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Register Old Reader account" Click="btn_RegisterAccount_Click"/>
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Clear the stored offline items" Name="btn_ClearStoredItems" Click="ClearStoredItems_Click"/>
                         <Button Style="{StaticResource ButtonAccent}" Margin="0,10,0,0" Content="Open device Wi-Fi settings" Click="btn_OpenWiFiSettings_Click"/>
@@ -151,5 +149,8 @@
                 </Button>
             </StackPanel>
         </Grid>
+
+        <!-- Popup Container -->
+        <Grid x:Name="grid_Popup_Container"/>
     </Grid>
 </Page>

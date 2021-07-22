@@ -11,7 +11,6 @@ using Windows.UI.Xaml.Controls;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Lists.Lists;
-using static NewsScroll.Startup.Startup;
 
 namespace NewsScroll
 {
@@ -34,9 +33,6 @@ namespace NewsScroll
                 //Load and set the settings
                 SettingsLoad();
                 SettingsSave();
-
-                //Hide the switch fullscreen mode
-                if (!AVFunctions.DevMobile()) { button_SwitchScreenMode.Visibility = Visibility.Visible; }
 
                 //Store the previous username
                 vPreviousAccount = AppVariables.ApplicationSettings["ApiAccount"].ToString();
@@ -81,7 +77,7 @@ namespace NewsScroll
         {
             try
             {
-                int MessageBoxResult = await MessagePopup.Popup("No account is set", "Please set your account email and password to start using News Scroll.", "Enter account", "Register account", "Exit application", "", "", false);
+                int MessageBoxResult = await new MessagePopup().Popup("No account is set", "Please set your account email and password to start using News Scroll.", "Enter account", "Register account", "Exit application", "", "", false);
                 if (MessageBoxResult == 1)
                 {
                     //Focus on the text box to open keyboard
@@ -131,11 +127,6 @@ namespace NewsScroll
                 }
             }
             catch { }
-        }
-
-        private void button_SwitchScreenMode_Tap(object sender, RoutedEventArgs e)
-        {
-            try { SwitchScreenMode(); } catch { }
         }
 
         async void iconStar_Tap(object sender, RoutedEventArgs e)
@@ -244,7 +235,7 @@ namespace NewsScroll
                 }
                 else
                 {
-                    await MessagePopup.Popup("No internet connection", "You can't register an account when there is no internet connection available.", "Ok", "", "", "", "", false);
+                    await new MessagePopup().Popup("No internet connection", "You can't register an account when there is no internet connection available.", "Ok", "", "", "", "", false);
                 }
             }
             catch { }
@@ -261,7 +252,7 @@ namespace NewsScroll
         {
             try
             {
-                int MessageBoxResult = await MessagePopup.Popup("Clear database", "Do you want to clear all your stored offline feeds and items? All the feeds and items will need to be downloaded again.", "Clear database", "", "", "", "", true);
+                int MessageBoxResult = await new MessagePopup().Popup("Clear database", "Do you want to clear all your stored offline feeds and items? All the feeds and items will need to be downloaded again.", "Clear database", "", "", "", "", true);
                 if (MessageBoxResult == 1)
                 {
                     await ClearDatabase();

@@ -110,6 +110,7 @@
             </StackPanel>
         </Grid>
 
-        <Image x:Name="loadtest" Width="200" Height="200"/>
+        <!-- Popup Container -->
+        <Grid x:Name="grid_Popup_Container"/>
     </Grid>
 </Page>

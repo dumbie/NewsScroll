@@ -38,5 +38,8 @@
                 <Button Name="btn_PrivacyPolicy" Margin="0,8,0,0" Content="App Privacy Policy" Style="{StaticResource ButtonAccent}" Click="btn_PrivacyPolicy_Tapped"/>
             </StackPanel>
         </ScrollViewer>
+
+        <!-- Popup Container -->
+        <Grid x:Name="grid_Popup_Container"/>
     </Grid>
 </Page>

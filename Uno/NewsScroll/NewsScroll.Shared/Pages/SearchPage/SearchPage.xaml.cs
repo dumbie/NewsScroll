@@ -429,7 +429,7 @@ namespace NewsScroll
             {
                 await HideShowMenu(true);
                 PersonalizePopup personalizePopup = new PersonalizePopup();
-                await personalizePopup.OpenPopup();
+                await personalizePopup.Popup();
             }
             catch { }
         }

@@ -49,9 +49,6 @@ namespace NewsScroll
                 //Adjust the swiping direction
                 SwipeBarAdjust();
 
-                //Show the switch fullscreen mode icon
-                if (!AVFunctions.DevMobile()) { iconScreenMode.Visibility = Visibility.Visible; }
-
                 //Set Landscape Display
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
 
@@ -143,12 +140,6 @@ namespace NewsScroll
             catch { }
         }
 
-        //Switch between screen modes
-        private void button_SwitchScreenMode_Tap(object sender, RoutedEventArgs e)
-        {
-            try { SwitchScreenMode(); } catch { }
-        }
-
         //Play/pause the video
         private async void item_video_Click(object sender, RoutedEventArgs e)
         {
@@ -202,7 +193,7 @@ namespace NewsScroll
                     }
                     else
                     {
-                        int MessageResult = await MessagePopup.Popup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", "", true);
+                        int MessageResult = await new MessagePopup().Popup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", "", true);
                         if (MessageResult == 0) { return; }
                     }
 
@@ -223,7 +214,7 @@ namespace NewsScroll
                             if (ImageBuffer != null) { await FileIO.WriteBytesAsync(NewFile, ImageBuffer); }
                             else
                             {
-                                await MessagePopup.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                                await new MessagePopup().Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                                 System.Diagnostics.Debug.WriteLine("Failed to download the image.");
                             }
                         }
@@ -266,7 +257,7 @@ namespace NewsScroll
             }
             catch
             {
-                await MessagePopup.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                await new MessagePopup().Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 System.Diagnostics.Debug.WriteLine("Failed to save the image.");
             }
         }

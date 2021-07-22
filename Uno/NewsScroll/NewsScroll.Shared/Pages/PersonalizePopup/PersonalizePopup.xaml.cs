@@ -13,26 +13,22 @@ namespace NewsScroll
 {
     public partial class PersonalizePopup : UserControl
     {
-        //Popup Variables
-        public static bool PopupIsOpen = false;
-
         //Initialize popup
         public PersonalizePopup() { this.InitializeComponent(); }
 
         //Open the popup
-        public async Task OpenPopup()
+        public async Task Popup()
         {
             try
             {
-                if (PopupIsOpen)
+                //Open the popup
+                Grid gridPopup = AppVariables.FindPageGridPopup();
+                if (gridPopup == null)
                 {
-                    System.Diagnostics.Debug.WriteLine("The popup is already open...");
+                    System.Diagnostics.Debug.WriteLine("Popup cannot be opened, no grid found.");
                     return;
                 }
-
-                //Open the popup
-                popup_Main.IsOpen = true;
-                PopupIsOpen = true;
+                gridPopup.Children.Add(this);
 
                 //Focus on the popup
                 iconClose.Focus(FocusState.Programmatic);
@@ -40,9 +36,6 @@ namespace NewsScroll
                 //Load and set the settings
                 await SettingsLoad();
                 SettingsSave();
-
-                //Show the switch fullscreen mode
-                if (!AVFunctions.DevMobile()) { button_SwitchScreenMode.Visibility = Visibility.Visible; }
             }
             catch { }
         }
@@ -53,9 +46,8 @@ namespace NewsScroll
         {
             try
             {
-                //Close the popup
-                popup_Main.IsOpen = false;
-                PopupIsOpen = false;
+                Grid gridPopup = AppVariables.FindPageGridPopup();
+                gridPopup.Children.Remove(this);
             }
             catch { }
         }
@@ -166,11 +158,6 @@ namespace NewsScroll
                 };
             }
             catch { }
-        }
-
-        private void button_SwitchScreenMode_Tap(object sender, RoutedEventArgs e)
-        {
-            try { SwitchScreenMode(); } catch { }
         }
 
         //Monitor the application size

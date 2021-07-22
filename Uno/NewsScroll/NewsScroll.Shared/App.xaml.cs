@@ -25,11 +25,6 @@ namespace NewsScroll
 #if __IOS__ || __ANDROID__
                 Uno.UI.FeatureConfiguration.Style.ConfigureNativeFrameNavigation();
 #endif
-
-                //Use native popup window
-#if __ANDROID__
-                Uno.UI.FeatureConfiguration.Popup.UseNativePopup = false;
-#endif
             }
             catch { }
         }

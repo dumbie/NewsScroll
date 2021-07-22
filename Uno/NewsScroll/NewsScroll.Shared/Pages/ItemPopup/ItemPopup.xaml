@@ -11,7 +11,7 @@
 
     <Popup x:Name="popup_Main">
         <!--Main page-->
-        <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}" Width="10000" Height="10000">
+        <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}">
             <!-- Main Grid -->
             <Grid>
                 <Grid.RowDefinitions>
@@ -31,7 +31,7 @@
                 <ScrollViewer Grid.Row="1" Name="scrollviewer_NewsItem" HorizontalAlignment="Stretch" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel Name="stackpanel_NewsItem" MinWidth="280" MaxWidth="720" HorizontalAlignment="Center" Padding="10,5,10,0" Background="Transparent" ManipulationMode="TranslateX, System">
                         <StackPanel ToolTipService.ToolTip="{Binding vCurrentWebSource.feed_title}">
-                            <TextBlock Name="tb_ItemTitle" Text="{Binding vCurrentWebSource.item_title}" Style="{StaticResource TextBlockBlack}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
+                            <TextBlock Name="tb_ItemTitle" Text="{Binding vCurrentWebSource.item_title}" Foreground="Red" Style="{StaticResource TextBlockBlack}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
                             <TextBlock Name="tb_ItemDateString" Text="{Binding vCurrentWebSource.item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
                             <Grid Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>

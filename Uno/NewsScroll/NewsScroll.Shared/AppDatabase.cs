@@ -82,7 +82,11 @@ namespace NewsScroll.Database
                 //Delete all files from local storage
                 foreach (IStorageItem LocalFile in await ApplicationData.Current.LocalFolder.GetItemsAsync())
                 {
-                    try { await LocalFile.DeleteAsync(StorageDeleteOption.PermanentDelete); } catch { }
+                    try
+                    {
+                        await LocalFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    }
+                    catch { }
                 }
 
                 //Reset the online status

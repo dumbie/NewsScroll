@@ -58,26 +58,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\HelpPage\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ImageContainer\ImageContainer.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Containers\ImageContainer\ImageContainer.xaml.cs">
       <DependentUpon>ImageContainer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ImageContainer\Properties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ImagePopup\ImagePopup.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Containers\ImageContainer\Properties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ImagePopup\ImagePopup.xaml.cs">
       <DependentUpon>ImagePopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ImagePopup\Shortcuts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ImagePopup\SwipeAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\HeaderMenu.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\ItemPopup.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ImagePopup\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ImagePopup\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\HeaderMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\ItemPopup.xaml.cs">
       <DependentUpon>ItemPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\NotifyPropertyChanged.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\RichTextBlockHtml\Adding.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\RichTextBlockHtml\Generate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\RichTextBlockHtml\RichTextBlockHtml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\Shortcuts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\SwipeAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\MessagePopup\MessagePopup.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\NotifyPropertyChanged.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\RichTextBlockHtml\Adding.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\RichTextBlockHtml\Generate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\RichTextBlockHtml\RichTextBlockHtml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\Shortcuts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\SwipeAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\MessagePopup\MessagePopup.xaml.cs">
       <DependentUpon>MessagePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\ChangeListViewStyle.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\SelectionFeeds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\Shortcuts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\NewsPage\SwipeAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\PersonalizePopup\PersonalizePopup.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\PersonalizePopup\PersonalizePopup.xaml.cs">
       <DependentUpon>PersonalizePopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SearchPage\ChangeListViewStyle.cs" />
@@ -117,17 +117,11 @@
       <DependentUpon>StarredPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\StarredPage\SwipeAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\VideoContainer\VideoContainer.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Containers\VideoContainer\VideoContainer.xaml.cs">
       <DependentUpon>VideoContainer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\WebContainer\WebContainer.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Containers\WebContainer\WebContainer.xaml.cs">
       <DependentUpon>WebContainer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\WebPopup\HeaderMenu.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\WebPopup\Shortcuts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\WebPopup\SwipeAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\WebPopup\WebPopup.xaml.cs">
-      <DependentUpon>WebPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Process\ProcessItemContent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Process\ProcessItemLoad.cs" />
@@ -150,19 +144,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\ImageContainer\ImageContainer.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Containers\ImageContainer\ImageContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\ImagePopup\ImagePopup.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Popups\ImagePopup\ImagePopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\ItemPopup\ItemPopup.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\ItemPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\MessagePopup\MessagePopup.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Popups\MessagePopup\MessagePopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\PersonalizePopup\PersonalizePopup.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Popups\PersonalizePopup\PersonalizePopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,15 +180,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\VideoContainer\VideoContainer.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Containers\VideoContainer\VideoContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\WebContainer\WebContainer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)Pages\WebPopup\WebPopup.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)Containers\WebContainer\WebContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,5 +320,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\ListStyles\3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Containers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Popups\" />
   </ItemGroup>
 </Project>

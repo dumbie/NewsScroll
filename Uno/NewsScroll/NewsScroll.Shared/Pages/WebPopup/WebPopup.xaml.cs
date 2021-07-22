@@ -116,7 +116,7 @@ namespace NewsScroll
                 if (webview_Browser.CanGoBack)
                 {
                     await HideShowMenu(true);
-                    int MsgBoxResult = await MessagePopup.Popup("Webviewer", "Do you want to go to the previous page or close the browser?", "Go to previous page", "Close webviewer", "", "", "", true);
+                    int MsgBoxResult = await new MessagePopup().Popup("Webviewer", "Do you want to go to the previous page or close the browser?", "Go to previous page", "Close webviewer", "", "", "", true);
                     if (MsgBoxResult == 1) { webview_Browser.GoBack(); }
                     else if (MsgBoxResult == 2) { ClosePopup(); }
                 }
@@ -362,7 +362,7 @@ namespace NewsScroll
             try
             {
                 await HideShowMenu(true);
-                int MsgBoxResult = await MessagePopup.Popup("Open this item or link", "Do you want to open this item or link in your webbrowser?", "Open in webbrowser", "", "", "", "", true);
+                int MsgBoxResult = await new MessagePopup().Popup("Open this item or link", "Do you want to open this item or link in your webbrowser?", "Open in webbrowser", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     ClosePopup();

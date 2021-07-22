@@ -1,0 +1,20 @@
+﻿<Grid
+    x:Class="NewsScroll.VideoContainer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid.Background>
+        <SolidColorBrush Color="#888" Opacity="0.20"/>
+    </Grid.Background>
+
+    <TextBlock x:FieldModifier="public" Name="item_status" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource TextSizeSmall}" Style="{StaticResource TextBlockLightGray}" Opacity="0.60" TextAlignment="Center" Text="Video loading,&#x0a;or is not available."/>
+
+    <MediaPlayerElement x:FieldModifier="public" Name="item_source" AreTransportControlsEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <MediaPlayerElement.TransportControls>
+            <MediaTransportControls IsCompact="True" IsFullWindowButtonVisible="False"/>
+        </MediaPlayerElement.TransportControls>
+    </MediaPlayerElement>
+</Grid>

@@ -384,7 +384,7 @@ namespace NewsScroll
         {
             try
             {
-                int MsgBoxResult = await MessagePopup.Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", "Refresh starred items", "", "", "", "", true);
+                int MsgBoxResult = await new MessagePopup().Popup("Refresh starred items", "Do you want to refresh starred items and scroll to the top?", "Refresh starred items", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     //Reset the online status
@@ -421,7 +421,7 @@ namespace NewsScroll
             {
                 await HideShowMenu(true);
                 PersonalizePopup personalizePopup = new PersonalizePopup();
-                await personalizePopup.OpenPopup();
+                await personalizePopup.Popup();
             }
             catch { }
         }

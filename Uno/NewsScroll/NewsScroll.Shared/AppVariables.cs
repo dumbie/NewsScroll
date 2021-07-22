@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using ArnoldVinkCode;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.NetworkInformation;
 using Windows.Storage;
 using Windows.System.Display;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Controls;
 
 namespace NewsScroll
 {
@@ -48,5 +51,17 @@ namespace NewsScroll
         public static int StarredMaximumLoad = 500;
         public static int MaximumItemTextLength = 8000;
         public static int MaximumItemImageHeight = 320;
+
+        //Find and return popup grid
+        public static Grid FindPageGridPopup()
+        {
+            try
+            {
+                List<Grid> listGrid = AVFunctions.FindVisualChildren<Grid>(App.vApplicationFrame);
+                return listGrid.FirstOrDefault(x => x.Name == "grid_Popup_Container");
+            }
+            catch { }
+            return null;
+        }
     }
 }
