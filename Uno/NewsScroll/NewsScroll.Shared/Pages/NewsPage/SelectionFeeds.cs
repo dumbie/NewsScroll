@@ -79,55 +79,44 @@ namespace NewsScroll
                 List<string> IgnoredFeedList = LoadTableFeeds.Where(x => x.feed_ignore_status == true).Select(x => x.feed_id).ToList();
                 List<TableFeeds> UnignoredFeedList = LoadTableFeeds.Where(x => x.feed_ignore_status == false).ToList();
 
-                if (!(bool)AppVariables.ApplicationSettings["DisplayReadMarkedItems"])
-                {
-                    //Add unread feeds selection
-                    Feeds TempFeed = new Feeds();
-                    TempFeed.feed_id = "2";
+                //Add all feeds selection
+                Feeds TempFeed = new Feeds();
+                TempFeed.feed_id = "0";
+                int TotalItemsAll = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
+                Feeds FeedItemAll = new Feeds();
+                FeedItemAll.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                FeedItemAll.feed_title = "All items";
+                FeedItemAll.feed_item_count = TotalItemsAll;
+                FeedItemAll.feed_collection_status = true;
+                FeedItemAll.feed_id = "0";
+                List_FeedSelect.Add(FeedItemAll);
 
-                    int TotalItemsUnread = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
-                    Feeds FeedItemUnread = new Feeds();
-                    FeedItemUnread.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
-                    FeedItemUnread.feed_title = "All unread items";
-                    FeedItemUnread.feed_item_count = TotalItemsUnread;
-                    FeedItemUnread.feed_collection_status = true;
-                    FeedItemUnread.feed_id = "2";
-                    List_FeedSelect.Add(FeedItemUnread);
+                //Add read feeds selection
+                TempFeed.feed_id = "1";
+                int TotalItemsRead = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
+                Feeds FeedItemRead = new Feeds();
+                FeedItemRead.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                FeedItemRead.feed_title = "Read items";
+                FeedItemRead.feed_item_count = TotalItemsRead;
+                FeedItemRead.feed_collection_status = true;
+                FeedItemRead.feed_id = "1";
+                List_FeedSelect.Add(FeedItemRead);
 
-                    //Add read feeds selection
-                    TempFeed.feed_id = "1";
-
-                    int TotalItemsRead = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
-                    Feeds FeedItemRead = new Feeds();
-                    FeedItemRead.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
-                    FeedItemRead.feed_title = "Already read items";
-                    FeedItemRead.feed_item_count = TotalItemsRead;
-                    FeedItemRead.feed_collection_status = true;
-                    FeedItemRead.feed_id = "1";
-                    List_FeedSelect.Add(FeedItemRead);
-                }
-                else
-                {
-                    //Add all feeds selection
-                    Feeds TempFeed = new Feeds();
-                    TempFeed.feed_id = "0";
-
-                    int TotalItemsAll = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
-                    Feeds FeedItemAll = new Feeds();
-                    FeedItemAll.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
-                    FeedItemAll.feed_title = "All feed items";
-                    FeedItemAll.feed_item_count = TotalItemsAll;
-                    FeedItemAll.feed_collection_status = true;
-                    FeedItemAll.feed_id = "0";
-                    List_FeedSelect.Add(FeedItemAll);
-                }
+                //Add unread feeds selection
+                TempFeed.feed_id = "2";
+                int TotalItemsUnread = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
+                Feeds FeedItemUnread = new Feeds();
+                FeedItemUnread.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                FeedItemUnread.feed_title = "Unread items";
+                FeedItemUnread.feed_item_count = TotalItemsUnread;
+                FeedItemUnread.feed_collection_status = true;
+                FeedItemUnread.feed_id = "2";
+                List_FeedSelect.Add(FeedItemUnread);
 
                 //Feeds that are not ignored and contain items
                 foreach (TableFeeds Feed in UnignoredFeedList)
                 {
-                    Feeds TempFeed = new Feeds();
                     TempFeed.feed_id = Feed.feed_id;
-
                     int TotalItems = ProcessItemLoad.FilterNewsItems(IgnoredFeedList, LoadTableItems, TempFeed, 0, AppVariables.ItemsMaximumLoad).Count();
                     if (TotalItems > 0)
                     {

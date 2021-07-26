@@ -30,8 +30,8 @@ namespace NewsScroll
 
         //Page Variables
         //0 = All items
-        //1 = All read items
-        //2 = All unread items
+        //1 = Read items
+        //2 = Unread items
         public static Feeds vCurrentLoadingFeedFolder = null;
         private static int vPreviousScrollItem = 0;
 
@@ -221,8 +221,8 @@ namespace NewsScroll
                 await ClearObservableCollection(List_NewsItems);
 
                 //Get the currently selected feed
-                string SelectedFeedTitle = "All feed items";
-                if (!(bool)AppVariables.ApplicationSettings["DisplayReadMarkedItems"]) { SelectedFeedTitle = "All unread items"; }
+                string SelectedFeedTitle = "All items";
+                if (!(bool)AppVariables.ApplicationSettings["DisplayReadMarkedItems"]) { SelectedFeedTitle = "Unread items"; }
                 if (vCurrentLoadingFeedFolder != null)
                 {
                     if (vCurrentLoadingFeedFolder.feed_title != null) { SelectedFeedTitle = vCurrentLoadingFeedFolder.feed_title; }
