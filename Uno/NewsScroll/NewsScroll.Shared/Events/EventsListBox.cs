@@ -76,7 +76,7 @@ namespace NewsScroll
                     string ActionMarkReadTill = string.Empty;
                     if (CurrentPageName.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1") { ActionMarkReadTill = "Mark read till item"; }
 
-                    int MsgBoxResult = await new MessagePopup().Popup("News item actions", "What would you like to do with this item?", "Open in browser", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
+                    int MsgBoxResult = await MessagePopup.Popup("News item actions", "What would you like to do with this item?", "Open in browser", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
                     if (MsgBoxResult == 1)
                     {
                         await ListItemOpenBrowser(SendListView, SelectedItem, SelectedList, CurrentPageName);
@@ -179,7 +179,7 @@ namespace NewsScroll
                 //Check internet connection
                 if (!NetworkInterface.GetIsNetworkAvailable())
                 {
-                    await new MessagePopup().Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
                     return;
                 }
 

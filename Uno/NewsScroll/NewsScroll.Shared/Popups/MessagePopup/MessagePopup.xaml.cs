@@ -19,82 +19,85 @@ namespace NewsScroll
         public MessagePopup() { this.InitializeComponent(); }
 
         //Open the popup
-        public async Task<int> Popup(string Question, string Description, string Answer1, string Answer2, string Answer3, string Answer4, string Answer5, bool ShowCancel)
+        public static async Task<int> Popup(string Question, string Description, string Answer1, string Answer2, string Answer3, string Answer4, string Answer5, bool ShowCancel)
         {
             TaskCompletionSource<int> TaskResult = new TaskCompletionSource<int>();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 try
                 {
+                    //Create new popup window
+                    MessagePopup targetPopup = new MessagePopup();
+
                     //Set messagebox question content
-                    grid_MessageBox_Text.Text = Question;
+                    targetPopup.grid_MessageBox_Text.Text = Question;
                     if (!string.IsNullOrWhiteSpace(Description))
                     {
-                        grid_MessageBox_Description.Text = Description;
-                        grid_MessageBox_Description.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_Description.Text = Description;
+                        targetPopup.grid_MessageBox_Description.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_Description.Text = "";
-                        grid_MessageBox_Description.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_Description.Text = "";
+                        targetPopup.grid_MessageBox_Description.Visibility = Visibility.Collapsed;
                     }
                     if (!string.IsNullOrWhiteSpace(Answer1))
                     {
-                        grid_MessageBox_Btn1.Content = Answer1;
-                        grid_MessageBox_Btn1.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_Btn1.Content = Answer1;
+                        targetPopup.grid_MessageBox_Btn1.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_Btn1.Content = "";
-                        grid_MessageBox_Btn1.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_Btn1.Content = "";
+                        targetPopup.grid_MessageBox_Btn1.Visibility = Visibility.Collapsed;
                     }
                     if (!string.IsNullOrWhiteSpace(Answer2))
                     {
-                        grid_MessageBox_Btn2.Content = Answer2;
-                        grid_MessageBox_Btn2.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_Btn2.Content = Answer2;
+                        targetPopup.grid_MessageBox_Btn2.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_Btn2.Content = "";
-                        grid_MessageBox_Btn2.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_Btn2.Content = "";
+                        targetPopup.grid_MessageBox_Btn2.Visibility = Visibility.Collapsed;
                     }
                     if (!string.IsNullOrWhiteSpace(Answer3))
                     {
-                        grid_MessageBox_Btn3.Content = Answer3;
-                        grid_MessageBox_Btn3.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_Btn3.Content = Answer3;
+                        targetPopup.grid_MessageBox_Btn3.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_Btn3.Content = "";
-                        grid_MessageBox_Btn3.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_Btn3.Content = "";
+                        targetPopup.grid_MessageBox_Btn3.Visibility = Visibility.Collapsed;
                     }
                     if (!string.IsNullOrWhiteSpace(Answer4))
                     {
-                        grid_MessageBox_Btn4.Content = Answer4;
-                        grid_MessageBox_Btn4.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_Btn4.Content = Answer4;
+                        targetPopup.grid_MessageBox_Btn4.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_Btn4.Content = "";
-                        grid_MessageBox_Btn4.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_Btn4.Content = "";
+                        targetPopup.grid_MessageBox_Btn4.Visibility = Visibility.Collapsed;
                     }
                     if (!string.IsNullOrWhiteSpace(Answer5))
                     {
-                        grid_MessageBox_Btn5.Content = Answer5;
-                        grid_MessageBox_Btn5.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_Btn5.Content = Answer5;
+                        targetPopup.grid_MessageBox_Btn5.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_Btn5.Content = "";
-                        grid_MessageBox_Btn5.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_Btn5.Content = "";
+                        targetPopup.grid_MessageBox_Btn5.Visibility = Visibility.Collapsed;
                     }
                     if (ShowCancel)
                     {
-                        grid_MessageBox_BtnCancel.Visibility = Visibility.Visible;
+                        targetPopup.grid_MessageBox_BtnCancel.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        grid_MessageBox_BtnCancel.Visibility = Visibility.Collapsed;
+                        targetPopup.grid_MessageBox_BtnCancel.Visibility = Visibility.Collapsed;
                     }
 
                     //Reset messagebox variables
@@ -108,16 +111,16 @@ namespace NewsScroll
                         System.Diagnostics.Debug.WriteLine("Popup cannot be opened, no grid found.");
                         return;
                     }
-                    gridPopup.Children.Add(this);
+                    gridPopup.Children.Add(targetPopup);
 
                     //Focus on the popup
-                    grid_MessageBox_Btn1.Focus(FocusState.Programmatic);
+                    targetPopup.grid_MessageBox_Btn1.Focus(FocusState.Programmatic);
 
                     //Wait for user messagebox input
                     while (vPopupResult == 0 && !vPopupDone) { await Task.Delay(10); }
 
                     //Close the popup
-                    gridPopup.Children.Remove(this);
+                    gridPopup.Children.Remove(targetPopup);
                 }
                 catch { }
                 TaskResult.SetResult(vPopupResult);

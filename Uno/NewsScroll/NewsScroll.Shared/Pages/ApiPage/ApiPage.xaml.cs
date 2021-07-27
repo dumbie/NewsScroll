@@ -200,7 +200,7 @@ namespace NewsScroll
             {
                 HideShowMenu(true);
 
-                int MsgBoxResult = await new MessagePopup().Popup("Refresh feeds", "Do you want to refresh the feeds and scroll to the top?", "Refresh feeds", "", "", "", "", true);
+                int MsgBoxResult = await MessagePopup.Popup("Refresh feeds", "Do you want to refresh the feeds and scroll to the top?", "Refresh feeds", "", "", "", "", true);
                 if (MsgBoxResult == 1)
                 {
                     //Reset the online status
@@ -223,7 +223,7 @@ namespace NewsScroll
                 Feeds SelectedItem = (Feeds)SendListView.SelectedItem;
                 if (SelectedItem != null)
                 {
-                    int MsgBoxResult = await new MessagePopup().Popup("Change the feed icon", "Would you like to set a custom feed icon for " + SelectedItem.feed_title + "?", "Set custom icon", "Reset the icon", "", "", "", true);
+                    int MsgBoxResult = await MessagePopup.Popup("Change the feed icon", "Would you like to set a custom feed icon for " + SelectedItem.feed_title + "?", "Set custom icon", "Reset the icon", "", "", "", true);
                     if (MsgBoxResult == 1)
                     {
                         System.Diagnostics.Debug.WriteLine("Changing icon for feed: " + SelectedItem.feed_id + " / " + SelectedItem.feed_title);
@@ -260,7 +260,7 @@ namespace NewsScroll
                         OnlineUpdateFeeds = true;
                         ApiMessageError = string.Empty;
 
-                        await new MessagePopup().Popup("Feed icon reset", "The feed icon has been reset and will be refreshed on the next online feed update, you can refresh the feeds by clicking on the refresh icon above.", "Ok", "", "", "", "", false);
+                        await MessagePopup.Popup("Feed icon reset", "The feed icon has been reset and will be refreshed on the next online feed update, you can refresh the feeds by clicking on the refresh icon above.", "Ok", "", "", "", "", false);
                     }
                 }
             }
@@ -289,14 +289,14 @@ namespace NewsScroll
                 //Check if user is logged in
                 if (!CheckLogin())
                 {
-                    await new MessagePopup().Popup("Not logged in", "Adding a feed can only be done when you are logged in.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Not logged in", "Adding a feed can only be done when you are logged in.", "Ok", "", "", "", "", false);
                     return;
                 }
 
                 //Check for internet connection
                 if (!NetworkInterface.GetIsNetworkAvailable())
                 {
-                    await new MessagePopup().Popup("No internet connection", "Adding a feed can only be done when there is an internet connection available.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No internet connection", "Adding a feed can only be done when there is an internet connection available.", "Ok", "", "", "", "", false);
                     return;
                 }
 
@@ -316,7 +316,7 @@ namespace NewsScroll
                 //Validate the url entered
                 if (!Regex.IsMatch(txtbox_AddFeed.Text, @"^http(s)?://([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$"))
                 {
-                    await new MessagePopup().Popup("Invalid feed link", "The entered feed link is invalid or does not contain a feed, please check your link and try again.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Invalid feed link", "The entered feed link is invalid or does not contain a feed, please check your link and try again.", "Ok", "", "", "", "", false);
 
                     //Focus on the text box to open keyboard
                     txtbox_AddFeed.IsEnabled = false;
@@ -449,7 +449,7 @@ namespace NewsScroll
                 //Check for selected items
                 if (ListView_Items.SelectedItems.Count == 0)
                 {
-                    await new MessagePopup().Popup("No feeds selected", "Please select some feeds that you want to un/ignore first.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No feeds selected", "Please select some feeds that you want to un/ignore first.", "Ok", "", "", "", "", false);
                     return;
                 }
                 else
@@ -483,11 +483,11 @@ namespace NewsScroll
 
                         //Reset the list selection
                         ListView_Items.SelectedIndex = -1;
-                        await new MessagePopup().Popup("Feeds have been un/ignored", "Their items will be hidden or shown again on the next news item refresh.", "Ok", "", "", "", "", false);
+                        await MessagePopup.Popup("Feeds have been un/ignored", "Their items will be hidden or shown again on the next news item refresh.", "Ok", "", "", "", "", false);
                     }
                     catch
                     {
-                        await new MessagePopup().Popup("Failed to un/ignore feeds", "Please try to un/ignored the feeds again.", "Ok", "", "", "", "", false);
+                        await MessagePopup.Popup("Failed to un/ignore feeds", "Please try to un/ignored the feeds again.", "Ok", "", "", "", "", false);
                     }
 
                     await ProgressEnableUI();
@@ -504,14 +504,14 @@ namespace NewsScroll
                 //Check for internet connection
                 if (!NetworkInterface.GetIsNetworkAvailable())
                 {
-                    await new MessagePopup().Popup("No internet connection", "Deleting a feed can only be done when there is an internet connection available.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No internet connection", "Deleting a feed can only be done when there is an internet connection available.", "Ok", "", "", "", "", false);
                     return;
                 }
 
                 //Check for selected items
                 if (ListView_Items.SelectedItems.Count == 0)
                 {
-                    await new MessagePopup().Popup("No feeds selected", "Please select some feeds that you want to delete first.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No feeds selected", "Please select some feeds that you want to delete first.", "Ok", "", "", "", "", false);
                     return;
                 }
                 else
@@ -524,11 +524,11 @@ namespace NewsScroll
                     try
                     {
                         foreach (Feeds SelectedItem in ListView_Items.SelectedItems) { await DeleteFeed(SelectedItem.feed_id); }
-                        await new MessagePopup().Popup("Feeds have been deleted", "The feeds and it's items will disappear on the next refresh.", "Ok", "", "", "", "", false);
+                        await MessagePopup.Popup("Feeds have been deleted", "The feeds and it's items will disappear on the next refresh.", "Ok", "", "", "", "", false);
                     }
                     catch
                     {
-                        await new MessagePopup().Popup("Failed to delete feeds", "Please check your account settings, internet connection and try again.", "Ok", "", "", "", "", false);
+                        await MessagePopup.Popup("Failed to delete feeds", "Please check your account settings, internet connection and try again.", "Ok", "", "", "", "", false);
                     }
 
                     //Reset the online status

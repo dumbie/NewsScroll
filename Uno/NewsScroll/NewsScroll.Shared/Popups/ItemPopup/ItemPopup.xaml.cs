@@ -112,10 +112,6 @@ namespace NewsScroll
                 TableItems LoadTable = await SQLConnection.Table<TableItems>().Where(x => x.item_id == vCurrentItem.item_id).FirstOrDefaultAsync();
                 if (LoadTable != null)
                 {
-                    //Check if media needs to load
-                    AppVariables.LoadMedia = true;
-                    if (!NetworkInterface.GetIsNetworkAvailable() && !(bool)AppVariables.ApplicationSettings["DisplayImagesOffline"]) { AppVariables.LoadMedia = false; }
-
                     //Set the date time string
                     DateTime convertedDate = DateTime.SpecifyKind(LoadTable.item_datetime, DateTimeKind.Utc).ToLocalTime();
                     string DateAuthorString = convertedDate.ToString(AppVariables.CultureInfoFormat.LongDatePattern, AppVariables.CultureInfoFormat) + ", " + convertedDate.ToString(AppVariables.CultureInfoFormat.ShortTimePattern, AppVariables.CultureInfoFormat);
@@ -401,7 +397,7 @@ namespace NewsScroll
                 string ReturnToPrevious = string.Empty;
                 if (PreviousScrollOffset != -1) { ReturnToPrevious = "Scroll to previous"; }
 
-                int MsgBoxResult = await new MessagePopup().Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
+                int MsgBoxResult = await MessagePopup.Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
                 if (MsgBoxResult == 1)
                 {
                     await Task.Delay(10);
@@ -606,7 +602,7 @@ namespace NewsScroll
                 //Check internet connection
                 if (!NetworkInterface.GetIsNetworkAvailable())
                 {
-                    await new MessagePopup().Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
                     return;
                 }
 
@@ -686,7 +682,7 @@ namespace NewsScroll
                     else
                     {
                         System.Diagnostics.Debug.WriteLine("No network available to fully load this item.");
-                        await new MessagePopup().Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", "Ok", "", "", "", "", false);
+                        await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", "Ok", "", "", "", "", false);
                     }
                 }
 
@@ -724,7 +720,7 @@ namespace NewsScroll
                         if (NetworkInterface.GetIsNetworkAvailable())
                         {
                             System.Diagnostics.Debug.WriteLine("There is currently no full item content available.");
-                            int MsgBoxResult = await new MessagePopup().Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
+                            int MsgBoxResult = await MessagePopup.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
                             if (MsgBoxResult == 1)
                             {
                                 await OpenBrowser(null, true);
@@ -733,7 +729,7 @@ namespace NewsScroll
                         else
                         {
                             System.Diagnostics.Debug.WriteLine("There is currently no full item content available. (No Internet)");
-                            await new MessagePopup().Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                            await MessagePopup.Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                         }
                     }
                     else

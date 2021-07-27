@@ -52,10 +52,20 @@ namespace NewsScroll.Events
             {
                 bool CurrentOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
 
+                //Check if media needs to load
+                if (!CurrentOnlineStatus && !(bool)AppVariables.ApplicationSettings["DisplayImagesOffline"])
+                {
+                    AppVariables.LoadMedia = false;
+                }
+                else
+                {
+                    AppVariables.LoadMedia = true;
+                }
+
                 //Check if internet connection has changed
                 if (CurrentOnlineStatus && !AppVariables.PreviousOnlineStatus)
                 {
-                    await new MessagePopup().Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", "Ok", "", "", "", "", false);
+                    await MessagePopup.Popup("Internet now available", "It seems like you have an internet connection available, you can now refresh the feeds and items, your offline starred and read items will now be synced.", "Ok", "", "", "", "", false);
                     await SyncOfflineChanges(false, true);
                 }
 

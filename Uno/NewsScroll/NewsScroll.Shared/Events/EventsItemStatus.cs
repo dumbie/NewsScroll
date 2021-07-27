@@ -19,7 +19,7 @@ namespace NewsScroll
                     string ReturnToPrevious = string.Empty;
                     if (PreviousItemId != 0 && TargetListViewItems > PreviousItemId) { ReturnToPrevious = "Scroll back to " + PreviousItemId; }
 
-                    int MsgBoxResult = await new MessagePopup().Popup("Item scroller", "Would you like to scroll in the items?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", "Scroll to unread item", ReturnToPrevious, true);
+                    int MsgBoxResult = await MessagePopup.Popup("Item scroller", "Would you like to scroll in the items?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", "Scroll to unread item", ReturnToPrevious, true);
                     if (MsgBoxResult == 1)
                     {
                         await Task.Delay(10);
