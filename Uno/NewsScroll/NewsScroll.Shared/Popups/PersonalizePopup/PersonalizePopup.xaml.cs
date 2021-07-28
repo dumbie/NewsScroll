@@ -21,13 +21,7 @@ namespace NewsScroll
             try
             {
                 //Open the popup
-                Grid gridPopup = AppVariables.FindPageGridPopup();
-                if (gridPopup == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("Popup cannot be opened, no grid found.");
-                    return;
-                }
-                gridPopup.Children.Add(this);
+                popup_Main.IsOpen = true;
 
                 //Focus on the popup
                 iconClose.Focus(FocusState.Programmatic);
@@ -45,8 +39,7 @@ namespace NewsScroll
         {
             try
             {
-                Grid gridPopup = AppVariables.FindPageGridPopup();
-                gridPopup.Children.Remove(this);
+                popup_Main.IsOpen = false;
             }
             catch { }
         }

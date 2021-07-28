@@ -1,9 +1,7 @@
 ﻿using ArnoldVinkCode;
 using NewsScroll.Classes;
 using System;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
@@ -11,20 +9,18 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using static NewsScroll.Api.Api;
-using static NewsScroll.Database.Database;
 using static NewsScroll.Events.Events;
 
 namespace NewsScroll
 {
     public partial class ItemPopup : UserControl
     {
-        public ItemPopup()
-        {
-            this.InitializeComponent();
-            this.DataContext = this;
-        }
+        //Popup Variables
+        private Items vCurrentItem = null;
+
+        //Initialize popup
+        public ItemPopup() { this.InitializeComponent(); }
 
         //Open the popup
         public async Task OpenPopup(Items Source)
@@ -34,13 +30,7 @@ namespace NewsScroll
                 System.Diagnostics.Debug.WriteLine("Opening item viewer...");
 
                 //Open the popup
-                Grid gridPopup = AppVariables.FindPageGridPopup();
-                if (gridPopup == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("Popup cannot be opened, no grid found.");
-                    return;
-                }
-                gridPopup.Children.Add(this);
+                popup_Main.IsOpen = true;
 
                 //Focus on the popup
                 iconMenu.Focus(FocusState.Programmatic);
@@ -103,155 +93,6 @@ namespace NewsScroll
             }
         }
 
-        //Load item into the viewer
-        private async Task LoadItem(string CustomItemContent)
-        {
-            try
-            {
-                //Load the full item
-                TableItems LoadTable = await SQLConnection.Table<TableItems>().Where(x => x.item_id == vCurrentItem.item_id).FirstOrDefaultAsync();
-                if (LoadTable != null)
-                {
-                    //Set the date time string
-                    DateTime convertedDate = DateTime.SpecifyKind(LoadTable.item_datetime, DateTimeKind.Utc).ToLocalTime();
-                    string DateAuthorString = convertedDate.ToString(AppVariables.CultureInfoFormat.LongDatePattern, AppVariables.CultureInfoFormat) + ", " + convertedDate.ToString(AppVariables.CultureInfoFormat.ShortTimePattern, AppVariables.CultureInfoFormat);
-
-                    //Add the author to date time
-                    if (!string.IsNullOrWhiteSpace(LoadTable.item_author)) { DateAuthorString += " by " + LoadTable.item_author; }
-                    tb_ItemDateString.Text = DateAuthorString;
-
-                    //Load the item content
-                    bool SetHtmlToRichTextBlock = false;
-                    if (!string.IsNullOrWhiteSpace(CustomItemContent))
-                    {
-                        await HtmlToXaml(rtb_ItemContent, CustomItemContent, string.Empty);
-                        SetHtmlToRichTextBlock = true;
-                    }
-                    else if (!string.IsNullOrWhiteSpace(LoadTable.item_content_full))
-                    {
-                        SetHtmlToRichTextBlock = await HtmlToXaml(rtb_ItemContent, LoadTable.item_content_full, string.Empty);
-                    }
-
-                    //Check if html to xaml has failed
-                    if (!SetHtmlToRichTextBlock || !rtb_ItemContent.Children.Any())
-                    {
-                        //Load summary text
-                        TextBlock textLabel = new TextBlock();
-                        textLabel.Text = AVFunctions.StringCut(LoadTable.item_content, AppVariables.MaximumItemTextLength, "...");
-
-                        //Add paragraph to rich text block
-                        rtb_ItemContent.Children.Clear();
-                        rtb_ItemContent.Children.Add(textLabel);
-                    }
-
-                    //Check if item content contains preview image
-                    await CheckItemContentContainsPreviewImage(LoadTable);
-
-                    //Adjust the itemviewer size
-                    await AdjustItemViewerSize();
-                }
-            }
-            catch { }
-        }
-
-        //Check if item content contains preview image
-        private async Task CheckItemContentContainsPreviewImage(TableItems LoadTable)
-        {
-            try
-            {
-                int ItemImagecount = 0;
-                bool FoundPreviewImage = false;
-
-                //Check the preview image
-                string ItemImageLink = LoadTable.item_image;
-                if (string.IsNullOrWhiteSpace(ItemImageLink))
-                {
-                    item_image.item_source.Source = null;
-                    item_image.Visibility = Visibility.Collapsed;
-                    return;
-                }
-
-                //Check if there are images and the preview image is included
-                CheckTextBlockForPreviewImage(rtb_ItemContent, ItemImageLink, ref ItemImagecount, ref FoundPreviewImage);
-
-                //Update the preview image based on result
-                if (ItemImagecount == 0 || !FoundPreviewImage)
-                {
-                    System.Diagnostics.Debug.WriteLine("No media found in rich text block, adding item image.");
-
-                    //Check if media is a gif(v) file
-                    bool ImageIsGif = ItemImageLink.ToLower().Contains(".gif");
-
-                    //Check if low bandwidth mode is enabled
-                    if (ImageIsGif && (bool)AppVariables.ApplicationSettings["LowBandwidthMode"])
-                    {
-                        //System.Diagnostics.Debug.WriteLine("Low bandwidth mode skipping gif.");
-                        item_image.item_status.Text = "Gif not loaded,\nlow bandwidth mode.";
-                        item_image.Visibility = Visibility.Visible;
-                        return;
-                    }
-
-                    if (ImageIsGif)
-                    {
-                        item_image.item_video_status.Source = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconVideoPause.png", false);
-                        item_image.item_video.Visibility = Visibility.Visible;
-                    }
-
-                    item_image.MaxHeight = AppVariables.MaximumItemImageHeight;
-                    item_image.item_source.Source = await AVImage.LoadBitmapImage(ItemImageLink, true);
-                    item_image.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    item_image.item_source.Source = null;
-                    item_image.Visibility = Visibility.Collapsed;
-                }
-            }
-            catch
-            {
-                item_image.item_source.Source = null;
-                item_image.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        //Check if there are images and the preview image is included
-        private void CheckTextBlockForPreviewImage(DependencyObject SearchElement, string ItemImageLink, ref int ItemImagecount, ref bool FoundPreviewImage)
-        {
-            try
-            {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(SearchElement); i++)
-                {
-                    try
-                    {
-                        DependencyObject child = VisualTreeHelper.GetChild(SearchElement, i);
-                        if (child.GetType() == typeof(ImageContainer))
-                        {
-                            ItemImagecount++;
-                            ImageContainer frameworkElement = child as ImageContainer;
-                            BitmapImage bitmapSource = frameworkElement.item_source.Source as BitmapImage;
-
-                            string CompareBitmapLink = Regex.Replace(bitmapSource.UriSource.ToString(), @"^(?:http(?:s)?://)?(?:www(?:[0-9]+)?\.)?", string.Empty, RegexOptions.IgnoreCase).ToLower();
-                            string CompareItemImageLink = Regex.Replace(ItemImageLink, @"^(?:http(?:s)?://)?(?:www(?:[0-9]+)?\.)?", string.Empty, RegexOptions.IgnoreCase).ToLower();
-                            //System.Diagnostics.Debug.WriteLine("Comparing image: " + CompareBitmapLink + " vs " + CompareItemImageLink);
-
-                            if (CompareBitmapLink == CompareItemImageLink)
-                            {
-                                FoundPreviewImage = true;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            //System.Diagnostics.Debug.WriteLine("No image, checking if there is a sub image.");
-                            CheckTextBlockForPreviewImage(child, ItemImageLink, ref ItemImagecount, ref FoundPreviewImage);
-                        }
-                    }
-                    catch { }
-                }
-            }
-            catch { }
-        }
-
         //Close the popup
         public void ClosePopup()
         {
@@ -267,8 +108,7 @@ namespace NewsScroll
                 DisablePageEvents();
 
                 //Close the popup
-                Grid gridPopup = AppVariables.FindPageGridPopup();
-                gridPopup.Children.Remove(this);
+                popup_Main.IsOpen = false;
             }
             catch { }
         }
@@ -397,7 +237,7 @@ namespace NewsScroll
                 string ReturnToPrevious = string.Empty;
                 if (PreviousScrollOffset != -1) { ReturnToPrevious = "Scroll to previous"; }
 
-                int MsgBoxResult = await MessagePopup.Popup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
+                int MsgBoxResult = await new MessagePopup().OpenPopup("View scroller", "Would you like to scroll in the itemviewer?", "Scroll to beginning", "Scroll to the middle", "Scroll to the end", ReturnToPrevious, "", true);
                 if (MsgBoxResult == 1)
                 {
                     await Task.Delay(10);
@@ -602,7 +442,7 @@ namespace NewsScroll
                 //Check internet connection
                 if (!NetworkInterface.GetIsNetworkAvailable())
                 {
-                    await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
+                    await new MessagePopup().OpenPopup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
                     return;
                 }
 
@@ -682,7 +522,7 @@ namespace NewsScroll
                     else
                     {
                         System.Diagnostics.Debug.WriteLine("No network available to fully load this item.");
-                        await MessagePopup.Popup("No internet connection", "You currently don't have an internet connection available to fully load this item.", "Ok", "", "", "", "", false);
+                        await new MessagePopup().OpenPopup("No internet connection", "You currently don't have an internet connection available to fully load this item.", "Ok", "", "", "", "", false);
                     }
                 }
 
@@ -720,7 +560,7 @@ namespace NewsScroll
                         if (NetworkInterface.GetIsNetworkAvailable())
                         {
                             System.Diagnostics.Debug.WriteLine("There is currently no full item content available.");
-                            int MsgBoxResult = await MessagePopup.Popup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
+                            int MsgBoxResult = await new MessagePopup().OpenPopup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);
                             if (MsgBoxResult == 1)
                             {
                                 await OpenBrowser(null, true);
@@ -729,7 +569,7 @@ namespace NewsScroll
                         else
                         {
                             System.Diagnostics.Debug.WriteLine("There is currently no full item content available. (No Internet)");
-                            await MessagePopup.Popup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                            await new MessagePopup().OpenPopup("No item content available", "There is currently no full item content available but it might also be your internet connection, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                         }
                     }
                     else

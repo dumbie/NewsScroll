@@ -69,13 +69,6 @@ namespace NewsScroll
                     AppVariables.ApplicationSettings["ContentCuttingLength"] = 200;
                 }
 
-                //Load all available items
-                if (!AppVariables.ApplicationSettings.ContainsKey("LoadAllItems"))
-                {
-                    if (AllowedMemory <= 420) { AppVariables.ApplicationSettings["LoadAllItems"] = false; }
-                    else { AppVariables.ApplicationSettings["LoadAllItems"] = true; }
-                }
-
                 //Disable Landscape Display
                 if (!AppVariables.ApplicationSettings.ContainsKey("DisableLandscapeDisplay"))
                 {

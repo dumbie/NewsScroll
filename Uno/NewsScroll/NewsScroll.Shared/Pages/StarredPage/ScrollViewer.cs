@@ -36,9 +36,6 @@ namespace NewsScroll
 
                 //Update the shown item content
                 await EventsScrollViewer.ScrollViewerUpdateContent(ListView_Items, CurrentOffSetId);
-
-                //Check if new items need to be loaded
-                await EventsScrollViewer.ScrollViewerAddItems(ListView_Items, CurrentOffSetId);
             }
             catch { }
         }

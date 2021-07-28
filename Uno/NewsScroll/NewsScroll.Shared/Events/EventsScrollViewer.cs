@@ -1,5 +1,6 @@
 ﻿using ArnoldVinkCode;
 using NewsScroll.Classes;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -28,82 +29,58 @@ namespace NewsScroll
         {
             try
             {
-                int TargetItems = TargetListView.Items.Count();
-                if (TargetItems > 0)
-                {
-                    //Update offset to the current position
-                    int OffsetIdNegative = (CurrentOffsetId - AppVariables.ContentToScrollLoad);
-                    int OffsetIdPositive = (CurrentOffsetId + AppVariables.ContentToScrollLoad);
+                //Get total items count
+                int targetItems = TargetListView.Items.Count();
 
-                    //Cleanup item content
-                    int CheckIdRemove = 0;
-                    //System.Diagnostics.Debug.WriteLine("Clearing ListView item content...");
-                    foreach (Items Item in TargetListView.Items)
+                //Check total items count
+                if (targetItems == 0) { return; }
+
+                //Update offset to the current position
+                int OffsetIdNegative = (CurrentOffsetId - AppVariables.ContentToScrollLoad);
+                int OffsetIdPositive = (CurrentOffsetId + AppVariables.ContentToScrollLoad);
+
+                //Load and clean item content
+                for (int itemIndex = 0; itemIndex < targetItems; itemIndex++)
+                {
+                    Items updateItem = TargetListView.Items[itemIndex] as Items;
+                    if (itemIndex >= OffsetIdNegative && itemIndex <= OffsetIdPositive)
                     {
-                        if (!(CheckIdRemove >= OffsetIdNegative && CheckIdRemove <= OffsetIdPositive))
+                        string ItemImageLink = updateItem.item_image_link;
+                        if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == Visibility.Visible && AppVariables.LoadMedia)
                         {
-                            if (Item.item_image != null)
+                            updateItem.item_image = await AVImage.LoadBitmapImage(ItemImageLink, false);
+                            System.Diagnostics.Debug.WriteLine("Loaded item image: " + ItemImageLink);
+                        }
+                        if (updateItem.feed_icon == null)
+                        {
+                            if (updateItem.feed_id.StartsWith("user/"))
                             {
-                                Item.item_image.UriSource = null;
-                                Item.item_image = null;
+                                updateItem.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false);
                             }
-                            if (Item.feed_icon != null)
+                            else
                             {
-                                Item.feed_icon.UriSource = null;
-                                Item.feed_icon = null;
+                                updateItem.feed_icon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + updateItem.feed_id + ".png", false);
+                            }
+                            if (updateItem.feed_icon == null)
+                            {
+                                updateItem.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
                             }
                         }
-                        CheckIdRemove++;
                     }
-
-                    //Load item content
-                    //System.Diagnostics.Debug.WriteLine("Loading ListView item content...");
-                    for (int i = OffsetIdNegative; i < OffsetIdPositive; i++)
+                    else
                     {
-                        if (i >= 0 && i < TargetItems)
+                        if (updateItem.item_image != null)
                         {
-                            Items AddItem = TargetListView.Items[i] as Items;
-                            string ItemImageLink = AddItem.item_image_link;
-
-                            if (AddItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && AddItem.item_image_visibility == Visibility.Visible)
-                            {
-                                AddItem.item_image = await AVImage.LoadBitmapImage(ItemImageLink, false);
-                                System.Diagnostics.Debug.WriteLine("Loaded item image: " + ItemImageLink);
-                            }
-                            if (AddItem.feed_icon == null)
-                            {
-                                //Load feed icon
-                                if (AddItem.feed_id.StartsWith("user/")) { AddItem.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { AddItem.feed_icon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + AddItem.feed_id + ".png", false); }
-                                if (AddItem.feed_icon == null) { AddItem.feed_icon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
-                            }
+                            updateItem.item_image = null;
+                        }
+                        if (updateItem.feed_icon != null)
+                        {
+                            updateItem.feed_icon = null;
                         }
                     }
                 }
             }
             catch { }
-        }
-
-        //Check if new items need to be loaded
-        public static async Task ScrollViewerAddItems(ListView TargetListView, int CurrentOffsetId)
-        {
-            try
-            {
-                if (!(bool)AppVariables.ApplicationSettings["LoadAllItems"])
-                {
-                    int LoadedListCount = TargetListView.Items.Count();
-                    if (!AppVariables.BusyApplication && (LoadedListCount - CurrentOffsetId) < AppVariables.ItemsToScrollLoad && LoadedListCount < AppVariables.CurrentTotalItemsCount)
-                    {
-                        AppVariables.BusyApplication = true;
-
-                        //System.Diagnostics.Debug.WriteLine("ItemsLoaded" + AppVariables.CurrentItemsLoaded + "/" + AppVariables.TotalItemsCount);
-                        //System.Diagnostics.Debug.WriteLine("Time to load new items because there are only " + AppVariables.ItemsToScrollLoad + " left.");
-                        await ProcessItemLoad.DatabaseToList(null, null, LoadedListCount, AppVariables.ItemsToScrollLoad, true, false);
-
-                        AppVariables.BusyApplication = false;
-                    }
-                }
-            }
-            catch { AppVariables.BusyApplication = false; }
         }
     }
 }

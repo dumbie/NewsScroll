@@ -9,20 +9,6 @@ namespace NewsScroll
 {
     class AppAdjust
     {
-        //Adjust the title bar
-        public static async Task AdjustTitleBar()
-        {
-            try
-            {
-#if __IOS__ || __ANDROID__
-                StatusBar statusBar = StatusBar.GetForCurrentView();
-                statusBar.BackgroundColor = Colors.Transparent;
-                await statusBar.HideAsync();
-#endif
-            }
-            catch { }
-        }
-
         //Adjust the Color Theme
         public static void AdjustColorTheme()
         {

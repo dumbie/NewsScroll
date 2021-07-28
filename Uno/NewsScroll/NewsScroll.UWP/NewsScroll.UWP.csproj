@@ -33,7 +33,7 @@
       <Version>5.0.2</Version>
     </PackageReference>
     <PackageReference Include="Uno.Core" Version="2.4.0" />
-    <PackageReference Include="Uno.UI" Version="3.8.13" />
+    <PackageReference Include="Uno.UI" Version="3.9.1" />
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>

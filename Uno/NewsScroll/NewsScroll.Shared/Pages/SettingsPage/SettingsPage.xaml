@@ -69,9 +69,6 @@
                         </StackPanel>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will cut off the news items content to a certain amount of characters." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
-                        <CheckBox Name="setting_LoadAllItems" Content="Load all available items at once" Style="{StaticResource CheckBox}"/>
-                        <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will load all available news items at once instead of on demand loading when you reach the bottom." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
-
                         <TextBlock Text="Default list items opening method:" Margin="0,5,0,0"/>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the method you want to use to open a news item when you click on it:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
                         <ComboBox Name="setting_ItemOpenMethod" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">

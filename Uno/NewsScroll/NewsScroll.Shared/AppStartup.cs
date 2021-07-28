@@ -24,9 +24,6 @@ namespace NewsScroll.Startup
                 //Adjust the font sizes
                 AppAdjust.AdjustFontSizes();
 
-                //Adjust the title bar
-                await AppAdjust.AdjustTitleBar();
-
                 //Set Landscape Display
                 if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
                 {
@@ -68,9 +65,6 @@ namespace NewsScroll.Startup
 
                 //Register application events
                 Events.Events.EventsRegister();
-
-                //Check if all items need to load
-                if ((bool)AppVariables.ApplicationSettings["LoadAllItems"]) { AppVariables.ItemsToScrollLoad = 100000; }
 
                 //Prevent application lock screen
                 try { AppVariables.DisplayRequest.RequestActive(); } catch { }

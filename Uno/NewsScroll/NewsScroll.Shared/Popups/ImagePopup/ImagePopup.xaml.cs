@@ -32,13 +32,7 @@ namespace NewsScroll
             try
             {
                 //Open the popup
-                Grid gridPopup = AppVariables.FindPageGridPopup();
-                if (gridPopup == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("Popup cannot be opened, no grid found.");
-                    return;
-                }
-                gridPopup.Children.Add(this);
+                popup_Main.IsOpen = true;
 
                 //Focus on the popup
                 iconClose.Focus(FocusState.Programmatic);
@@ -94,8 +88,7 @@ namespace NewsScroll
                 }
 
                 //Close the popup
-                Grid gridPopup = AppVariables.FindPageGridPopup();
-                gridPopup.Children.Remove(this);
+                popup_Main.IsOpen = false;
             }
             catch { }
         }
@@ -190,7 +183,7 @@ namespace NewsScroll
                     }
                     else
                     {
-                        int MessageResult = await MessagePopup.Popup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", "", true);
+                        int MessageResult = await new MessagePopup().OpenPopup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", "", true);
                         if (MessageResult == 0) { return; }
                     }
 
@@ -211,7 +204,7 @@ namespace NewsScroll
                             if (ImageBuffer != null) { await FileIO.WriteBytesAsync(NewFile, ImageBuffer); }
                             else
                             {
-                                await MessagePopup.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                                await new MessagePopup().OpenPopup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                                 System.Diagnostics.Debug.WriteLine("Failed to download the image.");
                             }
                         }
@@ -254,7 +247,7 @@ namespace NewsScroll
             }
             catch
             {
-                await MessagePopup.Popup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                await new MessagePopup().OpenPopup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
                 System.Diagnostics.Debug.WriteLine("Failed to save the image.");
             }
         }

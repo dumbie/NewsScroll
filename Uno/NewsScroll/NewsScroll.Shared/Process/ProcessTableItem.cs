@@ -52,7 +52,7 @@ namespace NewsScroll
                     //Load item image
                     Visibility ItemImageVisibility = Visibility.Collapsed;
                     string ItemImageLink = LoadTable.item_image;
-                    if (!string.IsNullOrWhiteSpace(ItemImageLink) && AppVariables.LoadMedia)
+                    if (!string.IsNullOrWhiteSpace(ItemImageLink))
                     {
                         ItemImageVisibility = Visibility.Visible;
                     }

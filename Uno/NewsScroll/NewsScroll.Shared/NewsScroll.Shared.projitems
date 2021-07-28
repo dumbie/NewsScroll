@@ -71,10 +71,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\ItemPopup.xaml.cs">
       <DependentUpon>ItemPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\NotifyPropertyChanged.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\RichTextBlockHtml\Adding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\RichTextBlockHtml\Generate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\RichTextBlockHtml\RichTextBlockHtml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\LoadItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\Shortcuts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popups\ItemPopup\SwipeAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Popups\MessagePopup\MessagePopup.xaml.cs">
@@ -323,6 +323,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Containers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Popups\" />
   </ItemGroup>
 </Project>

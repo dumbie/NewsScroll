@@ -35,9 +35,6 @@ namespace NewsScroll
                 //News item content cutting length
                 setting_ContentCuttingLength.Text = AppVariables.ApplicationSettings["ContentCuttingLength"].ToString();
 
-                //Load all available items
-                setting_LoadAllItems.IsChecked = (bool)AppVariables.ApplicationSettings["LoadAllItems"];
-
                 //Low bandwidth mode
                 setting_LowBandwidthMode.IsChecked = (bool)AppVariables.ApplicationSettings["LowBandwidthMode"];
 

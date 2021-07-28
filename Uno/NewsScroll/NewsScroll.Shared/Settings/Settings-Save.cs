@@ -116,22 +116,6 @@ namespace NewsScroll
                 setting_ContentCuttingLength.BorderBrush = BrushValid;
             };
 
-            //Load all available items
-            setting_LoadAllItems.Click += (sender, e) =>
-            {
-                CheckBox CheckBox = (CheckBox)sender;
-                if ((bool)CheckBox.IsChecked)
-                {
-                    AppVariables.ApplicationSettings["LoadAllItems"] = true;
-                    AppVariables.ItemsToScrollLoad = 100000;
-                }
-                else
-                {
-                    AppVariables.ApplicationSettings["LoadAllItems"] = false;
-                    AppVariables.ItemsToScrollLoad = 100;
-                }
-            };
-
             //Low bandwidth mode
             setting_LowBandwidthMode.Click += (sender, e) =>
             {

@@ -45,23 +45,11 @@ namespace NewsScroll
         //Items Loading Settings
         public static int ItemsToPreloadBatch = 5;
         public static int ItemsToPreloadMax = 50;
-        public static int ItemsToScrollLoad = 100;
-        public static int ContentToScrollLoad = 6;
+        public static int ItemsToScrollLoad = 100000;
+        public static int ContentToScrollLoad = 5;
         public static int ItemsMaximumLoad = 100000;
         public static int StarredMaximumLoad = 500;
         public static int MaximumItemTextLength = 8000;
         public static int MaximumItemImageHeight = 320;
-
-        //Find and return popup grid
-        public static Grid FindPageGridPopup()
-        {
-            try
-            {
-                List<Grid> listGrid = AVFunctions.FindVisualChildren<Grid>(App.vApplicationFrame);
-                return listGrid.FirstOrDefault(x => x.Name == "grid_Popup_Container");
-            }
-            catch { }
-            return null;
-        }
     }
 }
