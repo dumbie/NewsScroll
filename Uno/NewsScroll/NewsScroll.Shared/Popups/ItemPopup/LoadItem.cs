@@ -102,7 +102,7 @@ namespace NewsScroll
                 string ItemImageLink = LoadTable.item_image;
                 if (string.IsNullOrWhiteSpace(ItemImageLink))
                 {
-                    item_image.item_source.Source = null;
+                    item_image.item_image_Value = null;
                     item_image.Visibility = Visibility.Collapsed;
                     return;
                 }
@@ -114,38 +114,19 @@ namespace NewsScroll
                 if (ItemImagecount == 0 || !FoundPreviewImage)
                 {
                     System.Diagnostics.Debug.WriteLine("No media found in rich text block, adding item image.");
-
-                    //Check if media is a gif(v) file
-                    bool ImageIsGif = ItemImageLink.ToLower().Contains(".gif");
-
-                    //Check if low bandwidth mode is enabled
-                    if (ImageIsGif && (bool)AppVariables.ApplicationSettings["LowBandwidthMode"])
-                    {
-                        //System.Diagnostics.Debug.WriteLine("Low bandwidth mode skipping gif.");
-                        item_image.item_status.Text = "Gif not loaded,\nlow bandwidth mode.";
-                        item_image.Visibility = Visibility.Visible;
-                        return;
-                    }
-
-                    if (ImageIsGif)
-                    {
-                        item_image.item_video_status.Source = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconVideoPause.png", false);
-                        item_image.item_video.Visibility = Visibility.Visible;
-                    }
-
                     item_image.MaxHeight = AppVariables.MaximumItemImageHeight;
-                    item_image.item_source.Source = await AVImage.LoadBitmapImage(ItemImageLink, true);
+                    item_image.item_image_Value = ItemImageLink;
                     item_image.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    item_image.item_source.Source = null;
+                    item_image.item_image_Value = null;
                     item_image.Visibility = Visibility.Collapsed;
                 }
             }
             catch
             {
-                item_image.item_source.Source = null;
+                item_image.item_image_Value = null;
                 item_image.Visibility = Visibility.Collapsed;
             }
         }

@@ -118,24 +118,13 @@ namespace NewsScroll.Classes
             }
         }
 
-        private BitmapImage priv_item_image;
-        public BitmapImage item_image
+        private string priv_item_image;
+        public string item_image
         {
             get { return priv_item_image; }
             set
             {
                 priv_item_image = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private Visibility priv_item_image_visibility;
-        public Visibility item_image_visibility
-        {
-            get { return priv_item_image_visibility; }
-            set
-            {
-                priv_item_image_visibility = value;
                 NotifyPropertyChanged();
             }
         }
@@ -147,6 +136,17 @@ namespace NewsScroll.Classes
             set
             {
                 priv_item_image_link = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private Visibility priv_item_image_visibility;
+        public Visibility item_image_visibility
+        {
+            get { return priv_item_image_visibility; }
+            set
+            {
+                priv_item_image_visibility = value;
                 NotifyPropertyChanged();
             }
         }

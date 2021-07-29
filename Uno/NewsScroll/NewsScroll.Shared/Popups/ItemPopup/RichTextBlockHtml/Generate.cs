@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace NewsScroll
 {
@@ -57,84 +56,34 @@ namespace NewsScroll
                 //Check if device is low on memory
                 if (AVFunctions.DevMemoryAvailableMB() < 100)
                 {
-                    ImageContainer img = new ImageContainer();
-                    img.item_status.Text = "Image not loaded,\ndevice is low on memory.";
-                    img.IsHitTestVisible = false;
+                    ImageContainer imgLowMemory = new ImageContainer();
+                    imgLowMemory.item_status.Text = "Image not loaded,\ndevice is low on memory.";
+                    imgLowMemory.IsHitTestVisible = false;
 
-                    addElement.Children.Add(img);
-                    //GenerateBreak(addElement);
-                    return;
-                }
-
-                //Check if media is a gif(v) file
-                bool ImageIsGif = sourceUri.ToLower().Contains(".gif");
-                bool ImageIsSvg = sourceUri.ToLower().Contains(".svg");
-
-                //Check if low bandwidth mode is enabled
-                if (ImageIsGif && (bool)AppVariables.ApplicationSettings["LowBandwidthMode"])
-                {
-                    ImageContainer img = new ImageContainer();
-                    img.item_status.Text = "Gif not loaded,\nlow bandwidth mode.";
-                    img.IsHitTestVisible = false;
-
-                    addElement.Children.Add(img);
+                    addElement.Children.Add(imgLowMemory);
                     //GenerateBreak(addElement);
                     return;
                 }
 
                 //Create item image
-                //Fix move image downloading to imagecontainer
                 System.Diagnostics.Debug.WriteLine("Adding image: " + sourceUri);
-                SvgImageSource SvgImage = null;
-                BitmapImage BitmapImage = null;
-                if (ImageIsSvg)
-                {
-                    SvgImage = await AVImage.LoadSvgImage(sourceUri);
-                }
-                else
-                {
-                    BitmapImage = await AVImage.LoadBitmapImage(sourceUri, true);
-                }
+                ImageContainer imgContainer = new ImageContainer();
+                imgContainer.MaxHeight = AppVariables.MaximumItemImageHeight;
+                imgContainer.item_image_Value = sourceUri;
 
-                if (SvgImage != null || BitmapImage != null)
+                //Get and set alt from the image
+                if (vImageShowAlt && htmlNode.Attributes["alt"] != null)
                 {
-                    ImageContainer img = new ImageContainer();
-                    img.MaxHeight = AppVariables.MaximumItemImageHeight;
-
-                    if (SvgImage != null)
+                    string AltText = Process.ProcessItemTextSummary(htmlNode.Attributes["alt"].Value, false, false);
+                    if (!string.IsNullOrWhiteSpace(AltText))
                     {
-                        img.item_source.Source = SvgImage;
+                        imgContainer.item_description.Text = AltText;
+                        imgContainer.item_description.Visibility = Visibility.Visible;
                     }
-
-                    if (BitmapImage != null)
-                    {
-                        img.item_source.Source = BitmapImage;
-                    }
-
-                    //Get and set alt from the image
-                    if (vImageShowAlt && htmlNode.Attributes["alt"] != null)
-                    {
-                        string AltText = Process.ProcessItemTextSummary(htmlNode.Attributes["alt"].Value, false, false);
-                        if (!string.IsNullOrWhiteSpace(AltText))
-                        {
-                            img.item_description.Text = AltText;
-                            img.item_description.Visibility = Visibility.Visible;
-                        }
-                    }
-
-                    addElement.Children.Add(img);
-                    //GenerateBreak(addElement);
                 }
-                else
-                {
-                    ImageContainer img = new ImageContainer();
-                    img.item_status.Text = "Image is not available,\nopen item in browser to view it.";
-                    img.IsHitTestVisible = false;
 
-                    addElement.Children.Add(img);
-                    //GenerateBreak(addElement);
-                    return;
-                }
+                addElement.Children.Add(imgContainer);
+                //GenerateBreak(addElement);
             }
             catch { }
         }
@@ -296,6 +245,7 @@ namespace NewsScroll
                 {
                     TextBlock hyperLink = new TextBlock();
                     hyperLink.Text = StringText;
+                    hyperLink.TextWrapping = TextWrapping.Wrap;
                     ToolTipService.SetToolTip(hyperLink, LinkUrl);
 
                     if (vTextDecorations != null) { hyperLink.TextDecorations = (TextDecorations)vTextDecorations; vTextDecorations = null; } else { hyperLink.TextDecorations = TextDecorations.Underline; }
@@ -394,6 +344,7 @@ namespace NewsScroll
                 {
                     TextBlock headerText = new TextBlock();
                     headerText.Text = stringText;
+                    headerText.TextWrapping = TextWrapping.Wrap;
 
                     Binding StyleBinding = new Binding();
                     StyleBinding.Source = Application.Current.Resources["TextBlockAccent"];
@@ -574,6 +525,7 @@ namespace NewsScroll
                             TextBlock textBlock = new TextBlock();
                             textBlock.Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]);
                             textBlock.Text = TableHeader.InnerText;
+                            textBlock.TextWrapping = TextWrapping.Wrap;
 
                             gridRow.Children.Add(textBlock);
                             Grid.SetColumn(textBlock, ColumnCurrentCount);
@@ -638,6 +590,7 @@ namespace NewsScroll
                 if (!string.IsNullOrWhiteSpace(liText))
                 {
                     TextBlock textLabel = new TextBlock();
+                    textLabel.TextWrapping = TextWrapping.Wrap;
                     textLabel.Inlines.Add(new Run() { Text = "* ", Foreground = new SolidColorBrush((Color)Application.Current.Resources["ApplicationAccentLightColor"]) });
                     textLabel.Inlines.Add(new Run() { Text = liText });
 

@@ -1,8 +1,5 @@
 ﻿using NewsScroll.Styles;
 using System;
-using System.Threading.Tasks;
-using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace NewsScroll

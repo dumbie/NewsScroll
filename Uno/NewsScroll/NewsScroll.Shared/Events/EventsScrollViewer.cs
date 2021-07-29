@@ -1,6 +1,5 @@
 ﻿using ArnoldVinkCode;
 using NewsScroll.Classes;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -36,8 +35,8 @@ namespace NewsScroll
                 if (targetItems == 0) { return; }
 
                 //Update offset to the current position
-                int OffsetIdNegative = (CurrentOffsetId - AppVariables.ContentToScrollLoad);
-                int OffsetIdPositive = (CurrentOffsetId + AppVariables.ContentToScrollLoad);
+                int OffsetIdNegative = CurrentOffsetId - AppVariables.ContentToScrollLoad;
+                int OffsetIdPositive = CurrentOffsetId + AppVariables.ContentToScrollLoad;
 
                 //Load and clean item content
                 for (int itemIndex = 0; itemIndex < targetItems; itemIndex++)
@@ -48,8 +47,7 @@ namespace NewsScroll
                         string ItemImageLink = updateItem.item_image_link;
                         if (updateItem.item_image == null && !string.IsNullOrWhiteSpace(ItemImageLink) && updateItem.item_image_visibility == Visibility.Visible && AppVariables.LoadMedia)
                         {
-                            updateItem.item_image = await AVImage.LoadBitmapImage(ItemImageLink, false);
-                            System.Diagnostics.Debug.WriteLine("Loaded item image: " + ItemImageLink);
+                            updateItem.item_image = ItemImageLink;
                         }
                         if (updateItem.feed_icon == null)
                         {

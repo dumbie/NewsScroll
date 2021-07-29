@@ -141,8 +141,18 @@ namespace NewsScroll
                         //Add feed
                         //Load feed icon
                         BitmapImage FeedIcon = null;
-                        if (Feed.feed_id.StartsWith("user/")) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + Feed.feed_id + ".png", false); }
-                        if (FeedIcon == null) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
+                        if (Feed.feed_id.StartsWith("user/"))
+                        {
+                            FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false);
+                        }
+                        else
+                        {
+                            FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + Feed.feed_id + ".png", false);
+                        }
+                        if (FeedIcon == null)
+                        {
+                            FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                        }
 
                         //Get the current feed item count
                         Feeds FeedItem = new Feeds();

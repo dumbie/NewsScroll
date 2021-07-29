@@ -17,7 +17,7 @@ namespace ArnoldVinkCode
         //Load SvgImage
         internal static async Task<SvgImageSource> LoadSvgImage(string Path)
         {
-            if (!string.IsNullOrWhiteSpace(Path) && Path.Contains(".svg"))
+            if (!string.IsNullOrWhiteSpace(Path) && Path.ToLower().Contains(".svg"))
             {
                 TaskCompletionSource<SvgImageSource> TaskResult = new TaskCompletionSource<SvgImageSource>();
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

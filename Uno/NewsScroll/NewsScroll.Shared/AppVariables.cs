@@ -1,12 +1,9 @@
-﻿using ArnoldVinkCode;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net.NetworkInformation;
 using Windows.Storage;
 using Windows.System.Display;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml.Controls;
 
 namespace NewsScroll
 {

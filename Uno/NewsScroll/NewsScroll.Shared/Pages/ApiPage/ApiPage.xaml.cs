@@ -241,8 +241,18 @@ namespace NewsScroll
 
                             //Load the feed icon
                             BitmapImage FeedIcon = null;
-                            if (SelectedItem.feed_id.StartsWith("user/")) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false); } else { FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + SelectedItem.feed_id + ".png", false); }
-                            if (FeedIcon == null) { FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false); }
+                            if (SelectedItem.feed_id.StartsWith("user/"))
+                            {
+                                FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconUser-Dark.png", false);
+                            }
+                            else
+                            {
+                                FeedIcon = await AVImage.LoadBitmapImage("ms-appdata:///local/" + SelectedItem.feed_id + ".png", false);
+                            }
+                            if (FeedIcon == null)
+                            {
+                                FeedIcon = await AVImage.LoadBitmapImage("ms-appx:///Assets/iconRSS-Dark.png", false);
+                            }
 
                             SelectedItem.feed_icon = FeedIcon;
                         }

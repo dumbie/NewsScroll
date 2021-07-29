@@ -1,4 +1,5 @@
 ﻿using ArnoldVinkCode;
+using System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -24,12 +25,22 @@ namespace NewsScroll
                     return;
                 }
 
-                //System.Diagnostics.Debug.WriteLine("Image source updating...");
-                BitmapImage BitmapImage = (BitmapImage)args.NewValue;
+                //Get updated image link
+                string ImageLink = (string)args.NewValue;
+                System.Diagnostics.Debug.WriteLine("Image source updating to: " + ImageLink);
 
-                //Check if media is a gif(v) file
-                string ImageLink = BitmapImage.UriSource.ToString();
+                //Check the image link
+                if (string.IsNullOrWhiteSpace(ImageLink))
+                {
+                    item_status.Text = "Image link corrupt,\nopen item in browser to view it.";
+                    item_status.Visibility = Visibility.Visible;
+                    item_source.Source = null;
+                    return;
+                }
+
+                //Check media file type
                 bool ImageIsGif = ImageLink.ToLower().Contains(".gif");
+                bool ImageIsSvg = ImageLink.ToLower().Contains(".svg");
 
                 //Check if low bandwidth mode is enabled
                 if (ImageIsGif && (bool)AppVariables.ApplicationSettings["LowBandwidthMode"])
@@ -37,14 +48,18 @@ namespace NewsScroll
                     item_status.Text = "Gif not loaded,\nlow bandwidth mode.";
                     item_status.Visibility = Visibility.Visible;
                     item_source.Source = null;
+                    return;
                 }
-                else
-                {
-                    item_status.Text = "Image loading,\nor is not available.";
-                    item_status.Visibility = Visibility.Visible;
-                    item_source.Source = BitmapImage;
-                    BitmapImage.DownloadProgress += bitmapimage_DownloadProgress;
-                }
+
+                //Load the image
+                BitmapImage BitmapImage = new BitmapImage();
+                BitmapImage.UriSource = new Uri(ImageLink);
+                BitmapImage.DownloadProgress += bitmapimage_DownloadProgress;
+
+                //Set the image
+                item_status.Text = "Image loading,\nor is not available.";
+                item_status.Visibility = Visibility.Visible;
+                item_source.Source = BitmapImage;
 
                 //Display or hide the video icon
                 if (ImageIsGif)

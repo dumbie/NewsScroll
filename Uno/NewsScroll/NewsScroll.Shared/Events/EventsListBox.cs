@@ -76,7 +76,7 @@ namespace NewsScroll
                     string ActionMarkReadTill = string.Empty;
                     if (CurrentPageName.EndsWith("NewsPage") && NewsPage.vCurrentLoadingFeedFolder.feed_id != "1") { ActionMarkReadTill = "Mark read till item"; }
 
-                    int MsgBoxResult = await new MessagePopup().OpenPopup("News item actions", "What would you like to do with this item?", "Open in browser", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
+                    int MsgBoxResult = await new MessagePopup().OpenPopup("News item actions", "What would you like to do with this item from feed " + SelectedItem.feed_title + "?", "Open in browser", "Share this item", ActionStarItem + " this item", "Mark item as " + ActionReadItem.ToLower(), ActionMarkReadTill, true);
                     if (MsgBoxResult == 1)
                     {
                         await ListItemOpenBrowser(SendListView, SelectedItem, SelectedList, CurrentPageName);
