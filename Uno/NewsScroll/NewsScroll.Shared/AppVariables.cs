@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Net.NetworkInformation;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.System.Display;
 using Windows.UI.ViewManagement;
@@ -11,7 +11,6 @@ namespace NewsScroll
     {
         //Application Variables
         public static IDictionary<string, object> ApplicationSettings = ApplicationData.Current.LocalSettings.Values;
-        public static bool PreviousOnlineStatus = NetworkInterface.GetIsNetworkAvailable();
         public static ApplicationView ApplicationView = ApplicationView.GetForCurrentView();
         public static DisplayRequest DisplayRequest = new DisplayRequest();
         public static bool SingleTappedEvent = true;
@@ -24,6 +23,10 @@ namespace NewsScroll
         public static bool LoadSearch = false;
         public static bool LoadFeeds = false;
         public static bool LoadMedia = true;
+
+        //Internet Variables
+        public static bool InternetAccess = true;
+        public static bool PreviousInternetAccess = true;
 
         //Culture Variables
         public static CultureInfo CultureInfoEnglish = new CultureInfo("en-US");
@@ -47,6 +50,24 @@ namespace NewsScroll
         public static int ItemsMaximumLoad = 100000;
         public static int StarredMaximumLoad = 500;
         public static int MaximumItemTextLength = 8000;
-        public static int MaximumItemImageHeight = 320;
+        public static int DefaultMediaHeight = 320;
+
+        //Update internet access
+        public static void UpdateInternetAccess()
+        {
+            try
+            {
+                //Update previous internet access
+                PreviousInternetAccess = InternetAccess;
+
+                //Update current internet access
+                ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                InternetAccess = connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
+            }
+            catch
+            {
+                InternetAccess = false;
+            }
+        }
     }
 }

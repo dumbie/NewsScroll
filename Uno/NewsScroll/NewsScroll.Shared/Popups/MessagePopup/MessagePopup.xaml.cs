@@ -1,8 +1,6 @@
-﻿using ArnoldVinkCode;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -133,27 +131,5 @@ namespace NewsScroll
         void grid_MessageBox_Btn4_Click(object sender, RoutedEventArgs e) { vPopupResult = 4; }
         void grid_MessageBox_Btn5_Click(object sender, RoutedEventArgs e) { vPopupResult = 5; }
         void grid_MessageBox_BtnCancel_Click(object sender, RoutedEventArgs e) { vPopupDone = true; }
-
-        //Monitor the application size
-        private double PreviousLayoutWidth = 0;
-        private double PreviousLayoutHeight = 0;
-        private void OnLayoutUpdated(object sender, object e)
-        {
-            try
-            {
-                Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                double NewLayoutWidth = ScreenResolution.Width;
-                double NewLayoutHeight = ScreenResolution.Height;
-                if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
-                {
-                    PreviousLayoutWidth = NewLayoutWidth;
-                    PreviousLayoutHeight = NewLayoutHeight;
-
-                    grid_Main.Width = NewLayoutWidth;
-                    grid_Main.Height = NewLayoutHeight;
-                }
-            }
-            catch { }
-        }
     }
 }

@@ -3,7 +3,6 @@ using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -51,7 +50,7 @@ namespace NewsScroll.Api
                 string ItemId = ListItem.item_id;
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (!AppVariables.InternetAccess || ApiMessageError.StartsWith("(Off)"))
                 {
                     if (!Silent) { await EventProgressDisableUI("Off " + ActionType.ToLower() + "ring the item...", true); }
                     System.Diagnostics.Debug.WriteLine("Off " + ActionType.ToLower() + "ring the item...");

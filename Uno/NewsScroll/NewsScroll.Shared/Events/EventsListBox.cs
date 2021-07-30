@@ -2,7 +2,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -24,8 +23,7 @@ namespace NewsScroll
                 ObservableCollection<Items> SelectedList = (ObservableCollection<Items>)SendListView.ItemsSource;
                 if (SelectedItem != null)
                 {
-                    bool IsNetworkAvailable = NetworkInterface.GetIsNetworkAvailable();
-                    if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "1" && IsNetworkAvailable)
+                    if (AppVariables.ApplicationSettings["ItemOpenMethod"].ToString() == "1" && AppVariables.InternetAccess)
                     {
                         //Mark the item as read
                         bool MarkedRead = await MarkItemAsReadPrompt(SelectedList, SelectedItem, false, true, false);
@@ -177,7 +175,7 @@ namespace NewsScroll
             try
             {
                 //Check internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (!AppVariables.InternetAccess)
                 {
                     await new MessagePopup().OpenPopup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
                     return;

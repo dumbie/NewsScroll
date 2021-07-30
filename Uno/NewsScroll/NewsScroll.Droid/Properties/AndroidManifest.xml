@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="NewsScroll.NewsScroll" android:versionCode="1" android:versionName="1.0" android:installLocation="auto">
-	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="29" />
-	<application android:label="NewsScroll" android:theme="@style/MainTheme" android:largeHeap="true" android:usesCleartextTraffic="true"></application>
+	<uses-sdk android:minSdkVersion="27" android:targetSdkVersion="29" />
+	<application android:label="NewsScroll" android:theme="@style/MainTheme" android:largeHeap="true" android:hardwareAccelerated="true" android:usesCleartextTraffic="true" android:icon="@drawable/Icon"></application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

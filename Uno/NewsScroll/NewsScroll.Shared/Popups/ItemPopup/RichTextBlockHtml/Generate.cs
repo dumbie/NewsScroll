@@ -68,7 +68,7 @@ namespace NewsScroll
                 //Create item image
                 System.Diagnostics.Debug.WriteLine("Adding image: " + sourceUri);
                 ImageContainer imgContainer = new ImageContainer();
-                imgContainer.MaxHeight = AppVariables.MaximumItemImageHeight;
+                imgContainer.MaxHeight = AppVariables.DefaultMediaHeight;
                 imgContainer.item_image_Value = sourceUri;
 
                 //Get and set alt from the image
@@ -130,7 +130,9 @@ namespace NewsScroll
                 if (!string.IsNullOrWhiteSpace(VideoString))
                 {
                     System.Diagnostics.Debug.WriteLine("Opening video: " + VideoString);
+
                     VideoContainer video = new VideoContainer();
+                    video.MinHeight = AppVariables.DefaultMediaHeight;
 
                     //Disable auto play
                     video.item_source.AutoPlay = false;
@@ -201,6 +203,7 @@ namespace NewsScroll
                     System.Diagnostics.Debug.WriteLine("Opening webview: " + WebLink);
 
                     WebContainer webView = new WebContainer();
+                    webView.MinHeight = AppVariables.DefaultMediaHeight;
                     webView.item_source.Source = new Uri(WebLink);
                     webView.item_source.NewWindowRequested += webview_Full_NewWindowRequested;
 

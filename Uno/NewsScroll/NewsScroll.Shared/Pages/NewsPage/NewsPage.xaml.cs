@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -536,28 +535,6 @@ namespace NewsScroll
 
                 //Ask if user wants to refresh the items
                 if (MarkedAllRead) { await RefreshItems(true); }
-            }
-            catch { }
-        }
-
-        //Monitor the application size
-        private double PreviousLayoutWidth = 0;
-        private double PreviousLayoutHeight = 0;
-        private async void OnLayoutUpdated(object sender, object e)
-        {
-            try
-            {
-                Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                double NewLayoutWidth = ScreenResolution.Width;
-                double NewLayoutHeight = ScreenResolution.Height;
-                if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
-                {
-                    PreviousLayoutWidth = NewLayoutWidth;
-                    PreviousLayoutHeight = NewLayoutHeight;
-
-                    //Adjust the scrolling direction
-                    await AdjustItemsScrollingDirection(Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]));
-                }
             }
             catch { }
         }

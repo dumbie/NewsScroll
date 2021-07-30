@@ -2,19 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics.Display;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using static NewsScroll.Events.Events;
 
 namespace NewsScroll
 {
@@ -22,6 +19,7 @@ namespace NewsScroll
     {
         //Popup Variables
         private static BitmapImage vBitmapImage = null;
+        private static string vBitmapLink = string.Empty;
 
         //Initialize popup
         public ImagePopup() { this.InitializeComponent(); }
@@ -44,6 +42,7 @@ namespace NewsScroll
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
 
                 //Load the image source
+                vBitmapLink = ImageLink;
                 vBitmapImage = await AVImage.LoadBitmapImage(ImageLink, true);
                 if (vBitmapImage != null)
                 {
@@ -157,98 +156,68 @@ namespace NewsScroll
         {
             try
             {
-                if (vBitmapImage != null && vBitmapImage.PixelHeight > 0)
+                if (!string.IsNullOrWhiteSpace(vBitmapLink))
                 {
-                    //Get the url path
-                    string UrlPath = string.Empty;
-                    try { UrlPath = vBitmapImage.UriSource.AbsolutePath; } catch { }
-                    if (string.IsNullOrWhiteSpace(UrlPath)) { UrlPath = vBitmapImage.UriSource.ToString(); }
+                    //Check internet connection
+                    if (!AppVariables.InternetAccess)
+                    {
+                        await new MessagePopup().OpenPopup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                        System.Diagnostics.Debug.WriteLine("Failed to download the image, no internet access.");
+                        return;
+                    }
 
                     //Get the file name
                     string FileName = "Unknown";
-                    try { FileName = Path.GetFileNameWithoutExtension(UrlPath); } catch { }
+                    try
+                    {
+                        FileName = Path.GetFileNameWithoutExtension(vBitmapLink);
+                    }
+                    catch { }
                     if (string.IsNullOrWhiteSpace(FileName)) { FileName = "Unknown"; }
-
-                    //Check if network is available
-                    bool IsNetworkAvailable = NetworkInterface.GetIsNetworkAvailable();
 
                     //Get the file extension
                     string FileExtensionFile = ".jpg";
                     string FileExtensionDisplay = "JPG";
-                    if (IsNetworkAvailable)
+                    try
                     {
-                        try { FileExtensionFile = Path.GetExtension(UrlPath).ToLower(); } catch { }
-                        if (string.IsNullOrWhiteSpace(FileExtensionFile)) { FileExtensionFile = ".jpg"; }
-                        FileExtensionDisplay = FileExtensionFile.ToUpper().Replace(".", string.Empty);
+                        FileExtensionFile = Path.GetExtension(vBitmapLink).ToLower();
                     }
-                    else
-                    {
-                        int MessageResult = await new MessagePopup().OpenPopup("Offline saving", "Saving images while in offline mode may save the image in a lower quality and animations will be saved as a static image.", "Save image", "", "", "", "", true);
-                        if (MessageResult == 0) { return; }
-                    }
+                    catch { }
+                    if (string.IsNullOrWhiteSpace(FileExtensionFile)) { FileExtensionFile = ".jpg"; }
+                    FileExtensionDisplay = FileExtensionFile.ToUpper().Replace(".", string.Empty);
 
-                    FileSavePicker FileSavePicker = new FileSavePicker();
-                    FileSavePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                    FileSavePicker.FileTypeChoices.Add(FileExtensionDisplay, new List<string>() { FileExtensionFile });
-                    FileSavePicker.SuggestedFileName = FileName;
+                    FileSavePicker saveFilePicker = new FileSavePicker();
+                    saveFilePicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                    saveFilePicker.FileTypeChoices.Add(FileExtensionDisplay, new List<string>() { FileExtensionFile });
+                    saveFilePicker.SuggestedFileName = FileName;
 
-                    StorageFile NewFile = await FileSavePicker.PickSaveFileAsync();
-                    if (NewFile != null)
+                    StorageFile saveStorageFile = await saveFilePicker.PickSaveFileAsync();
+                    if (saveStorageFile != null)
                     {
-                        //Download the bitmapimage source uri
-                        if (IsNetworkAvailable)
+                        System.Diagnostics.Debug.WriteLine("Downloading and saving online image: " + vBitmapLink);
+                        await EventProgressDisableUI("Downloading and saving image...", false);
+
+                        Uri imageUri = new Uri(vBitmapLink);
+                        byte[] ImageBuffer = await AVDownloader.DownloadByteAsync(10000, "News Scroll", null, imageUri);
+                        if (ImageBuffer != null)
                         {
-                            System.Diagnostics.Debug.WriteLine("Saving online image...");
-
-                            byte[] ImageBuffer = await AVDownloader.DownloadByteAsync(10000, "News Scroll", null, vBitmapImage.UriSource);
-                            if (ImageBuffer != null) { await FileIO.WriteBytesAsync(NewFile, ImageBuffer); }
-                            else
-                            {
-                                await new MessagePopup().OpenPopup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
-                                System.Diagnostics.Debug.WriteLine("Failed to download the image.");
-                            }
+                            await FileIO.WriteBytesAsync(saveStorageFile, ImageBuffer);
                         }
-                        //Capture the image displayed in xaml
                         else
                         {
-                            System.Diagnostics.Debug.WriteLine("Saving offline image...");
-
-                            ////Set the image size temporarily to bitmap size
-                            //Double PreviousWidth = image_ImageViewer.ActualWidth;
-                            //Double PreviousHeight = image_ImageViewer.ActualHeight;
-                            //image_ImageViewer.Width = vBitmapImage.PixelWidth;
-                            //image_ImageViewer.Height = vBitmapImage.PixelHeight;
-
-                            //Fix
-                            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
-                            await renderTargetBitmap.RenderAsync(image_source);
-                            IBuffer PixelBuffer = await renderTargetBitmap.GetPixelsAsync();
-
-                            using (IRandomAccessStream fileStream = await NewFile.OpenAsync(FileAccessMode.ReadWrite))
-                            {
-                                BitmapEncoder bitmapEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, fileStream);
-                                bitmapEncoder.SetPixelData(
-                                    BitmapPixelFormat.Bgra8,
-                                    BitmapAlphaMode.Ignore,
-                                    (uint)renderTargetBitmap.PixelWidth,
-                                    (uint)renderTargetBitmap.PixelHeight,
-                                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                                    PixelBuffer.ToArray());
-                                await bitmapEncoder.FlushAsync();
-                            }
-
-                            //System.Diagnostics.Debug.WriteLine("From: " + image_ImageViewer.Width + " setting back: " + PreviousWidth);
-                            //image_ImageViewer.Width = PreviousWidth;
-                            //image_ImageViewer.Height = PreviousHeight;
+                            await new MessagePopup().OpenPopup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
+                            System.Diagnostics.Debug.WriteLine("Failed to download the image, no internet access.");
                         }
+
+                        await EventProgressEnableUI();
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 await new MessagePopup().OpenPopup("Failed to save", "Failed to save the image, please check your internet connection and try again.", "Ok", "", "", "", "", false);
-                System.Diagnostics.Debug.WriteLine("Failed to save the image.");
+                System.Diagnostics.Debug.WriteLine("Failed to save the image: " + ex.Message);
+                await EventProgressEnableUI();
             }
         }
 
@@ -292,31 +261,6 @@ namespace NewsScroll
 
                 //Monitor key presses
                 grid_Main.PreviewKeyUp -= Page_PreviewKeyUp; //DesktopOnly
-            }
-            catch { }
-        }
-
-        //Monitor the application size
-        private double PreviousLayoutWidth = 0;
-        private double PreviousLayoutHeight = 0;
-        private void OnLayoutUpdated(object sender, object e)
-        {
-            try
-            {
-                Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                double NewLayoutWidth = ScreenResolution.Width;
-                double NewLayoutHeight = ScreenResolution.Height;
-                if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
-                {
-                    PreviousLayoutWidth = NewLayoutWidth;
-                    PreviousLayoutHeight = NewLayoutHeight;
-
-                    grid_Main.Width = NewLayoutWidth;
-                    grid_Main.Height = NewLayoutHeight;
-
-                    image_source.MaxWidth = NewLayoutWidth;
-                    image_source.MaxHeight = NewLayoutHeight;
-                }
             }
             catch { }
         }

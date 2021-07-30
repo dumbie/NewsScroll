@@ -1,14 +1,12 @@
 ﻿using ArnoldVinkCode;
 using NewsScroll.Classes;
 using System;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using static NewsScroll.Api.Api;
 using static NewsScroll.Events.Events;
 
@@ -49,7 +47,7 @@ namespace NewsScroll
                 txt_AppInfo.Text = ApiMessageError + vCurrentItem.feed_title;
 
                 //Check if internet is available
-                if (NetworkInterface.GetIsNetworkAvailable())
+                if (AppVariables.InternetAccess)
                 {
                     iconItem.Visibility = Visibility.Visible;
                     iconBrowser.Visibility = Visibility.Visible;
@@ -155,75 +153,6 @@ namespace NewsScroll
 
                 //Monitor key presses
                 grid_Main.PreviewKeyUp -= Page_PreviewKeyUp; //DesktopOnly
-            }
-            catch { }
-        }
-
-        //Monitor the application size
-        private double PreviousLayoutWidth = 0;
-        private double PreviousLayoutHeight = 0;
-        private async void OnLayoutUpdated(object sender, object e)
-        {
-            try
-            {
-                Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                double NewLayoutWidth = ScreenResolution.Width;
-                double NewLayoutHeight = ScreenResolution.Height;
-                if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
-                {
-                    PreviousLayoutWidth = NewLayoutWidth;
-                    PreviousLayoutHeight = NewLayoutHeight;
-
-                    //Adjust the itemviewer size
-                    await AdjustItemViewerSize();
-                }
-            }
-            catch { }
-        }
-
-        //Adjust the itemviewer size
-        private async Task AdjustItemViewerSize()
-        {
-            try
-            {
-                //Adjust the itemviewer size
-                Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                grid_Main.Width = ScreenResolution.Width;
-                grid_Main.Height = ScreenResolution.Height;
-                stackpanel_NewsItem.Width = ScreenResolution.Width;
-
-                //Get the itemviewer elements target width
-                await Task.Delay(10);
-                double TargetLayoutWidth = stackpanel_NewsItem.ActualWidth - stackpanel_NewsItem.Padding.Left - stackpanel_NewsItem.Padding.Right;
-
-                //Adjust the itemviewer elements width
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(rtb_ItemContent); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(rtb_ItemContent, i);
-                    FrameworkElement frameworkElement = child as FrameworkElement;
-                    object childType = child.GetType();
-
-                    //Adjust the video and webframe size
-                    if (childType == typeof(VideoContainer) || childType == typeof(WebContainer))
-                    {
-                        frameworkElement.Width = TargetLayoutWidth;
-                        frameworkElement.Height = TargetLayoutWidth * 9 / 16;
-                    }
-                    //Adjust the image and gif size
-                    else if (childType == typeof(ImageContainer))
-                    {
-                        bool ScaleImage = frameworkElement.Tag == null;
-                        if (ScaleImage)
-                        {
-                            frameworkElement.Width = TargetLayoutWidth;
-                        }
-                    }
-                    //Adjust other element sizes
-                    else
-                    {
-                        frameworkElement.Width = TargetLayoutWidth;
-                    }
-                }
             }
             catch { }
         }
@@ -440,7 +369,7 @@ namespace NewsScroll
             try
             {
                 //Check internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (!AppVariables.InternetAccess)
                 {
                     await new MessagePopup().OpenPopup("No internet connection", "You currently don't have an internet connection available to open this item or link in your webbrowser.", "Ok", "", "", "", "", false);
                     return;
@@ -512,7 +441,7 @@ namespace NewsScroll
                 else
                 {
                     //Check if internet is available
-                    if (NetworkInterface.GetIsNetworkAvailable())
+                    if (AppVariables.InternetAccess)
                     {
                         ProgressDisableUI("Loading the full item...");
 
@@ -557,7 +486,7 @@ namespace NewsScroll
                     if (RetryCount == 3)
                     {
                         //Check if internet is available
-                        if (NetworkInterface.GetIsNetworkAvailable())
+                        if (AppVariables.InternetAccess)
                         {
                             System.Diagnostics.Debug.WriteLine("There is currently no full item content available.");
                             int MsgBoxResult = await new MessagePopup().OpenPopup("No item content available", "There is currently no full item content available, would you like to open the item in the browser?", "Open in browser", "", "", "", "", true);

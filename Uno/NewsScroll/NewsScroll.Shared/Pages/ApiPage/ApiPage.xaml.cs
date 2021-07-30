@@ -3,7 +3,6 @@ using NewsScroll.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -304,7 +303,7 @@ namespace NewsScroll
                 }
 
                 //Check for internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (!AppVariables.InternetAccess)
                 {
                     await new MessagePopup().OpenPopup("No internet connection", "Adding a feed can only be done when there is an internet connection available.", "Ok", "", "", "", "", false);
                     return;
@@ -512,7 +511,7 @@ namespace NewsScroll
             try
             {
                 //Check for internet connection
-                if (!NetworkInterface.GetIsNetworkAvailable())
+                if (!AppVariables.InternetAccess)
                 {
                     await new MessagePopup().OpenPopup("No internet connection", "Deleting a feed can only be done when there is an internet connection available.", "Ok", "", "", "", "", false);
                     return;

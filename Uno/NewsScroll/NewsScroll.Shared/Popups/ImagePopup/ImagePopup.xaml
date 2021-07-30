@@ -6,8 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="using:NewsScroll"
         mc:Ignorable="d"
-        FontSize="{StaticResource TextSizeInterface}"
-        LayoutUpdated="OnLayoutUpdated">
+        FontSize="{StaticResource TextSizeInterface}">
 
     <!--Main popup-->
     <Popup Name="popup_Main" IsLightDismissEnabled="False">

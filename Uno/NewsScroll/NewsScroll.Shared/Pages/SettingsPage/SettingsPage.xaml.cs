@@ -1,6 +1,5 @@
 ﻿using ArnoldVinkCode;
 using System;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -229,7 +228,7 @@ namespace NewsScroll
         {
             try
             {
-                if (NetworkInterface.GetIsNetworkAvailable())
+                if (AppVariables.InternetAccess)
                 {
                     await Launcher.LaunchUriAsync(new Uri("https://theoldreader.com/users/sign_up"));
                 }

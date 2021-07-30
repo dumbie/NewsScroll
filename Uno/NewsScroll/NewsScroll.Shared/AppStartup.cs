@@ -24,6 +24,9 @@ namespace NewsScroll.Startup
                 //Adjust the font sizes
                 AppAdjust.AdjustFontSizes();
 
+                //Update internet access
+                AppVariables.UpdateInternetAccess();
+
                 //Set Landscape Display
                 if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
                 {
@@ -62,9 +65,6 @@ namespace NewsScroll.Startup
 
                 //Register application timers
                 AppTimers.TimersRegister();
-
-                //Register application events
-                Events.Events.EventsRegister();
 
                 //Prevent application lock screen
                 try { AppVariables.DisplayRequest.RequestActive(); } catch { }

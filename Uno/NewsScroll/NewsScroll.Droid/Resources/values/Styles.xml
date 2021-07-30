@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-	<style name="AppTheme" parent="Theme.AppCompat.Light">
-
-		<!-- This removes the ActionBar -->
+	<style name="AppTheme" parent="Theme.AppCompat">
 		<item name="windowActionBar">false</item>
 		<item name="android:windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:windowNoTitle">true</item>
-
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+		<item name="android:windowTranslucentStatus">true</item>
+		<item name="android:windowTranslucentNavigation">false</item>
 	</style>
 </resources>

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -52,7 +51,7 @@ namespace NewsScroll.Api
                 string ItemId = ListItem.item_id;
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (!AppVariables.InternetAccess || ApiMessageError.StartsWith("(Off)"))
                 {
                     if (!Silent) { await EventProgressDisableUI("Off marking item as " + ActionType.ToLower() + "...", true); }
                     System.Diagnostics.Debug.WriteLine("Off marking item as " + ActionType.ToLower() + "...");
@@ -137,7 +136,7 @@ namespace NewsScroll.Api
                 List<Items> TableEditItems = UpdateList.Where(x => x.item_id == EndItemId || x.item_read_status == Visibility.Collapsed).ToList();
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (!AppVariables.InternetAccess || ApiMessageError.StartsWith("(Off)"))
                 {
                     if (!Silent) { await EventProgressDisableUI("Off marking read till item...", true); }
                     System.Diagnostics.Debug.WriteLine("Off marking read till item...");
@@ -272,7 +271,7 @@ namespace NewsScroll.Api
                 bool MarkStatus = false;
 
                 //Check if internet is available
-                if (!NetworkInterface.GetIsNetworkAvailable() || ApiMessageError.StartsWith("(Off)"))
+                if (!AppVariables.InternetAccess || ApiMessageError.StartsWith("(Off)"))
                 {
                     await EventProgressDisableUI("Off marking all items as read...", true);
                     System.Diagnostics.Debug.WriteLine("Off marking all items as read...");

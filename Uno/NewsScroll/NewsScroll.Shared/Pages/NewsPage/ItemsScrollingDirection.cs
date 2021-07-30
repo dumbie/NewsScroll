@@ -73,8 +73,14 @@ namespace NewsScroll
                     else if (Direction == 2)
                     {
                         Rect ScreenSize = AVFunctions.AppWindowResolution();
-                        if (ScreenSize.Width > ScreenSize.Height) { await AdjustItemsScrollingDirection(1); }
-                        else { await AdjustItemsScrollingDirection(0); }
+                        if (ScreenSize.Width > ScreenSize.Height)
+                        {
+                            await AdjustItemsScrollingDirection(1);
+                        }
+                        else
+                        {
+                            await AdjustItemsScrollingDirection(0);
+                        }
                     }
                 }
             }

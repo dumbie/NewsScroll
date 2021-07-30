@@ -39,6 +39,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AppLists.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppStartup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppTimers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppTimersFunctions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppVariables.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ArnoldVinkCode\Functions\AVDownloader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ArnoldVinkCode\Functions\AVFile.cs" />

@@ -2,7 +2,6 @@
 using NewsScroll.Classes;
 using System;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -148,28 +147,6 @@ namespace NewsScroll
                     //Adjust the list style
                     EventChangeListViewStyle(ComboBox.SelectedIndex);
                 };
-            }
-            catch { }
-        }
-
-        //Monitor the application size
-        private double PreviousLayoutWidth = 0;
-        private double PreviousLayoutHeight = 0;
-        private void OnLayoutUpdated(object sender, object e)
-        {
-            try
-            {
-                Rect ScreenResolution = AVFunctions.AppWindowResolution();
-                double NewLayoutWidth = ScreenResolution.Width;
-                double NewLayoutHeight = ScreenResolution.Height;
-                if (NewLayoutWidth != PreviousLayoutWidth || NewLayoutHeight != PreviousLayoutHeight)
-                {
-                    PreviousLayoutWidth = NewLayoutWidth;
-                    PreviousLayoutHeight = NewLayoutHeight;
-
-                    grid_Main.Width = NewLayoutWidth;
-                    grid_Main.Height = NewLayoutHeight;
-                }
             }
             catch { }
         }

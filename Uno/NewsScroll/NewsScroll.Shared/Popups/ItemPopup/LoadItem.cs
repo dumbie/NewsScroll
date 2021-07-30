@@ -81,17 +81,14 @@ namespace NewsScroll
                     }
 
                     //Check if item content contains preview image
-                    await CheckItemContentContainsPreviewImage(LoadTable);
-
-                    //Adjust the itemviewer size
-                    await AdjustItemViewerSize();
+                    CheckItemContentContainsPreviewImage(LoadTable);
                 }
             }
             catch { }
         }
 
         //Check if item content contains preview image
-        private async Task CheckItemContentContainsPreviewImage(TableItems LoadTable)
+        private void CheckItemContentContainsPreviewImage(TableItems LoadTable)
         {
             try
             {
@@ -114,7 +111,7 @@ namespace NewsScroll
                 if (ItemImagecount == 0 || !FoundPreviewImage)
                 {
                     System.Diagnostics.Debug.WriteLine("No media found in rich text block, adding item image.");
-                    item_image.MaxHeight = AppVariables.MaximumItemImageHeight;
+                    item_image.MaxHeight = AppVariables.DefaultMediaHeight;
                     item_image.item_image_Value = ItemImageLink;
                     item_image.Visibility = Visibility.Visible;
                 }
