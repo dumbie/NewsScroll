@@ -649,7 +649,7 @@ namespace NewsScroll
                     textLabel.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
 
                     Binding StyleBinding = new Binding();
-                    StyleBinding.Source = Application.Current.Resources["TextBlockBlack"];
+                    StyleBinding.Source = Application.Current.Resources["TextBlockWhite"];
                     textLabel.SetBinding(TextBlock.StyleProperty, StyleBinding);
 
                     addElement.Children.Add(textLabel);

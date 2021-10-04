@@ -11,7 +11,7 @@
     <!--Main popup-->
     <Popup Name="popup_Main" IsLightDismissEnabled="False">
         <!--Main page-->
-        <Grid Name="grid_Main" Background="{StaticResource ApplicationLightGrayBrush}" Width="10000" Height="10000">
+        <Grid Name="grid_Main" Background="{StaticResource ApplicationBlackBrush}" Width="10000" Height="10000">
             <!-- Main Grid -->
             <Grid>
                 <Grid.RowDefinitions>
