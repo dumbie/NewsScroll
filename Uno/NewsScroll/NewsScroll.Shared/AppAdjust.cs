@@ -1,6 +1,7 @@
 ﻿using NewsScroll.Styles;
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace NewsScroll
 {
@@ -14,42 +15,31 @@ namespace NewsScroll
                 int SelectedTheme = Convert.ToInt32(AppVariables.ApplicationSettings["ColorTheme"]);
                 System.Diagnostics.Debug.WriteLine("Adjusting the application theme to: " + SelectedTheme);
 
-                //Fix
-                //if (SelectedTheme == 0)
-                //{
-                //    SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                //    SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
-                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Light;
-                //}
-                //else if (SelectedTheme == 1)
-                //{
-                //    SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-                //    SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
-                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Dark;
-                //}
-                //else
-                //{
-                //    if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
-                //    {
-                //        SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-                //        SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
-                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Dark;
-                //    }
-                //    else
-                //    {
-                //        SolidColorBrush ColorEnabled = new SolidColorBrush(Color.FromArgb(255, 245, 245, 245));
-                //        SolidColorBrush ColorDisabled = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationLightGrayBrush = ColorEnabled;
-                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationDarkGrayBrush = ColorDisabled;
-                //        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ElementRequestedTheme = ElementTheme.Light;
-                //    }
-                //}
+                if (SelectedTheme == 0)
+                {
+                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                }
+                else if (SelectedTheme == 1)
+                {
+                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                }
+                else
+                {
+                    if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+                    {
+                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                    }
+                    else
+                    {
+                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                    }
+                }
+
+                System.Diagnostics.Debug.WriteLine("Adjusted the application theme.");
             }
             catch { }
         }

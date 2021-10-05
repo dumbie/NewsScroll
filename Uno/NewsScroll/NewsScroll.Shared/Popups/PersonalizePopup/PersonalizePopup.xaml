@@ -13,7 +13,7 @@
         <!--Main page-->
         <Grid Name="grid_Main" Width="10000" Height="10000">
             <Grid Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.60"/>
-            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="{StaticResource ApplicationLightGrayBrush}">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyle}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -35,10 +35,10 @@
                 <!-- Page Settings -->
                 <ScrollViewer Grid.Row="1" Margin="5,5,5,5" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel>
-                        <CheckBox Name="setting_DisableLandscapeDisplay" Content="Disable landscape display mode" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_DisableLandscapeDisplay" Content="Disable landscape display mode" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyle}}" Style="{StaticResource CheckBox}"/>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will disable landscape mode preventing your screen from rotating." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
-                        <TextBlock Text="Used application color theme:" Margin="0,10,0,0"/>
+                        <TextBlock Text="Used application color theme:" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyle}}" Margin="0,10,0,0"/>
                         <ComboBox Name="setting_ColorTheme" Margin="0,5,0,0" HorizontalAlignment="Stretch" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Light theme"/>
                             <ComboBoxItem Content="Dark theme"/>

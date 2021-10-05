@@ -52,24 +52,24 @@ namespace NewsScroll.Styles
         }
 
         //App colors
-        private SolidColorBrush priv_ApplicationBackgroundEnabled;
-        public SolidColorBrush ApplicationBackgroundEnabled
+        private SolidColorBrush priv_ApplicationThemeForeground;
+        public SolidColorBrush ApplicationThemeForeground
         {
-            get { return priv_ApplicationBackgroundEnabled; }
+            get { return priv_ApplicationThemeForeground; }
             set
             {
-                priv_ApplicationBackgroundEnabled = value;
+                priv_ApplicationThemeForeground = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private SolidColorBrush priv_ApplicationBackgroundDisabled;
-        public SolidColorBrush ApplicationBackgroundDisabled
+        private SolidColorBrush priv_ApplicationThemeBackground;
+        public SolidColorBrush ApplicationThemeBackground
         {
-            get { return priv_ApplicationBackgroundDisabled; }
+            get { return priv_ApplicationThemeBackground; }
             set
             {
-                priv_ApplicationBackgroundDisabled = value;
+                priv_ApplicationThemeBackground = value;
                 NotifyPropertyChanged();
             }
         }

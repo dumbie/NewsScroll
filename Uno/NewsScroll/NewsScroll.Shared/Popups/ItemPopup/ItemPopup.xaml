@@ -31,7 +31,7 @@
                 <ScrollViewer Grid.Row="1" Name="scrollviewer_NewsItem" HorizontalAlignment="Stretch" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel Name="stackpanel_NewsItem" MinWidth="280" MaxWidth="720" HorizontalAlignment="Center" Padding="10,5,10,0" Background="Transparent" ManipulationMode="TranslateX, System">
                         <StackPanel Name="stackpanel_HeaderItem">
-                            <TextBlock Name="tb_ItemTitle" Style="{StaticResource TextBlockBlack}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
+                            <TextBlock Name="tb_ItemTitle" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
                             <TextBlock Name="tb_ItemDateString" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
                             <Grid Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>
