@@ -94,7 +94,7 @@ namespace NewsScroll
                             //Download news items from Api
                             if (!ApiMessageError.Contains("Off"))
                             {
-                                if (UpdateStatus) { UpdateStatus = await AllNewsItems(true, false, false, false); }
+                                if (UpdateStatus) { UpdateStatus = await AllNewsItems(false, false, false); }
                                 if (!UpdateStatus)
                                 {
                                     int MessageResult = await new MessagePopup().OpenPopup("Failed to load the items", "Would you like to retry loading the items or do you want to switch to offline mode?\n\nMake sure that you have an internet connection and that your correct account settings are set before retrying.", "Retry downloading items", "Switch to offline mode", "", "", "", false);
@@ -140,7 +140,7 @@ namespace NewsScroll
                         //Download starred items from Api
                         if (UpdateStatus && AppVariables.LoadStarred && OnlineUpdateStarred && !ApiMessageError.Contains("Off"))
                         {
-                            UpdateStatus = await ItemsStarred(true, false, false);
+                            UpdateStatus = await ItemsStarred(false, false);
                             if (UpdateStatus)
                             {
                                 ApiMessageError = string.Empty;

@@ -43,10 +43,8 @@ namespace NewsScroll
         public static int CurrentItemsLoaded = 0;
 
         //Items Loading Settings
-        public static int ItemsToPreloadBatch = 5;
-        public static int ItemsToPreloadMax = 50;
-        public static int ItemsToScrollLoad = 100000;
         public static int ContentToScrollLoad = 5;
+        public static int ItemsToScrollLoad = 100000;
         public static int ItemsMaximumLoad = 100000;
         public static int StarredMaximumLoad = 500;
         public static int MaximumItemTextLength = 8000;

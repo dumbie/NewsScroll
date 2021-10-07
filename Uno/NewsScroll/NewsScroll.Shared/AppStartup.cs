@@ -37,7 +37,7 @@ namespace NewsScroll.Startup
                     DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
                 }
 
-                //Calculate the maximum preload items
+                //Calculate the maximum scroll load items
                 Size ScreenResolution = AVFunctions.DevScreenResolution();
                 if (ScreenResolution.Width > ScreenResolution.Height)
                 {
@@ -47,7 +47,7 @@ namespace NewsScroll.Startup
                 {
                     AppVariables.ContentToScrollLoad = Convert.ToInt32(ScreenResolution.Height / 280) + 4;
                 }
-                System.Diagnostics.Debug.WriteLine("Preload items has been set to: " + AppVariables.ContentToScrollLoad);
+                System.Diagnostics.Debug.WriteLine("Scroll load items have been set to: " + AppVariables.ContentToScrollLoad);
 
                 //Connect to the database
                 if (!DatabaseConnect())

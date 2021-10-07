@@ -11,7 +11,7 @@ namespace NewsScroll.Api
 {
     partial class Api
     {
-        static public async Task<bool> ItemsStarred(bool Preload, bool Silent, bool EnableUI)
+        static public async Task<bool> ItemsStarred(bool Silent, bool EnableUI)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace NewsScroll.Api
                             if (!Silent) { await EventProgressDisableUI("Downloading starred items...", true); }
                             System.Diagnostics.Debug.WriteLine("Downloading starred items...");
 
-                            bool UpdatedItems = await MultiItems(DownloadItemIds, true, true, Silent, EnableUI);
+                            bool UpdatedItems = await MultipleItems(DownloadItemIds, true, Silent, EnableUI);
                             if (!UpdatedItems)
                             {
                                 await EventProgressEnableUI();

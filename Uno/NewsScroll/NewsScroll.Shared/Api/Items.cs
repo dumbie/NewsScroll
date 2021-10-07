@@ -15,7 +15,7 @@ namespace NewsScroll.Api
 {
     partial class Api
     {
-        static public async Task<bool> AllNewsItems(bool Preload, bool IgnoreDate, bool Silent, bool EnableUI)
+        static public async Task<bool> AllNewsItems(bool IgnoreDate, bool Silent, bool EnableUI)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace NewsScroll.Api
                 string[][] RequestHeader = new string[][] { new[] { "Authorization", "GoogleLogin auth=" + AppVariables.ApplicationSettings["ConnectApiAuth"].ToString() } };
                 string DownloadString = await AVDownloader.DownloadStringAsync(20000, "News Scroll", RequestHeader, new Uri(ApiConnectionUrl + "stream/contents?output=json&n=" + AppVariables.ItemsMaximumLoad + "&ot=" + UnixTimeTicks));
 
-                bool UpdatedItems = await DownloadToTableItemList(Preload, IgnoreDate, DownloadString, Silent, EnableUI);
+                bool UpdatedItems = await DownloadToTableItemList(IgnoreDate, DownloadString, Silent, EnableUI);
                 if (UpdatedItems)
                 {
                     //Save the last update time string
@@ -62,7 +62,7 @@ namespace NewsScroll.Api
             }
         }
 
-        static public async Task<bool> MultiItems(string DownloadItemIds, bool Preload, bool IgnoreDate, bool Silent, bool EnableUI)
+        static public async Task<bool> MultipleItems(string DownloadItemIds, bool IgnoreDate, bool Silent, bool EnableUI)
         {
             try
             {
@@ -73,12 +73,12 @@ namespace NewsScroll.Api
                 Uri PostUri = new Uri(ApiConnectionUrl + "stream/items/contents?output=json");
                 string PostHttp = await AVDownloader.SendPostRequestAsync(20000, "News Scroll", RequestHeader, PostUri, PostContent);
 
-                return await DownloadToTableItemList(Preload, IgnoreDate, PostHttp, Silent, EnableUI);
+                return await DownloadToTableItemList(IgnoreDate, PostHttp, Silent, EnableUI);
             }
             catch { return false; }
         }
 
-        static public async Task<bool> SingleItem(string DownloadId, bool Preload, bool IgnoreDate, bool Silent, bool EnableUI)
+        static public async Task<bool> SingleItem(string DownloadId, bool IgnoreDate, bool Silent, bool EnableUI)
         {
             try
             {
@@ -88,12 +88,12 @@ namespace NewsScroll.Api
                 Uri DownloadUri = new Uri(ApiConnectionUrl + "stream/items/contents?output=json&i=" + DownloadItems);
                 string DownloadString = await AVDownloader.DownloadStringAsync(7500, "News Scroll", RequestHeader, DownloadUri);
 
-                return await DownloadToTableItemList(Preload, IgnoreDate, DownloadString, Silent, EnableUI);
+                return await DownloadToTableItemList(IgnoreDate, DownloadString, Silent, EnableUI);
             }
             catch { return false; }
         }
 
-        private static async Task<bool> DownloadToTableItemList(bool Preload, bool IgnoreDate, string DownloadString, bool Silent, bool EnableUI)
+        private static async Task<bool> DownloadToTableItemList(bool IgnoreDate, string DownloadString, bool Silent, bool EnableUI)
         {
             try
             {
@@ -103,10 +103,6 @@ namespace NewsScroll.Api
                     int TotalItemsCount = WebJObject["items"].Count();
                     if (!Silent) { await EventProgressDisableUI("Processing " + TotalItemsCount + " items...", true); }
                     System.Diagnostics.Debug.WriteLine("Processing " + TotalItemsCount + " items...");
-
-                    //Check the received item ids
-                    int ProcessedItems = 0;
-                    int PreloadedItems = AppVariables.ItemsToPreloadBatch;
 
                     List<TableItems> TableUpdatedItems = new List<TableItems>();
                     List<TableItems> TableCurrentItems = await SQLConnection.Table<TableItems>().ToListAsync();
@@ -146,21 +142,6 @@ namespace NewsScroll.Api
                             else { TableResult.item_star_status = false; }
 
                             TableUpdatedItems.Add(TableResult);
-                        }
-
-                        //Check if items need to be preloaded
-                        if (Preload && TableResult != null && PreloadedItems <= AppVariables.ItemsToPreloadMax)
-                        {
-                            //Validate the processed item
-                            if (ProcessItemLoad.ValidateTableItems(IgnoredFeedList, TableResult)) { ProcessedItems++; }
-
-                            //Preload items to the list
-                            if (ProcessedItems == PreloadedItems || ProcessedItems == TotalItemsCount)
-                            {
-                                System.Diagnostics.Debug.WriteLine("Preloading " + AppVariables.ItemsToPreloadBatch + " new items...");
-                                await ProcessItemLoad.DatabaseToList(null, TableCurrentItems, AppVariables.CurrentItemsLoaded, AppVariables.ItemsToPreloadBatch, true, false);
-                                PreloadedItems += AppVariables.ItemsToPreloadBatch;
-                            }
                         }
                     }
 
