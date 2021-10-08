@@ -38,7 +38,7 @@ namespace NewsScroll
                 //Adjust the swiping direction
                 SwipeBarAdjust();
 
-                //Set Landscape Display
+                //Adjust screen rotation
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
 
                 //Load the image source
@@ -80,11 +80,8 @@ namespace NewsScroll
                 //Disable page events
                 DisablePageEvents();
 
-                //Set Landscape Display
-                if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
-                {
-                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
-                }
+                //Adjust screen rotation
+                AppAdjust.AdjustScreenRotation();
 
                 //Close the popup
                 popup_Main.IsOpen = false;

@@ -4,23 +4,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using static ArnoldVinkCode.AVFunctions;
 
 namespace NewsScroll
 {
     class EventsScrollViewer
     {
-        public static double[] GetCurrentOffset(ListView TargetListView)
+        //Get current offset item
+        public static object GetCurrentOffsetItem(ListView TargetListView)
         {
             try
             {
-                if (TargetListView.Items.Any())
+                for (int i = 0; i < TargetListView.Items.Count; i++)
                 {
-                    VirtualizingStackPanel virtualStackPanel = AVFunctions.FindVisualChild<VirtualizingStackPanel>(TargetListView);
-                    if (virtualStackPanel != null) { return new double[] { virtualStackPanel.HorizontalOffset, virtualStackPanel.VerticalOffset }; }
+                    if (ElementIsVisible(TargetListView.ContainerFromItem(TargetListView.Items[i]) as ListViewItem, TargetListView))
+                    {
+                        return TargetListView.Items[i];
+                    }
                 }
             }
             catch { }
-            return new double[] { 0, 0 };
+            return null;
+        }
+
+        //Get current offset index
+        public static int GetCurrentOffsetIndex(ListView TargetListView)
+        {
+            try
+            {
+                for (int i = 0; i < TargetListView.Items.Count; i++)
+                {
+                    if (ElementIsVisible(TargetListView.ContainerFromItem(TargetListView.Items[i]) as ListViewItem, TargetListView))
+                    {
+                        return i;
+                    }
+                }
+            }
+            catch { }
+            return -1;
         }
 
         //Update the displayed item content

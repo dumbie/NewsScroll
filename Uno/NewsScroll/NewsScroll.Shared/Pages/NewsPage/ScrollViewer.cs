@@ -1,6 +1,5 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static ArnoldVinkCode.AVFunctions;
 
 namespace NewsScroll
 {
@@ -12,15 +11,7 @@ namespace NewsScroll
             try
             {
                 //Get current scroll item
-                int CurrentOffSetId = -1;
-                for (int i = 0; i < ListView_Items.Items.Count; i++)
-                {
-                    if (ElementIsVisible(ListView_Items.ContainerFromItem(ListView_Items.Items[i]) as ListViewItem, ListView_Items))
-                    {
-                        CurrentOffSetId = i;
-                        break;
-                    }
-                }
+                int CurrentOffSetId = EventsScrollViewer.GetCurrentOffsetIndex(ListView_Items);
                 if (CurrentOffSetId < 0) { return; }
 
                 //Update the current item count

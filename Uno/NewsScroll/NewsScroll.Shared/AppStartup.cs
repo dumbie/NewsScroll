@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Graphics.Display;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using static NewsScroll.Database.Database;
@@ -24,18 +23,11 @@ namespace NewsScroll.Startup
                 //Adjust the font sizes
                 AppAdjust.AdjustFontSizes();
 
+                //Adjust screen rotation
+                AppAdjust.AdjustScreenRotation();
+
                 //Update internet access
                 AppVariables.UpdateInternetAccess();
-
-                //Set Landscape Display
-                if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
-                {
-                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
-                }
-                else
-                {
-                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
-                }
 
                 //Calculate the maximum scroll load items
                 Size ScreenResolution = AVFunctions.DevScreenResolution();

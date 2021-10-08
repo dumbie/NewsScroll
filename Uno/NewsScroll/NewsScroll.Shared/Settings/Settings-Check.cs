@@ -1,5 +1,4 @@
 ﻿using ArnoldVinkCode;
-using Windows.Graphics.Display;
 
 namespace NewsScroll
 {
@@ -73,7 +72,9 @@ namespace NewsScroll
                 if (!AppVariables.ApplicationSettings.ContainsKey("DisableLandscapeDisplay"))
                 {
                     AppVariables.ApplicationSettings["DisableLandscapeDisplay"] = false;
-                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
+
+                    //Adjust screen rotation
+                    AppAdjust.AdjustScreenRotation();
                 }
 
                 //Low bandwidth mode

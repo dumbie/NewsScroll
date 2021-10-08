@@ -2,7 +2,6 @@
 using NewsScroll.Classes;
 using System;
 using System.Threading.Tasks;
-using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static NewsScroll.Events.Events;
@@ -96,16 +95,10 @@ namespace NewsScroll
                 setting_DisableLandscapeDisplay.Click += (sender, e) =>
                 {
                     CheckBox CheckBox = (CheckBox)sender;
-                    if ((bool)CheckBox.IsChecked)
-                    {
-                        AppVariables.ApplicationSettings["DisableLandscapeDisplay"] = true;
-                        DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
-                    }
-                    else
-                    {
-                        AppVariables.ApplicationSettings["DisableLandscapeDisplay"] = false;
-                        DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
-                    }
+                    AppVariables.ApplicationSettings["DisableLandscapeDisplay"] = (bool)CheckBox.IsChecked;
+
+                    //Adjust screen rotation
+                    AppAdjust.AdjustScreenRotation();
                 };
 
                 //Color Theme

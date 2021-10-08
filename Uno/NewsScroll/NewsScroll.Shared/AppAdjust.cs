@@ -1,5 +1,6 @@
 ﻿using NewsScroll.Styles;
 using System;
+using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -63,6 +64,23 @@ namespace NewsScroll
 
                 double HugeSize = (double)Application.Current.Resources["TextSizeHuge"] + FontSize;
                 ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeHuge = HugeSize;
+            }
+            catch { }
+        }
+
+        //Adjust the screen rotation
+        public static void AdjustScreenRotation()
+        {
+            try
+            {
+                if ((bool)AppVariables.ApplicationSettings["DisableLandscapeDisplay"])
+                {
+                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
+                }
+                else
+                {
+                    DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
+                }
             }
             catch { }
         }
