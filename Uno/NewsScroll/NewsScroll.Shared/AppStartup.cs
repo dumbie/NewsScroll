@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Graphics.Display;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using static NewsScroll.Database.Database;
@@ -25,6 +26,9 @@ namespace NewsScroll.Startup
 
                 //Adjust screen rotation
                 AppAdjust.AdjustScreenRotation();
+
+                //Monitor screen rotation
+                DisplayInformation.GetForCurrentView().OrientationChanged += AppAdjust.AdjustListviewRotationEvent;
 
                 //Update internet access
                 AppVariables.UpdateInternetAccess();

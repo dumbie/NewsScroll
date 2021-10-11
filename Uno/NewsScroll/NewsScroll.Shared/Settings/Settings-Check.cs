@@ -72,9 +72,6 @@ namespace NewsScroll
                 if (!AppVariables.ApplicationSettings.ContainsKey("DisableLandscapeDisplay"))
                 {
                     AppVariables.ApplicationSettings["DisableLandscapeDisplay"] = false;
-
-                    //Adjust screen rotation
-                    AppAdjust.AdjustScreenRotation();
                 }
 
                 //Low bandwidth mode

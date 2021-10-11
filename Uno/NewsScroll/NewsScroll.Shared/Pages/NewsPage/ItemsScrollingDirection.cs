@@ -29,7 +29,7 @@ namespace NewsScroll
 
                             await Task.Delay(100);
                             ListView_Items.ScrollIntoView(CurrentOffset);
-                            System.Diagnostics.Debug.WriteLine("Changed listview to vertical style x.");
+                            System.Diagnostics.Debug.WriteLine("Changed listview to vertical style.");
                         }
 
                         //Adjust Status Current Item margin
@@ -51,7 +51,7 @@ namespace NewsScroll
 
                             await Task.Delay(100);
                             ListView_Items.ScrollIntoView(CurrentOffset);
-                            System.Diagnostics.Debug.WriteLine("Changed listview to horizontal style x.");
+                            System.Diagnostics.Debug.WriteLine("Changed listview to horizontal style.");
                         }
 
                         //Adjust Status Current Item margin

@@ -3,6 +3,7 @@ using System;
 using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using static NewsScroll.Events.Events;
 
 namespace NewsScroll
 {
@@ -81,6 +82,17 @@ namespace NewsScroll
                 {
                     DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
                 }
+            }
+            catch { }
+        }
+
+        //Adjust the listview rotation
+        public static void AdjustListviewRotationEvent(DisplayInformation sender, object args)
+        {
+            try
+            {
+                int itemScrollDirection = (int)AppVariables.ApplicationSettings["ItemScrollDirection"];
+                EventAdjustItemsScrollingDirection(itemScrollDirection);
             }
             catch { }
         }

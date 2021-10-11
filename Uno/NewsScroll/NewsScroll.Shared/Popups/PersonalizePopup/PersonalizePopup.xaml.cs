@@ -99,6 +99,9 @@ namespace NewsScroll
 
                     //Adjust screen rotation
                     AppAdjust.AdjustScreenRotation();
+
+                    //Adjust the listview rotation
+                    AppAdjust.AdjustListviewRotationEvent(null, null);
                 };
 
                 //Color Theme
