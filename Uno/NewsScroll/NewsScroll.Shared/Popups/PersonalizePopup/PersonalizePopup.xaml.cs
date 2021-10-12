@@ -58,7 +58,9 @@ namespace NewsScroll
                 setting_ItemScrollDirection.SelectedIndex = Convert.ToInt32(AppVariables.ApplicationSettings["ItemScrollDirection"]);
 
                 //Adjust Font Size
-                setting_AdjustFontSize.Value = Convert.ToInt32(AppVariables.ApplicationSettings["AdjustFontSize"]);
+                int fontSize = Convert.ToInt32(AppVariables.ApplicationSettings["AdjustFontSize"]);
+                textblock_AdjustFontSize.Text = textblock_AdjustFontSize.Tag.ToString() + fontSize;
+                setting_AdjustFontSize.Value = fontSize;
 
                 //Item list view styles
                 ComboBoxImageList ComboTitleImageText = new ComboBoxImageList();
@@ -128,7 +130,10 @@ namespace NewsScroll
                 setting_AdjustFontSize.ValueChanged += (sender, e) =>
                 {
                     Slider Slider = (Slider)sender;
+
+                    string fontSize = Slider.Value.ToString();
                     AppVariables.ApplicationSettings["AdjustFontSize"] = Slider.Value.ToString();
+                    textblock_AdjustFontSize.Text = textblock_AdjustFontSize.Tag.ToString() + fontSize;
 
                     //Adjust the font sizes
                     AppAdjust.AdjustFontSizes();

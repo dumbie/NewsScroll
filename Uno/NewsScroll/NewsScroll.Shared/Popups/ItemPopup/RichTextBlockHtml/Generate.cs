@@ -256,7 +256,7 @@ namespace NewsScroll
                     if (vFontWeight != null) { hyperLink.FontWeight = (FontWeight)vFontWeight; vFontWeight = null; }
 
                     Binding FontSizeBinding = new Binding();
-                    FontSizeBinding.Source = (DynamicStyle)Application.Current.Resources["DynamicStyle"];
+                    FontSizeBinding.Source = (DynamicStyles)Application.Current.Resources["DynamicStyles"];
                     FontSizeBinding.Path = new PropertyPath("TextSizeMedium");
                     hyperLink.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
 
@@ -354,7 +354,7 @@ namespace NewsScroll
                     headerText.SetBinding(TextBlock.StyleProperty, StyleBinding);
 
                     Binding FontSizeBinding = new Binding();
-                    FontSizeBinding.Source = (DynamicStyle)Application.Current.Resources["DynamicStyle"];
+                    FontSizeBinding.Source = (DynamicStyles)Application.Current.Resources["DynamicStyles"];
                     FontSizeBinding.Path = new PropertyPath("TextSizeLarge");
                     headerText.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
 
@@ -644,7 +644,7 @@ namespace NewsScroll
                     if (vFontWeight != null) { textLabel.FontWeight = (FontWeight)vFontWeight; vFontWeight = null; }
 
                     Binding FontSizeBinding = new Binding();
-                    FontSizeBinding.Source = (DynamicStyle)Application.Current.Resources["DynamicStyle"];
+                    FontSizeBinding.Source = (DynamicStyles)Application.Current.Resources["DynamicStyles"];
                     FontSizeBinding.Path = new PropertyPath("TextSizeMedium");
                     textLabel.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
 

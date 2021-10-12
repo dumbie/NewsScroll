@@ -52,8 +52,8 @@
     <DataTemplate x:Key="ListViewItemsVertical0">
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -70,7 +70,7 @@
 
             <local:ImageContainer Tag="NoScale" MinHeight="240" Height="240" item_image_Value="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
 
-            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
         </StackPanel>
     </DataTemplate>
 
@@ -78,8 +78,8 @@
     <DataTemplate x:Key="ListViewItemsVertical1">
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -102,8 +102,8 @@
     <DataTemplate x:Key="ListViewItemsVertical2">
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -118,7 +118,7 @@
                 </Grid>
             </StackPanel>
 
-            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
         </StackPanel>
     </DataTemplate>
 
@@ -126,8 +126,8 @@
     <DataTemplate x:Key="ListViewItemsVertical3">
         <StackPanel Margin="0,5,0,0">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -148,8 +148,8 @@
     <DataTemplate x:Key="ListViewItemsHorizontal0">
         <StackPanel Margin="0,5,0,0" Width="280">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -166,7 +166,7 @@
 
             <local:ImageContainer Tag="NoScale" MaxHeight="300" item_image_Value="{Binding item_image}" Visibility="{Binding item_image_visibility}" IsHitTestVisible="False"/>
 
-            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
         </StackPanel>
     </DataTemplate>
 
@@ -174,8 +174,8 @@
     <DataTemplate x:Key="ListViewItemsHorizontal1">
         <StackPanel Margin="0,5,0,0" Width="280">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -198,8 +198,8 @@
     <DataTemplate x:Key="ListViewItemsHorizontal2">
         <StackPanel Margin="0,5,0,0" Width="280">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -214,7 +214,7 @@
                 </Grid>
             </StackPanel>
 
-            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding item_content}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
         </StackPanel>
     </DataTemplate>
 
@@ -222,8 +222,8 @@
     <DataTemplate x:Key="ListViewItemsHorizontal3">
         <StackPanel Margin="0,5,0,0" Width="280">
             <StackPanel ToolTipService.ToolTip="{Binding feed_title}">
-                <TextBlock Text="{Binding item_title}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding item_datestring}" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                 <Grid Margin="0,5,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

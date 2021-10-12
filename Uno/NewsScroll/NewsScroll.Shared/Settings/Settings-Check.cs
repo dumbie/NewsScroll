@@ -134,7 +134,7 @@ namespace NewsScroll
                 //Adjust font size
                 if (!AppVariables.ApplicationSettings.ContainsKey("AdjustFontSize"))
                 {
-                    AppVariables.ApplicationSettings["AdjustFontSize"] = -1;
+                    AppVariables.ApplicationSettings["AdjustFontSize"] = 0;
                 }
 
                 //Last Api Login Auth

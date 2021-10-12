@@ -8,6 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/DynamicStyles.xaml"/>
                 <ResourceDictionary Source="/Styles/MainColors.xaml"/>
                 <ResourceDictionary Source="/Styles/MainFonts.xaml"/>
                 <ResourceDictionary Source="/Styles/MainStyles.xaml"/>

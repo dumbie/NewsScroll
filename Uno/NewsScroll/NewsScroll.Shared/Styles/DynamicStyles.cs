@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Media;
 
 namespace NewsScroll.Styles
 {
-    public class DynamicStyle : INotifyPropertyChanged
+    public class DynamicStyles : INotifyPropertyChanged
     {
         //Font sizes
         private double priv_TextSizeSmall = 18;

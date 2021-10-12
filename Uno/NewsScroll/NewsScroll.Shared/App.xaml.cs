@@ -44,9 +44,6 @@ namespace NewsScroll
                     //Update application launch status
                     vApplicationLaunching = false;
 
-                    //Register dynamic resource style
-                    Current.Resources["DynamicStyle"] = new DynamicStyle();
-
                     //Check application startup
                     await ApplicationStartup();
 

@@ -19,25 +19,25 @@ namespace NewsScroll
 
                 if (SelectedTheme == 0)
                 {
-                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
-                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                    ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                    ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
                 }
                 else if (SelectedTheme == 1)
                 {
-                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
-                    ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                    ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                    ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
                 }
                 else
                 {
                     if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
                     {
-                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
-                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                        ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                        ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
                     }
                     else
                     {
-                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
-                        ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                        ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                        ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
                     }
                 }
 
@@ -55,16 +55,16 @@ namespace NewsScroll
                 System.Diagnostics.Debug.WriteLine("Adjusting the font size to: " + FontSize);
 
                 double SmallSize = (double)Application.Current.Resources["TextSizeSmall"] + FontSize;
-                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeSmall = SmallSize;
+                ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).TextSizeSmall = SmallSize;
 
                 double MediumSize = (double)Application.Current.Resources["TextSizeMedium"] + FontSize;
-                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeMedium = MediumSize;
+                ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).TextSizeMedium = MediumSize;
 
                 double LargeSize = (double)Application.Current.Resources["TextSizeLarge"] + FontSize;
-                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeLarge = LargeSize;
+                ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).TextSizeLarge = LargeSize;
 
                 double HugeSize = (double)Application.Current.Resources["TextSizeHuge"] + FontSize;
-                ((DynamicStyle)Application.Current.Resources["DynamicStyle"]).TextSizeHuge = HugeSize;
+                ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).TextSizeHuge = HugeSize;
             }
             catch { }
         }

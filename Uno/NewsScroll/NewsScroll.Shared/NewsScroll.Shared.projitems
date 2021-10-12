@@ -134,7 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Styles\MainTemplates.xaml.cs">
       <DependentUpon>MainTemplates.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Styles\DynamicStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Styles\DynamicStyles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)Pages\ApiPage\ApiPage.xaml">
@@ -194,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Styles\MainColors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\DynamicStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
