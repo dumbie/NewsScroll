@@ -1,12 +1,14 @@
 ﻿<UserControl 
-        x:Class="NewsScroll.PersonalizePopup"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="using:NewsScroll"
-        mc:Ignorable="d"
-        FontSize="{StaticResource TextSizeInterface}">
+    x:Class="NewsScroll.PersonalizePopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:NewsScroll"
+    mc:Ignorable="d"
+    FontSize="{StaticResource TextSizeInterface}"
+    Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}"
+    Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}">
 
     <!--Main popup-->
     <Popup Name="popup_Main" IsLightDismissEnabled="False">
@@ -35,27 +37,29 @@
                 <!-- Page Settings -->
                 <ScrollViewer Grid.Row="1" Margin="5,5,5,5" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel>
-                        <CheckBox Name="setting_DisableLandscapeDisplay" Content="Disable landscape display mode" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_DisableLandscapeDisplay" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Disable landscape display mode" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource TextBlockWhite}"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will disable landscape mode preventing your screen from rotating." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <TextBlock Text="Used application color theme:" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Margin="0,10,0,0"/>
-                        <ComboBox Name="setting_ColorTheme" Margin="0,5,0,0" HorizontalAlignment="Stretch" Style="{StaticResource ComboBox}">
+                        <ComboBox Name="setting_ColorTheme" Margin="0,5,0,0" HorizontalAlignment="Stretch" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Light theme"/>
                             <ComboBoxItem Content="Dark theme"/>
                             <ComboBoxItem Content="Automatic"/>
                         </ComboBox>
 
-                        <TextBlock Text="News item scrolling direction:" Margin="0,10,0,0"/>
-                        <ComboBox Name="setting_ItemScrollDirection" Margin="0,5,0,0" HorizontalAlignment="Stretch" Style="{StaticResource ComboBox}">
+                        <TextBlock Text="News item scrolling direction:" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Margin="0,10,0,0"/>
+                        <ComboBox Name="setting_ItemScrollDirection" Margin="0,5,0,0" HorizontalAlignment="Stretch" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Vertical"/>
                             <ComboBoxItem Content="Horizontal"/>
                             <ComboBoxItem Content="Automatic"/>
                         </ComboBox>
 
-                        <TextBlock Text="Displayed item list view style:" Margin="0,10,0,0"/>
-                        <ComboBox Name="setting_ListViewStyle" Margin="0,5,0,0" HorizontalAlignment="Stretch" Style="{StaticResource ComboBox}" ItemTemplate="{StaticResource ComboBoxImageList}"/>
+                        <TextBlock Text="Displayed item list view style:" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Margin="0,10,0,0"/>
+                        <ComboBox Name="setting_ListViewStyle" Margin="0,5,0,0" HorizontalAlignment="Stretch" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}" ItemTemplate="{StaticResource ComboBoxImageList}"/>
 
-                        <TextBlock Name="textblock_AdjustFontSize" Text="Adjust the displayed font size:" Tag="Adjust the displayed font size: " Margin="0,10,0,0"/>
+                        <TextBlock Name="textblock_AdjustFontSize" Text="Adjust the displayed font size:" Tag="Adjust the displayed font size: " Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Margin="0,10,0,0"/>
                         <Slider Name="setting_AdjustFontSize" Minimum="-10" Maximum="15" HorizontalAlignment="Stretch" Style="{StaticResource SliderAccent}"/>
                     </StackPanel>
                 </ScrollViewer>

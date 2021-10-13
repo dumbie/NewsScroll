@@ -6,10 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    FontSize="{StaticResource TextSizeInterface}">
+    FontSize="{StaticResource TextSizeInterface}"
+    Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}"
+    Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}">
 
     <!--Main page-->
-    <Grid Name="grid_Main" Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}">
+    <Grid Name="grid_Main">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
@@ -49,21 +51,34 @@
                         <PasswordBox Name="setting_ApiPassword" Style="{StaticResource PasswordBox}" Width="280" HorizontalAlignment="Left" PlaceholderText="Account password..."/>
 
                         <TextBlock Text="Itemlist Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
-                        <CheckBox Visibility="Collapsed" Name="setting_UpdateItemsStartup" Content="Update items on app startup" Style="{StaticResource CheckBox}"/>
-                        <CheckBox Name="setting_DisplayReadMarkedItems" Content="Load items that are marked read" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Visibility="Collapsed" Name="setting_UpdateItemsStartup" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Update items on app startup"/>
+                        </CheckBox>
+
+                        <CheckBox Name="setting_DisplayReadMarkedItems" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Load items that are marked read"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will load all news items including already read items." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
-                        <CheckBox Name="setting_HideReadMarkedItem" Content="Hide item after marking it as read" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_HideReadMarkedItem" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Hide item after marking it as read"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will hide an item in the list when it is marked as read." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
-                        <CheckBox Name="setting_DisplayItemsAuthor" Content="Display the author from news items" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_DisplayItemsAuthor" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Display the author from news items"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will display the author or writer of the news items behind the date." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
-                        <CheckBox Name="setting_DisplayImagesOffline" Content="Display images while in offline mode" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_DisplayImagesOffline" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Display images while in offline mode"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will try to display images that are cached while in offline mode." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="setting_ContentCutting" Content="Cut items text to" Style="{StaticResource CheckBox}"/>
+                            <CheckBox Name="setting_ContentCutting" Style="{StaticResource CheckBox}">
+                                <TextBlock Text="Cut items text to"/>
+                            </CheckBox>
                             <TextBox Name="setting_ContentCuttingLength" Margin="5,0,5,0" Style="{StaticResource TextBox}" Width="65" InputScope="Number"/>
                             <TextBlock Text="chars" VerticalAlignment="Center"/>
                         </StackPanel>
@@ -90,7 +105,9 @@
                         </ComboBox>
 
                         <TextBlock Text="Swipe Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
-                        <CheckBox Name="setting_DisableSwipeActions" Content="Disable application swipe actions" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_DisableSwipeActions" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Disable application swipe actions"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="This will disable all the application swipe actions like swiping to go back or hiding the menu." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <TextBlock Text="Application swipe direction:" Margin="0,10,0,0"/>
@@ -103,7 +120,9 @@
                         </ComboBox>
 
                         <TextBlock Text="Other Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
-                        <CheckBox Name="setting_LowBandwidthMode" Content="Enable low bandwidth media mode" Style="{StaticResource CheckBox}"/>
+                        <CheckBox Name="setting_LowBandwidthMode" Style="{StaticResource CheckBox}">
+                            <TextBlock Text="Enable low bandwidth media mode"/>
+                        </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="This mode will prevent gifs, videos and web frames from loading in the items." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <TextBlock Name="txt_OfflineStoredSize" Text="Loading stored item information..." TextWrapping="Wrap" Margin="0,10,0,0"/>

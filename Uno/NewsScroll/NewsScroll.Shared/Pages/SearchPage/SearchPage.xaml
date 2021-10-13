@@ -6,10 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    FontSize="{StaticResource TextSizeInterface}">
+    FontSize="{StaticResource TextSizeInterface}"
+    Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}"
+    Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}">
 
     <!--Main page-->
-    <Grid Name="grid_Main" Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}">
+    <Grid Name="grid_Main">
         <!-- Main Grid -->
         <Grid>
             <Grid.RowDefinitions>
