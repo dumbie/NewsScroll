@@ -35,10 +35,10 @@
                 </Grid>
 
                 <!-- Feed Selection -->
-                <ComboBox Name="combobox_FeedSelection" IsHitTestVisible="False" Opacity="0.30" Style="{StaticResource ComboBox}" ItemTemplate="{StaticResource ComboBoxFeedSelector}" HorizontalAlignment="Stretch" Margin="0,0,0,-1.5"/>
+                <ComboBox Name="combobox_FeedSelection" IsHitTestVisible="False" Opacity="0.30" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}" ItemTemplate="{StaticResource ComboBoxFeedSelector}" HorizontalAlignment="Stretch" Margin="0,0,0,-1.5"/>
 
                 <!-- Search Box -->
-                <AutoSuggestBox Name="txtbox_Search" HorizontalAlignment="Stretch" Style="{StaticResource AutoSuggestBox}" TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyle}" PlaceholderText="Search term..." QueryIcon="Find" QuerySubmitted="txtbox_Search_QuerySubmitted" GotFocus="txtbox_Search_GotFocus" MaxSuggestionListHeight="140"/>
+                <AutoSuggestBox Name="txtbox_Search" HorizontalAlignment="Stretch" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource AutoSuggestBox}" TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyle}" PlaceholderText="Search term..." QueryIcon="Find" QuerySubmitted="txtbox_Search_QuerySubmitted" GotFocus="txtbox_Search_GotFocus" MaxSuggestionListHeight="140"/>
             </StackPanel>
 
             <!-- Page Information -->

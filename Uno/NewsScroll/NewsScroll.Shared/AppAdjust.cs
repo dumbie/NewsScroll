@@ -21,11 +21,13 @@ namespace NewsScroll
                 {
                     ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
                     ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
+                    Application.Current.RequestedTheme = ApplicationTheme.Light;
                 }
                 else if (SelectedTheme == 1)
                 {
                     ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeForeground = (SolidColorBrush)Application.Current.Resources["ApplicationWhiteBrush"];
                     ((DynamicStyles)Application.Current.Resources["DynamicStyles"]).ApplicationThemeBackground = (SolidColorBrush)Application.Current.Resources["ApplicationBlackBrush"];
+                    Application.Current.RequestedTheme = ApplicationTheme.Dark;
                 }
                 else
                 {

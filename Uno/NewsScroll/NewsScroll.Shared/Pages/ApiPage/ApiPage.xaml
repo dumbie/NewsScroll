@@ -38,7 +38,7 @@
 
             <!-- Page Manage -->
             <StackPanel Name="StackPanel_Manage" Grid.Row="1">
-                <AutoSuggestBox Name="txtbox_AddFeed" HorizontalAlignment="Stretch" Style="{StaticResource AutoSuggestBox}" TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyle}" PlaceholderText="RSS feed link..." QueryIcon="Add" QuerySubmitted="btn_AddFeed_QuerySubmitted"/>
+                <AutoSuggestBox Name="txtbox_AddFeed" HorizontalAlignment="Stretch" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource AutoSuggestBox}" TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyle}" PlaceholderText="RSS feed link..." QueryIcon="Add" QuerySubmitted="btn_AddFeed_QuerySubmitted"/>
                 <Grid Margin="0,2,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

@@ -46,47 +46,47 @@
                         <TextBlock Text="Account Settings" FontSize="{StaticResource TextSizeLarge}"/>
                         <TextBlock Text="The Old Reader Username/E-mail:"/>
                         <TextBlock Text="* Username and e-mail are case sensitive." Style="{StaticResource TextBlockLightGray}"/>
-                        <TextBox Name="setting_ApiAccount" Style="{StaticResource TextBox}" Width="280" Margin="0,3,0,0" HorizontalAlignment="Left" InputScope="EmailNameOrAddress" CharacterCasing="Lower" PlaceholderText="Account e-mail adres..."/>
+                        <TextBox Name="setting_ApiAccount" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource TextBox}" Width="280" Margin="0,3,0,0" HorizontalAlignment="Left" InputScope="EmailNameOrAddress" CharacterCasing="Lower" PlaceholderText="Account e-mail adres..."/>
                         <TextBlock Text="The Old Reader Password:"/>
-                        <PasswordBox Name="setting_ApiPassword" Style="{StaticResource PasswordBox}" Width="280" HorizontalAlignment="Left" PlaceholderText="Account password..."/>
+                        <PasswordBox Name="setting_ApiPassword" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource PasswordBox}" Width="280" HorizontalAlignment="Left" PlaceholderText="Account password..."/>
 
                         <TextBlock Text="Itemlist Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
                         <CheckBox Visibility="Collapsed" Name="setting_UpdateItemsStartup" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Update items on app startup"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Update items on app startup"/>
                         </CheckBox>
 
                         <CheckBox Name="setting_DisplayReadMarkedItems" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Load items that are marked read"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Load items that are marked read"/>
                         </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will load all news items including already read items." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <CheckBox Name="setting_HideReadMarkedItem" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Hide item after marking it as read"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Hide item after marking it as read"/>
                         </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will hide an item in the list when it is marked as read." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <CheckBox Name="setting_DisplayItemsAuthor" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Display the author from news items"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Display the author from news items"/>
                         </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will display the author or writer of the news items behind the date." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <CheckBox Name="setting_DisplayImagesOffline" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Display images while in offline mode"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Display images while in offline mode"/>
                         </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will try to display images that are cached while in offline mode." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Name="setting_ContentCutting" Style="{StaticResource CheckBox}">
-                                <TextBlock Text="Cut items text to"/>
+                                <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Cut items text to"/>
                             </CheckBox>
-                            <TextBox Name="setting_ContentCuttingLength" Margin="5,0,5,0" Style="{StaticResource TextBox}" Width="65" InputScope="Number"/>
+                            <TextBox Name="setting_ContentCuttingLength" Margin="5,0,5,0" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource TextBox}" Width="65" InputScope="Number"/>
                             <TextBlock Text="chars" VerticalAlignment="Center"/>
                         </StackPanel>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Enabling this will cut off the news items content to a certain amount of characters." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <TextBlock Text="Default list items opening method:" Margin="0,5,0,0"/>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the method you want to use to open a news item when you click on it:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
-                        <ComboBox Name="setting_ItemOpenMethod" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
+                        <ComboBox Name="setting_ItemOpenMethod" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Itemviewer (In-app)"/>
                             <ComboBoxItem Content="Webbrowser (Device)"/>
                         </ComboBox>
@@ -94,7 +94,7 @@
                         <TextBlock Text="Update Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
                         <TextBlock Text="Items update and storage range:"/>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the items update and storage range, items older than this range will not be stored and will be removed:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
-                        <ComboBox Name="setting_RemoveItemsRange" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
+                        <ComboBox Name="setting_RemoveItemsRange" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="2 days old"/>
                             <ComboBoxItem Content="4 days old"/>
                             <ComboBoxItem Content="1 week old"/>
@@ -106,13 +106,13 @@
 
                         <TextBlock Text="Swipe Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
                         <CheckBox Name="setting_DisableSwipeActions" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Disable application swipe actions"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Disable application swipe actions"/>
                         </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="This will disable all the application swipe actions like swiping to go back or hiding the menu." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 
                         <TextBlock Text="Application swipe direction:" Margin="0,10,0,0"/>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="Please select the direction your touch swipe actions will be triggered by:" Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
-                        <ComboBox Name="setting_SwipeDirection" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Style="{StaticResource ComboBox}">
+                        <ComboBox Name="setting_SwipeDirection" Margin="0,5,0,0" Width="250" HorizontalAlignment="Left" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Style="{StaticResource ComboBox}">
                             <ComboBoxItem Content="Left to right"/>
                             <ComboBoxItem Content="Top to bottom"/>
                             <ComboBoxItem Content="Right to left"/>
@@ -121,7 +121,7 @@
 
                         <TextBlock Text="Other Settings" Margin="0,10,0,0" FontSize="{StaticResource TextSizeLarge}"/>
                         <CheckBox Name="setting_LowBandwidthMode" Style="{StaticResource CheckBox}">
-                            <TextBlock Text="Enable low bandwidth media mode"/>
+                            <TextBlock Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" Text="Enable low bandwidth media mode"/>
                         </CheckBox>
                         <TextBlock Width="300" HorizontalAlignment="Left" Text="This mode will prevent gifs, videos and web frames from loading in the items." Style="{StaticResource TextBlockLightGray}" TextWrapping="Wrap"/>
 

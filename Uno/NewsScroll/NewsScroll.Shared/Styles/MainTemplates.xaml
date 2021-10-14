@@ -42,7 +42,7 @@
                 <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Visibility="{Binding feed_ignore_status}" Text="Ignored" Style="{StaticResource TextBlockRed}" FontSize="{StaticResource TextSizeMedium}"/>
                 <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{Binding feed_folder_title}" Style="{StaticResource TextBlockAccent}" FontSize="{StaticResource TextSizeMedium}"/>
                 <Image Height="16" Source="{Binding feed_icon}" Margin="0,0,8,-3"/>
-                <TextBlock VerticalAlignment="Center" Text="{Binding feed_title}" FontSize="{StaticResource TextSizeMedium}"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding feed_title}" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{StaticResource TextSizeMedium}"/>
             </StackPanel>
             <TextBlock Text="{Binding feed_link}" Style="{StaticResource TextBlockLightGray}"/>
         </StackPanel>
