@@ -98,8 +98,8 @@ namespace NewsScroll
                 System.Diagnostics.Debug.WriteLine("Closing the item popup...");
 
                 //Cleanup xaml resources
-                item_image.item_source.Source = null;
-                rtb_ItemContent.Children.Clear();
+                popup_ItemImage.item_source.Source = null;
+                popup_ItemContent.Children.Clear();
 
                 //Disable page events
                 DisablePageEvents();
@@ -209,10 +209,10 @@ namespace NewsScroll
                 //Disable content
                 button_StatusCurrentItem.IsHitTestVisible = false;
                 button_StatusCurrentItem.Opacity = 0.30;
-                rtb_ItemContent.IsHitTestVisible = false;
-                rtb_ItemContent.Opacity = 0.30;
-                item_image.IsHitTestVisible = false;
-                item_image.Opacity = 0.30;
+                popup_ItemContent.IsHitTestVisible = false;
+                popup_ItemContent.Opacity = 0.30;
+                popup_ItemImage.IsHitTestVisible = false;
+                popup_ItemImage.Opacity = 0.30;
 
                 //Disable buttons
                 iconStar.IsHitTestVisible = false;
@@ -246,10 +246,10 @@ namespace NewsScroll
                 //Enable content
                 button_StatusCurrentItem.IsHitTestVisible = true;
                 button_StatusCurrentItem.Opacity = 1;
-                rtb_ItemContent.IsHitTestVisible = true;
-                rtb_ItemContent.Opacity = 1;
-                item_image.IsHitTestVisible = true;
-                item_image.Opacity = 1;
+                popup_ItemContent.IsHitTestVisible = true;
+                popup_ItemContent.Opacity = 1;
+                popup_ItemImage.IsHitTestVisible = true;
+                popup_ItemImage.Opacity = 1;
 
                 //Enable buttons
                 iconStar.IsHitTestVisible = true;

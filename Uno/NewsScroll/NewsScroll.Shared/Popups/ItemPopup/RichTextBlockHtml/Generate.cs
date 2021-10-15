@@ -643,14 +643,15 @@ namespace NewsScroll
                     if (vFontStyles != null) { textLabel.FontStyle = (FontStyle)vFontStyles; vFontStyles = null; }
                     if (vFontWeight != null) { textLabel.FontWeight = (FontWeight)vFontWeight; vFontWeight = null; }
 
-                    Binding FontSizeBinding = new Binding();
-                    FontSizeBinding.Source = (DynamicStyles)Application.Current.Resources["DynamicStyles"];
-                    FontSizeBinding.Path = new PropertyPath("TextSizeMedium");
-                    textLabel.SetBinding(TextBlock.FontSizeProperty, FontSizeBinding);
+                    Binding fontSizeBinding = new Binding();
+                    fontSizeBinding.Source = (DynamicStyles)Application.Current.Resources["DynamicStyles"];
+                    fontSizeBinding.Path = new PropertyPath("TextSizeMedium");
+                    textLabel.SetBinding(TextBlock.FontSizeProperty, fontSizeBinding);
 
-                    Binding StyleBinding = new Binding();
-                    StyleBinding.Source = Application.Current.Resources["TextBlockWhite"];
-                    textLabel.SetBinding(TextBlock.StyleProperty, StyleBinding);
+                    Binding foregroundBinding = new Binding();
+                    foregroundBinding.Source = (DynamicStyles)Application.Current.Resources["DynamicStyles"];
+                    foregroundBinding.Path = new PropertyPath("ApplicationThemeForeground");
+                    textLabel.SetBinding(TextBlock.ForegroundProperty, foregroundBinding);
 
                     addElement.Children.Add(textLabel);
                     System.Diagnostics.Debug.WriteLine("Added text: " + stringText);

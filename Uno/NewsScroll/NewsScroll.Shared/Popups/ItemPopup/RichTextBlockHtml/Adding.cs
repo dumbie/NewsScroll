@@ -7,7 +7,7 @@ namespace NewsScroll
 {
     public partial class ItemPopup
     {
-        private async Task AddNodes(StackPanel addElement, HtmlNode htmlNode, bool FirstOnly)
+        private async Task AddNodes(StackPanel addElement, HtmlNode htmlNode, bool firstOnly)
         {
             try
             {
@@ -15,7 +15,7 @@ namespace NewsScroll
                 {
                     System.Diagnostics.Debug.WriteLine("Adding node: " + childNode.Name);
                     await AddBlockFromNode(addElement, childNode);
-                    if (FirstOnly) { break; }
+                    if (firstOnly) { break; }
                 }
             }
             catch { }

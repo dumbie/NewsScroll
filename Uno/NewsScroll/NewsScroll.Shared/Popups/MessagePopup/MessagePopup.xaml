@@ -10,9 +10,11 @@
 
     <!--Main popup-->
     <Popup Name="popup_Main" IsLightDismissEnabled="False">
-        <!-- Main Grid -->
         <Grid Name="grid_Main" Width="10000" Height="10000">
-            <Grid Background="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.60"/>
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource ApplicationDarkGrayBrush}" Opacity="0.80"/>
+            </Grid.Background>
+
             <StackPanel Padding="10,5,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}">
                 <TextBlock Name="grid_MessageBox_Text" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap">Question</TextBlock>
                 <Rectangle HorizontalAlignment="Stretch" Style="{StaticResource RectangleAccent}" Margin="0,5,0,5"/>

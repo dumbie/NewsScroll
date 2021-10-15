@@ -10,8 +10,11 @@
 
     <!--Main popup-->
     <Popup Name="popup_Main" IsLightDismissEnabled="False">
-        <!--Main page-->
-        <Grid Name="grid_Main" Background="{StaticResource ApplicationBlackBrush}" Width="10000" Height="10000">
+        <Grid Name="grid_Main" Width="10000" Height="10000">
+            <Grid.Background>
+                <SolidColorBrush Color="{Binding ApplicationThemeBackground, Source={StaticResource DynamicStyles}}"/>
+            </Grid.Background>
+
             <!-- Main Grid -->
             <Grid>
                 <Grid.RowDefinitions>
@@ -21,7 +24,7 @@
 
                 <!-- Page Header -->
                 <Grid Grid.Row="0" Name="stackpanel_Header" Height="65" Background="{StaticResource ApplicationAccentLightBrush}">
-                    <StackPanel Margin="10,0,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <StackPanel Margin="10,0,120,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Left">
                         <TextBlock Name="txt_AppTitle" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="Itemviewer"/>
                         <TextBlock Name="txt_AppInfo" HorizontalAlignment="Left" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeMedium}" Text="News Scroll"/>
                     </StackPanel>
@@ -31,8 +34,8 @@
                 <ScrollViewer Grid.Row="1" Name="scrollviewer_NewsItem" HorizontalAlignment="Stretch" Style="{StaticResource ScrollViewerVertical}">
                     <StackPanel Name="stackpanel_NewsItem" MinWidth="280" MaxWidth="720" HorizontalAlignment="Center" Padding="10,5,10,0" Background="Transparent" ManipulationMode="TranslateX, System">
                         <StackPanel Name="stackpanel_HeaderItem">
-                            <TextBlock Name="tb_ItemTitle" Style="{StaticResource TextBlockWhite}" FontSize="{StaticResource TextSizeLarge}" TextWrapping="Wrap"/>
-                            <TextBlock Name="tb_ItemDateString" Style="{StaticResource TextBlockLightGray}" FontSize="{StaticResource TextSizeMedium}" TextWrapping="Wrap"/>
+                            <TextBlock Name="tb_ItemTitle" Foreground="{Binding ApplicationThemeForeground, Source={StaticResource DynamicStyles}}" FontSize="{Binding TextSizeLarge, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
+                            <TextBlock Name="tb_ItemDateString" Style="{StaticResource TextBlockLightGray}" FontSize="{Binding TextSizeMedium, Source={StaticResource DynamicStyles}}" TextWrapping="Wrap"/>
                             <Grid Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -47,8 +50,8 @@
                             </Grid>
                         </StackPanel>
 
-                        <local:ImageContainer x:Name="item_image" Visibility="Collapsed"/>
-                        <StackPanel Name="rtb_ItemContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <local:ImageContainer x:Name="popup_ItemImage" Visibility="Collapsed"/>
+                        <StackPanel Name="popup_ItemContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
                         <Button Margin="0,20,0,0" Name="button_LoadFullItem" FontSize="{StaticResource TextSizeSmall}" Visibility="Collapsed" Style="{StaticResource ButtonAccent}" HorizontalAlignment="Stretch" Content="Load the full item" Click="LoadFullItem_Tap"/>
                         <Button Margin="0,10,0,0" Name="button_OpenInBrowser" FontSize="{StaticResource TextSizeSmall}" Visibility="Collapsed" Style="{StaticResource ButtonAccent}" HorizontalAlignment="Stretch" Content="Open in browser" Click="iconBrowserItem_Tap"/>

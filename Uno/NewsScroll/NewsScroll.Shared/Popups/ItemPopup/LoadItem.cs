@@ -60,24 +60,24 @@ namespace NewsScroll
                     bool SetHtmlToRichTextBlock = false;
                     if (!string.IsNullOrWhiteSpace(CustomItemContent))
                     {
-                        await HtmlToXaml(rtb_ItemContent, CustomItemContent, string.Empty);
+                        await HtmlToXaml(popup_ItemContent, CustomItemContent, string.Empty);
                         SetHtmlToRichTextBlock = true;
                     }
                     else if (!string.IsNullOrWhiteSpace(LoadTable.item_content_full))
                     {
-                        SetHtmlToRichTextBlock = await HtmlToXaml(rtb_ItemContent, LoadTable.item_content_full, string.Empty);
+                        SetHtmlToRichTextBlock = await HtmlToXaml(popup_ItemContent, LoadTable.item_content_full, string.Empty);
                     }
 
                     //Check if html to xaml has failed
-                    if (!SetHtmlToRichTextBlock || !rtb_ItemContent.Children.Any())
+                    if (!SetHtmlToRichTextBlock || !popup_ItemContent.Children.Any())
                     {
                         //Load summary text
                         TextBlock textLabel = new TextBlock();
                         textLabel.Text = AVFunctions.StringCut(LoadTable.item_content, AppVariables.MaximumItemTextLength, "...");
 
                         //Add paragraph to rich text block
-                        rtb_ItemContent.Children.Clear();
-                        rtb_ItemContent.Children.Add(textLabel);
+                        popup_ItemContent.Children.Clear();
+                        popup_ItemContent.Children.Add(textLabel);
                     }
 
                     //Check if item content contains preview image
@@ -99,32 +99,32 @@ namespace NewsScroll
                 string ItemImageLink = LoadTable.item_image;
                 if (string.IsNullOrWhiteSpace(ItemImageLink))
                 {
-                    item_image.item_image_Value = null;
-                    item_image.Visibility = Visibility.Collapsed;
+                    popup_ItemImage.item_image_Value = null;
+                    popup_ItemImage.Visibility = Visibility.Collapsed;
                     return;
                 }
 
                 //Check if there are images and the preview image is included
-                CheckTextBlockForPreviewImage(rtb_ItemContent, ItemImageLink, ref ItemImagecount, ref FoundPreviewImage);
+                CheckTextBlockForPreviewImage(popup_ItemContent, ItemImageLink, ref ItemImagecount, ref FoundPreviewImage);
 
                 //Update the preview image based on result
                 if (ItemImagecount == 0 || !FoundPreviewImage)
                 {
                     System.Diagnostics.Debug.WriteLine("No media found in rich text block, adding item image.");
-                    item_image.MaxHeight = AppVariables.DefaultMediaHeight;
-                    item_image.item_image_Value = ItemImageLink;
-                    item_image.Visibility = Visibility.Visible;
+                    popup_ItemImage.MaxHeight = AppVariables.DefaultMediaHeight;
+                    popup_ItemImage.item_image_Value = ItemImageLink;
+                    popup_ItemImage.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    item_image.item_image_Value = null;
-                    item_image.Visibility = Visibility.Collapsed;
+                    popup_ItemImage.item_image_Value = null;
+                    popup_ItemImage.Visibility = Visibility.Collapsed;
                 }
             }
             catch
             {
-                item_image.item_image_Value = null;
-                item_image.Visibility = Visibility.Collapsed;
+                popup_ItemImage.item_image_Value = null;
+                popup_ItemImage.Visibility = Visibility.Collapsed;
             }
         }
 
