@@ -8,6 +8,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using static NewsScroll.Api.Api;
+using static NewsScroll.Cache.Cache;
 using static NewsScroll.Database.Database;
 using static NewsScroll.Lists.Lists;
 
@@ -255,6 +256,7 @@ namespace NewsScroll
                 if (MessageBoxResult == 1)
                 {
                     await ClearDatabase();
+                    ClearCache();
                 }
             }
             catch { }

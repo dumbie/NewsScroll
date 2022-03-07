@@ -34,6 +34,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)AppAdjust.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppClearCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppEvents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppLists.cs" />

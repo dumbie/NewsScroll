@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.37</Version>
+      <Version>1.11.42</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <!--
@@ -18,7 +18,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="SmartReader">
-      <Version>0.7.5</Version>
+      <Version>0.8.0</Version>
     </PackageReference>
     <PackageReference Include="SQLite">
       <Version>3.13.0</Version>
@@ -30,10 +30,10 @@
       <Version>4.3.4</Version>
     </PackageReference>
     <PackageReference Include="System.Text.Json">
-      <Version>5.0.2</Version>
+      <Version>6.0.2</Version>
     </PackageReference>
-    <PackageReference Include="Uno.Core" Version="3.0.0" />
-    <PackageReference Include="Uno.UI" Version="3.10.11" />
+    <PackageReference Include="Uno.Core" Version="4.0.1" />
+    <PackageReference Include="Uno.UI" Version="4.0.13" />
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>

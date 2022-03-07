@@ -2,6 +2,7 @@
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using static NewsScroll.Cache.Cache;
 using static NewsScroll.Startup.Startup;
 
 namespace NewsScroll
@@ -42,6 +43,9 @@ namespace NewsScroll
                 {
                     //Update application launch status
                     vApplicationLaunching = false;
+
+                    //Clear webcache from device
+                    ClearCache();
 
                     //Check application startup
                     await ApplicationStartup();
