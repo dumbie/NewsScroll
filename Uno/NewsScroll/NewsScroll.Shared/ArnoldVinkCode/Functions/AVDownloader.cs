@@ -13,7 +13,10 @@ namespace ArnoldVinkCode
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = delegate { return true; };
+
+                using (HttpClient httpClient = new HttpClient(clientHandler))
                 {
                     if (UserAgent != null && !string.IsNullOrWhiteSpace(UserAgent))
                     {
@@ -49,7 +52,10 @@ namespace ArnoldVinkCode
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = delegate { return true; };
+
+                using (HttpClient httpClient = new HttpClient(clientHandler))
                 {
                     if (UserAgent != null && !string.IsNullOrWhiteSpace(UserAgent))
                     {
@@ -85,7 +91,10 @@ namespace ArnoldVinkCode
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = delegate { return true; };
+
+                using (HttpClient httpClient = new HttpClient(clientHandler))
                 {
                     if (UserAgent != null && !string.IsNullOrWhiteSpace(UserAgent))
                     {
@@ -121,7 +130,10 @@ namespace ArnoldVinkCode
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = delegate { return true; };
+
+                using (HttpClient httpClient = new HttpClient(clientHandler))
                 {
                     if (UserAgent != null && !string.IsNullOrWhiteSpace(UserAgent))
                     {
@@ -157,7 +169,10 @@ namespace ArnoldVinkCode
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = delegate { return true; };
+
+                using (HttpClient httpClient = new HttpClient(clientHandler))
                 {
                     if (UserAgent != null && !string.IsNullOrWhiteSpace(UserAgent))
                     {
@@ -193,7 +208,10 @@ namespace ArnoldVinkCode
         {
             try
             {
-                using (HttpClient httpClient = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = delegate { return true; };
+
+                using (HttpClient httpClient = new HttpClient(clientHandler))
                 {
                     if (UserAgent != null && !string.IsNullOrWhiteSpace(UserAgent))
                     {
